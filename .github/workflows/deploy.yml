@@ -37,7 +37,7 @@ jobs:
           echo '<!DOCTYPE html>
           <html>
             <head>
-              <meta http-equiv="refresh" content="0; URL=\"https://foucblg.github.io/Quiz/\"" />
+              <meta http-equiv="refresh" content="0; URL='https://foucblg.github.io/Quiz/'" />
             </head>
             <body>
             </body>
