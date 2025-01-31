@@ -1,0 +1,21 @@
+:root {
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Lato, Helvetica, sans-serif;
+}
+
+html,
+body,
+my-app {
+  height: 100%;
+  height: 100vh;
+}
+
+.subtext {
+  color: var(--text-secondary-color);
+}

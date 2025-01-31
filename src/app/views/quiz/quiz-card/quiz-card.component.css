@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.theme {
+  justify-self: start;
+  background-color: var(--p-primary-100);
+  color: var(--p-primary-500);
+  width: fit-content;
+  padding: 4px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.question {
+  text-align: center;
+  padding: 8px;
+}
