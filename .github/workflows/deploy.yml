@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
 
 permissions:
   contents: write
@@ -42,11 +37,11 @@ jobs:
           echo '<!DOCTYPE html>
           <html>
             <head>
-              <meta http-equiv="refresh" content="0; URL=\"https://foucblg.github.io/Jeu/\"" />
+              <meta http-equiv="refresh" content="0; URL=\"https://foucblg.github.io/Quiz/\"" />
             </head>
             <body>
             </body>
-          </html>' > dist/jeu/browser/404.html
+          </html>' > dist/quiz/browser/404.html
     
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
