@@ -1,0 +1,9 @@
+<div class="theme">
+  <span>Thème : {{ dataService.currentTopic() }}</span>
+</div>
+<h1 class="question">{{ quiz_segment()?.question }}</h1>
+@if (!progressService.answered()) {
+  <app-choice-box></app-choice-box>
+} @else {
+  <app-answer-box></app-answer-box>
+}

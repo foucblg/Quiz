@@ -1,0 +1,58 @@
+<div class="presentation-section">
+  <h1>Quiz</h1>
+  <h2>Concevons nos services numériques pour tout le monde !</h2>
+  <p-image
+    src="images/banner.png"
+    alt="Image de présentation du quiz"
+    [imageStyle]="{ objectFit: 'contain' }"
+    width="90%"
+  />
+  <p>Bienvenue sur le quiz du jeu Inclusif, le jeu.</p>
+  <p>
+    Ce quiz vous permet d'aborder de manière ludique les problèmes liés à
+    l'inclusivité.
+  </p>
+</div>
+<div class="lower-section">
+  <p-divider />
+  <div class="start-div">
+    <div class="n-questions-selector">
+      <p class="">Nombre de questions</p>
+      <div class="selector-buttons">
+        <p-button
+          severity="contrast"
+          (click)="adjustNumberOfQuestions(-1)"
+          [disabled]="iNumberOfQuestions == 0"
+          aria-label="Enlever des questions"
+          icon="pi pi-minus"
+        />
+        <span class="n-questions-text">
+          {{
+            possibleNumberOfQuestionsPerTopic[iNumberOfQuestions] *
+              numberOfTopics
+          }}
+        </span>
+        <p-button
+          severity="contrast"
+          (click)="adjustNumberOfQuestions(1)"
+          [disabled]="
+            iNumberOfQuestions == possibleNumberOfQuestionsPerTopic.length - 1
+          "
+          aria-label="Ajouter des questions"
+          icon="pi pi-plus"
+        />
+      </div>
+    </div>
+    <p-button
+      class="start-game-button"
+      (click)="
+        progressService.start(
+          possibleNumberOfQuestionsPerTopic[iNumberOfQuestions]
+        )
+      "
+      aria-label="Commencer le quiz"
+    >
+      Passer à l'action
+    </p-button>
+  </div>
+</div>
