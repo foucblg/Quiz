@@ -28,7 +28,7 @@
           2,
           3
         ],
-        "explanation": "Réponses A, B, C et D\n\nLe handicap moteur recouvre l’ensemble des troubles pouvant entraîner une atteinte partielle ou totale de la motricité, notamment des membres supérieurs et/ou inférieurs. "
+        "explanation": "Réponses A, B, C et D \\n Le handicap moteur recouvre l’ensemble des troubles pouvant entraîner une atteinte partielle ou totale de la motricité, notamment des membres supérieurs et/ou inférieurs. "
       },
       {
         "question_type": "QCU",
@@ -40,7 +40,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nL'accessibilité numérique a été pensée dès la création d'Internet.\n\"Le pouvoir du Web est dans son universalité. L’accès pour tous, quel que soit le handicap, est un aspect essentiel.\"\nTim Berners-Lee, directeur du W3C et inventeur du World Wide Web"
+        "explanation": "Faux \\n L'accessibilité numérique a été pensée dès la création d'Internet.\\n \"Le pouvoir du Web est dans son universalité. L’accès pour tous, quel que soit le handicap, est un aspect essentiel.\" \\n Tim Berners-Lee, directeur du W3C et inventeur du World Wide Web"
       },
       {
         "question_type": "QCU",
@@ -53,7 +53,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nPour un service en ligne et par semestre, la loi prévoit 25 000 € si le statut de conformité RGAA n’est pas affiché sur la page d’accueil et, pour le secteur public, 50 000 € pour défaut d'accessibilité."
+        "explanation": "Réponse C \\n Pour un service en ligne et par semestre, la loi prévoit 25 000 € si le statut de conformité RGAA n’est pas affiché sur la page d’accueil et, pour le secteur public, 50 000 € pour défaut d'accessibilité."
       },
       {
         "question_type": "QCU",
@@ -66,11 +66,11 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\nIl s'agit de l'ARCOM (Autorité de régulation de la communication audiovisuelle et numériququi est une autorité publique indépendante."
+        "explanation": "Réponse C \\n Il s'agit de l'ARCOM (Autorité de régulation de la communication audiovisuelle et numériququi est une autorité publique indépendante."
       },
       {
         "question_type": "QCU",
-        "question": "\nLe RGAA est le Référentiel Général d'Amélioration de l'Accessibilité.",
+        "question": "Le RGAA est le Référentiel Général d'Amélioration de l'Accessibilité.",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -78,7 +78,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\n\nIl s'agit du Référentiel Général d'Amélioration de l'Accessibilité, qui définit les critères pour qu'un service numérique soit accessible au personnes handicapées.\n\nAu niveau international, les WCAG (Web content Accessibility Guidelines) sont les recommandations techniques pour l'accessibilité des contenus web."
+        "explanation": "Vrai \\n Il s'agit du Référentiel Général d'Amélioration de l'Accessibilité, qui définit les critères pour qu'un service numérique soit accessible au personnes handicapées.\\n Au niveau international, les WCAG (Web content Accessibility Guidelines) sont les recommandations techniques pour l'accessibilité des contenus web."
       },
       {
         "question_type": "QCU",
@@ -90,7 +90,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\n\nLes documents sont analysés par les critères 13.3 et 13.4 du RGAA, pour les structures étant soumises aux obligations d'accessibilité."
+        "explanation": "Vrai \\n Les documents sont analysés par les critères 13.3 et 13.4 du RGAA, pour les structures étant soumises aux obligations d'accessibilité."
       },
       {
         "question_type": "QCM",
@@ -107,11 +107,11 @@
           2,
           3
         ],
-        "explanation": "Réponses A, B, C et D\n\nLa traduction en LSF peut être difficile à mettre en place, car l'image de l'interprète doit être incrustée dans la vidéo."
+        "explanation": "Réponses A, B, C et D \\n La traduction en LSF peut être difficile à mettre en place, car l'image de l'interprète doit être incrustée dans la vidéo."
       },
       {
         "question_type": "QCU",
-        "question": "\nUn lecteur d'écran est un logiciel d’assistance technique destiné aux personnes \"empêchées de lire\" (aveugles, malvoyantes, dyslexiques).",
+        "question": "Un lecteur d'écran est un logiciel d’assistance technique destiné aux personnes \"empêchées de lire\" (aveugles, malvoyantes, dyslexiques).",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -119,7 +119,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\n\nUn lecteur d'écran retranscrit par synthèse vocale et/ou sur un afficheur braille ce qui est affiché sur l'écran d'un ordinateur ou d'un téléphone, et permet d'interagir avec le système d’exploitation et les applications."
+        "explanation": "Vrai \\n Un lecteur d'écran retranscrit par synthèse vocale et/ou sur un afficheur braille ce qui est affiché sur l'écran d'un ordinateur ou d'un téléphone, et permet d'interagir avec le système d’exploitation et les applications."
       },
       {
         "question_type": "QCU",
@@ -131,7 +131,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nLes formations à l'accessibilité numérique sont proposées aux étudiants en informatique, mais restent optionnelles à ce jour."
+        "explanation": "Faux \\n Les formations à l'accessibilité numérique sont proposées aux étudiants en informatique, mais restent optionnelles à ce jour."
       }
     ],
     "Design": [
@@ -145,7 +145,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nLe manque d'accessibilité d'une couleur vient d'un problème de contraste entre le texte et l'arrière-plan.\nAinsi, un texte de couleur jaune sur un fond orange sera peu ou pas accessible. En revanche, un texte de couleur jaune sur fond noir sera suffisamment contrasté."
+        "explanation": "Faux \\n Le manque d'accessibilité d'une couleur vient d'un problème de contraste entre le texte et l'arrière-plan. Ainsi, un texte de couleur jaune sur un fond orange sera peu ou pas accessible. En revanche, un texte de couleur jaune sur fond noir sera suffisamment contrasté."
       },
       {
         "question_type": "QCU",
@@ -157,7 +157,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nUn dark pattern est une technique de design trompeuse qui manipule les utilisateurs pour les pousser à faire des actions non désirées, comme accepter des frais cachés ou s'abonner à des services"
+        "explanation": "Faux \\n Un dark pattern est une technique de design trompeuse qui manipule les utilisateurs pour les pousser à faire des actions non désirées, comme accepter des frais cachés ou s'abonner à des services"
       },
       {
         "question_type": "QCU",
@@ -171,7 +171,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nLes icônes ne sont pas un élément décoratif mais permettent de renforcer visuellement certaines actions et/ou informations."
+        "explanation": "Réponse C \\n Les icônes ne sont pas un élément décoratif mais permettent de renforcer visuellement certaines actions et/ou informations."
       },
       {
         "question_type": "QCU",
@@ -185,7 +185,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\nLa hiérarchisation visuelle est un concept qui permet d'identifier les éléments présents par ordre de priorité et/ou d'importance relative."
+        "explanation": "Réponse B \\n La hiérarchisation visuelle est un concept qui permet d'identifier les éléments présents par ordre de priorité et/ou d'importance relative."
       },
       {
         "question_type": "QCU",
@@ -198,7 +198,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\nLa phase de prototypage permet de tester certaines idée par un exemple incomplet et non définitif de ce que pourra être le produit ou l'objet final."
+        "explanation": "Réponse B \\n La phase de prototypage permet de tester certaines idée par un exemple incomplet et non définitif de ce que pourra être le produit ou l'objet final."
       },
       {
         "question_type": "QCM",
@@ -212,7 +212,7 @@
           0,
           2
         ],
-        "explanation": "Réponse A et C\n\nUn \"feedback\" est un retour visuel et/ou textuel suite à une action réalisée par l'utilisateur permettant d'informer l'utilisateur sur la conséquence de ses actions."
+        "explanation": "Réponse A et C \\n Un \"feedback\" est un retour visuel et/ou textuel suite à une action réalisée par l'utilisateur permettant d'informer l'utilisateur sur la conséquence de ses actions."
       },
       {
         "question_type": "QCU",
@@ -225,7 +225,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\nUn design responsive est un design pensé pour s'adapter aux différentes tailles d'écrans et résolutions tels que les mobiles ou ordinateurs."
+        "explanation": "Réponse B \\n Un design responsive est un design pensé pour s'adapter aux différentes tailles d'écrans et résolutions tels que les mobiles ou ordinateurs."
       },
       {
         "question_type": "QCU",
@@ -238,7 +238,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\nL'approche \"centrée utilisateur\" se focalise sur une conception basée sur une étude des besoins et habitudes de l'utilisateur."
+        "explanation": "Réponse B \\n L'approche \"centrée utilisateur\" se focalise sur une conception basée sur une étude des besoins et habitudes de l'utilisateur."
       },
       {
         "question_type": "QCU",
@@ -251,7 +251,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nSi des animations (éléments en mouvement, transitions) sont présentes au sein des interfaces, il est recommandé que celles-ci soient discrètes et utiles."
+        "explanation": "Réponse C \\n Si des animations (éléments en mouvement, transitions) sont présentes au sein des interfaces, il est recommandé que celles-ci soient discrètes et utiles."
       },
       {
         "question_type": "QCU",
@@ -263,7 +263,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Réponse A\n\nSi un design accessible cherche à répondre aux besoins de certains handicaps, un design inclusif cherche à proposer une experience optimale pour tous."
+        "explanation": "Réponse A \\n Si un design accessible cherche à répondre aux besoins de certains handicaps, un design inclusif cherche à proposer une experience optimale pour tous."
       }
     ],
     "Inclusion numérique": [
@@ -277,11 +277,11 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nC'est généralement gratuit. Vous trouverez la liste des structures d'accompagnement sur https://cartographie.societenumerique.gouv.fr/orientation."
+        "explanation": "Faux \\n C'est généralement gratuit. Vous trouverez la liste des structures d'accompagnement sur https://cartographie.societenumerique.gouv.fr/orientation."
       },
       {
         "question_type": "QCU",
-        "question": "\nAprès les maladies ordinaires, les troubles psychologiques sont la 2e cause d'arrêt de travail en France.",
+        "question": "Après les maladies ordinaires, les troubles psychologiques sont la 2e cause d'arrêt de travail en France.",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -289,7 +289,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\n\nLes troubles psychologiques sont la 2e cause d'arrêt de travail en France : 20% des arrêts maladie en 2022, contre 11% en 2016.\nLes troubles psychologiques constituent par ailleurs le principal motif des arrêts longs : 28% en 2022 vs 14% en 2016.\nSource : Baromètre annuel Absentéisme (Malakoff Humanis)"
+        "explanation": "Vrai \\n Les troubles psychologiques sont la 2e cause d'arrêt de travail en France : 20% des arrêts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arrêts longs : 28% en 2022 vs 14% en 2016. Source : Baromètre annuel Absentéisme (Malakoff Humanis)"
       },
       {
         "question_type": "QCU",
@@ -302,7 +302,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nSource : Solinum, 2019"
+        "explanation": "Réponse C \\n Source : Solinum, 2019"
       },
       {
         "question_type": "QCU",
@@ -315,7 +315,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\n54% des Français déclarent souffrir de fatigue informationnelle, et 38% déclarent en souffrir \"beaucoup\".\nSource : Fondation Jean Jaurès, 2022."
+        "explanation": "Réponse B \\n 54% des Français déclarent souffrir de fatigue informationnelle, et 38% déclarent en souffrir \"beaucoup\". Source : Fondation Jean Jaurès, 2022."
       },
       {
         "question_type": "QCU",
@@ -328,7 +328,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nL'illectronisme est l'équivalent de l'illettrisme dans le domaine du numérique : la « situation d'une personne ne possédant pas les compétences numériques de base ou ne se servant pas d'Internet »,\n\nLes plus de 75 ans sont les plus touchés, avec 61,9 % en situation d'illectronisme.\nSources : Insee, 2021, Observatoire des inégalités, 2024"
+        "explanation": "Réponse C \\n L'illectronisme est l'équivalent de l'illettrisme dans le domaine du numérique : la « situation d'une personne ne possédant pas les compétences numériques de base ou ne se servant pas d'Internet ». Les plus de 75 ans sont les plus touchés, avec 61,9 % en situation d'illectronisme. Sources : Insee, 2021, Observatoire des inégalités, 2024"
       },
       {
         "question_type": "QCU",
@@ -340,7 +340,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\n\nDe nombreuses bonnes pratiques d'inclusivité numérique peuvent contribuer à produire un service numérique éco-responsable.\n\nPar exemple, le fait d'alléger les contenus pour qu'ils soient lisibles par tous permet de réduire l'impact carbone d'une page web."
+        "explanation": "Vrai \\n De nombreuses bonnes pratiques d'inclusivité numérique peuvent contribuer à produire un service numérique éco-responsable. Par exemple, le fait d'alléger les contenus pour qu'ils soient lisibles par tous permet de réduire l'impact carbone d'une page web."
       },
       {
         "question_type": "QCU",
@@ -352,7 +352,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nLe droit au non numérique n'existe pas en tant que tel. Néanmoins, le principe d'égalité d'accès aux services publics induit la possibilité d'y accéder quelque soit le canal d'interaction choisi.\n\nSource : vie-publique.fr, 2024"
+        "explanation": "Faux \\n Le droit au non numérique n'existe pas en tant que tel. Néanmoins, le principe d'égalité d'accès aux services publics induit la possibilité d'y accéder quelque soit le canal d'interaction choisi. Source : vie-publique.fr, 2024"
       },
       {
         "question_type": "QCU",
@@ -365,7 +365,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\nEn 2022, 48% des Français ont déclaré rencontrer des difficultés avec le numérique, soit 13% de plus qu'en 2020.\nSource : Baromètre du numérique 2023"
+        "explanation": "Réponse B \\n En 2022, 48% des Français ont déclaré rencontrer des difficultés avec le numérique, soit 13% de plus qu'en 2020. Source : Baromètre du numérique 2023"
       },
       {
         "question_type": "QCU",
@@ -377,7 +377,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\n\nDans le cadre de la production d'un service, l'intégration consiste à prévoir une déclinaison de ce service adaptée au public à intégrer, alors que l'inclusion consiste à imaginer un service utilisable par tous les publics."
+        "explanation": "Vrai \\n Dans le cadre de la production d'un service, l'intégration consiste à prévoir une déclinaison de ce service adaptée au public à intégrer, alors que l'inclusion consiste à imaginer un service utilisable par tous les publics."
       },
       {
         "question_type": "QCU",
@@ -390,7 +390,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Réponse A\n\n25 sites web sur 4147 contrôlés par l'Observatoire de l'Accessibilité Numérique sont totalement conformes au RGAA en septembre 2024. 351 (8%) sont partiellement conformes."
+        "explanation": "Réponse A \\n 25 sites web sur 4147 contrôlés par l'Observatoire de l'Accessibilité Numérique sont totalement conformes au RGAA en septembre 2024. 351 (8%) sont partiellement conformes."
       },
       {
         "question_type": "QCU",
@@ -403,7 +403,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\nAidants Connect est un outil d'authentification d'un aidant numérique dans le cadre d'un accompagnement. Il sécurise l'action éventuelle de l'aidant sur les données de la personne aidée."
+        "explanation": "Réponse B \\n Aidants Connect est un outil d'authentification d'un aidant numérique dans le cadre d'un accompagnement. Il sécurise l'action éventuelle de l'aidant sur les données de la personne aidée."
       },
       {
         "question_type": "QCU",
@@ -415,7 +415,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nUn \"dumb phone\" est, par opposition à un smartphone, un téléphone doté uniquement de fonctions de base (appels, SMS...), généralement simple à utiliser. Le marché des \"dumb phones\" ou \"feature phones\" est en relative croissance."
+        "explanation": "Faux \\n Un \"dumb phone\" est, par opposition à un smartphone, un téléphone doté uniquement de fonctions de base (appels, SMS...), généralement simple à utiliser. Le marché des \"dumb phones\" ou \"feature phones\" est en relative croissance."
       },
       {
         "question_type": "QCU",
@@ -428,7 +428,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Réponse A\n\nSource : Taylor & Francis Online, 2006"
+        "explanation": "Réponse A \\n Source : Taylor & Francis Online, 2006"
       },
       {
         "question_type": "QCU",
@@ -441,7 +441,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nSource : \"Why Web Performance Matters\" Gomez, 2011"
+        "explanation": "Réponse C \\n Source : \"Why Web Performance Matters\" Gomez, 2011"
       }
     ],
     "Handicap": [
@@ -455,7 +455,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Faux\n\nSi les services numériques respectent les normes d'accessibilité numérique, les personnes handicapées n'ont pas de difficultés à les consulter.\nDe plus, certains types de handicap n'impliquent pas systématiquement une situation d'exclusion numérique."
+        "explanation": "Faux \\n Si les services numériques respectent les normes d'accessibilité numérique, les personnes handicapées n'ont pas de difficultés à les consulter. De plus, certains types de handicap n'impliquent pas systématiquement une situation d'exclusion numérique."
       },
       {
         "question_type": "QCU",
@@ -468,7 +468,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Réponse B\n\n1 personne aveugle ou malvoyante naît toutes les 15 heures.\nEn France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage à 4 mètres et la lecture de près est impossible).\nSource : Fédération des Aveugles de France"
+        "explanation": "Réponse B \\n Une personne aveugle ou malvoyante naît toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage à 4 mètres et la lecture de près est impossible). Source : Fédération des Aveugles de France"
       },
       {
         "question_type": "QCU",
@@ -481,11 +481,11 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nEn France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une déficience auditive profonde ou totale.\nSource : Etude Le handicap auditif en France (DREES)"
+        "explanation": "Réponse C \\n En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une déficience auditive profonde ou totale. Source : Etude Le handicap auditif en France (DREES)"
       },
       {
         "question_type": "QCU",
-        "question": "\nL'autisme est un handicap cognitif, au même titre que l'hyperactivité.",
+        "question": "L'autisme est un handicap cognitif, au même titre que l'hyperactivité.",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -493,11 +493,11 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\nUn trouble cognitif correspond à une altération d’une ou plusieurs fonctions\ncognitives pour une raison neurologique, psychiatrique, médicamenteuse ou génétique.\nSource : Haute Autorité de Santé\n\nOn peut citer par exemple :\n- Les TDA (troubles de déficit de l’attention)\n- L'hyperactivité\n- Les troubles DYS\n- L'autisme\n- Les troubles de la mémoire\n- La trisomie 21"
+        "explanation": "Vrai \\n Un trouble cognitif correspond à une altération d’une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, médicamenteuse ou génétique. On peut citer par exemple :les TDA (troubles de déficit de l’attention), l'hyperactivité, les troubles DYS, l'autisme, les troubles de la mémoire ou la trisomie 21. Source : Haute Autorité de Santé."
       },
       {
         "question_type": "QCU",
-        "question": "\nLa schizophrénie est un handicap psychique.",
+        "question": "La schizophrénie est un handicap psychique.",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -505,7 +505,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Vrai\nLe handicap psychique est la conséquence d'une maladie psychique issue de changements qui affectent la pensée, l'humeur ou le comportement d'une personne, et qui lui causent de la détresse ou de la souffrance. Il n'affecte pas directement les capacités intellectuelles.\nSource : Agefiph\n\nOn peut citer par exemple :\n- Les phobies\n- Les addictions\n- La dépressions\n- Les TOC (troubles obsessionnels compulsifs)\n- Les troubles bipolaires\n- La schizophrénie."
+        "explanation": "Vrai \\n Le handicap psychique est la conséquence d'une maladie psychique issue de changements qui affectent la pensée, l'humeur ou le comportement d'une personne, et qui lui causent de la détresse ou de la souffrance. Il n'affecte pas directement les capacités intellectuelles. On peut citer par exemple : les phobies, les addictions, la dépressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophrénie. Source : Agefiph."
       },
       {
         "question_type": "QCU",
@@ -518,7 +518,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C : 8% chez les hommes et 0,45% chez les femmes"
+        "explanation": "Réponse C \\n 8% chez les hommes et 0,45% chez les femmes"
       },
       {
         "question_type": "QCU",
@@ -532,7 +532,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C\n\nOn peut même aller jusqu'à 20 millions en comptant les seniors."
+        "explanation": "Réponse C \\n On peut même aller jusqu'à 20 millions en comptant les seniors."
       },
       {
         "question_type": "QCU",
@@ -545,7 +545,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Réponse C, soit près de 10 millions de personnes\n\nOn peut notamment citer parmi les handicaps invisibles :\n- Les handicaps mentaux\n- Les handicaps psychiques\n- Les maladies invalidantes (asthme, allergies, diabète..)\n- Les troubles musculosquelettiques (lombalgies, tendinites..)\n- Les troubles DYS"
+        "explanation": "Réponse C, soit près de 10 millions de personnes. On peut notamment citer parmi les handicaps invisibles : les handicaps mentaux, les handicaps psychiques, les maladies invalidantes (asthme, allergies, diabète..), les troubles musculosquelettiques (lombalgies, tendinites..), ou les troubles DYS."
       },
       {
         "question_type": "QCM",
@@ -559,7 +559,7 @@
           1,
           2
         ],
-        "explanation": "Réponses B et C\nLa dyspraxie est le trouble de la capacité à exécuter des mouvements déterminés.\nLa dyslexie est le trouble de la lecture.\n\nOn peut également citer :\n- la dyscalculie : trouble dans les apprentissages numériques\n- la dysgraphie : difficulté à accomplir les gestes de l'écriture et du dessin\n- la dysorthographie : également appelé trouble de l'acquisition de l'expression écrite\n- la dysphasie : trouble lié au développement du langage oral."
+        "explanation": "Réponses B et C \\n La dyspraxie est le trouble de la capacité à exécuter des mouvements déterminés. La dyslexie est le trouble de la lecture. On peut également citer : la dyscalculie : trouble dans les apprentissages numériques; la dysgraphie : difficulté à accomplir les gestes de l'écriture et du dessin; la dysorthographie : également appelé trouble de l'acquisition de l'expression écrite; la dysphasie : trouble lié au développement du langage oral."
       }
     ]
   }
