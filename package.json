@@ -1,5 +1,5 @@
 {
-  "name": "quiz2",
+  "name": "quiz",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -18,16 +18,15 @@
     "@angular/platform-browser": "^19.1.4",
     "@angular/platform-browser-dynamic": "^19.1.4",
     "@angular/router": "^19.1.4",
-    "@primeng/themes": "^18",
-    "primeicons": "^6.0.0",
-    "primeng": "^18",
+    "@primeng/themes": "^19.0.5",
+    "primeng": "^19.0.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.10",
-    "@angular/cli": "^18.2.10",
+    "@angular-devkit/build-angular": "^19.1.5",
+    "@angular/cli": "^19.1.5",
     "@angular/compiler-cli": "^19.1.4",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.2.0",
