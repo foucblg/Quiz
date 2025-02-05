@@ -50,13 +50,13 @@ footer li {
 }
 
 footer a {
+  display: flex;
   color: white !important;
   text-decoration: none;
+  align-items: center;
+  vertical-align: middle;
 }
 
-footer a:hover {
-  text-decoration: underline;
-}
 
 footer .right-section {
   display: flex;
