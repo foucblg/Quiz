@@ -5,8 +5,8 @@ import { ImageModule } from 'primeng/image';
 @Component({
   selector: 'app-navbar',
   imports: [ImageModule, DividerModule],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  templateUrl: './footer.component.html',
+  styleUrl: './footer.component.css'
 })
 export class NavbarComponent {
 

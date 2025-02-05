@@ -9,10 +9,10 @@ import { ButtonModule } from 'primeng/button';
 import { Answer } from '../../../../shared/types/enums';
 
 @Component({
-    selector: 'app-choice-box',
-    imports: [ReactiveFormsModule, RadioButtonModule, CheckboxModule, DialogModule, ButtonModule],
-    templateUrl: './choice-box.component.html',
-    styleUrl: './choice-box.component.css'
+  selector: 'app-choice-box',
+  imports: [ReactiveFormsModule, RadioButtonModule, CheckboxModule, DialogModule, ButtonModule],
+  templateUrl: './choice-box.component.html',
+  styleUrl: './choice-box.component.css'
 })
 export class ChoiceBoxComponent {
   @Input() answered: boolean | undefined;

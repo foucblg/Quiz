@@ -1,7 +1,69 @@
+/* Conteneur principal */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Prend toute la hauteur de la fenêtre */
+}
+
+/* Navbar */
 .navbar-div {
-  height: 10vh;
+  height: 65px;
+}
+
+/* Contenu principal */
+main {
+  flex: 1; /* Prend tout l'espace disponible */
+  display: flex;
+  flex-direction: column;
 }
 
 .quiz-div {
-  height: 90vh;
+  flex: 1; /* Prend tout l'espace disponible */
+  min-height: 50vh; /* Hauteur minimale pour le contenu */
+  overflow: auto; /* Ajoute un défilement si le contenu est trop long */
+}
+
+/* Footer */
+footer {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  color: white;
+  padding: 0 28px;
+  font-size: 12px;
+  width: 100%;
+  margin-top: auto; /* Force le footer à rester en bas */
+}
+
+footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 12px; /* Espace entre les éléments */
+}
+
+footer li {
+  display: inline-block;
+}
+
+footer a {
+  color: white !important;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .right-section {
+  display: flex;
+  align-items: center;
+}
+
+footer .right-section img {
+  height: 20px;
+  margin-right: 5px;
 }

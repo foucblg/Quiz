@@ -6,10 +6,10 @@ import { QuizData } from './shared/types/interfaces';
 import { NavbarComponent } from './views/navbar/navbar.component';
 
 @Component({
-    selector: 'app-root',
-    imports: [CommonModule, RouterOutlet, NavbarComponent],
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+  selector: 'app-root',
+  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'INCLUSIF: Le jeu';

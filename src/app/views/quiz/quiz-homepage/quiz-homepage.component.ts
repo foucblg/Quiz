@@ -10,10 +10,10 @@ import { DataService } from '../../../shared/services/quiz-service';
 
 
 @Component({
-    selector: 'app-quiz-homepage',
-    imports: [ButtonModule, DividerModule, PanelModule, InputNumberModule, BlockUIModule, ImageModule],
-    templateUrl: './quiz-homepage.component.html',
-    styleUrl: './quiz-homepage.component.css'
+  selector: 'app-quiz-homepage',
+  imports: [ButtonModule, DividerModule, PanelModule, InputNumberModule, BlockUIModule, ImageModule],
+  templateUrl: './quiz-homepage.component.html',
+  styleUrl: './quiz-homepage.component.css'
 })
 export class QuizHomepageComponent {
   /* Page de présentation du quiz

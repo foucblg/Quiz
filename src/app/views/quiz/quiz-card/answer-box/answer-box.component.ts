@@ -6,10 +6,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ReactiveFormsModule } from "@angular/forms";
 
 @Component({
-    selector: 'app-answer-box',
-    imports: [ReactiveFormsModule, RadioButtonModule, CheckboxModule],
-    templateUrl: './answer-box.component.html',
-    styleUrl: './answer-box.component.css'
+  selector: 'app-answer-box',
+  imports: [ReactiveFormsModule, RadioButtonModule, CheckboxModule],
+  templateUrl: './answer-box.component.html',
+  styleUrl: './answer-box.component.css'
 })
 export class AnswerBoxComponent {
   dataService = inject(DataService);
