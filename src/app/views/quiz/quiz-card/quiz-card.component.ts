@@ -6,10 +6,11 @@ import { Answer } from '../../../shared/types/enums';
 import { AnswerBoxComponent } from "./answer-box/answer-box.component";
 
 @Component({
-    selector: 'app-quiz-card',
-    imports: [ChoiceBoxComponent, AnswerBoxComponent],
-    templateUrl: './quiz-card.component.html',
-    styleUrl: './quiz-card.component.css'
+  selector: 'app-quiz-card',
+  standalone: true,
+  imports: [ChoiceBoxComponent, AnswerBoxComponent],
+  templateUrl: './quiz-card.component.html',
+  styleUrl: './quiz-card.component.css'
 })
 export class QuizCardComponent {
   dataService = inject(DataService);
