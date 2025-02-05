@@ -5,7 +5,6 @@ import { Divider } from 'primeng/divider';
 
 @Component({
   selector: 'app-quiz-endpage',
-  standalone: true,
   imports: [ButtonModule, Divider],
   templateUrl: './quiz-endpage.component.html',
   styleUrl: './quiz-endpage.component.css'

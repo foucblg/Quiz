@@ -10,7 +10,6 @@ import { Answer } from '../../../../shared/types/enums';
 
 @Component({
   selector: 'app-choice-box',
-  standalone: true,
   imports: [ReactiveFormsModule, RadioButtonModule, CheckboxModule, DialogModule, ButtonModule],
   templateUrl: './choice-box.component.html',
   styleUrl: './choice-box.component.css'

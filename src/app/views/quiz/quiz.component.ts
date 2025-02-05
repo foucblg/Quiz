@@ -12,7 +12,6 @@ import { QuizHomepageComponent } from './quiz-homepage/quiz-homepage.component';
 
 @Component({
   selector: 'app-quiz',
-  standalone: true,
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css',
   imports: [CommonModule, ButtonModule, ToastModule, ProgressBarModule, QuizHomepageComponent, QuizCardComponent, DividerModule, QuizEndpageComponent]
