@@ -31,7 +31,7 @@ footer {
   align-items: center;
   background-color: black;
   color: white;
-  padding: 0 20px;
+  padding: 0 28px;
   font-size: 12px;
   width: 100%;
   margin-top: auto; /* Force le footer à rester en bas */
@@ -42,7 +42,7 @@ footer ul {
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 15px; /* Espace entre les éléments */
+  gap: 12px; /* Espace entre les éléments */
 }
 
 footer li {
