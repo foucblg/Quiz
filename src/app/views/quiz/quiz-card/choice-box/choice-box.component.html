@@ -7,8 +7,9 @@
   <div class="answer-box">
     @for (choice of quiz_segment()?.possible_answers; track $index) {
       <label id="answer-choice" class = "flex items-center gap-2">
+      <label id="answer-choice" class = "flex items-center gap-2">
         @if (quiz_segment()?.question_type === "QCM") {
-          <p-checkbox [value]="$index" [formControlName]="'QCM'" size="large"/>
+          <p-checkbox [value]="$index" [formControlName]="'QCM'" size="large" />
         } @else if (quiz_segment()?.question_type === "QCU") {
           <p-radiobutton [value]="$index" [formControlName]="'QCU'" />
         }

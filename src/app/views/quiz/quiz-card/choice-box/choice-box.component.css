@@ -12,8 +12,10 @@
   flex-direction: column;
   gap: 16px;
 }
-#answer-choice {
+.answer-choice {
+  font-size: 1.5em;
   display: flex;
+  align-content: center;
   width: 100%;
   font-size: 1.5em;
   border: 2px solid gray;
@@ -35,17 +37,7 @@
   --p-radiobutton-height: 1.5em;
   --p-radiobutton-width: 1.5em;
   --p-radiobutton-icon-size: 1em;
-
 }
-
-.p-checkbox-icon {
-  color: aqua;
-}
-
-#answer-choice:hover {
-  border: 2px solid #0073e9;
-}
-
 
 answer-choice:has(:checked) {
   border: 2px solid rgb(0, 26, 255);
