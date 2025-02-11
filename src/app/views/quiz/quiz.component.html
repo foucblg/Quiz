@@ -16,13 +16,13 @@
       <p-divider class="divider" />
       @if (!progressService.answered()) {
         <p-button
-          class="button"
+          class="button-page"
           (click)="quizCard()!.choiceBox()!.tryToAnswer()"
         >
           Répondre
         </p-button>
       } @else {
-        <p-button class="button" (click)="progressService.goToNext()">
+        <p-button class="button-page" (click)="progressService.goToNext()">
           Suivant
           <i class="pi pi-arrow-right"></i>
         </p-button>

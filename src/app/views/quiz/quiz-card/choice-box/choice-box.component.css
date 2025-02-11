@@ -14,8 +14,8 @@
 }
 #answer-choice {
   display: flex;
-  font-size: 1.5em;
   width: 100%;
+  font-size: 1.5em;
   border: 2px solid gray;
   border-radius: 8px;
   padding: 4px;
@@ -38,8 +38,11 @@
 
 }
 
+.p-checkbox-icon {
+  color: aqua;
+}
 
-.answer-choice:hover {
+#answer-choice:hover {
   border: 2px solid #0073e9;
 }
 

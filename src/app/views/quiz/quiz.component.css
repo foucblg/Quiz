@@ -40,9 +40,13 @@
 .next {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   align-items: center;
-  align-self: flex-end;
+  left: 0%;
   width: 100%;
-  margin: 2% auto;
+  position:fixed;
+  bottom:5em;
+}
+
+.button-page{
+  font-size: large;
 }
