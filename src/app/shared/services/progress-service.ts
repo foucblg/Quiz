@@ -20,7 +20,7 @@ export class ProgressService {
   answered = signal(false);
 
   goToBegining() {
-    /* Revient à la page du début, sans oublier les questions déjà posées */
+    /* Revient à la page du début, sans oublienpmr les questions déjà posées */
     this.score.set(0);
     this.questionNumber.set(0);
     this.hasEnded.set(false);

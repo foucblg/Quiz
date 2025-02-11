@@ -12,28 +12,48 @@
   flex-direction: column;
   gap: 16px;
 }
-.answer-choice {
+#answer-choice {
   font-size: 1.5em;
   display: flex;
   align-content: center;
   width: 100%;
-  border: 2px solid gray;
+  border: 2px solid #929292;
   border-radius: 8px;
   padding: 4px;
-  --p-checkbox-height: 1.5em;
-  --p-checkbox-width: 1.5em;
+  margin: 0 auto;
+  align-items: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+
+  --p-radiobutton-icon-vertical-align: middle;
+  --p-radiobutton-vertical-align: middle;
+  --p-radiobutton-box-vertical-align: middle;
+  --p-radiobutton-icon-align-items: center;
+  --p-radiobutton-box-align-items: center;
+  --p-radiobutton-align-items: center;
+  
+  --p-radiobutton-display: inline-block;
   --p-radiobutton-height: 1.5em;
   --p-radiobutton-width: 1.5em;
   --p-radiobutton-icon-size: 1em;
 }
 
+#answer-choice:hover{
+  border: 2px solid #333333;
+}
+
 answer-choice:has(:checked) {
-  border: 2px solid black;
+  border: 2px solid rgb(0, 26, 255);
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  
 }
 
 .choice-text {
+  display: inline-block;
   padding-left: 0.5em;
+  vertical-align: middle;
+  align-items: middle;
+  text-align: middle;
 }

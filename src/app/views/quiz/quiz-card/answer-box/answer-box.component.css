@@ -19,6 +19,9 @@
   border: 2px solid black;
   border-radius: 8px;
   padding: 4px;
+  align-items: center;
+  vertical-align: middle;
+  word-wrap: break-word;
 }
 
 .explanation {
