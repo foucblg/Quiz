@@ -12,12 +12,12 @@
   flex-direction: column;
   gap: 16px;
 }
-.answer-choice {
+#answer-choice {
   font-size: 1.5em;
   display: flex;
   align-content: center;
   width: 100%;
-  border: 2px solid gray;
+  border: 2px solid #929292;
   border-radius: 8px;
   padding: 4px;
   margin: 0 auto;
@@ -36,6 +36,10 @@
   --p-radiobutton-height: 1.5em;
   --p-radiobutton-width: 1.5em;
   --p-radiobutton-icon-size: 1em;
+}
+
+#answer-choice:hover{
+  border: 2px solid #333333;
 }
 
 answer-choice:has(:checked) {
