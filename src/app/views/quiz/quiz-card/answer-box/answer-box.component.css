@@ -22,11 +22,13 @@
   align-items: center;
   vertical-align: middle;
   word-wrap: break-word;
+  color: #333333;
 }
 
 .explanation {
   font-size: 1.2em;
   white-space : pre-line;
+  color: #333333;
 }
 
 .choice-text {

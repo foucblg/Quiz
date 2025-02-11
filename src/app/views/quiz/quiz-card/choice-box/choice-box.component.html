@@ -1,7 +1,7 @@
 @if (quiz_segment()?.question_type === "QCM") {
-  <p>Plusieurs réponses possibles</p>
+  <p class="nb-choice">Plusieurs réponses possibles</p>
 } @else if (quiz_segment()?.question_type === "QCU") {
-  <p>Une seule réponse possible</p>
+  <p class="nb-choice">Une seule réponse possible</p>
 }
 <form [formGroup]="answerForm">
   <div class="answer-box">

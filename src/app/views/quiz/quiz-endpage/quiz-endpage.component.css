@@ -16,3 +16,7 @@
   gap: 5%;
   padding: 2%;
 }
+
+h1, h2, span {
+  color: #333333;
+}
