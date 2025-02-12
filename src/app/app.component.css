@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  height: 100%;
 }
 
 /* Navbar */
@@ -15,12 +16,14 @@ main {
   flex: 1; /* Prend tout l'espace disponible */
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .quiz-div {
   flex: 1; /* Prend tout l'espace disponible */
   min-height: 50vh; /* Hauteur minimale pour le contenu */
   overflow: auto; /* Ajoute un défilement si le contenu est trop long */
+  height: 100%;
 }
 
 /* Footer */
