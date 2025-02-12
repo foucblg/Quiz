@@ -17,7 +17,6 @@
   gap: 16px;
 }
 #answer-choice {
-  font-size: 1.5em;
   display: flex;
   align-content: center;
   width: 100%;
@@ -26,10 +25,13 @@
   padding: 4px;
   margin: 0 auto;
   align-items: center;
-  vertical-align: middle;
   word-wrap: break-word;
   color: #333333;
+}
 
+.radio{
+  padding-left: 15px;
+  padding-right: 15px;
   --p-radiobutton-icon-vertical-align: middle;
   --p-radiobutton-vertical-align: middle;
   --p-radiobutton-box-vertical-align: middle;
@@ -38,11 +40,28 @@
   --p-radiobutton-align-items: center;
   
   --p-radiobutton-display: inline-block;
-  --p-radiobutton-height: 1.5em;
-  --p-radiobutton-width: 1.5em;
-  --p-radiobutton-icon-size: 1em;
+  --p-radiobutton-height: 24px;
+  --p-radiobutton-width: 24px;
+  --p-radiobutton-icon-size: 16px;
   --p-radiobutton-icon-checked-color:#333333;
   --p-radiobutton-icon-checked-hover-color:#333333;
+  --p-radiobutton-border-color:#333333;
+  --p-radiobutton-hover-border-color:#333333;
+  --p-radiobutton-checked-border-color:#333333;
+  --p-radiobutton-checked-hover-border-color:#333333;
+}
+
+.check{
+  padding-left: 15px;
+  padding-right: 15px;
+  --p-checkbox-border-color:#333333;
+  --p-checkbox-checked-focus-border-color:#333333;
+  --p-checkbox-checked-hover-border-color:#333333;
+  --p-checkbox-checked-border-color:#333333;
+  --p-checkbox-hover-border-color:#333333;
+  --p-checkbox-border-color:#333333;
+  --p-checkbox-checked-background:#333333;
+  --p-checkbox-checked-hover-background:#333333;
 }
 
 #answer-choice:hover{
@@ -59,8 +78,25 @@
 
 .choice-text {
   display: inline-block;
-  padding-left: 0.5em;
   vertical-align: middle;
   align-items: middle;
   text-align: middle;
+  font-size: 1.5em;
+}
+
+.div-error{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  vertical-align: middle;
+  color:#333333;
+}
+
+.bouton-error{
+  --p-button-padding-x: 64px;
+}
+
+.p-error{
+  --p-dialog-colo:#333333;
 }

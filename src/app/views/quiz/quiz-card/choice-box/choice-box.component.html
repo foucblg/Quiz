@@ -8,9 +8,9 @@
     @for (choice of quiz_segment()?.possible_answers; track $index) {
       <label id="answer-choice" class = "flex items-center gap-2">
         @if (quiz_segment()?.question_type === "QCM") {
-          <p-checkbox [value]="$index" [formControlName]="'QCM'" size="large" />
+          <p-checkbox [value]="$index" [formControlName]="'QCM'" size="large" class = "check" />
         } @else if (quiz_segment()?.question_type === "QCU") {
-          <p-radiobutton [value]="$index" [formControlName]="'QCU'" />
+          <p-radiobutton [value]="$index" [formControlName]="'QCU'" class="radio"/>
         }
         <p class="choice-text">
           {{ choice }}
@@ -19,12 +19,15 @@
     }
   </div>
 </form>
+
 <p-dialog
   header="Veuillez choisir au moins une option."
-  [modal]="true"
+  [modal]="false"
+  [closable]="false"
   [(visible)]="dialogVisible"
+  class="p-error"
 >
-  <div>
-    <p-button label="Ok" (click)="dialogVisible = false" />
+  <div class="div-error">
+    <p-button label="Ok" (click)="dialogVisible = false" class ="bouton-error"/>
   </div>
 </p-dialog>
