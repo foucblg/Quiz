@@ -7,6 +7,10 @@
   margin-top: 5%;
 }
 
+.nb-choice {
+  color: #696969;
+}
+
 .answer-box {
   display: flex;
   flex-direction: column;
@@ -24,6 +28,7 @@
   align-items: center;
   vertical-align: middle;
   word-wrap: break-word;
+  color: #333333;
 
   --p-radiobutton-icon-vertical-align: middle;
   --p-radiobutton-vertical-align: middle;
