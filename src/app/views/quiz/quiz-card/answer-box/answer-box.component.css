@@ -12,7 +12,6 @@
   gap: 16px;
 }
 .answer-choice {
-  font-size: 1.5em;
   display: flex;
   align-content: center;
   width: 100%;
@@ -32,12 +31,15 @@
 }
 
 .choice-text {
-  padding-left: 0.5em;
+  font-size: 1.5em;
 }
 
 i {
-  font-size: 1.5em;
+  font-size: 24px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
+
 .correct {
   border-color: var(--p-green-500);
 }
