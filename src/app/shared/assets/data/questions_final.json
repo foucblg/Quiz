@@ -289,7 +289,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Les troubles psychologiques sont la 2e cause d'arrêt de travail en France : 20% des arrêts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arrêts longs : 28% en 2022 vs 14% en 2016. Source : Baromètre annuel Absentéisme (Malakoff Humanis)"
+        "explanation": "Les troubles psychologiques sont la 2e cause d'arrêt de travail en France : 20% des arrêts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arrêts longs : 28% en 2022 vs 14% en 2016. \nSource : Baromètre annuel Absentéisme (Malakoff Humanis)"
       },
       {
         "question_type": "QCU",
@@ -315,7 +315,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "54% des Français déclarent souffrir de fatigue informationnelle, et 38% déclarent en souffrir \"beaucoup\". Source : Fondation Jean Jaurès, 2022."
+        "explanation": "54% des Français déclarent souffrir de fatigue informationnelle, et 38% déclarent en souffrir \"beaucoup\". \nSource : Fondation Jean Jaurès, 2022."
       },
       {
         "question_type": "QCU",
@@ -328,7 +328,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "L'illectronisme est l'équivalent de l'illettrisme dans le domaine du numérique : la « situation d'une personne ne possédant pas les compétences numériques de base ou ne se servant pas d'Internet ». Les plus de 75 ans sont les plus touchés, avec 61,9 % en situation d'illectronisme. Sources : Insee, 2021, Observatoire des inégalités, 2024"
+        "explanation": "L'illectronisme est l'équivalent de l'illettrisme dans le domaine du numérique : la « situation d'une personne ne possédant pas les compétences numériques de base ou ne se servant pas d'Internet ». Les plus de 75 ans sont les plus touchés, avec 61,9 % en situation d'illectronisme. \nSources : Insee, 2021, Observatoire des inégalités, 2024"
       },
       {
         "question_type": "QCU",
@@ -352,7 +352,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Le droit au non numérique n'existe pas en tant que tel. Néanmoins, le principe d'égalité d'accès aux services publics induit la possibilité d'y accéder quelque soit le canal d'interaction choisi. Source : vie-publique.fr, 2024"
+        "explanation": "Le droit au non numérique n'existe pas en tant que tel. Néanmoins, le principe d'égalité d'accès aux services publics induit la possibilité d'y accéder quelque soit le canal d'interaction choisi. \nSource : vie-publique.fr, 2024"
       },
       {
         "question_type": "QCU",
@@ -369,7 +369,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "La notion d'inclusion est différente de celle d'intégration :  ?",
+        "question": "La notion d'inclusion est-elle différente de celle d'intégration ?",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -468,7 +468,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Une personne aveugle ou malvoyante naît toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage à 4 mètres et la lecture de près est impossible). Source : Fédération des Aveugles de France"
+        "explanation": "Une personne aveugle ou malvoyante naît toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage à 4 mètres et la lecture de près est impossible). \nSource : Fédération des Aveugles de France"
       },
       {
         "question_type": "QCU",
@@ -481,7 +481,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une déficience auditive profonde ou totale. Source : Etude Le handicap auditif en France (DREES)"
+        "explanation": "En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une déficience auditive profonde ou totale. \nSource : Etude Le handicap auditif en France (DREES)"
       },
       {
         "question_type": "QCU",
@@ -493,7 +493,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Un trouble cognitif correspond à une altération d’une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, médicamenteuse ou génétique. On peut citer par exemple :les TDA (troubles de déficit de l’attention), l'hyperactivité, les troubles DYS, l'autisme, les troubles de la mémoire ou la trisomie 21. Source : Haute Autorité de Santé."
+        "explanation": "Un trouble cognitif correspond à une altération d’une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, médicamenteuse ou génétique. On peut citer par exemple :les TDA (troubles de déficit de l’attention), l'hyperactivité, les troubles DYS, l'autisme, les troubles de la mémoire ou la trisomie 21. \nSource : Haute Autorité de Santé."
       },
       {
         "question_type": "QCU",
@@ -505,7 +505,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Le handicap psychique est la conséquence d'une maladie psychique issue de changements qui affectent la pensée, l'humeur ou le comportement d'une personne, et qui lui causent de la détresse ou de la souffrance. Il n'affecte pas directement les capacités intellectuelles. On peut citer par exemple : les phobies, les addictions, la dépressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophrénie. Source : Agefiph."
+        "explanation": "Le handicap psychique est la conséquence d'une maladie psychique issue de changements qui affectent la pensée, l'humeur ou le comportement d'une personne, et qui lui causent de la détresse ou de la souffrance. Il n'affecte pas directement les capacités intellectuelles. On peut citer par exemple : les phobies, les addictions, la dépressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophrénie. \nSource : Agefiph."
       },
       {
         "question_type": "QCU",

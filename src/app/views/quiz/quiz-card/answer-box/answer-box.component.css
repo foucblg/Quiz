@@ -15,7 +15,7 @@
   display: flex;
   align-content: center;
   width: 100%;
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 8px;
   padding: 4px;
   align-items: center;
@@ -25,13 +25,13 @@
 }
 
 .explanation {
-  font-size: 1.2em;
+  font-size: 16px;
   white-space : pre-line;
   color: #333333;
 }
 
 .choice-text {
-  font-size: 1.5em;
+  font-size: 16px;
 }
 
 i {

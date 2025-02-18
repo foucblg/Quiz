@@ -1,11 +1,35 @@
 :host {
   display: flex;
   flex-direction: column;
-  width: 80%;
-  margin: 0 auto;
-  align-content: center;
-  justify-content: space-around;
-  text-align: center;
+  height: 100%;
+  width: 100%;
+  margin: 16px;
+}
+
+.header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 70px;
+}
+
+span{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 350px;
+}
+
+.lower-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  position: relative;
+  bottom:0em;
 }
 
 .start-div {
@@ -13,8 +37,15 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 5%;
-  padding: 2%;
+}
+
+.divider{
+  padding-bottom: 20px;
+}
+
+p-button{
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 h1, h2, span {

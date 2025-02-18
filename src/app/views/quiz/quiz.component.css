@@ -48,6 +48,10 @@
   bottom:0em;
 }
 
+.divider{
+  padding-bottom: 20px;
+}
+
 .button-page{
   --p-button-padding-x: 39px;
 }

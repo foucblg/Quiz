@@ -6,9 +6,9 @@
   <div class="quiz">
     <div class="progress">
       <p class="question-text">
-        {{ "Question " + progressService.questionNumber() }}
+        {{ "Question " + progressService.questionNumber() }} / {{ dataService.numberOfQuestions() }}
       </p>
-      <p>{{ (progressPercentage() | number: "1.0-0") + " %" }}</p>
+      <p></p>
       <p-progressbar class="progress-bar" [value]="progressPercentage()" />
     </div>
     <app-quiz-card></app-quiz-card>

@@ -19,26 +19,33 @@
 }
 
 .presentation-section h1 {
-  font-size: 4em;
+  font-size: 28px;
   font-weight: normal;
 }
 .presentation-section h2 {
-  font-size: 2em;
+  font-size: 24px;
   font-weight: normal;
 }
 .presentation-section p-image {
   margin: auto;
 }
 
+.lower-section{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .n-questions-selector {
   display: flex;
   flex-direction: row;
-  width: fit-content;
   border-radius: 8px;
   border: 2px solid gray;
-  padding: 0 16px;
-  gap: 16px;
   align-items: center;
+  width: 200px;
+  margin-right: 16px;
 }
 
 .start-div {
@@ -46,9 +53,16 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 5%;
-  padding: 2%;
+  height: 100%;
+  width: 100%;
 }
+
+p-divider{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+
 .selector-buttons {
   flex-grow: 1;
   display: grid;
@@ -65,14 +79,21 @@
   border-radius: 4px;
   justify-content: center;
   align-content: center;
-  padding: 8px;
+  height: 24px;
+  width: 24px;
   border: 1px solid gray;
   background-color: var(--p-gray-200);
 }
 
-.start-game-button {
-  --p-button-padding-x: 60px;
-  --p-button-padding-y: 16px;
+::ng-deep .start-game-button button {
+  width: 200px; /* Force the width */
+  height: 40px; /* Force the height */
+  margin-left: 16px;
+}
+
+::ng-deep .selector-buttons button {
+  width: 24px; /* Force the width */
+  height: 24px; /* Force the height */
 }
 
 p, h1, h2{
