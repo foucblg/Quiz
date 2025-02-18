@@ -1,24 +1,26 @@
-<div>
+<div class="header">
   <h1>Le quiz est fini !</h1>
   <h2>
     Votre score est de {{ progressService.score() }} /
     {{ progressService.questionNumber() }}
   </h2>
 </div>
+
+<span>
+  Vous pouvez passer à Inclusif, le jeu, ou lancer une autre série de questions.
+</span>
+
 <div class="lower-section">
-  <span
-    >Vous pouvez passer à Inclusif, le jeu, ou lancer une autre série de
-    questions.
-  </span>
-  <p-divider />
+  <p-divider class ="divider"/>
   <div class="start-div">
     <p-button
       (click)="progressService.goToBegining()"
       severity="secondary"
-      variant="outlined"
-      >Voir Inclusif, le jeu</p-button
-    >
-    <p-button (click)="progressService.goToBegining()">
+      variant="outlined">
+      Voir Inclusif, le jeu
+    </p-button>
+    <p-button
+      (click)="progressService.goToBegining()">
       Relancer une série
     </p-button>
   </div>

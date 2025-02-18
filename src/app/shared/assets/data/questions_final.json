@@ -17,10 +17,10 @@
         "question_type": "QCM",
         "question": "Pour compenser un handicap moteur, il est possible d'utiliser :",
         "possible_answers": [
-          "une commande vocale",
-          "une commande visuelle",
-          "un joystick",
-          "une souris ergonomique"
+          "A : une commande vocale",
+          "B : une commande visuelle",
+          "C : un joystick",
+          "D : une souris ergonomique"
         ],
         "true_answers": [
           0,
@@ -28,7 +28,7 @@
           2,
           3
         ],
-        "explanation": "Le handicap moteur recouvre l’ensemble des troubles pouvant entraîner une atteinte partielle ou totale de la motricité, notamment des membres supérieurs et/ou inférieurs. "
+        "explanation": "Les bonnes réponses sont A, B, C et D. \nLe handicap moteur recouvre l’ensemble des troubles pouvant entraîner une atteinte partielle ou totale de la motricité, notamment des membres supérieurs et/ou inférieurs. "
       },
       {
         "question_type": "QCU",
@@ -96,10 +96,10 @@
         "question_type": "QCM",
         "question": "Une vidéo accessible est une vidéo :",
         "possible_answers": [
-          "pour laquelle l'utilisateur peut stopper et relancer la lecture",
-          "avec des sous-titres",
-          "avec une traduction en LSF (langue des signes)",
-          "avec une audio-description"
+          "A : pour laquelle l'utilisateur peut stopper et relancer la lecture",
+          "B : avec des sous-titres",
+          "C : avec une traduction en LSF (langue des signes)",
+          "D : avec une audio-description"
         ],
         "true_answers": [
           0,
@@ -107,7 +107,7 @@
           2,
           3
         ],
-        "explanation": "La traduction en LSF peut être difficile à mettre en place, car l'image de l'interprète doit être incrustée dans la vidéo."
+        "explanation": "Les bonnes réponses sont A, B, C et D. \nLa traduction en LSF peut être difficile à mettre en place, car l'image de l'interprète doit être incrustée dans la vidéo."
       },
       {
         "question_type": "QCU",
@@ -204,15 +204,15 @@
         "question_type": "QCM",
         "question": "Quel est le rôle des \"feedbacks\" ?",
         "possible_answers": [
-          "Informer l’utilisateur des réussites et erreurs",
-          "Changer certains éléments pour dynamiser l'interface",
-          "Simplifier les interactions entre l'utilisateur et le service"
+          "A : Informer l’utilisateur des réussites et erreurs",
+          "B : Changer certains éléments pour dynamiser l'interface",
+          "C : Simplifier les interactions entre l'utilisateur et le service"
         ],
         "true_answers": [
           0,
           2
         ],
-        "explanation": "Un \"feedback\" est un retour visuel et/ou textuel suite à une action réalisée par l'utilisateur permettant d'informer l'utilisateur sur la conséquence de ses actions."
+        "explanation": "Les bonnes réponses sont A et C. \nUn \"feedback\" est un retour visuel et/ou textuel suite à une action réalisée par l'utilisateur permettant d'informer l'utilisateur sur la conséquence de ses actions."
       },
       {
         "question_type": "QCU",
@@ -289,7 +289,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Les troubles psychologiques sont la 2e cause d'arrêt de travail en France : 20% des arrêts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arrêts longs : 28% en 2022 vs 14% en 2016. Source : Baromètre annuel Absentéisme (Malakoff Humanis)"
+        "explanation": "Les troubles psychologiques sont la 2e cause d'arrêt de travail en France : 20% des arrêts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arrêts longs : 28% en 2022 vs 14% en 2016. \nSource : Baromètre annuel Absentéisme (Malakoff Humanis)"
       },
       {
         "question_type": "QCU",
@@ -315,7 +315,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "54% des Français déclarent souffrir de fatigue informationnelle, et 38% déclarent en souffrir \"beaucoup\". Source : Fondation Jean Jaurès, 2022."
+        "explanation": "54% des Français déclarent souffrir de fatigue informationnelle, et 38% déclarent en souffrir \"beaucoup\". \nSource : Fondation Jean Jaurès, 2022."
       },
       {
         "question_type": "QCU",
@@ -328,7 +328,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "L'illectronisme est l'équivalent de l'illettrisme dans le domaine du numérique : la « situation d'une personne ne possédant pas les compétences numériques de base ou ne se servant pas d'Internet ». Les plus de 75 ans sont les plus touchés, avec 61,9 % en situation d'illectronisme. Sources : Insee, 2021, Observatoire des inégalités, 2024"
+        "explanation": "L'illectronisme est l'équivalent de l'illettrisme dans le domaine du numérique : la « situation d'une personne ne possédant pas les compétences numériques de base ou ne se servant pas d'Internet ». Les plus de 75 ans sont les plus touchés, avec 61,9 % en situation d'illectronisme. \nSources : Insee, 2021, Observatoire des inégalités, 2024"
       },
       {
         "question_type": "QCU",
@@ -352,7 +352,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "Le droit au non numérique n'existe pas en tant que tel. Néanmoins, le principe d'égalité d'accès aux services publics induit la possibilité d'y accéder quelque soit le canal d'interaction choisi. Source : vie-publique.fr, 2024"
+        "explanation": "Le droit au non numérique n'existe pas en tant que tel. Néanmoins, le principe d'égalité d'accès aux services publics induit la possibilité d'y accéder quelque soit le canal d'interaction choisi. \nSource : vie-publique.fr, 2024"
       },
       {
         "question_type": "QCU",
@@ -369,7 +369,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "La notion d'inclusion est différente de celle d'intégration :  ?",
+        "question": "La notion d'inclusion est-elle différente de celle d'intégration ?",
         "possible_answers": [
           "Vrai",
           "Faux"
@@ -459,7 +459,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Combien de personnes ont un handicap visuel en France ?",
+        "question": "Combien de personnes ont-elles un handicap visuel en France ?",
         "possible_answers": [
           "700 000",
           "1,7 millions",
@@ -468,11 +468,11 @@
         "true_answers": [
           1
         ],
-        "explanation": "Une personne aveugle ou malvoyante naît toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage à 4 mètres et la lecture de près est impossible). Source : Fédération des Aveugles de France"
+        "explanation": "Une personne aveugle ou malvoyante naît toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage à 4 mètres et la lecture de près est impossible). \nSource : Fédération des Aveugles de France"
       },
       {
         "question_type": "QCU",
-        "question": "Combien de personnes ont un handicap auditif en France ?",
+        "question": "Combien de personnes ont-elles un handicap auditif en France ?",
         "possible_answers": [
           "Environ 2 millions",
           "Environ 4 millions",
@@ -481,7 +481,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une déficience auditive profonde ou totale. Source : Etude Le handicap auditif en France (DREES)"
+        "explanation": "En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une déficience auditive profonde ou totale. \nSource : Etude Le handicap auditif en France (DREES)"
       },
       {
         "question_type": "QCU",
@@ -493,7 +493,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Un trouble cognitif correspond à une altération d’une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, médicamenteuse ou génétique. On peut citer par exemple :les TDA (troubles de déficit de l’attention), l'hyperactivité, les troubles DYS, l'autisme, les troubles de la mémoire ou la trisomie 21. Source : Haute Autorité de Santé."
+        "explanation": "Un trouble cognitif correspond à une altération d’une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, médicamenteuse ou génétique. On peut citer par exemple :les TDA (troubles de déficit de l’attention), l'hyperactivité, les troubles DYS, l'autisme, les troubles de la mémoire ou la trisomie 21. \nSource : Haute Autorité de Santé."
       },
       {
         "question_type": "QCU",
@@ -505,7 +505,7 @@
         "true_answers": [
           0
         ],
-        "explanation": "Le handicap psychique est la conséquence d'une maladie psychique issue de changements qui affectent la pensée, l'humeur ou le comportement d'une personne, et qui lui causent de la détresse ou de la souffrance. Il n'affecte pas directement les capacités intellectuelles. On peut citer par exemple : les phobies, les addictions, la dépressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophrénie. Source : Agefiph."
+        "explanation": "Le handicap psychique est la conséquence d'une maladie psychique issue de changements qui affectent la pensée, l'humeur ou le comportement d'une personne, et qui lui causent de la détresse ou de la souffrance. Il n'affecte pas directement les capacités intellectuelles. On peut citer par exemple : les phobies, les addictions, la dépressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophrénie. \nSource : Agefiph."
       },
       {
         "question_type": "QCU",
@@ -522,7 +522,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Combien de personnes sont en situation de handicap en France ?",
+        "question": "Combien de personnes sont-elles en situation de handicap en France ?",
         "possible_answers": [
           "2 millions",
           "5 millions",
@@ -536,7 +536,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Quelle est la proportion des handicaps invisibles dans la population française ?",
+        "question": "Quelle est la proportion des handicaps invisibles dans la population française en situation de handicap ?",
         "possible_answers": [
           "40%",
           "60%",
@@ -551,15 +551,15 @@
         "question_type": "QCM",
         "question": "Parmi les éléments suivants, lesquels sont des troubles spécifiques du langage et des apprentissages (ou troubles DYS) ?",
         "possible_answers": [
-          "La dysacousie",
-          "La dyspraxie",
-          "La dyslexie"
+          "A : La dysacousie",
+          "B : La dyspraxie",
+          "C : La dyslexie"
         ],
         "true_answers": [
           1,
           2
         ],
-        "explanation": "La dyspraxie est le trouble de la capacité à exécuter des mouvements déterminés. La dyslexie est le trouble de la lecture. On peut également citer : la dyscalculie : trouble dans les apprentissages numériques; la dysgraphie : difficulté à accomplir les gestes de l'écriture et du dessin; la dysorthographie : également appelé trouble de l'acquisition de l'expression écrite; la dysphasie : trouble lié au développement du langage oral."
+        "explanation": "Les bonnes réponses sont B et C. \nLa dyspraxie est le trouble de la capacité à exécuter des mouvements déterminés. La dyslexie est le trouble de la lecture. On peut également citer : la dyscalculie : trouble dans les apprentissages numériques; la dysgraphie : difficulté à accomplir les gestes de l'écriture et du dessin; la dysorthographie : également appelé trouble de l'acquisition de l'expression écrite; la dysphasie : trouble lié au développement du langage oral."
       }
     ]
   }

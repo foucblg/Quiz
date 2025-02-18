@@ -24,6 +24,7 @@ main {
   min-height: 50vh; /* Hauteur minimale pour le contenu */
   overflow: auto; /* Ajoute un défilement si le contenu est trop long */
   height: 100%;
+  width: 100%;
 }
 
 /* Footer */

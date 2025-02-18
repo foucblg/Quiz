@@ -6,32 +6,38 @@
   margin-top: 5%;
 }
 
+.nb-choice {
+  color: #696969;
+  margin-bottom: 25px;
+}
+
 .answer-box {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
+
 .answer-choice {
   display: flex;
   align-content: center;
   width: 100%;
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 8px;
   padding: 4px;
+  margin: 0 auto;
   align-items: center;
-  vertical-align: middle;
   word-wrap: break-word;
   color: #333333;
 }
 
 .explanation {
-  font-size: 1.2em;
+  font-size: 16px;
   white-space : pre-line;
   color: #333333;
 }
 
 .choice-text {
-  font-size: 1.5em;
+  font-size: 16px;
 }
 
 i {
