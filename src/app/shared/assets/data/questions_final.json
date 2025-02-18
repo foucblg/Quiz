@@ -17,10 +17,10 @@
         "question_type": "QCM",
         "question": "Pour compenser un handicap moteur, il est possible d'utiliser :",
         "possible_answers": [
-          "une commande vocale",
-          "une commande visuelle",
-          "un joystick",
-          "une souris ergonomique"
+          "A : une commande vocale",
+          "B : une commande visuelle",
+          "C : un joystick",
+          "D : une souris ergonomique"
         ],
         "true_answers": [
           0,
@@ -28,7 +28,7 @@
           2,
           3
         ],
-        "explanation": "Le handicap moteur recouvre l’ensemble des troubles pouvant entraîner une atteinte partielle ou totale de la motricité, notamment des membres supérieurs et/ou inférieurs. "
+        "explanation": "Les bonnes réponses sont A, B, C et D. \nLe handicap moteur recouvre l’ensemble des troubles pouvant entraîner une atteinte partielle ou totale de la motricité, notamment des membres supérieurs et/ou inférieurs. "
       },
       {
         "question_type": "QCU",
@@ -96,10 +96,10 @@
         "question_type": "QCM",
         "question": "Une vidéo accessible est une vidéo :",
         "possible_answers": [
-          "pour laquelle l'utilisateur peut stopper et relancer la lecture",
-          "avec des sous-titres",
-          "avec une traduction en LSF (langue des signes)",
-          "avec une audio-description"
+          "A : pour laquelle l'utilisateur peut stopper et relancer la lecture",
+          "B : avec des sous-titres",
+          "C : avec une traduction en LSF (langue des signes)",
+          "D : avec une audio-description"
         ],
         "true_answers": [
           0,
@@ -107,7 +107,7 @@
           2,
           3
         ],
-        "explanation": "La traduction en LSF peut être difficile à mettre en place, car l'image de l'interprète doit être incrustée dans la vidéo."
+        "explanation": "Les bonnes réponses sont A, B, C et D. \nLa traduction en LSF peut être difficile à mettre en place, car l'image de l'interprète doit être incrustée dans la vidéo."
       },
       {
         "question_type": "QCU",
@@ -204,15 +204,15 @@
         "question_type": "QCM",
         "question": "Quel est le rôle des \"feedbacks\" ?",
         "possible_answers": [
-          "Informer l’utilisateur des réussites et erreurs",
-          "Changer certains éléments pour dynamiser l'interface",
-          "Simplifier les interactions entre l'utilisateur et le service"
+          "A : Informer l’utilisateur des réussites et erreurs",
+          "B : Changer certains éléments pour dynamiser l'interface",
+          "C : Simplifier les interactions entre l'utilisateur et le service"
         ],
         "true_answers": [
           0,
           2
         ],
-        "explanation": "Un \"feedback\" est un retour visuel et/ou textuel suite à une action réalisée par l'utilisateur permettant d'informer l'utilisateur sur la conséquence de ses actions."
+        "explanation": "Les bonnes réponses sont A et C. \nUn \"feedback\" est un retour visuel et/ou textuel suite à une action réalisée par l'utilisateur permettant d'informer l'utilisateur sur la conséquence de ses actions."
       },
       {
         "question_type": "QCU",
@@ -459,7 +459,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Combien de personnes ont un handicap visuel en France ?",
+        "question": "Combien de personnes ont-elles un handicap visuel en France ?",
         "possible_answers": [
           "700 000",
           "1,7 millions",
@@ -472,7 +472,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Combien de personnes ont un handicap auditif en France ?",
+        "question": "Combien de personnes ont-elles un handicap auditif en France ?",
         "possible_answers": [
           "Environ 2 millions",
           "Environ 4 millions",
@@ -522,7 +522,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Combien de personnes sont en situation de handicap en France ?",
+        "question": "Combien de personnes sont-elles en situation de handicap en France ?",
         "possible_answers": [
           "2 millions",
           "5 millions",
@@ -536,7 +536,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Quelle est la proportion des handicaps invisibles dans la population française ?",
+        "question": "Quelle est la proportion des handicaps invisibles dans la population française en situation de handicap ?",
         "possible_answers": [
           "40%",
           "60%",
@@ -551,15 +551,15 @@
         "question_type": "QCM",
         "question": "Parmi les éléments suivants, lesquels sont des troubles spécifiques du langage et des apprentissages (ou troubles DYS) ?",
         "possible_answers": [
-          "La dysacousie",
-          "La dyspraxie",
-          "La dyslexie"
+          "A : La dysacousie",
+          "B : La dyspraxie",
+          "C : La dyslexie"
         ],
         "true_answers": [
           1,
           2
         ],
-        "explanation": "La dyspraxie est le trouble de la capacité à exécuter des mouvements déterminés. La dyslexie est le trouble de la lecture. On peut également citer : la dyscalculie : trouble dans les apprentissages numériques; la dysgraphie : difficulté à accomplir les gestes de l'écriture et du dessin; la dysorthographie : également appelé trouble de l'acquisition de l'expression écrite; la dysphasie : trouble lié au développement du langage oral."
+        "explanation": "Les bonnes réponses sont B et C. \nLa dyspraxie est le trouble de la capacité à exécuter des mouvements déterminés. La dyslexie est le trouble de la lecture. On peut également citer : la dyscalculie : trouble dans les apprentissages numériques; la dysgraphie : difficulté à accomplir les gestes de l'écriture et du dessin; la dysorthographie : également appelé trouble de l'acquisition de l'expression écrite; la dysphasie : trouble lié au développement du langage oral."
       }
     ]
   }

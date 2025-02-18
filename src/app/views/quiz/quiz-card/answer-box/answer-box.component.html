@@ -1,3 +1,9 @@
+@if (progressService.currentAnswerValidity()){
+  <p class="nb-choice">Mauvaise réponse</p>
+}
+@else {
+  <p class="nb-choice">Bonne réponse</p>
+}
 <div class="answer-box">
   @for (choice of quiz_segment.possible_answers; track $index) {
     @if (quiz_segment.true_answers.includes($index)) {
