@@ -66,7 +66,7 @@
         "true_answers": [
           2
         ],
-        "explanation": "Il s'agit de l'ARCOM (Autorité de régulation de la communication audiovisuelle et numériququi est une autorité publique indépendante."
+        "explanation": "Il s'agit de l'ARCOM (Autorité de régulation de la communication audiovisuelle et numérique) qui est une autorité publique indépendante."
       },
       {
         "question_type": "QCU",
@@ -198,7 +198,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "La phase de prototypage permet de tester certaines idée par un exemple incomplet et non définitif de ce que pourra être le produit ou l'objet final."
+        "explanation": "La phase de prototypage permet de tester certaines idées par un exemple incomplet et non définitif de ce que pourra être le produit ou l'objet final."
       },
       {
         "question_type": "QCM",
@@ -365,7 +365,7 @@
         "true_answers": [
           1
         ],
-        "explanation": "En 2022, 48% des Français ont déclaré rencontrer des difficultés avec le numérique, soit 13% de plus qu'en 2020. Source : Baromètre du numérique 2023"
+        "explanation": "En 2022, 48% des Français ont déclaré rencontrer des difficultés avec le numérique, soit 13% de plus qu'en 2020. \nSource : Baromètre du numérique 2023"
       },
       {
         "question_type": "QCU",

@@ -1,11 +1,10 @@
 :host {
   display: flex;
   flex-direction: column;
-  gap: 2%;
   text-align: center;
   justify-content: space-between;
   height: 100%;
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
 
@@ -13,8 +12,6 @@
   display: flex;
   flex-direction: column;
   align-content: center;
-  gap: 16px;
-  padding-top: 2%;
   height: 100%;
 }
 
@@ -25,11 +22,20 @@
 .presentation-section h2 {
   font-size: 24px;
   font-weight: normal;
-}
-.presentation-section p-image {
-  margin: auto;
+  margin-bottom: 45px;
 }
 
+.presentation-section p {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 45px;
+  margin-top: 45px;
+}
+
+
+p-image {
+  margin: 0px;
+}
 .lower-section{
   text-align: center;
   display: flex;
@@ -42,10 +48,11 @@
   display: flex;
   flex-direction: row;
   border-radius: 8px;
-  border: 2px solid gray;
+  border: 1px solid #333333;
   align-items: center;
   width: 200px;
   margin-right: 16px;
+  height: 40px;
 }
 
 .start-div {
@@ -60,6 +67,7 @@
 p-divider{
   padding-top: 10px;
   padding-bottom: 10px;
+  width:80%;
 }
 
 

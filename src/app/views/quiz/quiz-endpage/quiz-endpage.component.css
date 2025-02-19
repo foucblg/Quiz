@@ -48,6 +48,11 @@ p-button{
   margin-right: 16px;
 }
 
-h1, h2, span {
+h1, h2, span, p {
   color: #333333;
+}
+
+p {
+  font-size: 24px;
+  margin-top: 50px;
 }
