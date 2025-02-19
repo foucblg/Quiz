@@ -82,7 +82,7 @@
       },
       {
         "question_type": "QCU",
-        "question": "Les documents bureautiques sont soumis au RGAA :  ?",
+        "question": "Les documents bureautiques sont soumis au RGAA ?",
         "possible_answers": [
           "Vrai",
           "Faux"
