@@ -39,7 +39,7 @@ export class ProgressService {
   goToEnd() {
     /* Envoie sur la page de fin */
     this.hasEnded.set(true);
-    this.router.navigate(["quiz", "end"], { replaceUrl: true });
+    this.router.navigate(["quiz", "fin"], { replaceUrl: true });
   }
 
   goToNext() {
@@ -49,7 +49,7 @@ export class ProgressService {
       this.questionNumber.update(n => n + 1);
       this.answered.set(false);
       this.router.navigate(["quiz", this.questionNumber().toString()], {
-        queryParams: { theme: this.dataService.currentTopic(), theme_id: this.dataService.currentQuestionId(), answered: false },
+        queryParams: { thème: this.dataService.currentTopic(), thème_id: this.dataService.currentQuestionId(), répondu: "faux" },
         replaceUrl: this.questionNumber() > 0,
       });
     } else {
@@ -70,7 +70,7 @@ export class ProgressService {
       [],
       {
         relativeTo: this.route,
-        queryParams: { answered: true },
+        queryParams: { répondu: "vrai" },
         queryParamsHandling: 'merge', // remove to replace all query params by provided
         replaceUrl: true,
       }
