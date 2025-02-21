@@ -108,6 +108,7 @@ import {
   defaultIfEmpty,
   defer,
   effect,
+  enableProdMode,
   filter,
   finalize,
   first,
@@ -166,6 +167,7 @@ import {
   viewChild,
   ɵsetClassDebugInfo,
   ɵɵInheritDefinitionFeature,
+  ɵɵInputTransformsFeature,
   ɵɵNgOnChangesFeature,
   ɵɵProvidersFeature,
   ɵɵadvance,
@@ -229,7 +231,7 @@ import {
   ɵɵtwoWayProperty,
   ɵɵviewQuery,
   ɵɵviewQuerySignal
-} from "./chunk-CBQK2STV.js";
+} from "./chunk-EHJ3O7LD.js";
 
 // node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
 var GenericBrowserDomAdapter = class extends DomAdapter {
@@ -1952,7 +1954,7 @@ var HydrationFeatureKind;
   HydrationFeatureKind2[HydrationFeatureKind2["EventReplay"] = 3] = "EventReplay";
   HydrationFeatureKind2[HydrationFeatureKind2["IncrementalHydration"] = 4] = "IncrementalHydration";
 })(HydrationFeatureKind || (HydrationFeatureKind = {}));
-var VERSION = new Version("19.1.7");
+var VERSION = new Version("19.1.6");
 
 // node_modules/@angular/platform-browser/fesm2022/animations/async.mjs
 var ANIMATION_PREFIX = "@";
@@ -1988,7 +1990,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-6HOSKHW7.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-4RYBSUPD.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -7041,7 +7043,7 @@ var RouterLink = class _RouterLink {
       replaceUrl: [2, "replaceUrl", "replaceUrl", booleanAttribute],
       routerLink: "routerLink"
     },
-    features: [\u0275\u0275NgOnChangesFeature]
+    features: [\u0275\u0275InputTransformsFeature, \u0275\u0275NgOnChangesFeature]
   });
 };
 (() => {
@@ -7881,7 +7883,7 @@ function provideRouterInitializer() {
     }
   ];
 }
-var VERSION2 = new Version("19.1.7");
+var VERSION2 = new Version("19.1.6");
 function getLoadedRoutes(route) {
   return route._loadedRoutes;
 }
@@ -11376,7 +11378,7 @@ var AutoFocus = class _AutoFocus extends BaseComponent {
       autofocus: [2, "autofocus", "autofocus", booleanAttribute],
       _autofocus: [0, "pAutoFocus", "_autofocus"]
     },
-    features: [void 0, \u0275\u0275InheritDefinitionFeature]
+    features: [\u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature]
   });
 };
 (() => {
@@ -12052,7 +12054,7 @@ var BaseIcon = class _BaseIcon extends BaseComponent {
       spin: [2, "spin", "spin", booleanAttribute],
       styleClass: "styleClass"
     },
-    features: [\u0275\u0275ProvidersFeature([BaseIconStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([BaseIconStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     ngContentSelectors: _c02,
     decls: 1,
     vars: 0,
@@ -14681,7 +14683,7 @@ var ButtonDirective = class _ButtonDirective extends BaseComponent {
       icon: "icon",
       buttonProps: "buttonProps"
     },
-    features: [\u0275\u0275ProvidersFeature([ButtonStyle]), void 0, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature]
+    features: [\u0275\u0275ProvidersFeature([ButtonStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature]
   });
 };
 (() => {
@@ -15068,7 +15070,7 @@ var Button = class _Button extends BaseComponent {
       onFocus: "onFocus",
       onBlur: "onBlur"
     },
-    features: [\u0275\u0275ProvidersFeature([ButtonStyle]), void 0, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
+    features: [\u0275\u0275ProvidersFeature([ButtonStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
     ngContentSelectors: _c3,
     decls: 7,
     vars: 14,
@@ -15922,7 +15924,7 @@ var ProgressBar = class _ProgressBar extends BaseComponent {
       mode: "mode",
       color: "color"
     },
-    features: [\u0275\u0275ProvidersFeature([ProgressBarStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([ProgressBarStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     decls: 3,
     vars: 14,
     consts: [["role", "progressbar", 3, "ngStyle", "ngClass"], ["style", "display:flex", 3, "ngClass", "class", "width", "background", 4, "ngIf"], [3, "ngClass", "class", 4, "ngIf"], [2, "display", "flex", 3, "ngClass"], [1, "p-progressbar-label"], [3, "display", 4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [1, "p-progressbar-value", "p-progressbar-value-animate"]],
@@ -16763,7 +16765,7 @@ var ToastItem = class _ToastItem extends BaseComponent {
     outputs: {
       onClose: "onClose"
     },
-    features: [\u0275\u0275ProvidersFeature([ToastStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([ToastStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     decls: 4,
     vars: 15,
     consts: [["container", ""], ["role", "alert", "aria-live", "assertive", "aria-atomic", "true", 3, "mouseenter", "mouseleave", "ngClass"], [3, "ngClass", "class"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [4, "ngIf"], [3, "ngClass", 4, "ngIf"], ["type", "button", "autofocus", "", 3, "click", "keydown.enter", "ariaLabel"]],
@@ -17241,7 +17243,7 @@ var Toast = class _Toast extends BaseComponent {
     outputs: {
       onClose: "onClose"
     },
-    features: [\u0275\u0275ProvidersFeature([ToastStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([ToastStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     decls: 3,
     vars: 7,
     consts: [["container", ""], [3, "ngClass", "ngStyle"], [3, "message", "index", "life", "template", "headlessTemplate", "showTransformOptions", "hideTransformOptions", "showTransitionOptions", "hideTransitionOptions", "onClose", 4, "ngFor", "ngForOf"], [3, "onClose", "message", "index", "life", "template", "headlessTemplate", "showTransformOptions", "hideTransformOptions", "showTransitionOptions", "hideTransitionOptions"]],
@@ -18081,7 +18083,7 @@ var FocusTrap = class _FocusTrap extends BaseComponent {
     inputs: {
       pFocusTrapDisabled: [2, "pFocusTrapDisabled", "pFocusTrapDisabled", booleanAttribute]
     },
-    features: [void 0, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature]
+    features: [\u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature]
   });
 };
 (() => {
@@ -19046,7 +19048,7 @@ var Image = class _Image extends BaseComponent {
       onHide: "onHide",
       onImageError: "onImageError"
     },
-    features: [\u0275\u0275ProvidersFeature([ImageStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([ImageStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     decls: 5,
     vars: 11,
     consts: [["previewButton", ""], ["defaultTemplate", ""], ["mask", ""], ["closeButton", ""], [3, "ngClass", "ngStyle"], [4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["type", "button", "class", "p-image-preview-mask", 3, "ngStyle", "click", 4, "ngIf"], ["class", "p-image-mask p-overlay-mask p-overlay-mask-enter", "role", "dialog", "pFocusTrap", "", 3, "click", "keydown", 4, "ngIf"], [3, "error", "ngStyle"], ["type", "button", 1, "p-image-preview-mask", 3, "click", "ngStyle"], [4, "ngIf", "ngIfElse"], [4, "ngTemplateOutlet"], [3, "styleClass"], ["role", "dialog", "pFocusTrap", "", 1, "p-image-mask", "p-overlay-mask", "p-overlay-mask-enter", 3, "click", "keydown"], [1, "p-image-toolbar", 3, "click"], ["type", "button", 1, "p-image-action", "p-image-rotate-right-button", 3, "click"], ["type", "button", 1, "p-image-action", "p-image-rotate-left-button", 3, "click"], ["type", "button", 3, "click", "ngClass", "disabled"], ["type", "button", 1, "p-image-action", "p-image-close-button", 3, "click"], [1, "p-image-original", 3, "click", "ngStyle"]],
@@ -19353,7 +19355,7 @@ var NavbarComponent = class _NavbarComponent {
       \u0275\u0275advance();
       \u0275\u0275property("width", "120px");
     }
-  }, dependencies: [ImageModule, Image, DividerModule, Divider], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:row;align-items:center;justify-content:start;height:100%;width:100%;box-shadow:#63636329 0 10px 20px}.title[_ngcontent-%COMP%]{font-weight:400;text-overflow:ellipsis;white-space:nowrap;padding:16px;font-size:15px;color:var(--p-gray-700)}a[_ngcontent-%COMP%]{text-decoration:none}.intlogo[_ngcontent-%COMP%]{padding:1px 30px 0 53px;color:#696969}"] });
+  }, dependencies: [ImageModule, Image, DividerModule, Divider], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: start;\n  height: 100%;\n  width: 100%;\n  box-shadow: rgba(99, 99, 99, 0.16) 0px 10px 20px;\n}\n.title[_ngcontent-%COMP%] {\n  font-weight: normal;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  padding: 16px;\n  font-size: 15px;\n  color: var(--p-gray-700);\n}\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.intlogo[_ngcontent-%COMP%] {\n  padding: 1px 30px 0px 53px;\n  color: #696969;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NavbarComponent, { className: "NavbarComponent", filePath: "src/app/views/navbar/navbar.component.ts", lineNumber: 11 });
@@ -19395,7 +19397,7 @@ var AppComponent = class _AppComponent {
       \u0275\u0275text(30, "Un site de la M\xE9tropole de Lyon");
       \u0275\u0275elementEnd()()()()()()();
     }
-  }, dependencies: [CommonModule, RouterOutlet, NavbarComponent], styles: [".app-container[_ngcontent-%COMP%]{display:flex;flex-direction:column;min-height:100vh;height:100%}.navbar-div[_ngcontent-%COMP%]{height:61px}main[_ngcontent-%COMP%]{flex:1;display:flex;flex-direction:column;height:100%}.quiz-div[_ngcontent-%COMP%]{flex:1;min-height:50vh;overflow:auto;height:100%;width:100%}footer[_ngcontent-%COMP%]{height:40px;display:flex;justify-content:space-between;align-items:center;background-color:#000;color:#fff;padding:0 28px;font-size:12px;width:100%;margin-top:auto}footer[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]{list-style-type:none;padding:0;margin:0;display:flex;gap:12px}footer[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]{display:inline-block}footer[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]{display:flex;color:#fff!important;text-decoration:none;align-items:center;vertical-align:middle}footer[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%]{display:flex;align-items:center}footer[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]{height:20px;margin-right:5px}"] });
+  }, dependencies: [CommonModule, RouterOutlet, NavbarComponent], styles: ["\n\n.app-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  height: 100%;\n}\n.navbar-div[_ngcontent-%COMP%] {\n  height: 61px;\n}\nmain[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.quiz-div[_ngcontent-%COMP%] {\n  flex: 1;\n  min-height: 50vh;\n  overflow: auto;\n  height: 100%;\n  width: 100%;\n}\nfooter[_ngcontent-%COMP%] {\n  height: 40px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background-color: black;\n  color: white;\n  padding: 0 28px;\n  font-size: 12px;\n  width: 100%;\n  margin-top: auto;\n}\nfooter[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  gap: 12px;\n}\nfooter[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: inline-block;\n}\nfooter[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: flex;\n  color: white !important;\n  text-decoration: none;\n  align-items: center;\n  vertical-align: middle;\n}\nfooter[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n}\nfooter[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 20px;\n  margin-right: 5px;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 14 });
@@ -23660,9 +23662,7 @@ var FormGroupDirective = class _FormGroupDirective extends ControlContainer {
   }
   /** @nodoc */
   ngOnChanges(changes) {
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && !this.form) {
-      throw missingFormException();
-    }
+    this._checkFormPresent();
     if (changes.hasOwnProperty("form")) {
       this._updateValidators();
       this._updateDomValue();
@@ -23884,6 +23884,11 @@ var FormGroupDirective = class _FormGroupDirective extends ControlContainer {
     setUpValidators(this.form, this);
     if (this._oldForm) {
       cleanUpValidators(this._oldForm, this);
+    }
+  }
+  _checkFormPresent() {
+    if (!this.form && (typeof ngDevMode === "undefined" || ngDevMode)) {
+      throw missingFormException();
     }
   }
   static \u0275fac = function FormGroupDirective_Factory(__ngFactoryType__) {
@@ -25970,7 +25975,7 @@ var UntypedFormBuilder = class _UntypedFormBuilder extends FormBuilder {
     }]
   }], null, null);
 })();
-var VERSION3 = new Version("19.1.7");
+var VERSION3 = new Version("19.1.6");
 var FormsModule = class _FormsModule {
   /**
    * @description
@@ -26505,7 +26510,7 @@ var RadioButton = class _RadioButton extends BaseComponent {
       onFocus: "onFocus",
       onBlur: "onBlur"
     },
-    features: [\u0275\u0275ProvidersFeature([RADIO_VALUE_ACCESSOR2, RadioButtonStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([RADIO_VALUE_ACCESSOR2, RadioButtonStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     decls: 5,
     vars: 24,
     consts: [["input", ""], [3, "ngStyle", "ngClass"], ["type", "radio", 1, "p-radiobutton-input", 3, "focus", "blur", "change", "checked", "disabled", "value", "pAutoFocus"], [1, "p-radiobutton-box"], [1, "p-radiobutton-icon"]],
@@ -27243,7 +27248,7 @@ var Checkbox = class _Checkbox extends BaseComponent {
       onFocus: "onFocus",
       onBlur: "onBlur"
     },
-    features: [\u0275\u0275ProvidersFeature([CHECKBOX_VALUE_ACCESSOR2, CheckboxStyle]), void 0, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
+    features: [\u0275\u0275ProvidersFeature([CHECKBOX_VALUE_ACCESSOR2, CheckboxStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
     decls: 6,
     vars: 29,
     consts: [["input", ""], [3, "ngClass"], ["type", "checkbox", 3, "focus", "blur", "change", "value", "checked", "disabled", "readonly", "ngClass"], [1, "p-checkbox-box"], [4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "styleClass", 4, "ngIf"], ["class", "p-checkbox-icon", 3, "ngClass", 4, "ngIf"], [1, "p-checkbox-icon", 3, "ngClass"], [3, "styleClass"]],
@@ -29061,7 +29066,7 @@ var Dialog = class _Dialog extends BaseComponent {
       onDragEnd: "onDragEnd",
       onMaximize: "onMaximize"
     },
-    features: [\u0275\u0275ProvidersFeature([DialogStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([DialogStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     ngContentSelectors: _c92,
     decls: 1,
     vars: 1,
@@ -29595,7 +29600,7 @@ var ChoiceBoxComponent = class _ChoiceBoxComponent {
       \u0275\u0275property("modal", false)("closable", false);
       \u0275\u0275twoWayProperty("visible", ctx.dialogVisible);
     }
-  }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RadioButtonModule, RadioButton, CheckboxModule, Checkbox, DialogModule, Dialog, ButtonModule, Button], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:column;height:100%;width:100%;margin-top:5%}.nb-choice[_ngcontent-%COMP%]{color:#696969;margin-bottom:25px}.answer-box[_ngcontent-%COMP%]{display:flex;flex-direction:column;gap:16px}.answer-choice[_ngcontent-%COMP%]{display:flex;align-content:center;width:100%;border:1px solid #929292;border-radius:8px;padding:4px;margin:0 auto;align-items:center;word-wrap:break-word;color:#333}.radio[_ngcontent-%COMP%]{padding-left:15px;padding-right:15px;--p-radiobutton-icon-vertical-align: middle;--p-radiobutton-vertical-align: middle;--p-radiobutton-box-vertical-align: middle;--p-radiobutton-icon-align-items: center;--p-radiobutton-box-align-items: center;--p-radiobutton-align-items: center;--p-radiobutton-display: inline-block;--p-radiobutton-height: 24px;--p-radiobutton-width: 24px;--p-radiobutton-icon-size: 16px;--p-radiobutton-icon-checked-color:#333333;--p-radiobutton-icon-checked-hover-color:#333333;--p-radiobutton-border-color:#333333;--p-radiobutton-hover-border-color:#333333;--p-radiobutton-checked-border-color:#333333;--p-radiobutton-checked-hover-border-color:#333333}.check[_ngcontent-%COMP%]{padding-left:15px;padding-right:15px;--p-checkbox-checked-focus-border-color:#333333;--p-checkbox-checked-hover-border-color:#333333;--p-checkbox-checked-border-color:#333333;--p-checkbox-hover-border-color:#333333;--p-checkbox-border-color:#333333;--p-checkbox-checked-background:#333333;--p-checkbox-checked-hover-background:#333333}.answer-choice[_ngcontent-%COMP%]:hover{border:1px solid #333333;box-shadow:#0000001a 0 12px 24px}.answer-choice[_ngcontent-%COMP%]:has(:checked){border:1px solid #0073e9;box-shadow:#0000001a 0 12px 24px}.choice-text[_ngcontent-%COMP%]{display:inline-block;vertical-align:middle;align-items:middle;text-align:middle;font-size:16px}.div-error[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;align-content:center;vertical-align:middle;color:#333}.bouton-error[_ngcontent-%COMP%]{--p-button-padding-x: 64px}.p-error[_ngcontent-%COMP%]{--p-dialog-colo:#333333}"] });
+  }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RadioButtonModule, RadioButton, CheckboxModule, Checkbox, DialogModule, Dialog, ButtonModule, Button], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin-top: 5%;\n}\n.nb-choice[_ngcontent-%COMP%] {\n  color: #696969;\n  margin-bottom: 25px;\n}\n.answer-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.answer-choice[_ngcontent-%COMP%] {\n  display: flex;\n  align-content: center;\n  width: 100%;\n  border: 1px solid #929292;\n  border-radius: 8px;\n  padding: 4px;\n  margin: 0 auto;\n  align-items: center;\n  word-wrap: break-word;\n  color: #333333;\n}\n.radio[_ngcontent-%COMP%] {\n  padding-left: 15px;\n  padding-right: 15px;\n  --p-radiobutton-icon-vertical-align: middle;\n  --p-radiobutton-vertical-align: middle;\n  --p-radiobutton-box-vertical-align: middle;\n  --p-radiobutton-icon-align-items: center;\n  --p-radiobutton-box-align-items: center;\n  --p-radiobutton-align-items: center;\n  --p-radiobutton-display: inline-block;\n  --p-radiobutton-height: 24px;\n  --p-radiobutton-width: 24px;\n  --p-radiobutton-icon-size: 16px;\n  --p-radiobutton-icon-checked-color:#333333;\n  --p-radiobutton-icon-checked-hover-color:#333333;\n  --p-radiobutton-border-color:#333333;\n  --p-radiobutton-hover-border-color:#333333;\n  --p-radiobutton-checked-border-color:#333333;\n  --p-radiobutton-checked-hover-border-color:#333333;\n}\n.check[_ngcontent-%COMP%] {\n  padding-left: 15px;\n  padding-right: 15px;\n  --p-checkbox-border-color:#333333;\n  --p-checkbox-checked-focus-border-color:#333333;\n  --p-checkbox-checked-hover-border-color:#333333;\n  --p-checkbox-checked-border-color:#333333;\n  --p-checkbox-hover-border-color:#333333;\n  --p-checkbox-border-color:#333333;\n  --p-checkbox-checked-background:#333333;\n  --p-checkbox-checked-hover-background:#333333;\n}\n.answer-choice[_ngcontent-%COMP%]:hover {\n  border: 1px solid #333333;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.answer-choice[_ngcontent-%COMP%]:has(:checked) {\n  border: 1px solid #0073e9;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.choice-text[_ngcontent-%COMP%] {\n  display: inline-block;\n  vertical-align: middle;\n  align-items: middle;\n  text-align: middle;\n  font-size: 16px;\n}\n.div-error[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  align-content: center;\n  vertical-align: middle;\n  color: #333333;\n}\n.bouton-error[_ngcontent-%COMP%] {\n  --p-button-padding-x: 64px;\n}\n.p-error[_ngcontent-%COMP%] {\n  --p-dialog-colo:#333333;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ChoiceBoxComponent, { className: "ChoiceBoxComponent", filePath: "src/app/views/quiz/quiz-card/choice-box/choice-box.component.ts", lineNumber: 17 });
@@ -29691,7 +29696,7 @@ var AnswerBoxComponent = class _AnswerBoxComponent {
       \u0275\u0275advance(3);
       \u0275\u0275textInterpolate(ctx.quiz_segment.explanation);
     }
-  }, dependencies: [ReactiveFormsModule, RadioButtonModule, CheckboxModule], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:column;height:100%;width:100%;margin-top:5%}.nb-choice[_ngcontent-%COMP%]{color:#696969;margin-bottom:25px}.answer-box[_ngcontent-%COMP%]{display:flex;flex-direction:column;gap:16px}.answer-choice[_ngcontent-%COMP%]{display:flex;align-content:center;width:100%;border:1px solid black;border-radius:8px;padding:4px;margin:0 auto;align-items:center;word-wrap:break-word;color:#333}.explanation[_ngcontent-%COMP%]{font-size:16px;white-space:pre-line;color:#333}.choice-text[_ngcontent-%COMP%]{font-size:16px}i[_ngcontent-%COMP%]{font-size:24px;padding-left:15px;padding-right:15px}.correct[_ngcontent-%COMP%]{border-color:var(--p-green-500)}.correct[_ngcontent-%COMP%]   i[_ngcontent-%COMP%]{color:var(--p-green-500)}.wrong[_ngcontent-%COMP%]{border-color:var(--p-red-500)}.wrong[_ngcontent-%COMP%]   i[_ngcontent-%COMP%]{color:var(--p-red-500)}.neutral[_ngcontent-%COMP%]{border-color:var(--p-gray-500)}.neutral[_ngcontent-%COMP%]   i[_ngcontent-%COMP%]{color:var(--p-gray-500)}"] });
+  }, dependencies: [ReactiveFormsModule, RadioButtonModule, CheckboxModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin-top: 5%;\n}\n.nb-choice[_ngcontent-%COMP%] {\n  color: #696969;\n  margin-bottom: 25px;\n}\n.answer-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.answer-choice[_ngcontent-%COMP%] {\n  display: flex;\n  align-content: center;\n  width: 100%;\n  border: 1px solid black;\n  border-radius: 8px;\n  padding: 4px;\n  margin: 0 auto;\n  align-items: center;\n  word-wrap: break-word;\n  color: #333333;\n}\n.explanation[_ngcontent-%COMP%] {\n  font-size: 16px;\n  white-space: pre-line;\n  color: #333333;\n}\n.choice-text[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\ni[_ngcontent-%COMP%] {\n  font-size: 24px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n.correct[_ngcontent-%COMP%] {\n  border-color: var(--p-green-500);\n}\n.correct[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-green-500);\n}\n.wrong[_ngcontent-%COMP%] {\n  border-color: var(--p-red-500);\n}\n.wrong[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-red-500);\n}\n.neutral[_ngcontent-%COMP%] {\n  border-color: var(--p-gray-500);\n}\n.neutral[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-gray-500);\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AnswerBoxComponent, { className: "AnswerBoxComponent", filePath: "src/app/views/quiz/quiz-card/answer-box/answer-box.component.ts", lineNumber: 14 });
@@ -29743,7 +29748,7 @@ var QuizCardComponent = class _QuizCardComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional(!ctx.progressService.answered() ? 5 : 6);
     }
-  }, dependencies: [ChoiceBoxComponent, AnswerBoxComponent], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:column;height:100%;width:600px;margin:0 auto}h1[_ngcontent-%COMP%]{color:#333}.theme[_ngcontent-%COMP%]{justify-self:start;background-color:var(--p-primary-100);color:var(--p-primary-500);width:fit-content;padding:4px;border-radius:4px;margin-bottom:8px}.question[_ngcontent-%COMP%]{text-align:left;font-size:24px}"] });
+  }, dependencies: [ChoiceBoxComponent, AnswerBoxComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 600px;\n  margin: 0 auto;\n}\nh1[_ngcontent-%COMP%] {\n  color: #333333;\n}\n.theme[_ngcontent-%COMP%] {\n  justify-self: start;\n  background-color: var(--p-primary-100);\n  color: var(--p-primary-500);\n  width: fit-content;\n  padding: 4px;\n  border-radius: 4px;\n  margin-bottom: 8px;\n}\n.question[_ngcontent-%COMP%] {\n  text-align: left;\n  font-size: 24px;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizCardComponent, { className: "QuizCardComponent", filePath: "src/app/views/quiz/quiz-card/quiz-card.component.ts", lineNumber: 14 });
@@ -29847,7 +29852,7 @@ var QuizEndpageComponent = class _QuizEndpageComponent {
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.progressService.score() / ctx.rapport < 1 ? 5 : ctx.progressService.score() / ctx.rapport < 2 ? 6 : ctx.progressService.score() / ctx.rapport < 3 ? 7 : ctx.progressService.score() / ctx.rapport < 4 ? 8 : 9);
     }
-  }, dependencies: [ButtonModule, Button, Divider], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:column;height:100%;width:100%;margin:16px}.header[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:70px}span[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:350px}.lower-section[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:auto;position:relative;bottom:0}.start-div[_ngcontent-%COMP%]{display:flex;flex-direction:row;align-items:center;justify-content:center}.divider[_ngcontent-%COMP%]{padding-bottom:20px}p-button[_ngcontent-%COMP%]{margin-left:16px;margin-right:16px}h1[_ngcontent-%COMP%], h2[_ngcontent-%COMP%], span[_ngcontent-%COMP%], p[_ngcontent-%COMP%]{color:#333}p[_ngcontent-%COMP%]{font-size:24px;margin-top:50px}"] });
+  }, dependencies: [ButtonModule, Button, Divider], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin: 16px;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 70px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 350px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\n.divider[_ngcontent-%COMP%] {\n  padding-bottom: 20px;\n}\np-button[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n  margin-top: 50px;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizEndpageComponent, { className: "QuizEndpageComponent", filePath: "src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts", lineNumber: 13 });
@@ -30059,7 +30064,7 @@ var BlockUI = class _BlockUI extends BaseComponent {
       styleClass: "styleClass",
       blocked: [2, "blocked", "blocked", booleanAttribute]
     },
-    features: [\u0275\u0275ProvidersFeature([BlockUiStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([BlockUiStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     ngContentSelectors: _c27,
     decls: 4,
     vars: 11,
@@ -30363,7 +30368,7 @@ var InputText = class _InputText extends BaseComponent {
       fluid: [2, "fluid", "fluid", booleanAttribute],
       pSize: "pSize"
     },
-    features: [\u0275\u0275ProvidersFeature([InputTextStyle]), void 0, \u0275\u0275InheritDefinitionFeature]
+    features: [\u0275\u0275ProvidersFeature([InputTextStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature]
   });
 };
 (() => {
@@ -32288,7 +32293,7 @@ var InputNumber = class _InputNumber extends BaseComponent {
       onKeyDown: "onKeyDown",
       onClear: "onClear"
     },
-    features: [\u0275\u0275ProvidersFeature([INPUTNUMBER_VALUE_ACCESSOR, InputNumberStyle]), void 0, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
+    features: [\u0275\u0275ProvidersFeature([INPUTNUMBER_VALUE_ACCESSOR, InputNumberStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
     decls: 6,
     vars: 32,
     consts: [["input", ""], ["pInputText", "", "role", "spinbutton", "inputmode", "decimal", 3, "input", "keydown", "keypress", "paste", "click", "focus", "blur", "ngClass", "ngStyle", "value", "variant", "disabled", "readonly", "pSize", "pAutoFocus", "fluid"], [4, "ngIf"], ["class", "p-inputnumber-button-group", 4, "ngIf"], ["type", "button", "tabindex", "-1", 3, "ngClass", "class", "disabled", "mousedown", "mouseup", "mouseleave", "keydown", "keyup", 4, "ngIf"], [3, "ngClass", "click", 4, "ngIf"], ["class", "p-inputnumber-clear-icon", 3, "click", 4, "ngIf"], [3, "click", "ngClass"], [1, "p-inputnumber-clear-icon", 3, "click"], [4, "ngTemplateOutlet"], [1, "p-inputnumber-button-group"], ["type", "button", "tabindex", "-1", 3, "mousedown", "mouseup", "mouseleave", "keydown", "keyup", "ngClass", "disabled"], [3, "ngClass", 4, "ngIf"], [3, "ngClass"]],
@@ -33355,7 +33360,7 @@ var Panel = class _Panel extends BaseComponent {
       onBeforeToggle: "onBeforeToggle",
       onAfterToggle: "onAfterToggle"
     },
-    features: [\u0275\u0275ProvidersFeature([PanelStyle]), void 0, \u0275\u0275InheritDefinitionFeature],
+    features: [\u0275\u0275ProvidersFeature([PanelStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     ngContentSelectors: _c73,
     decls: 8,
     vars: 25,
@@ -33731,7 +33736,7 @@ var QuizHomepageComponent = class _QuizHomepageComponent {
       \u0275\u0275advance();
       \u0275\u0275property("disabled", ctx.iNumberOfQuestions == ctx.possibleNumberOfQuestionsPerTopic.length - 1);
     }
-  }, dependencies: [ButtonModule, Button, DividerModule, Divider, PanelModule, InputNumberModule, BlockUIModule, ImageModule, Image], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:column;text-align:center;justify-content:space-between;height:100%;width:100%;margin:auto}.presentation-section[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-content:center;height:100%}.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%]{font-size:28px;font-weight:400}.presentation-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%]{font-size:24px;font-weight:400;margin-bottom:45px}.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%]{font-size:16px;font-weight:400;margin-bottom:45px;margin-top:45px}p-image[_ngcontent-%COMP%]{margin:0}.lower-section[_ngcontent-%COMP%]{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.n-questions-selector[_ngcontent-%COMP%]{display:flex;flex-direction:row;border-radius:8px;border:1px solid #333333;align-items:center;width:200px;margin-right:16px;height:40px}.start-div[_ngcontent-%COMP%]{display:flex;flex-direction:row;align-items:center;justify-content:center;height:100%;width:100%}p-divider[_ngcontent-%COMP%]{padding-top:10px;padding-bottom:10px;width:80%}.selector-buttons[_ngcontent-%COMP%]{flex-grow:1;display:grid;gap:4px;grid-auto-flow:column;grid-template-columns:1fr 1.2fr 1fr;padding:8px;align-items:center}.n-questions-text[_ngcontent-%COMP%]{height:100%;width:100%;border-radius:4px;justify-content:center;align-content:center;height:24px;width:24px;border:1px solid gray;background-color:var(--p-gray-200)}  .start-game-button button{width:200px;height:40px;margin-left:16px}  .selector-buttons button{width:24px;height:24px}p[_ngcontent-%COMP%], h1[_ngcontent-%COMP%], h2[_ngcontent-%COMP%]{color:#333}"] });
+  }, dependencies: [ButtonModule, Button, DividerModule, Divider, PanelModule, InputNumberModule, BlockUIModule, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.presentation-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  height: 100%;\n}\n.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: normal;\n}\n.presentation-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: 24px;\n  font-weight: normal;\n  margin-bottom: 45px;\n}\n.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: normal;\n  margin-bottom: 45px;\n  margin-top: 45px;\n}\np-image[_ngcontent-%COMP%] {\n  margin: 0px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.n-questions-selector[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  align-items: center;\n  width: 200px;\n  margin-right: 16px;\n  height: 40px;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n}\np-divider[_ngcontent-%COMP%] {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  width: 80%;\n}\n.selector-buttons[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  display: grid;\n  gap: 4px;\n  grid-auto-flow: column;\n  grid-template-columns: 1fr 1.2fr 1fr;\n  padding: 8px;\n  align-items: center;\n}\n.n-questions-text[_ngcontent-%COMP%] {\n  height: 100%;\n  width: 100%;\n  border-radius: 4px;\n  justify-content: center;\n  align-content: center;\n  height: 24px;\n  width: 24px;\n  border: 1px solid gray;\n  background-color: var(--p-gray-200);\n}\n  .start-game-button button {\n  width: 200px;\n  height: 40px;\n  margin-left: 16px;\n}\n  .selector-buttons button {\n  width: 24px;\n  height: 24px;\n}\np[_ngcontent-%COMP%], \nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  color: #333333;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizHomepageComponent, { className: "QuizHomepageComponent", filePath: "src/app/views/quiz/quiz-homepage/quiz-homepage.component.ts", lineNumber: 18 });
@@ -33821,7 +33826,7 @@ var QuizComponent = class _QuizComponent {
     if (rf & 2) {
       \u0275\u0275conditional(ctx.progressService.questionNumber() === 0 ? 0 : ctx.progressService.hasEnded() ? 1 : 2);
     }
-  }, dependencies: [CommonModule, ButtonModule, Button, ToastModule, ProgressBarModule, ProgressBar, QuizHomepageComponent, QuizCardComponent, DividerModule, Divider, QuizEndpageComponent], styles: ["[_nghost-%COMP%]{display:flex;flex-direction:column;height:100%;width:100%;padding:16px}.quiz[_ngcontent-%COMP%]{display:flex;flex-direction:column;height:100%;width:80%;margin:auto;align-items:center;justify-content:start}.progress[_ngcontent-%COMP%]{width:100%;margin:2% auto;display:grid;grid-template-columns:fit-content(100%) auto;column-gap:2%;row-gap:0%;align-items:center;color:var(--p-primary-500)}.progress-bar[_ngcontent-%COMP%]{--p-progressbar-label-font-size: 0;--p-progressbar-height: 1vh}.question-text[_ngcontent-%COMP%]{grid-column-start:2;padding:0 0 0 2%;margin:0}.next[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;margin-top:auto;width:100%;position:relative;bottom:0}.divider[_ngcontent-%COMP%]{padding-bottom:20px}.button-page[_ngcontent-%COMP%]{--p-button-padding-x: 39px}"] });
+  }, dependencies: [CommonModule, ButtonModule, Button, ToastModule, ProgressBarModule, ProgressBar, QuizHomepageComponent, QuizCardComponent, DividerModule, Divider, QuizEndpageComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  padding: 16px;\n}\n.quiz[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 80%;\n  margin: auto;\n  align-items: center;\n  justify-content: start;\n}\n.progress[_ngcontent-%COMP%] {\n  width: 100%;\n  margin: 2% auto;\n  display: grid;\n  grid-template-columns: fit-content(100%) auto;\n  column-gap: 2%;\n  row-gap: 0%;\n  align-items: center;\n  color: var(--p-primary-500);\n}\n.progress-bar[_ngcontent-%COMP%] {\n  --p-progressbar-label-font-size: 0;\n  --p-progressbar-height: 1vh;\n}\n.question-text[_ngcontent-%COMP%] {\n  grid-column-start: 2;\n  padding: 0 0 0 2%;\n  margin: 0;\n}\n.next[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: auto;\n  width: 100%;\n  position: relative;\n  bottom: 0px;\n}\n.divider[_ngcontent-%COMP%] {\n  padding-bottom: 20px;\n}\n.button-page[_ngcontent-%COMP%] {\n  --p-button-padding-x: 39px;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizComponent, { className: "QuizComponent", filePath: "src/app/views/quiz/quiz.component.ts", lineNumber: 20 });
@@ -45457,5 +45462,13 @@ var appConfig = {
   ]
 };
 
+// src/environments/environment.ts
+var environment = {
+  production: true
+};
+
 // src/main.ts
+if (environment.production) {
+  enableProdMode();
+}
 bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
