@@ -23,7 +23,7 @@ export class QuizHomepageComponent {
   dataService = inject(DataService);
   numberOfTopics = this.dataService.getNumberOfTopics();
   possibleNumberOfQuestionsPerTopic = [1, 2, 3];
-  iNumberOfQuestions = 0;
+  iNumberOfQuestions = 1;
 
   constructor(
   ) {
@@ -34,5 +34,8 @@ export class QuizHomepageComponent {
 
   adjustNumberOfQuestions(c: number) {
     this.iNumberOfQuestions += c;
+  }
+  getNumberOfQuestions(){
+    return this.iNumberOfQuestions
   }
 }

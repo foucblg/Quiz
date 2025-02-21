@@ -1,10 +1,44 @@
 <div class="header">
   <h1>Le quiz est fini !</h1>
-  <h2>
-    Votre score est de {{ progressService.score() }} /
-    {{ progressService.questionNumber() }}
-  </h2>
+  @if (2*progressService.score()>=progressService.questionNumber()){
+    <h2>
+      Bravo à vous ! Votre score est de {{ progressService.score() }} /
+      {{ progressService.questionNumber() }}
+    </h2>
+  }
+  @else {
+    <h2>
+      Votre score est de {{ progressService.score() }} /
+      {{ progressService.questionNumber() }}
+    </h2>
+  }
+  @if (progressService.score()/rapport < 1){
+    <p>
+      Votre grade est E
+    </p>
+  }
+  @else if (progressService.score()/rapport < 2) {
+    <p>
+      Votre grade est D
+    </p>
+  }
+  @else if (progressService.score()/rapport < 3) {
+    <p>
+      Votre grade est C
+    </p>
+  }
+  @else if (progressService.score()/rapport < 4) {
+    <p>
+      Votre grade est B
+    </p>
+  }
+  @else {
+    <p>
+      Votre grade est A
+    </p>
+  }
 </div>
+
 
 <span>
   Vous pouvez passer à Inclusif, le jeu, ou lancer une autre série de questions.
