@@ -37,15 +37,22 @@
       Votre grade est A
     </p>
   }
+  <p-image
+    src="images/quiz_endpage_image.png"
+    alt="Image de décoration de la page finale du quiz"
+    [imageStyle]="{ objectFit: 'contain' }"
+    width="100%"
+    class = "image-outro"
+  />
 </div>
 
 
 <span>
-  Vous pouvez passer à Inclusif, le jeu, ou lancer une autre série de questions.
+  Vous pouvez désormais passer à « Inclusif, le jeu », ou lancer une autre série de questions.
 </span>
 
 <div class="lower-section">
-  <p-divider class ="divider"/>
+  <p-divider/>
   <div class="start-div">
     <p-button
       (click)="progressService.goToBegining()"

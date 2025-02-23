@@ -1,9 +1,11 @@
 :host {
   display: flex;
   flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
-  margin: 16px;
+  margin: auto;
 }
 
 .header{
@@ -14,12 +16,16 @@
   padding-top: 70px;
 }
 
+p-image {
+  padding-top: 50px;
+}
+
 span{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 350px;
+  padding-top: 50px;
 }
 
 .lower-section{
@@ -39,8 +45,9 @@ span{
   justify-content: center;
 }
 
-.divider{
+p-divider{
   padding-bottom: 20px;
+  width:80%;
 }
 
 p-button{
