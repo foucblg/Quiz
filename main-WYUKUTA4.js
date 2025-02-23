@@ -8420,6 +8420,7 @@ function handler() {
 var ZIndex = handler();
 
 // node_modules/primeng/fesm2022/primeng-api.mjs
+var _c0 = ["*"];
 var ConfirmEventType;
 (function(ConfirmEventType2) {
   ConfirmEventType2[ConfirmEventType2["ACCEPT"] = 0] = "ACCEPT";
@@ -8800,7 +8801,6 @@ var OverlayService = class _OverlayService {
     }]
   }], null, null);
 })();
-var _c0 = ["*"];
 var Header = class _Header {
   static \u0275fac = function Header_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _Header)();
@@ -8831,13 +8831,6 @@ var Header = class _Header {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Header, {
-    className: "Header",
-    filePath: "shared.ts",
-    lineNumber: 9
-  });
-})();
 var Footer = class _Footer {
   static \u0275fac = function Footer_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _Footer)();
@@ -8867,13 +8860,6 @@ var Footer = class _Footer {
       standalone: false
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Footer, {
-    className: "Footer",
-    filePath: "shared.ts",
-    lineNumber: 16
-  });
 })();
 var PrimeTemplate = class _PrimeTemplate {
   template;
@@ -11649,6 +11635,7 @@ var BadgeDirective = class _BadgeDirective extends BaseComponent {
     }
   }
   ngAfterViewInit() {
+    super.ngAfterViewInit();
     this.id = uuid("pn_id_") + "_badge";
     this.renderBadgeContent();
   }
@@ -11886,7 +11873,7 @@ var Badge = class _Badge extends BaseComponent {
       if (rf & 2) {
         \u0275\u0275styleMap(ctx.style());
         \u0275\u0275classMap(ctx.containerClass());
-        \u0275\u0275styleProp("display", ctx.badgeDisabled() && "none");
+        \u0275\u0275styleProp("display", ctx.badgeDisabled() ? "none" : null);
       }
     },
     inputs: {
@@ -11927,18 +11914,11 @@ var Badge = class _Badge extends BaseComponent {
       providers: [BadgeStyle],
       host: {
         "[class]": "containerClass()",
-        "[style.display]": 'badgeDisabled() && "none"',
+        "[style.display]": 'badgeDisabled() ? "none" : null',
         "[style]": "style()"
       }
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Badge, {
-    className: "Badge",
-    filePath: "badge.ts",
-    lineNumber: 255
-  });
 })();
 var BadgeModule = class _BadgeModule {
   static \u0275fac = function BadgeModule_Factory(__ngFactoryType__) {
@@ -11962,6 +11942,7 @@ var BadgeModule = class _BadgeModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-baseicon.mjs
+var _c02 = ["*"];
 var css2 = `
 .p-icon {
     display: inline-block;
@@ -12018,7 +11999,6 @@ var BaseIconClasses;
 (function(BaseIconClasses2) {
   BaseIconClasses2["root"] = "p-icon";
 })(BaseIconClasses || (BaseIconClasses = {}));
-var _c02 = ["*"];
 var BaseIcon = class _BaseIcon extends BaseComponent {
   label;
   spin = false;
@@ -12096,13 +12076,6 @@ var BaseIcon = class _BaseIcon extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BaseIcon, {
-    className: "BaseIcon",
-    filePath: "baseicon.ts",
-    lineNumber: 16
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-angledown.mjs
 var AngleDownIcon = class _AngleDownIcon extends BaseIcon {
@@ -12150,13 +12123,6 @@ var AngleDownIcon = class _AngleDownIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AngleDownIcon, {
-    className: "AngleDownIcon",
-    filePath: "angledown.ts",
-    lineNumber: 16
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-angleup.mjs
@@ -12206,13 +12172,6 @@ var AngleUpIcon = class _AngleUpIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AngleUpIcon, {
-    className: "AngleUpIcon",
-    filePath: "angleup.ts",
-    lineNumber: 16
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-check.mjs
 var CheckIcon = class _CheckIcon extends BaseIcon {
@@ -12260,13 +12219,6 @@ var CheckIcon = class _CheckIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CheckIcon, {
-    className: "CheckIcon",
-    filePath: "check.ts",
-    lineNumber: 16
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-exclamationtriangle.mjs
@@ -12342,13 +12294,6 @@ var ExclamationTriangleIcon = class _ExclamationTriangleIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ExclamationTriangleIcon, {
-    className: "ExclamationTriangleIcon",
-    filePath: "exclamationtriangle.ts",
-    lineNumber: 32
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-eye.mjs
 var EyeIcon = class _EyeIcon extends BaseIcon {
@@ -12398,13 +12343,6 @@ var EyeIcon = class _EyeIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(EyeIcon, {
-    className: "EyeIcon",
-    filePath: "eye.ts",
-    lineNumber: 18
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-infocircle.mjs
@@ -12474,13 +12412,6 @@ var InfoCircleIcon = class _InfoCircleIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(InfoCircleIcon, {
-    className: "InfoCircleIcon",
-    filePath: "infocircle.ts",
-    lineNumber: 26
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-minus.mjs
 var MinusIcon = class _MinusIcon extends BaseIcon {
@@ -12528,13 +12459,6 @@ var MinusIcon = class _MinusIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MinusIcon, {
-    className: "MinusIcon",
-    filePath: "minus.ts",
-    lineNumber: 16
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-plus.mjs
@@ -12601,13 +12525,6 @@ var PlusIcon = class _PlusIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PlusIcon, {
-    className: "PlusIcon",
-    filePath: "plus.ts",
-    lineNumber: 24
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-refresh.mjs
@@ -12677,13 +12594,6 @@ var RefreshIcon = class _RefreshIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RefreshIcon, {
-    className: "RefreshIcon",
-    filePath: "refresh.ts",
-    lineNumber: 26
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-searchminus.mjs
 var SearchMinusIcon = class _SearchMinusIcon extends BaseIcon {
@@ -12751,13 +12661,6 @@ var SearchMinusIcon = class _SearchMinusIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SearchMinusIcon, {
-    className: "SearchMinusIcon",
-    filePath: "searchminus.ts",
-    lineNumber: 26
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-searchplus.mjs
@@ -12827,13 +12730,6 @@ var SearchPlusIcon = class _SearchPlusIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SearchPlusIcon, {
-    className: "SearchPlusIcon",
-    filePath: "searchplus.ts",
-    lineNumber: 26
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-spinner.mjs
 var SpinnerIcon = class _SpinnerIcon extends BaseIcon {
@@ -12900,13 +12796,6 @@ var SpinnerIcon = class _SpinnerIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SpinnerIcon, {
-    className: "SpinnerIcon",
-    filePath: "spinner.ts",
-    lineNumber: 24
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-times.mjs
 var TimesIcon = class _TimesIcon extends BaseIcon {
@@ -12954,13 +12843,6 @@ var TimesIcon = class _TimesIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TimesIcon, {
-    className: "TimesIcon",
-    filePath: "times.ts",
-    lineNumber: 16
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-timescircle.mjs
@@ -13030,13 +12912,6 @@ var TimesCircleIcon = class _TimesCircleIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TimesCircleIcon, {
-    className: "TimesCircleIcon",
-    filePath: "timescircle.ts",
-    lineNumber: 26
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-undo.mjs
 var UndoIcon = class _UndoIcon extends BaseIcon {
@@ -13104,13 +12979,6 @@ var UndoIcon = class _UndoIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(UndoIcon, {
-    className: "UndoIcon",
-    filePath: "undo.ts",
-    lineNumber: 26
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-windowmaximize.mjs
@@ -13180,13 +13048,6 @@ var WindowMaximizeIcon = class _WindowMaximizeIcon extends BaseIcon {
     }]
   }], null, null);
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WindowMaximizeIcon, {
-    className: "WindowMaximizeIcon",
-    filePath: "windowmaximize.ts",
-    lineNumber: 26
-  });
-})();
 
 // node_modules/primeng/fesm2022/primeng-icons-windowminimize.mjs
 var WindowMinimizeIcon = class _WindowMinimizeIcon extends BaseIcon {
@@ -13254,13 +13115,6 @@ var WindowMinimizeIcon = class _WindowMinimizeIcon extends BaseIcon {
     `
     }]
   }], null, null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WindowMinimizeIcon, {
-    className: "WindowMinimizeIcon",
-    filePath: "windowminimize.ts",
-    lineNumber: 26
-  });
 })();
 
 // node_modules/primeng/fesm2022/primeng-ripple.mjs
@@ -13461,6 +13315,135 @@ var RippleModule = class _RippleModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-button.mjs
+var _c03 = ["content"];
+var _c1 = ["loading"];
+var _c2 = ["icon"];
+var _c3 = ["*"];
+var _c4 = (a0) => ({
+  class: a0
+});
+function Button_ng_container_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function Button_ng_container_3_ng_container_1_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 8);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r0.iconClass());
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "loadingicon");
+  }
+}
+function Button_ng_container_3_ng_container_1_SpinnerIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "SpinnerIcon", 9);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("styleClass", ctx_r0.spinnerIconClass())("spin", true);
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "loadingicon");
+  }
+}
+function Button_ng_container_3_ng_container_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Button_ng_container_3_ng_container_1_span_1_Template, 1, 3, "span", 6)(2, Button_ng_container_3_ng_container_1_SpinnerIcon_2_Template, 1, 4, "SpinnerIcon", 7);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.loadingIcon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r0.loadingIcon);
+  }
+}
+function Button_ng_container_3_2_ng_template_0_Template(rf, ctx) {
+}
+function Button_ng_container_3_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Button_ng_container_3_2_ng_template_0_Template, 0, 0, "ng-template", 10);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("ngIf", ctx_r0.loadingIconTemplate || ctx_r0._loadingIconTemplate);
+  }
+}
+function Button_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Button_ng_container_3_ng_container_1_Template, 3, 2, "ng-container", 2)(2, Button_ng_container_3_2_Template, 1, 1, null, 5);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r0.loadingIconTemplate && !ctx_r0._loadingIconTemplate);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.loadingIconTemplate || ctx_r0._loadingIconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c4, ctx_r0.iconClass()));
+  }
+}
+function Button_ng_container_4_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 8);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275classMap(ctx_r0.icon);
+    \u0275\u0275property("ngClass", ctx_r0.iconClass());
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Button_ng_container_4_2_ng_template_0_Template(rf, ctx) {
+}
+function Button_ng_container_4_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Button_ng_container_4_2_ng_template_0_Template, 0, 0, "ng-template", 10);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("ngIf", !ctx_r0.icon && (ctx_r0.iconTemplate || ctx_r0._iconTemplate));
+  }
+}
+function Button_ng_container_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Button_ng_container_4_span_1_Template, 1, 4, "span", 11)(2, Button_ng_container_4_2_Template, 1, 1, null, 5);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.icon && !ctx_r0.iconTemplate && !ctx_r0._iconTemplate);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.iconTemplate || ctx_r0._iconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c4, ctx_r0.iconClass()));
+  }
+}
+function Button_span_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 12);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275attribute("aria-hidden", ctx_r0.icon && !ctx_r0.label)("data-pc-section", "label");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.label);
+  }
+}
+function Button_p_badge_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "p-badge", 13);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275property("value", ctx_r0.badge)("severity", ctx_r0.badgeSeverity);
+  }
+}
 var theme4 = ({
   dt: dt2
 }) => `
@@ -14160,135 +14143,6 @@ var ButtonClasses;
   ButtonClasses2["icon"] = "p-button-icon";
   ButtonClasses2["label"] = "p-button-label";
 })(ButtonClasses || (ButtonClasses = {}));
-var _c03 = ["content"];
-var _c1 = ["loading"];
-var _c2 = ["icon"];
-var _c3 = ["*"];
-var _c4 = (a0) => ({
-  class: a0
-});
-function Button_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function Button_ng_container_3_ng_container_1_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 8);
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r0.iconClass());
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "loadingicon");
-  }
-}
-function Button_ng_container_3_ng_container_1_SpinnerIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "SpinnerIcon", 9);
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("styleClass", ctx_r0.spinnerIconClass())("spin", true);
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "loadingicon");
-  }
-}
-function Button_ng_container_3_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Button_ng_container_3_ng_container_1_span_1_Template, 1, 3, "span", 6)(2, Button_ng_container_3_ng_container_1_SpinnerIcon_2_Template, 1, 4, "SpinnerIcon", 7);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r0.loadingIcon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r0.loadingIcon);
-  }
-}
-function Button_ng_container_3_2_ng_template_0_Template(rf, ctx) {
-}
-function Button_ng_container_3_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Button_ng_container_3_2_ng_template_0_Template, 0, 0, "ng-template", 10);
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngIf", ctx_r0.loadingIconTemplate || ctx_r0._loadingIconTemplate);
-  }
-}
-function Button_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Button_ng_container_3_ng_container_1_Template, 3, 2, "ng-container", 2)(2, Button_ng_container_3_2_Template, 1, 1, null, 5);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r0.loadingIconTemplate && !ctx_r0._loadingIconTemplate);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.loadingIconTemplate || ctx_r0._loadingIconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c4, ctx_r0.iconClass()));
-  }
-}
-function Button_ng_container_4_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 8);
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275classMap(ctx_r0.icon);
-    \u0275\u0275property("ngClass", ctx_r0.iconClass());
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Button_ng_container_4_2_ng_template_0_Template(rf, ctx) {
-}
-function Button_ng_container_4_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Button_ng_container_4_2_ng_template_0_Template, 0, 0, "ng-template", 10);
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngIf", !ctx_r0.icon && (ctx_r0.iconTemplate || ctx_r0._iconTemplate));
-  }
-}
-function Button_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Button_ng_container_4_span_1_Template, 1, 4, "span", 11)(2, Button_ng_container_4_2_Template, 1, 1, null, 5);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r0.icon && !ctx_r0.iconTemplate && !ctx_r0._iconTemplate);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.iconTemplate || ctx_r0._iconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c4, ctx_r0.iconClass()));
-  }
-}
-function Button_span_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 12);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275attribute("aria-hidden", ctx_r0.icon && !ctx_r0.label)("data-pc-section", "label");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r0.label);
-  }
-}
-function Button_p_badge_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "p-badge", 13);
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275property("value", ctx_r0.badge)("severity", ctx_r0.badgeSeverity);
-  }
-}
 var INTERNAL_BUTTON_CLASSES = {
   button: "p-button",
   component: "p-component",
@@ -15293,13 +15147,6 @@ var Button = class _Button extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Button, {
-    className: "Button",
-    filePath: "button.ts",
-    lineNumber: 471
-  });
-})();
 var ButtonModule = class _ButtonModule {
   static \u0275fac = function ButtonModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ButtonModule)();
@@ -15322,6 +15169,7 @@ var ButtonModule = class _ButtonModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-divider.mjs
+var _c04 = ["*"];
 var theme5 = ({
   dt: dt2
 }) => `
@@ -15458,7 +15306,6 @@ var DividerClasses;
   DividerClasses2["root"] = "p-divider";
   DividerClasses2["content"] = "p-divider-content";
 })(DividerClasses || (DividerClasses = {}));
-var _c04 = ["*"];
 var Divider = class _Divider extends BaseComponent {
   /**
    * Inline style of the component.
@@ -15589,13 +15436,6 @@ var Divider = class _Divider extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Divider, {
-    className: "Divider",
-    filePath: "divider.ts",
-    lineNumber: 43
-  });
-})();
 var DividerModule = class _DividerModule {
   static \u0275fac = function DividerModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _DividerModule)();
@@ -15618,6 +15458,68 @@ var DividerModule = class _DividerModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-progressbar.mjs
+var _c05 = ["content"];
+var _c12 = (a0, a1) => ({
+  "p-progressbar p-component": true,
+  "p-progressbar-determinate": a0,
+  "p-progressbar-indeterminate": a1
+});
+var _c22 = (a0) => ({
+  $implicit: a0
+});
+function ProgressBar_div_1_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275styleProp("display", ctx_r0.value != null && ctx_r0.value !== 0 ? "flex" : "none");
+    \u0275\u0275attribute("data-pc-section", "label");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate2("", ctx_r0.value, "", ctx_r0.unit, "");
+  }
+}
+function ProgressBar_div_1_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function ProgressBar_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 3)(1, "div", 4);
+    \u0275\u0275template(2, ProgressBar_div_1_div_2_Template, 2, 5, "div", 5)(3, ProgressBar_div_1_ng_container_3_Template, 1, 0, "ng-container", 6);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r0.valueStyleClass);
+    \u0275\u0275styleProp("width", ctx_r0.value + "%")("background", ctx_r0.color);
+    \u0275\u0275property("ngClass", "p-progressbar-value p-progressbar-value-animate");
+    \u0275\u0275attribute("data-pc-section", "value");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", ctx_r0.showValue && !ctx_r0.contentTemplate && !ctx_r0._contentTemplate);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.contentTemplate || ctx_r0._contentTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(11, _c22, ctx_r0.value));
+  }
+}
+function ProgressBar_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 7);
+    \u0275\u0275element(1, "div", 8);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r0.valueStyleClass);
+    \u0275\u0275property("ngClass", "p-progressbar-indeterminate-container");
+    \u0275\u0275attribute("data-pc-section", "container");
+    \u0275\u0275advance();
+    \u0275\u0275styleProp("background", ctx_r0.color);
+    \u0275\u0275attribute("data-pc-section", "value");
+  }
+}
 var theme6 = ({
   dt: dt2
 }) => `
@@ -15772,68 +15674,6 @@ var ProgressBarClasses;
   ProgressBarClasses2["value"] = "p-progressbar-value";
   ProgressBarClasses2["label"] = "p-progressbar-label";
 })(ProgressBarClasses || (ProgressBarClasses = {}));
-var _c05 = ["content"];
-var _c12 = (a0, a1) => ({
-  "p-progressbar p-component": true,
-  "p-progressbar-determinate": a0,
-  "p-progressbar-indeterminate": a1
-});
-var _c22 = (a0) => ({
-  $implicit: a0
-});
-function ProgressBar_div_1_div_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275styleProp("display", ctx_r0.value != null && ctx_r0.value !== 0 ? "flex" : "none");
-    \u0275\u0275attribute("data-pc-section", "label");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("", ctx_r0.value, "", ctx_r0.unit, "");
-  }
-}
-function ProgressBar_div_1_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function ProgressBar_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 3)(1, "div", 4);
-    \u0275\u0275template(2, ProgressBar_div_1_div_2_Template, 2, 5, "div", 5)(3, ProgressBar_div_1_ng_container_3_Template, 1, 0, "ng-container", 6);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r0.valueStyleClass);
-    \u0275\u0275styleProp("width", ctx_r0.value + "%")("background", ctx_r0.color);
-    \u0275\u0275property("ngClass", "p-progressbar-value p-progressbar-value-animate");
-    \u0275\u0275attribute("data-pc-section", "value");
-    \u0275\u0275advance(2);
-    \u0275\u0275property("ngIf", ctx_r0.showValue && !ctx_r0.contentTemplate && !ctx_r0._contentTemplate);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.contentTemplate || ctx_r0._contentTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(11, _c22, ctx_r0.value));
-  }
-}
-function ProgressBar_div_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 7);
-    \u0275\u0275element(1, "div", 8);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r0.valueStyleClass);
-    \u0275\u0275property("ngClass", "p-progressbar-indeterminate-container");
-    \u0275\u0275attribute("data-pc-section", "container");
-    \u0275\u0275advance();
-    \u0275\u0275styleProp("background", ctx_r0.color);
-    \u0275\u0275attribute("data-pc-section", "value");
-  }
-}
 var ProgressBar = class _ProgressBar extends BaseComponent {
   /**
    * Current value of the progress.
@@ -16030,13 +15870,6 @@ var ProgressBar = class _ProgressBar extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProgressBar, {
-    className: "ProgressBar",
-    filePath: "progressbar.ts",
-    lineNumber: 46
-  });
-})();
 var ProgressBarModule = class _ProgressBarModule {
   static \u0275fac = function ProgressBarModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ProgressBarModule)();
@@ -16103,6 +15936,240 @@ function ZIndexUtils() {
 var zindexutils = ZIndexUtils();
 
 // node_modules/primeng/fesm2022/primeng-toast.mjs
+var _c06 = ["container"];
+var _c13 = (a0, a1, a2, a3) => ({
+  showTransformParams: a0,
+  hideTransformParams: a1,
+  showTransitionParams: a2,
+  hideTransitionParams: a3
+});
+var _c23 = (a0) => ({
+  value: "visible",
+  params: a0
+});
+var _c32 = (a0, a1) => ({
+  $implicit: a0,
+  closeFn: a1
+});
+var _c42 = (a0) => ({
+  $implicit: a0
+});
+function ToastItem_Conditional_2_ng_container_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function ToastItem_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, ToastItem_Conditional_2_ng_container_0_Template, 1, 0, "ng-container", 3);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.headlessTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c32, ctx_r1.message, ctx_r1.onCloseIconClick));
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 4);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "CheckIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "InfoCircleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "TimesCircleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "ExclamationTriangleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "InfoCircleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 4);
+    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template, 1, 2, "CheckIcon")(2, ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template, 1, 2, "InfoCircleIcon")(3, ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template, 1, 2, "TimesCircleIcon")(4, ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template, 1, 2, "ExclamationTriangleIcon")(5, ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template, 1, 2, "InfoCircleIcon");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_7_0;
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+    \u0275\u0275advance();
+    \u0275\u0275conditional((tmp_7_0 = ctx_r1.message.severity) === "success" ? 1 : tmp_7_0 === "info" ? 2 : tmp_7_0 === "error" ? 3 : tmp_7_0 === "warn" ? 4 : 5);
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_1_Template, 1, 1, "span", 6)(2, ToastItem_Conditional_3_ng_container_1_span_2_Template, 6, 4, "span", 6);
+    \u0275\u0275elementStart(3, "div", 4)(4, "div", 4);
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "div", 4);
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.message.icon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.message.icon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageText"));
+    \u0275\u0275attribute("data-pc-section", "text");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("summary"));
+    \u0275\u0275attribute("data-pc-section", "summary");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r1.message.summary, " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("detail"));
+    \u0275\u0275attribute("data-pc-section", "detail");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.message.detail);
+  }
+}
+function ToastItem_Conditional_3_ng_container_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 4);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template, 1, 1, "span", 6);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngIf", ctx_r1.message.closeIcon);
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "TimesIcon", 4);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "closeicon");
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "button", 7);
+    \u0275\u0275listener("click", function ToastItem_Conditional_3_Conditional_3_Template_button_click_1_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
+    })("keydown.enter", function ToastItem_Conditional_3_Conditional_3_Template_button_keydown_enter_1_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
+    });
+    \u0275\u0275template(2, ToastItem_Conditional_3_Conditional_3_Conditional_2_Template, 1, 1, "span", 4)(3, ToastItem_Conditional_3_Conditional_3_Conditional_3_Template, 1, 3, "TimesIcon", 4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ariaLabel", ctx_r1.closeAriaLabel);
+    \u0275\u0275attribute("class", ctx_r1.cx("closeButton"))("data-pc-section", "closebutton");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r1.message.closeIcon ? 2 : 3);
+  }
+}
+function ToastItem_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 4);
+    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_Template, 8, 10, "ng-container", 5)(2, ToastItem_Conditional_3_ng_container_2_Template, 1, 0, "ng-container", 3)(3, ToastItem_Conditional_3_Conditional_3_Template, 4, 4, "div");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r1.message == null ? null : ctx_r1.message.contentStyleClass);
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageContent"));
+    \u0275\u0275attribute("data-pc-section", "content");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.template);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.template)("ngTemplateOutletContext", \u0275\u0275pureFunction1(8, _c42, ctx_r1.message));
+    \u0275\u0275advance();
+    \u0275\u0275conditional((ctx_r1.message == null ? null : ctx_r1.message.closable) !== false ? 3 : -1);
+  }
+}
+var _c5 = ["message"];
+var _c6 = ["headless"];
+function Toast_p_toastItem_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "p-toastItem", 3);
+    \u0275\u0275listener("onClose", function Toast_p_toastItem_2_Template_p_toastItem_onClose_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onMessageClose($event));
+    })("@toastAnimation.start", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_start_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
+    })("@toastAnimation.done", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_done_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const msg_r3 = ctx.$implicit;
+    const i_r4 = ctx.index;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("message", msg_r3)("index", i_r4)("life", ctx_r1.life)("template", ctx_r1.template || ctx_r1._template)("headlessTemplate", ctx_r1.headlessTemplate || ctx_r1._headlessTemplate)("@toastAnimation", void 0)("showTransformOptions", ctx_r1.showTransformOptions)("hideTransformOptions", ctx_r1.hideTransformOptions)("showTransitionOptions", ctx_r1.showTransitionOptions)("hideTransitionOptions", ctx_r1.hideTransitionOptions);
+  }
+}
 var theme7 = ({
   dt: dt2
 }) => `
@@ -16440,240 +16507,6 @@ var ToastClasses;
   ToastClasses2["closeButton"] = "p-toast-close-button";
   ToastClasses2["closeIcon"] = "p-toast-close-icon";
 })(ToastClasses || (ToastClasses = {}));
-var _c06 = ["container"];
-var _c13 = (a0, a1, a2, a3) => ({
-  showTransformParams: a0,
-  hideTransformParams: a1,
-  showTransitionParams: a2,
-  hideTransitionParams: a3
-});
-var _c23 = (a0) => ({
-  value: "visible",
-  params: a0
-});
-var _c32 = (a0, a1) => ({
-  $implicit: a0,
-  closeFn: a1
-});
-var _c42 = (a0) => ({
-  $implicit: a0
-});
-function ToastItem_Conditional_2_ng_container_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function ToastItem_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, ToastItem_Conditional_2_ng_container_0_Template, 1, 0, "ng-container", 3);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1.headlessTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c32, ctx_r1.message, ctx_r1.onCloseIconClick));
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 4);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "CheckIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "InfoCircleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "TimesCircleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "ExclamationTriangleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "InfoCircleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 4);
-    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template, 1, 2, "CheckIcon")(2, ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template, 1, 2, "InfoCircleIcon")(3, ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template, 1, 2, "TimesCircleIcon")(4, ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template, 1, 2, "ExclamationTriangleIcon")(5, ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template, 1, 2, "InfoCircleIcon");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_7_0;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-    \u0275\u0275advance();
-    \u0275\u0275conditional((tmp_7_0 = ctx_r1.message.severity) === "success" ? 1 : tmp_7_0 === "info" ? 2 : tmp_7_0 === "error" ? 3 : tmp_7_0 === "warn" ? 4 : 5);
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_1_Template, 1, 1, "span", 6)(2, ToastItem_Conditional_3_ng_container_1_span_2_Template, 6, 4, "span", 6);
-    \u0275\u0275elementStart(3, "div", 4)(4, "div", 4);
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 4);
-    \u0275\u0275text(7);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.message.icon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.message.icon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageText"));
-    \u0275\u0275attribute("data-pc-section", "text");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("summary"));
-    \u0275\u0275attribute("data-pc-section", "summary");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r1.message.summary, " ");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("detail"));
-    \u0275\u0275attribute("data-pc-section", "detail");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.message.detail);
-  }
-}
-function ToastItem_Conditional_3_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 4);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template, 1, 1, "span", 6);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngIf", ctx_r1.message.closeIcon);
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "TimesIcon", 4);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "closeicon");
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "button", 7);
-    \u0275\u0275listener("click", function ToastItem_Conditional_3_Conditional_3_Template_button_click_1_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
-    })("keydown.enter", function ToastItem_Conditional_3_Conditional_3_Template_button_keydown_enter_1_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
-    });
-    \u0275\u0275template(2, ToastItem_Conditional_3_Conditional_3_Conditional_2_Template, 1, 1, "span", 4)(3, ToastItem_Conditional_3_Conditional_3_Conditional_3_Template, 1, 3, "TimesIcon", 4);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ariaLabel", ctx_r1.closeAriaLabel);
-    \u0275\u0275attribute("class", ctx_r1.cx("closeButton"))("data-pc-section", "closebutton");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.message.closeIcon ? 2 : 3);
-  }
-}
-function ToastItem_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 4);
-    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_Template, 8, 10, "ng-container", 5)(2, ToastItem_Conditional_3_ng_container_2_Template, 1, 0, "ng-container", 3)(3, ToastItem_Conditional_3_Conditional_3_Template, 4, 4, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r1.message == null ? null : ctx_r1.message.contentStyleClass);
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageContent"));
-    \u0275\u0275attribute("data-pc-section", "content");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.template);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1.template)("ngTemplateOutletContext", \u0275\u0275pureFunction1(8, _c42, ctx_r1.message));
-    \u0275\u0275advance();
-    \u0275\u0275conditional((ctx_r1.message == null ? null : ctx_r1.message.closable) !== false ? 3 : -1);
-  }
-}
-var _c5 = ["message"];
-var _c6 = ["headless"];
-function Toast_p_toastItem_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p-toastItem", 3);
-    \u0275\u0275listener("onClose", function Toast_p_toastItem_2_Template_p_toastItem_onClose_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.onMessageClose($event));
-    })("@toastAnimation.start", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_start_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
-    })("@toastAnimation.done", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_done_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const msg_r3 = ctx.$implicit;
-    const i_r4 = ctx.index;
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("message", msg_r3)("index", i_r4)("life", ctx_r1.life)("template", ctx_r1.template || ctx_r1._template)("headlessTemplate", ctx_r1.headlessTemplate || ctx_r1._headlessTemplate)("@toastAnimation", void 0)("showTransformOptions", ctx_r1.showTransformOptions)("hideTransformOptions", ctx_r1.hideTransformOptions)("showTransitionOptions", ctx_r1.showTransitionOptions)("hideTransitionOptions", ctx_r1.hideTransitionOptions);
-  }
-}
 var ToastItem = class _ToastItem extends BaseComponent {
   zone;
   message;
@@ -16945,13 +16778,6 @@ var ToastItem = class _ToastItem extends BaseComponent {
       type: ViewChild,
       args: ["container"]
     }]
-  });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ToastItem, {
-    className: "ToastItem",
-    filePath: "toast.ts",
-    lineNumber: 141
   });
 })();
 var Toast = class _Toast extends BaseComponent {
@@ -17378,13 +17204,6 @@ var Toast = class _Toast extends BaseComponent {
       type: ContentChildren,
       args: [PrimeTemplate]
     }]
-  });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Toast, {
-    className: "Toast",
-    filePath: "toast.ts",
-    lineNumber: 262
   });
 })();
 var ToastModule = class _ToastModule {
@@ -18122,188 +17941,6 @@ var FocusTrapModule = class _FocusTrapModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-image.mjs
-var theme8 = ({
-  dt: dt2
-}) => `
-.p-image-mask {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.p-image-preview {
-    position: relative;
-    display: inline-flex;
-    line-height: 0;
-}
-
-.p-image-preview-mask {
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border: 0 none;
-    padding: 0;
-    cursor: pointer;
-    background: transparent;
-    color: ${dt2("image.preview.mask.color")};
-    transition: background ${dt2("image.transition.duration")};
-}
-
-.p-image-preview:hover > .p-image-preview-mask {
-    opacity: 1;
-    cursor: pointer;
-    background: ${dt2("image.preview.mask.background")};
-}
-
-.p-image-preview-icon {
-    font-size: ${dt2("image.preview.icon.size")};
-    width: ${dt2("image.preview.icon.size")};
-    height: ${dt2("image.preview.icon.size")};
-}
-
-.p-image-toolbar {
-    position: absolute;
-    inset-block-start: ${dt2("image.toolbar.position.top")};
-    inset-inline-end: ${dt2("image.toolbar.position.right")};
-    inset-inline-start: ${dt2("image.toolbar.position.left")};
-    inset-block-end: ${dt2("image.toolbar.position.bottom")};
-    display: flex;
-    z-index: 1;
-    padding: ${dt2("image.toolbar.padding")};
-    background: ${dt2("image.toolbar.background")};
-    backdrop-filter: blur(${dt2("image.toolbar.blur")});
-    border-color: ${dt2("image.toolbar.border.color")};
-    border-style: solid;
-    border-width: ${dt2("image.toolbar.border.width")};
-    border-radius: ${dt2("image.toolbar.border.radius")};
-    gap: ${dt2("image.toolbar.gap")};
-}
-
-.p-image-action {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    color: ${dt2("image.action.color")};
-    background: transparent;
-    width: ${dt2("image.action.size")};
-    height: ${dt2("image.action.size")};
-    margin: 0;
-    padding: 0;
-    border: 0 none;
-    cursor: pointer;
-    user-select: none;
-    border-radius: ${dt2("image.action.border.radius")};
-    outline-color: transparent;
-    transition: background ${dt2("image.transition.duration")}, color ${dt2("image.transition.duration")}, outline-color ${dt2("image.transition.duration")}, box-shadow ${dt2("image.transition.duration")};
-}
-
-.p-image-action:hover {
-    color: ${dt2("image.action.hover.color")};
-    background: ${dt2("image.action.hover.background")};
-}
-
-.p-image-action:focus-visible {
-    box-shadow: ${dt2("toolbar.action.focus.ring.shadow")};
-    outline: ${dt2("toolbar.action.focus.ring.width")} ${dt2("toolbar.action.focus.ring.style")} ${dt2("toolbar.action.focus.ring.color")};
-    outline-offset: ${dt2("toolbar.action.focus.ring.offset")};
-}
-
-.p-image-action .p-icon {
-    font-size: ${dt2("image.action.icon.size")};
-    width: ${dt2("image.action.icon.size")};
-    height: ${dt2("image.action.icon.size")};
-}
-
-.p-image-action.p-disabled {
-    pointer-events: auto;
-}
-
-.p-image-original {
-    transition: transform 0.15s;
-    max-width: 100vw;
-    max-height: 100vh;
-}
-
-.p-image-original-enter-active {
-    transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.p-image-original-leave-active {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.p-image-original-enter-from,
-.p-image-original-leave-to {
-    opacity: 0;
-    transform: scale(0.7);
-}
-`;
-var classes7 = {
-  root: ({
-    props
-  }) => ["p-image p-component", {
-    "p-image-preview": props.preview
-  }],
-  previewMask: "p-image-preview-mask",
-  previewIcon: "p-image-preview-icon",
-  mask: "p-image-mask p-overlay-mask p-overlay-mask-enter",
-  toolbar: "p-image-toolbar",
-  rotateRightButton: "p-image-action p-image-rotate-right-button",
-  rotateLeftButton: "p-image-action p-image-rotate-left-button",
-  zoomOutButton: ({
-    instance
-  }) => ["p-image-action p-image-zoom-out-button", {
-    "p-disabled": instance.isZoomOutDisabled
-  }],
-  zoomInButton: ({
-    instance
-  }) => ["p-image-action p-image-zoom-in-button", {
-    "p-disabled": instance.isZoomInDisabled
-  }],
-  closeButton: "p-image-action p-image-close-button",
-  original: "p-image-original"
-};
-var ImageStyle = class _ImageStyle extends BaseStyle {
-  name = "image";
-  theme = theme8;
-  classes = classes7;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275ImageStyle_BaseFactory;
-    return function ImageStyle_Factory(__ngFactoryType__) {
-      return (\u0275ImageStyle_BaseFactory || (\u0275ImageStyle_BaseFactory = \u0275\u0275getInheritedFactory(_ImageStyle)))(__ngFactoryType__ || _ImageStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _ImageStyle,
-    factory: _ImageStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ImageStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var ImageClasses;
-(function(ImageClasses2) {
-  ImageClasses2["root"] = "p-image";
-  ImageClasses2["previewMask"] = "p-image-preview-mask";
-  ImageClasses2["previewIcon"] = "p-image-preview-icon";
-  ImageClasses2["mask"] = "p-image-mask";
-  ImageClasses2["toolbar"] = "p-image-toolbar";
-  ImageClasses2["rotateRightButton"] = "p-image-rotate-right-button";
-  ImageClasses2["rotateLeftButton"] = "p-image-rotate-left-button";
-  ImageClasses2["zoomOutButton"] = "p-image-zoom-out-button";
-  ImageClasses2["zoomInButton"] = "p-image-zoom-in-button";
-  ImageClasses2["closeButton"] = "p-image-close-button";
-  ImageClasses2["original"] = "p-image-original";
-})(ImageClasses || (ImageClasses = {}));
 var _c07 = ["indicator"];
 var _c14 = ["rotaterighticon"];
 var _c24 = ["rotatelefticon"];
@@ -18626,6 +18263,188 @@ function Image_div_4_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r1.previewVisible);
   }
 }
+var theme8 = ({
+  dt: dt2
+}) => `
+.p-image-mask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.p-image-preview {
+    position: relative;
+    display: inline-flex;
+    line-height: 0;
+}
+
+.p-image-preview-mask {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border: 0 none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    color: ${dt2("image.preview.mask.color")};
+    transition: background ${dt2("image.transition.duration")};
+}
+
+.p-image-preview:hover > .p-image-preview-mask {
+    opacity: 1;
+    cursor: pointer;
+    background: ${dt2("image.preview.mask.background")};
+}
+
+.p-image-preview-icon {
+    font-size: ${dt2("image.preview.icon.size")};
+    width: ${dt2("image.preview.icon.size")};
+    height: ${dt2("image.preview.icon.size")};
+}
+
+.p-image-toolbar {
+    position: absolute;
+    inset-block-start: ${dt2("image.toolbar.position.top")};
+    inset-inline-end: ${dt2("image.toolbar.position.right")};
+    inset-inline-start: ${dt2("image.toolbar.position.left")};
+    inset-block-end: ${dt2("image.toolbar.position.bottom")};
+    display: flex;
+    z-index: 1;
+    padding: ${dt2("image.toolbar.padding")};
+    background: ${dt2("image.toolbar.background")};
+    backdrop-filter: blur(${dt2("image.toolbar.blur")});
+    border-color: ${dt2("image.toolbar.border.color")};
+    border-style: solid;
+    border-width: ${dt2("image.toolbar.border.width")};
+    border-radius: ${dt2("image.toolbar.border.radius")};
+    gap: ${dt2("image.toolbar.gap")};
+}
+
+.p-image-action {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: ${dt2("image.action.color")};
+    background: transparent;
+    width: ${dt2("image.action.size")};
+    height: ${dt2("image.action.size")};
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    cursor: pointer;
+    user-select: none;
+    border-radius: ${dt2("image.action.border.radius")};
+    outline-color: transparent;
+    transition: background ${dt2("image.transition.duration")}, color ${dt2("image.transition.duration")}, outline-color ${dt2("image.transition.duration")}, box-shadow ${dt2("image.transition.duration")};
+}
+
+.p-image-action:hover {
+    color: ${dt2("image.action.hover.color")};
+    background: ${dt2("image.action.hover.background")};
+}
+
+.p-image-action:focus-visible {
+    box-shadow: ${dt2("toolbar.action.focus.ring.shadow")};
+    outline: ${dt2("toolbar.action.focus.ring.width")} ${dt2("toolbar.action.focus.ring.style")} ${dt2("toolbar.action.focus.ring.color")};
+    outline-offset: ${dt2("toolbar.action.focus.ring.offset")};
+}
+
+.p-image-action .p-icon {
+    font-size: ${dt2("image.action.icon.size")};
+    width: ${dt2("image.action.icon.size")};
+    height: ${dt2("image.action.icon.size")};
+}
+
+.p-image-action.p-disabled {
+    pointer-events: auto;
+}
+
+.p-image-original {
+    transition: transform 0.15s;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+.p-image-original-enter-active {
+    transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.p-image-original-leave-active {
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.p-image-original-enter-from,
+.p-image-original-leave-to {
+    opacity: 0;
+    transform: scale(0.7);
+}
+`;
+var classes7 = {
+  root: ({
+    props
+  }) => ["p-image p-component", {
+    "p-image-preview": props.preview
+  }],
+  previewMask: "p-image-preview-mask",
+  previewIcon: "p-image-preview-icon",
+  mask: "p-image-mask p-overlay-mask p-overlay-mask-enter",
+  toolbar: "p-image-toolbar",
+  rotateRightButton: "p-image-action p-image-rotate-right-button",
+  rotateLeftButton: "p-image-action p-image-rotate-left-button",
+  zoomOutButton: ({
+    instance
+  }) => ["p-image-action p-image-zoom-out-button", {
+    "p-disabled": instance.isZoomOutDisabled
+  }],
+  zoomInButton: ({
+    instance
+  }) => ["p-image-action p-image-zoom-in-button", {
+    "p-disabled": instance.isZoomInDisabled
+  }],
+  closeButton: "p-image-action p-image-close-button",
+  original: "p-image-original"
+};
+var ImageStyle = class _ImageStyle extends BaseStyle {
+  name = "image";
+  theme = theme8;
+  classes = classes7;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275ImageStyle_BaseFactory;
+    return function ImageStyle_Factory(__ngFactoryType__) {
+      return (\u0275ImageStyle_BaseFactory || (\u0275ImageStyle_BaseFactory = \u0275\u0275getInheritedFactory(_ImageStyle)))(__ngFactoryType__ || _ImageStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _ImageStyle,
+    factory: _ImageStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ImageStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var ImageClasses;
+(function(ImageClasses2) {
+  ImageClasses2["root"] = "p-image";
+  ImageClasses2["previewMask"] = "p-image-preview-mask";
+  ImageClasses2["previewIcon"] = "p-image-preview-icon";
+  ImageClasses2["mask"] = "p-image-mask";
+  ImageClasses2["toolbar"] = "p-image-toolbar";
+  ImageClasses2["rotateRightButton"] = "p-image-rotate-right-button";
+  ImageClasses2["rotateLeftButton"] = "p-image-rotate-left-button";
+  ImageClasses2["zoomOutButton"] = "p-image-zoom-out-button";
+  ImageClasses2["zoomInButton"] = "p-image-zoom-in-button";
+  ImageClasses2["closeButton"] = "p-image-close-button";
+  ImageClasses2["original"] = "p-image-original";
+})(ImageClasses || (ImageClasses = {}));
 var Image = class _Image extends BaseComponent {
   /**
    * Style class of the image element.
@@ -19306,13 +19125,6 @@ var Image = class _Image extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Image, {
-    className: "Image",
-    filePath: "image.ts",
-    lineNumber: 116
-  });
-})();
 var ImageModule = class _ImageModule {
   static \u0275fac = function ImageModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ImageModule)();
@@ -19544,7 +19356,7 @@ var ProgressService = class _ProgressService {
   }
   goToEnd() {
     this.hasEnded.set(true);
-    this.router.navigate(["quiz", "end"], { replaceUrl: true });
+    this.router.navigate(["quiz", "fin"], { replaceUrl: true });
   }
   goToNext() {
     if (!this.dataService.isFinished()) {
@@ -19552,7 +19364,7 @@ var ProgressService = class _ProgressService {
       this.questionNumber.update((n) => n + 1);
       this.answered.set(false);
       this.router.navigate(["quiz", this.questionNumber().toString()], {
-        queryParams: { theme: this.dataService.currentTopic(), theme_id: this.dataService.currentQuestionId(), answered: false },
+        queryParams: { th\u00E8me: this.dataService.currentTopic(), th\u00E8me_id: this.dataService.currentQuestionId(), r\u00E9pondu: "faux" },
         replaceUrl: this.questionNumber() > 0
       });
     } else {
@@ -19569,7 +19381,7 @@ var ProgressService = class _ProgressService {
     this.answered.set(true);
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { answered: true },
+      queryParams: { r\u00E9pondu: "vrai" },
       queryParamsHandling: "merge",
       // remove to replace all query params by provided
       replaceUrl: true
@@ -26057,6 +25869,15 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-radiobutton.mjs
+var _c08 = ["input"];
+var _c18 = (a0, a1, a2, a3, a4) => ({
+  "p-radiobutton p-component": true,
+  "p-radiobutton-checked": a0,
+  "p-disabled": a1,
+  "p-variant-filled": a2,
+  "p-radiobutton-sm p-inputfield-sm": a3,
+  "p-radiobutton-lg p-inputfield-lg": a4
+});
 var theme9 = ({
   dt: dt2
 }) => `
@@ -26240,15 +26061,6 @@ var RadioButtonClasses;
   RadioButtonClasses2["input"] = "p-radiobutton-input";
   RadioButtonClasses2["icon"] = "p-radiobutton-icon";
 })(RadioButtonClasses || (RadioButtonClasses = {}));
-var _c08 = ["input"];
-var _c18 = (a0, a1, a2, a3, a4) => ({
-  "p-radiobutton p-component": true,
-  "p-radiobutton-checked": a0,
-  "p-disabled": a1,
-  "p-variant-filled": a2,
-  "p-radiobutton-sm p-inputfield-sm": a3,
-  "p-radiobutton-lg p-inputfield-lg": a4
-});
 var RADIO_VALUE_ACCESSOR2 = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => RadioButton),
@@ -26669,13 +26481,6 @@ var RadioButton = class _RadioButton extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RadioButton, {
-    className: "RadioButton",
-    filePath: "radiobutton.ts",
-    lineNumber: 98
-  });
-})();
 var RadioButtonModule = class _RadioButtonModule {
   static \u0275fac = function RadioButtonModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _RadioButtonModule)();
@@ -26698,6 +26503,78 @@ var RadioButtonModule = class _RadioButtonModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-checkbox.mjs
+var _c09 = ["checkboxicon"];
+var _c19 = ["input"];
+var _c25 = () => ({
+  "p-checkbox-input": true
+});
+var _c34 = (a0) => ({
+  checked: a0,
+  class: "p-checkbox-icon"
+});
+function Checkbox_ng_container_4_ng_container_1_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 8);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.checkboxIcon);
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "CheckIcon", 9);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("styleClass", "p-checkbox-icon");
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Checkbox_ng_container_4_ng_container_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_span_1_Template, 1, 2, "span", 7)(2, Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template, 1, 2, "CheckIcon", 6);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.checkboxIcon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.checkboxIcon);
+  }
+}
+function Checkbox_ng_container_4_MinusIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "MinusIcon", 9);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("styleClass", "p-checkbox-icon");
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Checkbox_ng_container_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_Template, 3, 2, "ng-container", 4)(2, Checkbox_ng_container_4_MinusIcon_2_Template, 1, 2, "MinusIcon", 6);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.checked);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1._indeterminate());
+  }
+}
+function Checkbox_5_ng_template_0_Template(rf, ctx) {
+}
+function Checkbox_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Checkbox_5_ng_template_0_Template, 0, 0, "ng-template");
+  }
+}
 var theme10 = ({
   dt: dt2
 }) => `
@@ -26876,78 +26753,6 @@ var CheckboxClasses;
   CheckboxClasses2["input"] = "p-checkbox-input";
   CheckboxClasses2["icon"] = "p-checkbox-icon";
 })(CheckboxClasses || (CheckboxClasses = {}));
-var _c09 = ["checkboxicon"];
-var _c19 = ["input"];
-var _c25 = () => ({
-  "p-checkbox-input": true
-});
-var _c34 = (a0) => ({
-  checked: a0,
-  class: "p-checkbox-icon"
-});
-function Checkbox_ng_container_4_ng_container_1_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 8);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.checkboxIcon);
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "CheckIcon", 9);
-  }
-  if (rf & 2) {
-    \u0275\u0275property("styleClass", "p-checkbox-icon");
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Checkbox_ng_container_4_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_span_1_Template, 1, 2, "span", 7)(2, Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template, 1, 2, "CheckIcon", 6);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.checkboxIcon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.checkboxIcon);
-  }
-}
-function Checkbox_ng_container_4_MinusIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "MinusIcon", 9);
-  }
-  if (rf & 2) {
-    \u0275\u0275property("styleClass", "p-checkbox-icon");
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Checkbox_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_Template, 3, 2, "ng-container", 4)(2, Checkbox_ng_container_4_MinusIcon_2_Template, 1, 2, "MinusIcon", 6);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.checked);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1._indeterminate());
-  }
-}
-function Checkbox_5_ng_template_0_Template(rf, ctx) {
-}
-function Checkbox_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Checkbox_5_ng_template_0_Template, 0, 0, "ng-template");
-  }
-}
 var CHECKBOX_VALUE_ACCESSOR2 = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => Checkbox),
@@ -27280,7 +27085,7 @@ var Checkbox = class _Checkbox extends BaseComponent {
         \u0275\u0275styleMap(ctx.inputStyle);
         \u0275\u0275classMap(ctx.inputClass);
         \u0275\u0275property("value", ctx.value)("checked", ctx.checked)("disabled", ctx.disabled)("readonly", ctx.readonly)("ngClass", \u0275\u0275pureFunction0(26, _c25));
-        \u0275\u0275attribute("id", ctx.inputId)("name", ctx.name)("tabindex", ctx.tabindex)("required", ctx.required)("aria-labelledby", ctx.ariaLabelledBy)("aria-label", ctx.ariaLabel);
+        \u0275\u0275attribute("id", ctx.inputId)("name", ctx.name)("tabindex", ctx.tabindex)("required", ctx.required ? true : null)("aria-labelledby", ctx.ariaLabelledBy)("aria-label", ctx.ariaLabel);
         \u0275\u0275advance(3);
         \u0275\u0275property("ngIf", !ctx.checkboxIconTemplate && !ctx._checkboxIconTemplate);
         \u0275\u0275advance();
@@ -27311,7 +27116,7 @@ var Checkbox = class _Checkbox extends BaseComponent {
                 [attr.tabindex]="tabindex"
                 [disabled]="disabled"
                 [readonly]="readonly"
-                [attr.required]="required"
+                [attr.required]="required ? true : null"
                 [attr.aria-labelledby]="ariaLabelledBy"
                 [attr.aria-label]="ariaLabel"
                 [style]="inputStyle"
@@ -27450,13 +27255,6 @@ var Checkbox = class _Checkbox extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Checkbox, {
-    className: "Checkbox",
-    filePath: "checkbox.ts",
-    lineNumber: 84
-  });
-})();
 var CheckboxModule = class _CheckboxModule {
   static \u0275fac = function CheckboxModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _CheckboxModule)();
@@ -27479,262 +27277,6 @@ var CheckboxModule = class _CheckboxModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-dialog.mjs
-var theme11 = ({
-  dt: dt2
-}) => `
-.p-dialog {
-    max-height: 90%;
-    transform: scale(1);
-    border-radius: ${dt2("dialog.border.radius")};
-    box-shadow: ${dt2("dialog.shadow")};
-    background: ${dt2("dialog.background")};
-    border: 1px solid ${dt2("dialog.border.color")};
-    color: ${dt2("dialog.color")};
-    display: flex;
-    flex-direction: column;
-    pointer-events: auto
-}
-
-.p-dialog-content {
-    overflow-y: auto;
-    padding: ${dt2("dialog.content.padding")};
-    flex-grow: 1;
-}
-
-.p-dialog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    padding: ${dt2("dialog.header.padding")};
-}
-
-.p-dialog-title {
-    font-weight: ${dt2("dialog.title.font.weight")};
-    font-size: ${dt2("dialog.title.font.size")};
-}
-
-.p-dialog-footer {
-    flex-shrink: 0;
-    padding: ${dt2("dialog.footer.padding")};
-    display: flex;
-    justify-content: flex-end;
-    gap: ${dt2("dialog.footer.gap")};
-}
-
-.p-dialog-header-actions {
-    display: flex;
-    align-items: center;
-    gap: ${dt2("dialog.header.gap")};
-}
-
-.p-dialog-enter-active {
-    transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.p-dialog-leave-active {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.p-dialog-enter-from,
-.p-dialog-leave-to {
-    opacity: 0;
-    transform: scale(0.7);
-}
-
-.p-dialog-top .p-dialog,
-.p-dialog-bottom .p-dialog,
-.p-dialog-left .p-dialog,
-.p-dialog-right .p-dialog,
-.p-dialog-topleft .p-dialog,
-.p-dialog-topright .p-dialog,
-.p-dialog-bottomleft .p-dialog,
-.p-dialog-bottomright .p-dialog {
-    margin: 0.75rem;
-    transform: translate3d(0px, 0px, 0px);
-}
-
-.p-dialog-top .p-dialog-enter-active,
-.p-dialog-top .p-dialog-leave-active,
-.p-dialog-bottom .p-dialog-enter-active,
-.p-dialog-bottom .p-dialog-leave-active,
-.p-dialog-left .p-dialog-enter-active,
-.p-dialog-left .p-dialog-leave-active,
-.p-dialog-right .p-dialog-enter-active,
-.p-dialog-right .p-dialog-leave-active,
-.p-dialog-topleft .p-dialog-enter-active,
-.p-dialog-topleft .p-dialog-leave-active,
-.p-dialog-topright .p-dialog-enter-active,
-.p-dialog-topright .p-dialog-leave-active,
-.p-dialog-bottomleft .p-dialog-enter-active,
-.p-dialog-bottomleft .p-dialog-leave-active,
-.p-dialog-bottomright .p-dialog-enter-active,
-.p-dialog-bottomright .p-dialog-leave-active {
-    transition: all 0.3s ease-out;
-}
-
-.p-dialog-top .p-dialog-enter-from,
-.p-dialog-top .p-dialog-leave-to {
-    transform: translate3d(0px, -100%, 0px);
-}
-
-.p-dialog-bottom .p-dialog-enter-from,
-.p-dialog-bottom .p-dialog-leave-to {
-    transform: translate3d(0px, 100%, 0px);
-}
-
-.p-dialog-left .p-dialog-enter-from,
-.p-dialog-left .p-dialog-leave-to,
-.p-dialog-topleft .p-dialog-enter-from,
-.p-dialog-topleft .p-dialog-leave-to,
-.p-dialog-bottomleft .p-dialog-enter-from,
-.p-dialog-bottomleft .p-dialog-leave-to {
-    transform: translate3d(-100%, 0px, 0px);
-}
-
-.p-dialog-right .p-dialog-enter-from,
-.p-dialog-right .p-dialog-leave-to,
-.p-dialog-topright .p-dialog-enter-from,
-.p-dialog-topright .p-dialog-leave-to,
-.p-dialog-bottomright .p-dialog-enter-from,
-.p-dialog-bottomright .p-dialog-leave-to {
-    transform: translate3d(100%, 0px, 0px);
-}
-
-.p-dialog-left:dir(rtl) .p-dialog-enter-from,
-.p-dialog-left:dir(rtl) .p-dialog-leave-to,
-.p-dialog-topleft:dir(rtl) .p-dialog-enter-from,
-.p-dialog-topleft:dir(rtl) .p-dialog-leave-to,
-.p-dialog-bottomleft:dir(rtl) .p-dialog-enter-from,
-.p-dialog-bottomleft:dir(rtl) .p-dialog-leave-to {
-    transform: translate3d(100%, 0px, 0px);
-}
-
-.p-dialog-right:dir(rtl) .p-dialog-enter-from,
-.p-dialog-right:dir(rtl) .p-dialog-leave-to,
-.p-dialog-topright:dir(rtl) .p-dialog-enter-from,
-.p-dialog-topright:dir(rtl) .p-dialog-leave-to,
-.p-dialog-bottomright:dir(rtl) .p-dialog-enter-from,
-.p-dialog-bottomright:dir(rtl) .p-dialog-leave-to {
-    transform: translate3d(-100%, 0px, 0px);
-}
-
-.p-dialog-maximized {
-    width: 100vw !important;
-    height: 100vh !important;
-    top: 0px !important;
-    left: 0px !important;
-    max-height: 100%;
-    height: 100%;
-    border-radius: 0;
-}
-
-.p-dialog-maximized .p-dialog-content {
-    flex-grow: 1;
-}
-
-.p-overlay-mask:dir(rtl) {
-    flex-direction: row-reverse;
-}
-
-/* For PrimeNG */
-
-.p-dialog .p-resizable-handle {
-    position: absolute;
-    font-size: 0.1px;
-    display: block;
-    cursor: se-resize;
-    width: 12px;
-    height: 12px;
-    right: 1px;
-    bottom: 1px;
-}
-
-.p-confirm-dialog .p-dialog-content {
-    display: flex;
-    align-items: center;
-}
-`;
-var inlineStyles3 = {
-  mask: ({
-    instance
-  }) => ({
-    position: "fixed",
-    height: "100%",
-    width: "100%",
-    left: 0,
-    top: 0,
-    display: "flex",
-    justifyContent: instance.position === "left" || instance.position === "topleft" || instance.position === "bottomleft" ? "flex-start" : instance.position === "right" || instance.position === "topright" || instance.position === "bottomright" ? "flex-end" : "center",
-    alignItems: instance.position === "top" || instance.position === "topleft" || instance.position === "topright" ? "flex-start" : instance.position === "bottom" || instance.position === "bottomleft" || instance.position === "bottomright" ? "flex-end" : "center",
-    pointerEvents: instance.modal ? "auto" : "none"
-  }),
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    pointerEvents: "auto"
-  }
-};
-var classes10 = {
-  mask: ({
-    instance
-  }) => {
-    const positions = ["left", "right", "top", "topleft", "topright", "bottom", "bottomleft", "bottomright"];
-    const pos = positions.find((item) => item === instance.position);
-    return {
-      "p-dialog-mask": true,
-      "p-overlay-mask p-overlay-mask-enter": instance.modal,
-      [`p-dialog-${pos}`]: pos
-    };
-  },
-  root: ({
-    instance
-  }) => ({
-    "p-dialog p-component": true,
-    "p-dialog-maximized": instance.maximizable && instance.maximized
-  }),
-  header: "p-dialog-header",
-  title: "p-dialog-title",
-  resizeHandle: "p-resizable-handle",
-  headerActions: "p-dialog-header-actions",
-  pcMaximizeButton: "p-dialog-maximize-button",
-  pcCloseButton: "p-dialog-close-button",
-  content: "p-dialog-content",
-  footer: "p-dialog-footer"
-};
-var DialogStyle = class _DialogStyle extends BaseStyle {
-  name = "dialog";
-  theme = theme11;
-  classes = classes10;
-  inlineStyles = inlineStyles3;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275DialogStyle_BaseFactory;
-    return function DialogStyle_Factory(__ngFactoryType__) {
-      return (\u0275DialogStyle_BaseFactory || (\u0275DialogStyle_BaseFactory = \u0275\u0275getInheritedFactory(_DialogStyle)))(__ngFactoryType__ || _DialogStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _DialogStyle,
-    factory: _DialogStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DialogStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var DialogClasses;
-(function(DialogClasses2) {
-  DialogClasses2["mask"] = "p-dialog-mask";
-  DialogClasses2["root"] = "p-dialog";
-  DialogClasses2["header"] = "p-dialog-header";
-  DialogClasses2["title"] = "p-dialog-title";
-  DialogClasses2["headerActions"] = "p-dialog-header-actions";
-  DialogClasses2["pcMaximizeButton"] = "p-dialog-maximize-button";
-  DialogClasses2["pcCloseButton"] = "p-dialog-close-button";
-  DialogClasses2["content"] = "p-dialog-content";
-  DialogClasses2["footer"] = "p-dialog-footer";
-})(DialogClasses || (DialogClasses = {}));
 var _c010 = ["header"];
 var _c110 = ["content"];
 var _c26 = ["footer"];
@@ -28114,6 +27656,262 @@ function Dialog_div_0_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r1.visible);
   }
 }
+var theme11 = ({
+  dt: dt2
+}) => `
+.p-dialog {
+    max-height: 90%;
+    transform: scale(1);
+    border-radius: ${dt2("dialog.border.radius")};
+    box-shadow: ${dt2("dialog.shadow")};
+    background: ${dt2("dialog.background")};
+    border: 1px solid ${dt2("dialog.border.color")};
+    color: ${dt2("dialog.color")};
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto
+}
+
+.p-dialog-content {
+    overflow-y: auto;
+    padding: ${dt2("dialog.content.padding")};
+    flex-grow: 1;
+}
+
+.p-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    padding: ${dt2("dialog.header.padding")};
+}
+
+.p-dialog-title {
+    font-weight: ${dt2("dialog.title.font.weight")};
+    font-size: ${dt2("dialog.title.font.size")};
+}
+
+.p-dialog-footer {
+    flex-shrink: 0;
+    padding: ${dt2("dialog.footer.padding")};
+    display: flex;
+    justify-content: flex-end;
+    gap: ${dt2("dialog.footer.gap")};
+}
+
+.p-dialog-header-actions {
+    display: flex;
+    align-items: center;
+    gap: ${dt2("dialog.header.gap")};
+}
+
+.p-dialog-enter-active {
+    transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.p-dialog-leave-active {
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.p-dialog-enter-from,
+.p-dialog-leave-to {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.p-dialog-top .p-dialog,
+.p-dialog-bottom .p-dialog,
+.p-dialog-left .p-dialog,
+.p-dialog-right .p-dialog,
+.p-dialog-topleft .p-dialog,
+.p-dialog-topright .p-dialog,
+.p-dialog-bottomleft .p-dialog,
+.p-dialog-bottomright .p-dialog {
+    margin: 0.75rem;
+    transform: translate3d(0px, 0px, 0px);
+}
+
+.p-dialog-top .p-dialog-enter-active,
+.p-dialog-top .p-dialog-leave-active,
+.p-dialog-bottom .p-dialog-enter-active,
+.p-dialog-bottom .p-dialog-leave-active,
+.p-dialog-left .p-dialog-enter-active,
+.p-dialog-left .p-dialog-leave-active,
+.p-dialog-right .p-dialog-enter-active,
+.p-dialog-right .p-dialog-leave-active,
+.p-dialog-topleft .p-dialog-enter-active,
+.p-dialog-topleft .p-dialog-leave-active,
+.p-dialog-topright .p-dialog-enter-active,
+.p-dialog-topright .p-dialog-leave-active,
+.p-dialog-bottomleft .p-dialog-enter-active,
+.p-dialog-bottomleft .p-dialog-leave-active,
+.p-dialog-bottomright .p-dialog-enter-active,
+.p-dialog-bottomright .p-dialog-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.p-dialog-top .p-dialog-enter-from,
+.p-dialog-top .p-dialog-leave-to {
+    transform: translate3d(0px, -100%, 0px);
+}
+
+.p-dialog-bottom .p-dialog-enter-from,
+.p-dialog-bottom .p-dialog-leave-to {
+    transform: translate3d(0px, 100%, 0px);
+}
+
+.p-dialog-left .p-dialog-enter-from,
+.p-dialog-left .p-dialog-leave-to,
+.p-dialog-topleft .p-dialog-enter-from,
+.p-dialog-topleft .p-dialog-leave-to,
+.p-dialog-bottomleft .p-dialog-enter-from,
+.p-dialog-bottomleft .p-dialog-leave-to {
+    transform: translate3d(-100%, 0px, 0px);
+}
+
+.p-dialog-right .p-dialog-enter-from,
+.p-dialog-right .p-dialog-leave-to,
+.p-dialog-topright .p-dialog-enter-from,
+.p-dialog-topright .p-dialog-leave-to,
+.p-dialog-bottomright .p-dialog-enter-from,
+.p-dialog-bottomright .p-dialog-leave-to {
+    transform: translate3d(100%, 0px, 0px);
+}
+
+.p-dialog-left:dir(rtl) .p-dialog-enter-from,
+.p-dialog-left:dir(rtl) .p-dialog-leave-to,
+.p-dialog-topleft:dir(rtl) .p-dialog-enter-from,
+.p-dialog-topleft:dir(rtl) .p-dialog-leave-to,
+.p-dialog-bottomleft:dir(rtl) .p-dialog-enter-from,
+.p-dialog-bottomleft:dir(rtl) .p-dialog-leave-to {
+    transform: translate3d(100%, 0px, 0px);
+}
+
+.p-dialog-right:dir(rtl) .p-dialog-enter-from,
+.p-dialog-right:dir(rtl) .p-dialog-leave-to,
+.p-dialog-topright:dir(rtl) .p-dialog-enter-from,
+.p-dialog-topright:dir(rtl) .p-dialog-leave-to,
+.p-dialog-bottomright:dir(rtl) .p-dialog-enter-from,
+.p-dialog-bottomright:dir(rtl) .p-dialog-leave-to {
+    transform: translate3d(-100%, 0px, 0px);
+}
+
+.p-dialog-maximized {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0px !important;
+    left: 0px !important;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+.p-dialog-maximized .p-dialog-content {
+    flex-grow: 1;
+}
+
+.p-overlay-mask:dir(rtl) {
+    flex-direction: row-reverse;
+}
+
+/* For PrimeNG */
+
+.p-dialog .p-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+}
+
+.p-confirm-dialog .p-dialog-content {
+    display: flex;
+    align-items: center;
+}
+`;
+var inlineStyles3 = {
+  mask: ({
+    instance
+  }) => ({
+    position: "fixed",
+    height: "100%",
+    width: "100%",
+    left: 0,
+    top: 0,
+    display: "flex",
+    justifyContent: instance.position === "left" || instance.position === "topleft" || instance.position === "bottomleft" ? "flex-start" : instance.position === "right" || instance.position === "topright" || instance.position === "bottomright" ? "flex-end" : "center",
+    alignItems: instance.position === "top" || instance.position === "topleft" || instance.position === "topright" ? "flex-start" : instance.position === "bottom" || instance.position === "bottomleft" || instance.position === "bottomright" ? "flex-end" : "center",
+    pointerEvents: instance.modal ? "auto" : "none"
+  }),
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    pointerEvents: "auto"
+  }
+};
+var classes10 = {
+  mask: ({
+    instance
+  }) => {
+    const positions = ["left", "right", "top", "topleft", "topright", "bottom", "bottomleft", "bottomright"];
+    const pos = positions.find((item) => item === instance.position);
+    return {
+      "p-dialog-mask": true,
+      "p-overlay-mask p-overlay-mask-enter": instance.modal,
+      [`p-dialog-${pos}`]: pos
+    };
+  },
+  root: ({
+    instance
+  }) => ({
+    "p-dialog p-component": true,
+    "p-dialog-maximized": instance.maximizable && instance.maximized
+  }),
+  header: "p-dialog-header",
+  title: "p-dialog-title",
+  resizeHandle: "p-resizable-handle",
+  headerActions: "p-dialog-header-actions",
+  pcMaximizeButton: "p-dialog-maximize-button",
+  pcCloseButton: "p-dialog-close-button",
+  content: "p-dialog-content",
+  footer: "p-dialog-footer"
+};
+var DialogStyle = class _DialogStyle extends BaseStyle {
+  name = "dialog";
+  theme = theme11;
+  classes = classes10;
+  inlineStyles = inlineStyles3;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275DialogStyle_BaseFactory;
+    return function DialogStyle_Factory(__ngFactoryType__) {
+      return (\u0275DialogStyle_BaseFactory || (\u0275DialogStyle_BaseFactory = \u0275\u0275getInheritedFactory(_DialogStyle)))(__ngFactoryType__ || _DialogStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _DialogStyle,
+    factory: _DialogStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DialogStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var DialogClasses;
+(function(DialogClasses2) {
+  DialogClasses2["mask"] = "p-dialog-mask";
+  DialogClasses2["root"] = "p-dialog";
+  DialogClasses2["header"] = "p-dialog-header";
+  DialogClasses2["title"] = "p-dialog-title";
+  DialogClasses2["headerActions"] = "p-dialog-header-actions";
+  DialogClasses2["pcMaximizeButton"] = "p-dialog-maximize-button";
+  DialogClasses2["pcCloseButton"] = "p-dialog-close-button";
+  DialogClasses2["content"] = "p-dialog-content";
+  DialogClasses2["footer"] = "p-dialog-footer";
+})(DialogClasses || (DialogClasses = {}));
 var showAnimation = animation([style({
   transform: "{{transform}}",
   opacity: 0
@@ -29463,13 +29261,6 @@ var Dialog = class _Dialog extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Dialog, {
-    className: "Dialog",
-    filePath: "dialog.ts",
-    lineNumber: 138
-  });
-})();
 var DialogModule = class _DialogModule {
   static \u0275fac = function DialogModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _DialogModule)();
@@ -29755,6 +29546,7 @@ var QuizCardComponent = class _QuizCardComponent {
 })();
 
 // src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts
+var _c011 = () => ({ objectFit: "contain" });
 function QuizEndpageComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "h2");
@@ -29821,29 +29613,30 @@ var QuizEndpageComponent = class _QuizEndpageComponent {
   static \u0275fac = function QuizEndpageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _QuizEndpageComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizEndpageComponent, selectors: [["app-quiz-endpage"]], decls: 19, vars: 2, consts: [[1, "header"], [1, "lower-section"], [1, "divider"], [1, "start-div"], ["severity", "secondary", "variant", "outlined", 3, "click"], [3, "click"]], template: function QuizEndpageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizEndpageComponent, selectors: [["app-quiz-endpage"]], decls: 20, vars: 4, consts: [[1, "header"], ["src", "images/quiz_endpage_image.png", "alt", "Image de d\xE9coration de la page finale du quiz", "width", "100%", 1, "image-outro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], ["severity", "secondary", "variant", "outlined", 3, "click"], [3, "click"]], template: function QuizEndpageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "h1");
       \u0275\u0275text(2, "Le quiz est fini !");
       \u0275\u0275elementEnd();
       \u0275\u0275template(3, QuizEndpageComponent_Conditional_3_Template, 2, 2, "h2")(4, QuizEndpageComponent_Conditional_4_Template, 2, 2, "h2")(5, QuizEndpageComponent_Conditional_5_Template, 2, 0, "p")(6, QuizEndpageComponent_Conditional_6_Template, 2, 0, "p")(7, QuizEndpageComponent_Conditional_7_Template, 2, 0, "p")(8, QuizEndpageComponent_Conditional_8_Template, 2, 0, "p")(9, QuizEndpageComponent_Conditional_9_Template, 2, 0, "p");
+      \u0275\u0275element(10, "p-image", 1);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(10, "span");
-      \u0275\u0275text(11, " Vous pouvez passer \xE0 Inclusif, le jeu, ou lancer une autre s\xE9rie de questions.\n");
+      \u0275\u0275elementStart(11, "span");
+      \u0275\u0275text(12, " Vous pouvez d\xE9sormais passer \xE0 \xAB Inclusif, le jeu \xBB, ou lancer une autre s\xE9rie de questions.\n");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(12, "div", 1);
-      \u0275\u0275element(13, "p-divider", 2);
-      \u0275\u0275elementStart(14, "div", 3)(15, "p-button", 4);
-      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_15_listener() {
+      \u0275\u0275elementStart(13, "div", 2);
+      \u0275\u0275element(14, "p-divider");
+      \u0275\u0275elementStart(15, "div", 3)(16, "p-button", 4);
+      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_16_listener() {
         return ctx.progressService.goToBegining();
       });
-      \u0275\u0275text(16, " Voir Inclusif, le jeu ");
+      \u0275\u0275text(17, " Voir Inclusif, le jeu ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(17, "p-button", 5);
-      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_17_listener() {
+      \u0275\u0275elementStart(18, "p-button", 5);
+      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_18_listener() {
         return ctx.progressService.goToBegining();
       });
-      \u0275\u0275text(18, " Relancer une s\xE9rie ");
+      \u0275\u0275text(19, " Relancer une s\xE9rie ");
       \u0275\u0275elementEnd()()();
     }
     if (rf & 2) {
@@ -29851,14 +29644,31 @@ var QuizEndpageComponent = class _QuizEndpageComponent {
       \u0275\u0275conditional(2 * ctx.progressService.score() >= ctx.progressService.questionNumber() ? 3 : 4);
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.progressService.score() / ctx.rapport < 1 ? 5 : ctx.progressService.score() / ctx.rapport < 2 ? 6 : ctx.progressService.score() / ctx.rapport < 3 ? 7 : ctx.progressService.score() / ctx.rapport < 4 ? 8 : 9);
+      \u0275\u0275advance(5);
+      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(3, _c011));
     }
-  }, dependencies: [ButtonModule, Button, Divider], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin: 16px;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 70px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 350px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\n.divider[_ngcontent-%COMP%] {\n  padding-bottom: 20px;\n}\np-button[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n  margin-top: 50px;\n}"] });
+  }, dependencies: [ButtonModule, Button, Divider, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 70px;\n}\np-image[_ngcontent-%COMP%] {\n  padding-top: 50px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 50px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\np-divider[_ngcontent-%COMP%] {\n  padding-bottom: 20px;\n  width: 80%;\n}\np-button[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n  margin-top: 50px;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizEndpageComponent, { className: "QuizEndpageComponent", filePath: "src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts", lineNumber: 13 });
 })();
 
 // node_modules/primeng/fesm2022/primeng-blockui.mjs
+var _c012 = ["content"];
+var _c111 = ["mask"];
+var _c27 = ["*"];
+var _c36 = (a0) => ({
+  "p-blockui-mask-document": a0,
+  "p-blockui p-blockui-mask p-overlay-mask": true
+});
+var _c45 = () => ({
+  display: "none"
+});
+function BlockUI_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
 var theme12 = ({
   dt: dt2
 }) => `
@@ -29905,21 +29715,6 @@ var BlockUIClasses;
 (function(BlockUIClasses2) {
   BlockUIClasses2["root"] = "p-blockui";
 })(BlockUIClasses || (BlockUIClasses = {}));
-var _c011 = ["content"];
-var _c111 = ["mask"];
-var _c27 = ["*"];
-var _c36 = (a0) => ({
-  "p-blockui-mask-document": a0,
-  "p-blockui p-blockui-mask p-overlay-mask": true
-});
-var _c45 = () => ({
-  display: "none"
-});
-function BlockUI_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
 var BlockUI = class _BlockUI extends BaseComponent {
   /**
    * Name of the local ng-template variable referring to another component.
@@ -30039,7 +29834,7 @@ var BlockUI = class _BlockUI extends BaseComponent {
     selectors: [["p-blockUI"], ["p-blockui"], ["p-block-ui"]],
     contentQueries: function BlockUI_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c011, 4);
+        \u0275\u0275contentQuery(dirIndex, _c012, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -30154,13 +29949,6 @@ var BlockUI = class _BlockUI extends BaseComponent {
       type: ContentChildren,
       args: [PrimeTemplate]
     }]
-  });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BlockUI, {
-    className: "BlockUI",
-    filePath: "blockui.ts",
-    lineNumber: 53
   });
 })();
 var BlockUIModule = class _BlockUIModule {
@@ -30434,237 +30222,7 @@ var InputTextModule = class _InputTextModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-inputnumber.mjs
-var theme14 = ({
-  dt: dt2
-}) => `
-.p-inputnumber {
-    display: inline-flex;
-    position: relative;
-}
-
-.p-inputnumber-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    cursor: pointer;
-    background: ${dt2("inputnumber.button.background")};
-    color: ${dt2("inputnumber.button.color")};
-    width: ${dt2("inputnumber.button.width")};
-    transition: background ${dt2("inputnumber.transition.duration")}, color ${dt2("inputnumber.transition.duration")}, border-color ${dt2("inputnumber.transition.duration")}, outline-color ${dt2("inputnumber.transition.duration")};
-}
-
-.p-inputnumber-button:hover {
-    background: ${dt2("inputnumber.button.hover.background")};
-    color: ${dt2("inputnumber.button.hover.color")};
-}
-
-.p-inputnumber-button:active {
-    background: ${dt2("inputnumber.button.active.background")};
-    color: ${dt2("inputnumber.button.active.color")};
-}
-
-.p-inputnumber-stacked .p-inputnumber-button {
-    position: relative;
-    border: 0 none;
-}
-
-.p-inputnumber-stacked .p-inputnumber-button-group {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    inset-block-start: 1px;
-    inset-inline-end: 1px;
-    height: calc(100% - 2px);
-    z-index: 1;
-}
-
-.p-inputnumber-stacked .p-inputnumber-increment-button {
-    padding: 0;
-    border-start-end-radius: calc(${dt2("inputnumber.button.border.radius")} - 1px);
-}
-
-.p-inputnumber-stacked .p-inputnumber-decrement-button {
-    padding: 0;
-    border-end-end-radius: calc(${dt2("inputnumber.button.border.radius")} - 1px);
-}
-
-.p-inputnumber-stacked .p-inputnumber-button {
-    flex: 1 1 auto;
-    border: 0 none;
-}
-
-.p-inputnumber-horizontal .p-inputnumber-button {
-    border: 1px solid ${dt2("inputnumber.button.border.color")};
-}
-
-.p-inputnumber-horizontal .p-inputnumber-button:hover {
-    border-color: ${dt2("inputnumber.button.hover.border.color")};
-}
-
-.p-inputnumber-horizontal .p-inputnumber-button:active {
-    border-color: ${dt2("inputnumber.button.active.border.color")};
-}
-
-.p-inputnumber-horizontal .p-inputnumber-increment-button {
-    order: 3;
-    border-start-end-radius: ${dt2("inputnumber.button.border.radius")};
-    border-end-end-radius: ${dt2("inputnumber.button.border.radius")};
-    border-inline-start: 0 none;
-}
-
-.p-inputnumber-horizontal .p-inputnumber-input {
-    order: 2;
-    border-radius: 0;
-}
-
-.p-inputnumber-horizontal .p-inputnumber-decrement-button {
-    order: 1;
-    border-start-start-radius: ${dt2("inputnumber.button.border.radius")};
-    border-end-start-radius: ${dt2("inputnumber.button.border.radius")};
-    border-inline-end: 0 none;
-}
-
-.p-floatlabel:has(.p-inputnumber-horizontal) label {
-    margin-inline-start: ${dt2("inputnumber.button.width")};
-}
-
-.p-inputnumber-vertical {
-    flex-direction: column;
-}
-
-.p-inputnumber-vertical .p-inputnumber-button {
-    border: 1px solid ${dt2("inputnumber.button.border.color")};
-    padding-block: ${dt2("inputnumber.button.vertical.padding")};
-    padding-inline: 0;
-}
-
-.p-inputnumber-vertical .p-inputnumber-button:hover {
-    border-color: ${dt2("inputnumber.button.hover.border.color")};
-}
-
-.p-inputnumber-vertical .p-inputnumber-button:active {
-    border-color: ${dt2("inputnumber.button.active.border.color")};
-}
-
-.p-inputnumber-vertical .p-inputnumber-increment-button {
-    order: 1;
-    border-start-start-radius: ${dt2("inputnumber.button.border.radius")};
-    border-start-end-radius: ${dt2("inputnumber.button.border.radius")};
-    width: 100%;
-    border-block-end: 0 none;
-}
-
-.p-inputnumber-vertical .p-inputnumber-input {
-    order: 2;
-    border-radius: 0;
-    text-align: center;
-}
-
-.p-inputnumber-vertical .p-inputnumber-decrement-button {
-    order: 3;
-    border-end-start-radius: ${dt2("inputnumber.button.border.radius")};
-    border-end-end-radius: ${dt2("inputnumber.button.border.radius")};
-    width: 100%;
-    border-block-start: 0 none;
-}
-
-.p-inputnumber-input {
-    flex: 1 1 auto;
-}
-
-.p-inputnumber-fluid {
-    width: 100%;
-}
-
-.p-inputnumber-fluid .p-inputnumber-input {
-    width: 1%;
-}
-
-.p-inputnumber-fluid.p-inputnumber-vertical .p-inputnumber-input {
-    width: 100%;
-}
-
-.p-inputnumber:has(.p-inputtext-sm) .p-inputnumber-button .p-icon {
-    font-size: ${dt2("form.field.sm.font.size")};
-    width: ${dt2("form.field.sm.font.size")};
-    height: ${dt2("form.field.sm.font.size")};
-}
-
-.p-inputnumber:has(.p-inputtext-lg) .p-inputnumber-button .p-icon {
-    font-size: ${dt2("form.field.lg.font.size")};
-    width: ${dt2("form.field.lg.font.size")};
-    height: ${dt2("form.field.lg.font.size")};
-}
-
-p-inputnumber.ng-invalid.ng-dirty > .p-inputtext {
-    border-color: ${dt2("inputtext.invalid.border.color")};
-}
-
-p-inputnumber.ng-invalid.ng-dirty > .p-inputtext:enabled:focus {
-    border-color: ${dt2("inputtext.focus.border.color")};
-}
-
-p-inputnumber.ng-invalid.ng-dirty > .p-inputtext::placeholder {
-    color: ${dt2("inputtext.invalid.placeholder.color")};
-}
-`;
-var classes13 = {
-  root: ({
-    instance
-  }) => ({
-    "p-inputnumber p-component p-inputwrapper": true,
-    "p-inputwrapper-filled": instance.filled || instance.allowEmpty === false,
-    "p-inputwrapper-focus": instance.focused,
-    "p-inputnumber-stacked": instance.showButtons && instance.buttonLayout === "stacked",
-    "p-inputnumber-horizontal": instance.showButtons && instance.buttonLayout === "horizontal",
-    "p-inputnumber-vertical": instance.showButtons && instance.buttonLayout === "vertical",
-    "p-inputnumber-fluid": instance.hasFluid
-  }),
-  pcInput: "p-inputnumber-input",
-  buttonGroup: "p-inputnumber-button-group",
-  incrementButton: ({
-    instance
-  }) => ({
-    "p-inputnumber-button p-inputnumber-increment-button": true,
-    "p-disabled": instance.showButtons && instance.max !== null && instance.maxlength
-  }),
-  decrementButton: ({
-    instance
-  }) => ({
-    "p-inputnumber-button p-inputnumber-decrement-button": true,
-    "p-disabled": instance.showButtons && instance.min !== null && instance.minlength
-  })
-};
-var InputNumberStyle = class _InputNumberStyle extends BaseStyle {
-  name = "inputnumber";
-  theme = theme14;
-  classes = classes13;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275InputNumberStyle_BaseFactory;
-    return function InputNumberStyle_Factory(__ngFactoryType__) {
-      return (\u0275InputNumberStyle_BaseFactory || (\u0275InputNumberStyle_BaseFactory = \u0275\u0275getInheritedFactory(_InputNumberStyle)))(__ngFactoryType__ || _InputNumberStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _InputNumberStyle,
-    factory: _InputNumberStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(InputNumberStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var InputNumberClasses;
-(function(InputNumberClasses2) {
-  InputNumberClasses2["root"] = "p-inputnumber";
-  InputNumberClasses2["pcInput"] = "p-inputnumber-input";
-  InputNumberClasses2["buttonGroup"] = "p-inputnumber-button-group";
-  InputNumberClasses2["incrementButton"] = "p-inputnumber-increment-button";
-  InputNumberClasses2["decrementButton"] = "p-inputnumber-decrement-button";
-})(InputNumberClasses || (InputNumberClasses = {}));
-var _c012 = ["clearicon"];
+var _c013 = ["clearicon"];
 var _c113 = ["incrementbuttonicon"];
 var _c28 = ["decrementbuttonicon"];
 var _c37 = ["input"];
@@ -31031,6 +30589,236 @@ function InputNumber_button_5_Template(rf, ctx) {
     \u0275\u0275property("ngIf", !ctx_r2.decrementButtonIcon);
   }
 }
+var theme14 = ({
+  dt: dt2
+}) => `
+.p-inputnumber {
+    display: inline-flex;
+    position: relative;
+}
+
+.p-inputnumber-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    cursor: pointer;
+    background: ${dt2("inputnumber.button.background")};
+    color: ${dt2("inputnumber.button.color")};
+    width: ${dt2("inputnumber.button.width")};
+    transition: background ${dt2("inputnumber.transition.duration")}, color ${dt2("inputnumber.transition.duration")}, border-color ${dt2("inputnumber.transition.duration")}, outline-color ${dt2("inputnumber.transition.duration")};
+}
+
+.p-inputnumber-button:hover {
+    background: ${dt2("inputnumber.button.hover.background")};
+    color: ${dt2("inputnumber.button.hover.color")};
+}
+
+.p-inputnumber-button:active {
+    background: ${dt2("inputnumber.button.active.background")};
+    color: ${dt2("inputnumber.button.active.color")};
+}
+
+.p-inputnumber-stacked .p-inputnumber-button {
+    position: relative;
+    border: 0 none;
+}
+
+.p-inputnumber-stacked .p-inputnumber-button-group {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    inset-block-start: 1px;
+    inset-inline-end: 1px;
+    height: calc(100% - 2px);
+    z-index: 1;
+}
+
+.p-inputnumber-stacked .p-inputnumber-increment-button {
+    padding: 0;
+    border-start-end-radius: calc(${dt2("inputnumber.button.border.radius")} - 1px);
+}
+
+.p-inputnumber-stacked .p-inputnumber-decrement-button {
+    padding: 0;
+    border-end-end-radius: calc(${dt2("inputnumber.button.border.radius")} - 1px);
+}
+
+.p-inputnumber-stacked .p-inputnumber-button {
+    flex: 1 1 auto;
+    border: 0 none;
+}
+
+.p-inputnumber-horizontal .p-inputnumber-button {
+    border: 1px solid ${dt2("inputnumber.button.border.color")};
+}
+
+.p-inputnumber-horizontal .p-inputnumber-button:hover {
+    border-color: ${dt2("inputnumber.button.hover.border.color")};
+}
+
+.p-inputnumber-horizontal .p-inputnumber-button:active {
+    border-color: ${dt2("inputnumber.button.active.border.color")};
+}
+
+.p-inputnumber-horizontal .p-inputnumber-increment-button {
+    order: 3;
+    border-start-end-radius: ${dt2("inputnumber.button.border.radius")};
+    border-end-end-radius: ${dt2("inputnumber.button.border.radius")};
+    border-inline-start: 0 none;
+}
+
+.p-inputnumber-horizontal .p-inputnumber-input {
+    order: 2;
+    border-radius: 0;
+}
+
+.p-inputnumber-horizontal .p-inputnumber-decrement-button {
+    order: 1;
+    border-start-start-radius: ${dt2("inputnumber.button.border.radius")};
+    border-end-start-radius: ${dt2("inputnumber.button.border.radius")};
+    border-inline-end: 0 none;
+}
+
+.p-floatlabel:has(.p-inputnumber-horizontal) label {
+    margin-inline-start: ${dt2("inputnumber.button.width")};
+}
+
+.p-inputnumber-vertical {
+    flex-direction: column;
+}
+
+.p-inputnumber-vertical .p-inputnumber-button {
+    border: 1px solid ${dt2("inputnumber.button.border.color")};
+    padding-block: ${dt2("inputnumber.button.vertical.padding")};
+    padding-inline: 0;
+}
+
+.p-inputnumber-vertical .p-inputnumber-button:hover {
+    border-color: ${dt2("inputnumber.button.hover.border.color")};
+}
+
+.p-inputnumber-vertical .p-inputnumber-button:active {
+    border-color: ${dt2("inputnumber.button.active.border.color")};
+}
+
+.p-inputnumber-vertical .p-inputnumber-increment-button {
+    order: 1;
+    border-start-start-radius: ${dt2("inputnumber.button.border.radius")};
+    border-start-end-radius: ${dt2("inputnumber.button.border.radius")};
+    width: 100%;
+    border-block-end: 0 none;
+}
+
+.p-inputnumber-vertical .p-inputnumber-input {
+    order: 2;
+    border-radius: 0;
+    text-align: center;
+}
+
+.p-inputnumber-vertical .p-inputnumber-decrement-button {
+    order: 3;
+    border-end-start-radius: ${dt2("inputnumber.button.border.radius")};
+    border-end-end-radius: ${dt2("inputnumber.button.border.radius")};
+    width: 100%;
+    border-block-start: 0 none;
+}
+
+.p-inputnumber-input {
+    flex: 1 1 auto;
+}
+
+.p-inputnumber-fluid {
+    width: 100%;
+}
+
+.p-inputnumber-fluid .p-inputnumber-input {
+    width: 1%;
+}
+
+.p-inputnumber-fluid.p-inputnumber-vertical .p-inputnumber-input {
+    width: 100%;
+}
+
+.p-inputnumber:has(.p-inputtext-sm) .p-inputnumber-button .p-icon {
+    font-size: ${dt2("form.field.sm.font.size")};
+    width: ${dt2("form.field.sm.font.size")};
+    height: ${dt2("form.field.sm.font.size")};
+}
+
+.p-inputnumber:has(.p-inputtext-lg) .p-inputnumber-button .p-icon {
+    font-size: ${dt2("form.field.lg.font.size")};
+    width: ${dt2("form.field.lg.font.size")};
+    height: ${dt2("form.field.lg.font.size")};
+}
+
+p-inputnumber.ng-invalid.ng-dirty > .p-inputtext {
+    border-color: ${dt2("inputtext.invalid.border.color")};
+}
+
+p-inputnumber.ng-invalid.ng-dirty > .p-inputtext:enabled:focus {
+    border-color: ${dt2("inputtext.focus.border.color")};
+}
+
+p-inputnumber.ng-invalid.ng-dirty > .p-inputtext::placeholder {
+    color: ${dt2("inputtext.invalid.placeholder.color")};
+}
+`;
+var classes13 = {
+  root: ({
+    instance
+  }) => ({
+    "p-inputnumber p-component p-inputwrapper": true,
+    "p-inputwrapper-filled": instance.filled || instance.allowEmpty === false,
+    "p-inputwrapper-focus": instance.focused,
+    "p-inputnumber-stacked": instance.showButtons && instance.buttonLayout === "stacked",
+    "p-inputnumber-horizontal": instance.showButtons && instance.buttonLayout === "horizontal",
+    "p-inputnumber-vertical": instance.showButtons && instance.buttonLayout === "vertical",
+    "p-inputnumber-fluid": instance.hasFluid
+  }),
+  pcInput: "p-inputnumber-input",
+  buttonGroup: "p-inputnumber-button-group",
+  incrementButton: ({
+    instance
+  }) => ({
+    "p-inputnumber-button p-inputnumber-increment-button": true,
+    "p-disabled": instance.showButtons && instance.max !== null && instance.maxlength
+  }),
+  decrementButton: ({
+    instance
+  }) => ({
+    "p-inputnumber-button p-inputnumber-decrement-button": true,
+    "p-disabled": instance.showButtons && instance.min !== null && instance.minlength
+  })
+};
+var InputNumberStyle = class _InputNumberStyle extends BaseStyle {
+  name = "inputnumber";
+  theme = theme14;
+  classes = classes13;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275InputNumberStyle_BaseFactory;
+    return function InputNumberStyle_Factory(__ngFactoryType__) {
+      return (\u0275InputNumberStyle_BaseFactory || (\u0275InputNumberStyle_BaseFactory = \u0275\u0275getInheritedFactory(_InputNumberStyle)))(__ngFactoryType__ || _InputNumberStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _InputNumberStyle,
+    factory: _InputNumberStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(InputNumberStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var InputNumberClasses;
+(function(InputNumberClasses2) {
+  InputNumberClasses2["root"] = "p-inputnumber";
+  InputNumberClasses2["pcInput"] = "p-inputnumber-input";
+  InputNumberClasses2["buttonGroup"] = "p-inputnumber-button-group";
+  InputNumberClasses2["incrementButton"] = "p-inputnumber-increment-button";
+  InputNumberClasses2["decrementButton"] = "p-inputnumber-decrement-button";
+})(InputNumberClasses || (InputNumberClasses = {}));
 var INPUTNUMBER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => InputNumber),
@@ -32212,7 +32000,7 @@ var InputNumber = class _InputNumber extends BaseComponent {
     selectors: [["p-inputNumber"], ["p-inputnumber"], ["p-input-number"]],
     contentQueries: function InputNumber_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c012, 4);
+        \u0275\u0275contentQuery(dirIndex, _c013, 4);
         \u0275\u0275contentQuery(dirIndex, _c113, 4);
         \u0275\u0275contentQuery(dirIndex, _c28, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
@@ -32724,13 +32512,6 @@ var InputNumber = class _InputNumber extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(InputNumber, {
-    className: "InputNumber",
-    filePath: "inputnumber.ts",
-    lineNumber: 193
-  });
-})();
 var InputNumberModule = class _InputNumberModule {
   static \u0275fac = function InputNumberModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _InputNumberModule)();
@@ -32753,101 +32534,7 @@ var InputNumberModule = class _InputNumberModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-panel.mjs
-var theme15 = ({
-  dt: dt2
-}) => `
-.p-panel {
-    border: 1px solid ${dt2("panel.border.color")};
-    border-radius: ${dt2("panel.border.radius")};
-    background: ${dt2("panel.background")};
-    color: ${dt2("panel.color")};
-}
-
-.p-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: ${dt2("panel.header.padding")};
-    background: ${dt2("panel.header.background")};
-    color: ${dt2("panel.header.color")};
-    border-style: solid;
-    border-width: ${dt2("panel.header.border.width")};
-    border-color: ${dt2("panel.header.border.color")};
-    border-radius: ${dt2("panel.header.border.radius")};
-}
-
-.p-panel-toggleable .p-panel-header {
-    padding: ${dt2("panel.toggleable.header.padding")};
-}
-
-.p-panel-title {
-    line-height: 1;
-    font-weight: ${dt2("panel.title.font.weight")};
-}
-
-.p-panel-content {
-    padding: ${dt2("panel.content.padding")};
-}
-
-.p-panel-footer {
-    padding: ${dt2("panel.footer.padding")};
-}
-
-/* For PrimeNG */
-.p-panel-toggleable.p-panel-expanded > .p-panel-content-container:not(.ng-animating) {
-    overflow: visible
-}
-
-.p-panel-toggleable .p-panel-content-container {
-    overflow: hidden;
-}
-`;
-var classes14 = {
-  root: ({
-    props
-  }) => ["p-panel p-component", {
-    "p-panel-toggleable": props.toggleable
-  }],
-  header: "p-panel-header",
-  title: "p-panel-title",
-  headerActions: "p-panel-header-actions",
-  pcToggleButton: "p-panel-toggle-button",
-  contentContainer: "p-panel-content-container",
-  content: "p-panel-content",
-  footer: "p-panel-footer"
-};
-var PanelStyle = class _PanelStyle extends BaseStyle {
-  name = "panel";
-  theme = theme15;
-  classes = classes14;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275PanelStyle_BaseFactory;
-    return function PanelStyle_Factory(__ngFactoryType__) {
-      return (\u0275PanelStyle_BaseFactory || (\u0275PanelStyle_BaseFactory = \u0275\u0275getInheritedFactory(_PanelStyle)))(__ngFactoryType__ || _PanelStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _PanelStyle,
-    factory: _PanelStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PanelStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var PanelClasses;
-(function(PanelClasses2) {
-  PanelClasses2["root"] = "p-panel";
-  PanelClasses2["header"] = "p-panel-header";
-  PanelClasses2["title"] = "p-panel-title";
-  PanelClasses2["headerActions"] = "p-panel-header-actions";
-  PanelClasses2["pcToggleButton"] = "p-panel-toggle-button";
-  PanelClasses2["contentContainer"] = "p-panel-content-container";
-  PanelClasses2["content"] = "p-panel-content";
-  PanelClasses2["footer"] = "p-panel-footer";
-})(PanelClasses || (PanelClasses = {}));
-var _c013 = ["header"];
+var _c014 = ["header"];
 var _c114 = ["icons"];
 var _c29 = ["content"];
 var _c38 = ["footer"];
@@ -33075,6 +32762,100 @@ function Panel_div_7_Template(rf, ctx) {
     \u0275\u0275property("ngTemplateOutlet", ctx_r2.footerTemplate || ctx_r2._footerTemplate);
   }
 }
+var theme15 = ({
+  dt: dt2
+}) => `
+.p-panel {
+    border: 1px solid ${dt2("panel.border.color")};
+    border-radius: ${dt2("panel.border.radius")};
+    background: ${dt2("panel.background")};
+    color: ${dt2("panel.color")};
+}
+
+.p-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: ${dt2("panel.header.padding")};
+    background: ${dt2("panel.header.background")};
+    color: ${dt2("panel.header.color")};
+    border-style: solid;
+    border-width: ${dt2("panel.header.border.width")};
+    border-color: ${dt2("panel.header.border.color")};
+    border-radius: ${dt2("panel.header.border.radius")};
+}
+
+.p-panel-toggleable .p-panel-header {
+    padding: ${dt2("panel.toggleable.header.padding")};
+}
+
+.p-panel-title {
+    line-height: 1;
+    font-weight: ${dt2("panel.title.font.weight")};
+}
+
+.p-panel-content {
+    padding: ${dt2("panel.content.padding")};
+}
+
+.p-panel-footer {
+    padding: ${dt2("panel.footer.padding")};
+}
+
+/* For PrimeNG */
+.p-panel-toggleable.p-panel-expanded > .p-panel-content-container:not(.ng-animating) {
+    overflow: visible
+}
+
+.p-panel-toggleable .p-panel-content-container {
+    overflow: hidden;
+}
+`;
+var classes14 = {
+  root: ({
+    props
+  }) => ["p-panel p-component", {
+    "p-panel-toggleable": props.toggleable
+  }],
+  header: "p-panel-header",
+  title: "p-panel-title",
+  headerActions: "p-panel-header-actions",
+  pcToggleButton: "p-panel-toggle-button",
+  contentContainer: "p-panel-content-container",
+  content: "p-panel-content",
+  footer: "p-panel-footer"
+};
+var PanelStyle = class _PanelStyle extends BaseStyle {
+  name = "panel";
+  theme = theme15;
+  classes = classes14;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275PanelStyle_BaseFactory;
+    return function PanelStyle_Factory(__ngFactoryType__) {
+      return (\u0275PanelStyle_BaseFactory || (\u0275PanelStyle_BaseFactory = \u0275\u0275getInheritedFactory(_PanelStyle)))(__ngFactoryType__ || _PanelStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _PanelStyle,
+    factory: _PanelStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PanelStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var PanelClasses;
+(function(PanelClasses2) {
+  PanelClasses2["root"] = "p-panel";
+  PanelClasses2["header"] = "p-panel-header";
+  PanelClasses2["title"] = "p-panel-title";
+  PanelClasses2["headerActions"] = "p-panel-header-actions";
+  PanelClasses2["pcToggleButton"] = "p-panel-toggle-button";
+  PanelClasses2["contentContainer"] = "p-panel-content-container";
+  PanelClasses2["content"] = "p-panel-content";
+  PanelClasses2["footer"] = "p-panel-footer";
+})(PanelClasses || (PanelClasses = {}));
 var Panel = class _Panel extends BaseComponent {
   /**
    * Defines if content of panel can be expanded and collapsed.
@@ -33314,7 +33095,7 @@ var Panel = class _Panel extends BaseComponent {
     contentQueries: function Panel_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
         \u0275\u0275contentQuery(dirIndex, Footer, 5);
-        \u0275\u0275contentQuery(dirIndex, _c013, 4);
+        \u0275\u0275contentQuery(dirIndex, _c014, 4);
         \u0275\u0275contentQuery(dirIndex, _c114, 4);
         \u0275\u0275contentQuery(dirIndex, _c29, 4);
         \u0275\u0275contentQuery(dirIndex, _c38, 4);
@@ -33637,13 +33418,6 @@ var Panel = class _Panel extends BaseComponent {
     }]
   });
 })();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Panel, {
-    className: "Panel",
-    filePath: "panel.ts",
-    lineNumber: 185
-  });
-})();
 var PanelModule = class _PanelModule {
   static \u0275fac = function PanelModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _PanelModule)();
@@ -33666,7 +33440,7 @@ var PanelModule = class _PanelModule {
 })();
 
 // src/app/views/quiz/quiz-homepage/quiz-homepage.component.ts
-var _c014 = () => ({ objectFit: "contain" });
+var _c015 = () => ({ objectFit: "contain" });
 var QuizHomepageComponent = class _QuizHomepageComponent {
   /* Page de présentation du quiz
   * Permet la séléction du nombre de questions par multiples de la longueur du cycle de thèmes
@@ -33688,7 +33462,7 @@ var QuizHomepageComponent = class _QuizHomepageComponent {
   static \u0275fac = function QuizHomepageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _QuizHomepageComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizHomepageComponent, selectors: [["app-quiz-homepage"]], decls: 23, vars: 5, consts: [[1, "presentation-section"], ["src", "images/banner.png", "alt", "Image de pr\xE9sentation du quiz", "width", "90%", 1, "image-intro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], [1, "n-questions-selector"], [1, "selector-buttons"], ["severity", "contrast", "aria-label", "Enlever des questions", "icon", "pi pi-minus", 3, "click", "disabled"], [1, "n-questions-text"], ["severity", "contrast", "aria-label", "Ajouter des questions", "icon", "pi pi-plus", 3, "click", "disabled"], [1, "start-game-button"], ["aria-label", "Commencer le quiz", "label", "Passer \xE0 l'action", 3, "click"]], template: function QuizHomepageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizHomepageComponent, selectors: [["app-quiz-homepage"]], decls: 23, vars: 5, consts: [[1, "presentation-section"], ["src", "images/banner.png", "alt", "Image de pr\xE9sentation du quiz", "width", "80%", 1, "image-intro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], [1, "n-questions-selector"], [1, "selector-buttons"], ["severity", "contrast", "aria-label", "Enlever des questions", "icon", "pi pi-minus", 3, "click", "disabled"], [1, "n-questions-text"], ["severity", "contrast", "aria-label", "Ajouter des questions", "icon", "pi pi-plus", 3, "click", "disabled"], [1, "start-game-button"], ["aria-label", "Commencer le quiz", "label", "Passer \xE0 l'action", 3, "click"]], template: function QuizHomepageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "h1");
       \u0275\u0275text(2, "Quiz");
@@ -33728,7 +33502,7 @@ var QuizHomepageComponent = class _QuizHomepageComponent {
     }
     if (rf & 2) {
       \u0275\u0275advance(5);
-      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(4, _c014));
+      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(4, _c015));
       \u0275\u0275advance(12);
       \u0275\u0275property("disabled", ctx.iNumberOfQuestions == 0);
       \u0275\u0275advance(2);
@@ -33736,7 +33510,7 @@ var QuizHomepageComponent = class _QuizHomepageComponent {
       \u0275\u0275advance();
       \u0275\u0275property("disabled", ctx.iNumberOfQuestions == ctx.possibleNumberOfQuestionsPerTopic.length - 1);
     }
-  }, dependencies: [ButtonModule, Button, DividerModule, Divider, PanelModule, InputNumberModule, BlockUIModule, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.presentation-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  height: 100%;\n}\n.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: normal;\n}\n.presentation-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: 24px;\n  font-weight: normal;\n  margin-bottom: 45px;\n}\n.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: normal;\n  margin-bottom: 45px;\n  margin-top: 45px;\n}\np-image[_ngcontent-%COMP%] {\n  margin: 0px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.n-questions-selector[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  align-items: center;\n  width: 200px;\n  margin-right: 16px;\n  height: 40px;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n}\np-divider[_ngcontent-%COMP%] {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  width: 80%;\n}\n.selector-buttons[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  display: grid;\n  gap: 4px;\n  grid-auto-flow: column;\n  grid-template-columns: 1fr 1.2fr 1fr;\n  padding: 8px;\n  align-items: center;\n}\n.n-questions-text[_ngcontent-%COMP%] {\n  height: 100%;\n  width: 100%;\n  border-radius: 4px;\n  justify-content: center;\n  align-content: center;\n  height: 24px;\n  width: 24px;\n  border: 1px solid gray;\n  background-color: var(--p-gray-200);\n}\n  .start-game-button button {\n  width: 200px;\n  height: 40px;\n  margin-left: 16px;\n}\n  .selector-buttons button {\n  width: 24px;\n  height: 24px;\n}\np[_ngcontent-%COMP%], \nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  color: #333333;\n}"] });
+  }, dependencies: [ButtonModule, Button, DividerModule, Divider, PanelModule, InputNumberModule, BlockUIModule, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.presentation-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  height: 100%;\n}\n.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: normal;\n}\n.presentation-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: 24px;\n  font-weight: normal;\n  margin-bottom: 50px;\n}\n.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: normal;\n  margin-top: 50px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.n-questions-selector[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  align-items: center;\n  width: 200px;\n  margin-right: 16px;\n  height: 40px;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n}\np-divider[_ngcontent-%COMP%] {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  width: 80%;\n}\n.selector-buttons[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  display: grid;\n  gap: 4px;\n  grid-auto-flow: column;\n  grid-template-columns: 1fr 1.2fr 1fr;\n  padding: 8px;\n  align-items: center;\n}\n.n-questions-text[_ngcontent-%COMP%] {\n  height: 100%;\n  width: 100%;\n  border-radius: 4px;\n  justify-content: center;\n  align-content: center;\n  height: 24px;\n  width: 24px;\n  border: 1px solid gray;\n  background-color: var(--p-gray-200);\n}\n  .start-game-button button {\n  width: 200px;\n  height: 40px;\n  margin-left: 16px;\n}\n  .selector-buttons button {\n  width: 24px;\n  height: 24px;\n}\np[_ngcontent-%COMP%], \nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  color: #333333;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizHomepageComponent, { className: "QuizHomepageComponent", filePath: "src/app/views/quiz/quiz-homepage/quiz-homepage.component.ts", lineNumber: 18 });
