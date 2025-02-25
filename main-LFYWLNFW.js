@@ -10477,6 +10477,7 @@ var BaseComponent = class _BaseComponent {
     return this["_componentStyle"];
   }
   attrSelector = uuid("pc");
+  themeChangeListeners = [];
   _getHostInstance(instance) {
     if (instance) {
       return instance ? this["hostName"] ? instance["name"] === this["hostName"] ? instance : this._getHostInstance(instance.parentInstance) : instance.parentInstance : void 0;
@@ -10509,6 +10510,7 @@ var BaseComponent = class _BaseComponent {
   }
   ngOnDestroy() {
     this._unloadScopedThemeStyles();
+    this.themeChangeListeners.forEach((callback) => service_default.off("theme:change", callback));
   }
   _loadStyles() {
     const _load = () => {
@@ -10592,6 +10594,7 @@ var BaseComponent = class _BaseComponent {
   }) {
     base.clearLoadedStyleNames();
     service_default.on("theme:change", callback);
+    this.themeChangeListeners.push(callback);
   }
   cx(arg, rest) {
     const classes15 = this.parent ? this.parent.componentStyle?.classes?.[arg] : this.componentStyle?.classes?.[arg];
@@ -15766,7 +15769,7 @@ var ProgressBar = class _ProgressBar extends BaseComponent {
     },
     features: [\u0275\u0275ProvidersFeature([ProgressBarStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
     decls: 3,
-    vars: 14,
+    vars: 15,
     consts: [["role", "progressbar", 3, "ngStyle", "ngClass"], ["style", "display:flex", 3, "ngClass", "class", "width", "background", 4, "ngIf"], [3, "ngClass", "class", 4, "ngIf"], [2, "display", "flex", 3, "ngClass"], [1, "p-progressbar-label"], [3, "display", 4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [1, "p-progressbar-value", "p-progressbar-value-animate"]],
     template: function ProgressBar_Template(rf, ctx) {
       if (rf & 1) {
@@ -15776,8 +15779,8 @@ var ProgressBar = class _ProgressBar extends BaseComponent {
       }
       if (rf & 2) {
         \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngStyle", ctx.style)("ngClass", \u0275\u0275pureFunction2(11, _c12, ctx.mode === "determinate", ctx.mode === "indeterminate"));
-        \u0275\u0275attribute("aria-valuemin", 0)("aria-valuenow", ctx.value)("aria-valuemax", 100)("data-pc-name", "progressbar")("data-pc-section", "root");
+        \u0275\u0275property("ngStyle", ctx.style)("ngClass", \u0275\u0275pureFunction2(12, _c12, ctx.mode === "determinate", ctx.mode === "indeterminate"));
+        \u0275\u0275attribute("aria-valuemin", 0)("aria-valuenow", ctx.value)("aria-valuemax", 100)("data-pc-name", "progressbar")("data-pc-section", "root")("aria-label", ctx.value + ctx.unit);
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.mode === "determinate");
         \u0275\u0275advance();
@@ -15811,6 +15814,7 @@ var ProgressBar = class _ProgressBar extends BaseComponent {
                 'p-progressbar-determinate': mode === 'determinate',
                 'p-progressbar-indeterminate': mode === 'indeterminate'
             }"
+            [attr.aria-label]="value + unit"
         >
             <div *ngIf="mode === 'determinate'" [ngClass]="'p-progressbar-value p-progressbar-value-animate'" [class]="valueStyleClass" [style.width]="value + '%'" style="display:flex" [style.background]="color" [attr.data-pc-section]="'value'">
                 <div class="p-progressbar-label">
