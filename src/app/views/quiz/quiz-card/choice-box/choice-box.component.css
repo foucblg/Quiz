@@ -92,10 +92,15 @@
   align-content: center;
   vertical-align: middle;
   color:#333333;
+  margin-top: 5px;
 }
 
 .bouton-error{
   --p-button-padding-x: 64px;
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
 }
 
 .p-error{

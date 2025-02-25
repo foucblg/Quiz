@@ -50,10 +50,22 @@ p-divider{
   width:80%;
 }
 
-p-button{
+.start-again{
   margin-left: 16px;
   margin-right: 16px;
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
 }
+
+.game{
+  margin-left: 16px;
+  margin-right: 16px;
+  --p-button-primary-active-background: #f4f4f4;
+  --p-button-primary-hover-background: #e9e9e9;
+}
+
 
 h1, h2, span, p {
   color: #333333;

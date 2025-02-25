@@ -29,8 +29,14 @@ export class ChoiceBoxComponent {
 
   tryToAnswer() {
     if (this.quiz_segment()?.question_type === "QCM") {
-      this.progressService.currentAnswer.set(this.answerForm.get('QCM')!.value);
-    } else if (this.quiz_segment()?.question_type === "QCU") {
+      const key  = this.answerForm.get('QCM')!.value;
+      if (key != null) {
+        this.progressService.currentAnswer.set([key]);
+      } else {
+        this.progressService.currentAnswer.set([]);
+      }
+    } 
+    else if (this.quiz_segment()?.question_type === "QCU") {
       const key = this.answerForm.get('QCU')!.value;
       if (typeof key === "number") {
         this.progressService.currentAnswer.set([key]);

@@ -17,6 +17,5 @@ export class QuizCardComponent {
   answerType = Answer;
   quiz_segment = this.dataService.currentSegment;
   choiceBox = viewChild(ChoiceBoxComponent);
-
 }
 
