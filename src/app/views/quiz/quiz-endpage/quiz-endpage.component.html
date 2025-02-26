@@ -12,31 +12,50 @@
       {{ progressService.questionNumber() }}
     </h2>
   }
-  @if (progressService.score()/rapport < 1){
-    <p>
-      Votre grade est E
-    </p>
-  }
-  @else if (progressService.score()/rapport < 2) {
-    <p>
-      Votre grade est D
-    </p>
-  }
-  @else if (progressService.score()/rapport < 3) {
-    <p>
-      Votre grade est C
-    </p>
-  }
-  @else if (progressService.score()/rapport < 4) {
-    <p>
-      Votre grade est B
-    </p>
-  }
-  @else {
-    <p>
-      Votre grade est A
-    </p>
-  }
+  <div class = "grade">
+    <p>Votre grade est </p>
+    @if (progressService.score()/rapport < 1){
+        <p-image
+        src="images/Score_E.png"
+        alt="Le grade du Quiz est E."
+        [imageStyle]="{ objectFit: 'contain' }"
+        width="90%"
+      />
+    }
+    @else if (progressService.score()/rapport < 2) {
+        <p-image
+        src="images/Score_D.png"
+        alt="Le grade du Quiz est D."
+        [imageStyle]="{ objectFit: 'contain' }"
+        width="90%"
+      />
+    }
+    @else if (progressService.score()/rapport < 3) {
+        <p-image
+        src="images/Score_C.png"
+        alt="Le grade du Quiz est C."
+        [imageStyle]="{ objectFit: 'contain' }"
+        width="90%"
+      />
+    }
+    @else if (progressService.score()/rapport < 4) {
+        <p-image
+        src="images/Score_B.png"
+        alt="Le grade du Quiz est B."
+        [imageStyle]="{ objectFit: 'contain' }"
+        width="90%"
+      />
+    }
+    @else {
+        <p-image
+        src="images/Score_A.png"
+        alt="Le grade du Quiz est A."
+        [imageStyle]="{ objectFit: 'contain' }"
+        width="90%"
+      />
+    }
+  </div>
+  
   <p-image
     src="images/quiz_endpage_image.png"
     alt="Image de décoration de la page finale du quiz"
