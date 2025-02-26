@@ -48,6 +48,7 @@
   --p-radiobutton-icon-checked-hover-color:#333333;
   --p-radiobutton-border-color:#333333;
   --p-radiobutton-hover-border-color:#333333;
+  --p-radiobutton-focus-border-color:#333333;
   --p-radiobutton-checked-border-color:#333333;
   --p-radiobutton-checked-hover-border-color:#333333;
 }
@@ -72,6 +73,12 @@
 }
 
 .answer-choice:has(:checked) {
+  border: 1px solid #0073e9;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;  
+}
+
+.answer-choice:has(:focus) {
   border: 1px solid #0073e9;
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;  

@@ -42,7 +42,7 @@ C'est une liste d'élément string.
 
 Pour les QCM, il faut entrer pour la première proposition "A : " suivi de la proposition, pour la seconde, c'est "B : " suivant de la proposition, etc...
 
-### tru_answers
+### true_answers
 
 Cette clé (list) sert à définir l'indice (en commançant à 0) de la bonne réponse parmis les réponses possibles définies dans possible_answers.
 
