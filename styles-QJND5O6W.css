@@ -1,4 +1,4 @@
-/* src/app/views/navbar/navbar.component.css */
+/* src/app/views/header/header.component.css */
 :host {
   display: flex;
   flex-direction: row;
@@ -12,15 +12,16 @@
   font-weight: normal;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: 16px;
-  font-size: 15px;
+  padding: 2px;
+  font-size: 16px;
   color: var(--p-gray-700);
 }
 a {
   text-decoration: none;
 }
-.intlogo {
-  padding: 1px 30px 0px 53px;
+.logo {
+  width: 105px;
+  padding: 1px 1px 0px 53px;
   color: #696969;
 }
 
@@ -74,6 +75,10 @@ a {
 }
 .button-page {
   --p-button-padding-x: 39px;
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
 }
 
 /* src/app/views/views-style.css */
@@ -1118,7 +1123,7 @@ my-app {
 
 /* src/styles.css */
 html {
-  font-family: "Lato";
+  font-family: "Lato", sans-serif;
   height: 100%;
   padding: 0;
   margin: 0;
