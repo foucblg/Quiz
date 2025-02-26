@@ -77,6 +77,19 @@ export class ProgressService {
     );
   }
 
+  /**
+ * Vérifie la réponse actuelle par rapport aux réponses correctes.
+ *
+ * Cette méthode récupère les réponses correctes du segment de quiz actuel et les compare
+ * avec les réponses sélectionnées par l'utilisateur. Elle retourne une valeur de l'énumération `Answer`
+ * indiquant si la réponse est correcte, incorrecte ou vide.
+ *
+ * @returns {Answer} - Le résultat de la vérification de la réponse :
+ *   - `Answer.Empty` si aucune réponse n'a été sélectionnée.
+ *   - `Answer.True` si les réponses sélectionnées correspondent aux réponses correctes.
+ *   - `Answer.False` si les réponses sélectionnées ne correspondent pas aux réponses correctes.
+ */
+
   private verifyAnswer(): Answer {
     const realAnswers = this.dataService.currentSegment()?.true_answers as number[];
     if (this.currentAnswer().length === 0) {

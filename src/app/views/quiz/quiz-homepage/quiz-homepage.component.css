@@ -97,6 +97,14 @@ p-divider{
 ::ng-deep .selector-buttons button {
   width: 24px; /* Force the width */
   height: 24px; /* Force the height */
+  background-color: #333333;
+  border-color: #333333;
+}
+.game{
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
 }
 
 p, h1, h2{

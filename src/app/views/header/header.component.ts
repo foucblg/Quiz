@@ -3,11 +3,11 @@ import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-header',
   imports: [ImageModule, DividerModule],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
 })
-export class NavbarComponent {
+export class HeaderComponent {
 
 }

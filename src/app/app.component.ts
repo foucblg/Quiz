@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as data from './shared/assets/data/questions_final.json';
 import { QuizData } from './shared/types/interfaces';
-import { NavbarComponent } from './views/navbar/navbar.component';
+import { HeaderComponent } from './views/header/header.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

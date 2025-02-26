@@ -54,4 +54,8 @@
 
 .button-page{
   --p-button-padding-x: 39px;
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
 }

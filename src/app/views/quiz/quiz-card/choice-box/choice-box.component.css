@@ -48,6 +48,7 @@
   --p-radiobutton-icon-checked-hover-color:#333333;
   --p-radiobutton-border-color:#333333;
   --p-radiobutton-hover-border-color:#333333;
+  --p-radiobutton-focus-border-color:#333333;
   --p-radiobutton-checked-border-color:#333333;
   --p-radiobutton-checked-hover-border-color:#333333;
 }
@@ -77,6 +78,12 @@
     rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;  
 }
 
+.answer-choice:has(:focus) {
+  border: 1px solid #0073e9;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;  
+}
+
 .choice-text {
   display: inline-block;
   vertical-align: middle;
@@ -92,10 +99,15 @@
   align-content: center;
   vertical-align: middle;
   color:#333333;
+  margin-top: 5px;
 }
 
 .bouton-error{
   --p-button-padding-x: 64px;
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
 }
 
 .p-error{

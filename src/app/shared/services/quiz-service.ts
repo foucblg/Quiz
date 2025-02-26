@@ -25,11 +25,13 @@ class RandomizedQuestionIndexQueue {
   }
 
   replenish() {
+    // Réinitialise la liste des indices restants
     this.remainingIndices = [...Array(this.intialSize).keys()];
     this.currentSize = this.intialSize;
   }
 
   dequeueIndex() {
+    // Tire un index aléatoire et le retire de la liste des indices restants
     if (this.isEmpty()) {
       this.replenish()
     }
@@ -107,6 +109,7 @@ export class DataService {
   }
 
   startQuiz(nQuestions: number) {
+    // Initialise une nouvelle session de quiz
     this.questionNumber.set(0);
     this.hasEnded.set(false);
     this.quizSegmentTopicsQueue.initialize(nQuestions);
@@ -114,6 +117,7 @@ export class DataService {
   }
 
   getNewQuestion() {
+    // Récupère une nouvelle question aléatoire
     const questionTopic = this.quizSegmentTopicsQueue.deqeue();
     const questionId = this.randomizedQuestionIndexQueuePool[questionTopic!].dequeueIndex();
     this.currentTopic.set(questionTopic!);
@@ -122,10 +126,12 @@ export class DataService {
   }
 
   isFinished() {
+    // Vérifie si toutes les questions ont été posées
     return this.quizSegmentTopicsQueue.isEmpty();
   }
 
   getNumberOfTopics() {
+    // Retourne le nombre de catégories possibles
     return this.quizSegmentTopicsQueue.getPossibleTopics().length;
   }
 }
