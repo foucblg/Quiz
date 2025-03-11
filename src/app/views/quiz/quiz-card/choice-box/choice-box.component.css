@@ -68,6 +68,7 @@
 
 .answer-choice:hover{
   border: 1px solid #333333;
+  cursor: pointer;
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;
 }
@@ -103,11 +104,14 @@
 }
 
 .bouton-error{
-  --p-button-padding-x: 64px;
   --p-button-primary-active-background: #ff5d5c;
   --p-button-primary-hover-background: #cd2524;
   --p-button-primary-active-border-color: #ff5d5c;
   --p-button-primary-hover-border-color: #cd2524;
+}
+
+::ng-deep .bouton-error button {
+  width: 150px; /* Force the width */
 }
 
 .p-error{

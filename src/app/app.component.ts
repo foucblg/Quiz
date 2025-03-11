@@ -12,7 +12,6 @@ import { HeaderComponent } from './views/header/header.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'INCLUSIF: Le jeu';
   quizData = quizData;
 }
 
