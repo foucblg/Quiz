@@ -1,8 +1,8 @@
 :host {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   width: 100%;
   margin: auto;
@@ -13,11 +13,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 70px;
+  width: fit-content;
+  padding-top: 45px;
 }
 
-p-image {
-  padding-top: 50px;
+.grade{
+  text-align: center;
+  margin-top: 30px;
+  border-radius: 8px;
+  border: 1px solid #333333;
+  width: 300px;
+  height: 80px;
+}
+
+.image-outro {
+  padding-top: 30px;
 }
 
 span{
@@ -25,7 +35,7 @@ span{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 30px;
 }
 
 .lower-section{
@@ -71,7 +81,13 @@ h1, h2, span, p {
   color: #333333;
 }
 
+h1, h2 {
+  text-align: left;
+}
+h1{
+  margin-bottom: 10px;
+}
+
 p {
   font-size: 24px;
-  margin-top: 50px;
 }
