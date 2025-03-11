@@ -29594,39 +29594,44 @@ function QuizEndpageComponent_Conditional_4_Template(rf, ctx) {
     \u0275\u0275textInterpolate2(" Votre score est de ", ctx_r0.progressService.score(), " / ", ctx_r0.progressService.questionNumber(), " ");
   }
 }
-function QuizEndpageComponent_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p");
-    \u0275\u0275text(1, " Votre grade est E ");
-    \u0275\u0275elementEnd();
-  }
-}
-function QuizEndpageComponent_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p");
-    \u0275\u0275text(1, " Votre grade est D ");
-    \u0275\u0275elementEnd();
-  }
-}
-function QuizEndpageComponent_Conditional_7_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p");
-    \u0275\u0275text(1, " Votre grade est C ");
-    \u0275\u0275elementEnd();
-  }
-}
 function QuizEndpageComponent_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p");
-    \u0275\u0275text(1, " Votre grade est B ");
-    \u0275\u0275elementEnd();
+    \u0275\u0275element(0, "p-image", 2);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(1, _c011));
   }
 }
 function QuizEndpageComponent_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p");
-    \u0275\u0275text(1, " Votre grade est A ");
-    \u0275\u0275elementEnd();
+    \u0275\u0275element(0, "p-image", 3);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(1, _c011));
+  }
+}
+function QuizEndpageComponent_Conditional_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "p-image", 4);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(1, _c011));
+  }
+}
+function QuizEndpageComponent_Conditional_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "p-image", 5);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(1, _c011));
+  }
+}
+function QuizEndpageComponent_Conditional_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "p-image", 6);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(1, _c011));
   }
 }
 var QuizEndpageComponent = class _QuizEndpageComponent {
@@ -29636,41 +29641,46 @@ var QuizEndpageComponent = class _QuizEndpageComponent {
   static \u0275fac = function QuizEndpageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _QuizEndpageComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizEndpageComponent, selectors: [["app-quiz-endpage"]], decls: 20, vars: 4, consts: [[1, "header"], ["src", "images/quiz_endpage_image.png", "alt", "Image de d\xE9coration de la page finale du quiz", "width", "100%", 1, "image-outro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], ["severity", "secondary", "variant", "outlined", 1, "game", 3, "click"], [1, "start-again", 3, "click"]], template: function QuizEndpageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizEndpageComponent, selectors: [["app-quiz-endpage"]], decls: 23, vars: 4, consts: [[1, "header"], [1, "grade"], ["src", "images/Score_E.png", "alt", "Le grade du Quiz est E.", "width", "90%", 3, "imageStyle"], ["src", "images/Score_D.png", "alt", "Le grade du Quiz est D.", "width", "90%", 3, "imageStyle"], ["src", "images/Score_C.png", "alt", "Le grade du Quiz est C.", "width", "90%", 3, "imageStyle"], ["src", "images/Score_B.png", "alt", "Le grade du Quiz est B.", "width", "90%", 3, "imageStyle"], ["src", "images/Score_A.png", "alt", "Le grade du Quiz est A.", "width", "90%", 3, "imageStyle"], ["src", "images/quiz_endpage_image.png", "alt", "Image de d\xE9coration de la page finale du quiz", "width", "100%", 1, "image-outro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], ["severity", "secondary", "variant", "outlined", 1, "game", 3, "click"], [1, "start-again", 3, "click"]], template: function QuizEndpageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "h1");
       \u0275\u0275text(2, "Le quiz est fini !");
       \u0275\u0275elementEnd();
-      \u0275\u0275template(3, QuizEndpageComponent_Conditional_3_Template, 2, 2, "h2")(4, QuizEndpageComponent_Conditional_4_Template, 2, 2, "h2")(5, QuizEndpageComponent_Conditional_5_Template, 2, 0, "p")(6, QuizEndpageComponent_Conditional_6_Template, 2, 0, "p")(7, QuizEndpageComponent_Conditional_7_Template, 2, 0, "p")(8, QuizEndpageComponent_Conditional_8_Template, 2, 0, "p")(9, QuizEndpageComponent_Conditional_9_Template, 2, 0, "p");
-      \u0275\u0275element(10, "p-image", 1);
+      \u0275\u0275template(3, QuizEndpageComponent_Conditional_3_Template, 2, 2, "h2")(4, QuizEndpageComponent_Conditional_4_Template, 2, 2, "h2");
+      \u0275\u0275elementStart(5, "div", 1)(6, "p");
+      \u0275\u0275text(7, "Votre grade est ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(11, "span");
-      \u0275\u0275text(12, " Vous pouvez d\xE9sormais passer \xE0 \xAB Inclusif, le jeu \xBB, ou lancer une autre s\xE9rie de questions.\n");
+      \u0275\u0275template(8, QuizEndpageComponent_Conditional_8_Template, 1, 2, "p-image", 2)(9, QuizEndpageComponent_Conditional_9_Template, 1, 2, "p-image", 3)(10, QuizEndpageComponent_Conditional_10_Template, 1, 2, "p-image", 4)(11, QuizEndpageComponent_Conditional_11_Template, 1, 2, "p-image", 5)(12, QuizEndpageComponent_Conditional_12_Template, 1, 2, "p-image", 6);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(13, "div", 2);
-      \u0275\u0275element(14, "p-divider");
-      \u0275\u0275elementStart(15, "div", 3)(16, "p-button", 4);
-      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_16_listener() {
+      \u0275\u0275element(13, "p-image", 7);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(14, "span");
+      \u0275\u0275text(15, " Vous pouvez d\xE9sormais passer \xE0 \xAB Inclusif, le jeu \xBB, ou lancer une autre s\xE9rie de questions.\n");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(16, "div", 8);
+      \u0275\u0275element(17, "p-divider");
+      \u0275\u0275elementStart(18, "div", 9)(19, "p-button", 10);
+      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_19_listener() {
         return ctx.progressService.goToBegining();
       });
-      \u0275\u0275text(17, " Voir Inclusif, le jeu ");
+      \u0275\u0275text(20, " Voir Inclusif, le jeu ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(18, "p-button", 5);
-      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_18_listener() {
+      \u0275\u0275elementStart(21, "p-button", 11);
+      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_21_listener() {
         return ctx.progressService.goToBegining();
       });
-      \u0275\u0275text(19, " Relancer une s\xE9rie ");
+      \u0275\u0275text(22, " Relancer une s\xE9rie ");
       \u0275\u0275elementEnd()()();
     }
     if (rf & 2) {
       \u0275\u0275advance(3);
       \u0275\u0275conditional(2 * ctx.progressService.score() >= ctx.progressService.questionNumber() ? 3 : 4);
-      \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.progressService.score() / ctx.rapport < 1 ? 5 : ctx.progressService.score() / ctx.rapport < 2 ? 6 : ctx.progressService.score() / ctx.rapport < 3 ? 7 : ctx.progressService.score() / ctx.rapport < 4 ? 8 : 9);
+      \u0275\u0275advance(5);
+      \u0275\u0275conditional(ctx.progressService.score() / ctx.rapport < 1 ? 8 : ctx.progressService.score() / ctx.rapport < 2 ? 9 : ctx.progressService.score() / ctx.rapport < 3 ? 10 : ctx.progressService.score() / ctx.rapport < 4 ? 11 : 12);
       \u0275\u0275advance(5);
       \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(3, _c011));
     }
-  }, dependencies: [ButtonModule, Button, Divider, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 70px;\n}\np-image[_ngcontent-%COMP%] {\n  padding-top: 50px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 50px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\np-divider[_ngcontent-%COMP%] {\n  padding-bottom: 20px;\n  width: 80%;\n}\n.start-again[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\n.game[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #f4f4f4;\n  --p-button-primary-hover-background: #e9e9e9;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n  margin-top: 50px;\n}"] });
+  }, dependencies: [ButtonModule, Button, Divider, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  width: fit-content;\n  padding-top: 45px;\n}\n.grade[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 30px;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  width: 300px;\n  height: 80px;\n}\n.image-outro[_ngcontent-%COMP%] {\n  padding-top: 30px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding-top: 30px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\np-divider[_ngcontent-%COMP%] {\n  padding-bottom: 20px;\n  width: 80%;\n}\n.start-again[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\n.game[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #f4f4f4;\n  --p-button-primary-hover-background: #e9e9e9;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  text-align: left;\n}\nh1[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizEndpageComponent, { className: "QuizEndpageComponent", filePath: "src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts", lineNumber: 13 });
