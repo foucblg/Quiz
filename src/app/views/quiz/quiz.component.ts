@@ -22,7 +22,7 @@ export class QuizComponent {
 
   dataService = inject(DataService); //Permet d'avoir accès aux fonctions gérant les cartes
   progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
-  quizCard = viewChild(QuizCardComponent); //Permet de mettre à jour l'avancé des pages du Quiz
+  quizCard = viewChild(QuizCardComponent); //Permet de mettre à jour l'avancée des pages du Quiz
 
   progressPercentage = computed(() => this.progressService.questionNumber() / this.dataService.numberOfQuestions() * 100)
 }

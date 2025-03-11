@@ -57,6 +57,6 @@ export class ChoiceBoxComponent {
       }
     }
     this.progressService.answer();
-    this.dialogVisible = this.answerIsEmpty(); //Permet d'affiche la boîte de dialogue dans le cas d'une validation sans avoir répondu
+    this.dialogVisible = this.answerIsEmpty(); //Permet d'afficher la boîte de dialogue dans le cas d'une validation sans avoir répondu
   }
 }

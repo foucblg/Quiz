@@ -18,14 +18,14 @@ import { DataService } from '../../../shared/services/quiz-service';
 export class QuizHomepageComponent {
   /*
   Page de présentation du quiz
-  Permet la séléction du nombre de questions par multiples de la longueur du cycle de thèmes
+  Permet la sélection du nombre de questions par multiples de la longueur du cycle de thèmes
   */
 
   dataService = inject(DataService); // Permet d'avoir accès aux fonctions gérant les cartes
   progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
 
-  possibleNumberOfQuestionsPerTopic = [1, 2, 3]; // Définit le nombre de questions divisé par 4 possible lors de la session du Quiz
-  iNumberOfQuestions = 1; // Indice du nombre de questions mis par défaut - Il y a donc 8 questions mis par défaut
+  possibleNumberOfQuestionsPerTopic = [1, 2, 3]; // Définit le nombre de questions possible divisé par 4 lors de la session du Quiz
+  iNumberOfQuestions = 1; // Indice de la liste ci-dessus correspondant au nombre de questions - Il y a donc 8 questions mis par défaut
 
   constructor(
   ) {

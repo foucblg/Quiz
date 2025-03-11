@@ -6,25 +6,18 @@
   height: 100%;
 }
 
-/* Navbar */
+/* Header */
 .header-div {
   height: 66px;
 }
 
 /* Contenu principal */
 main {
-  flex: 1; /* Prend tout l'espace disponible */
+  flex:1;
   display: flex;
   flex-direction: column;
-  height: 100%;
-}
-
-.quiz-div {
-  flex: 1; /* Prend tout l'espace disponible */
-  min-height: 50vh; /* Hauteur minimale pour le contenu */
   overflow: auto; /* Ajoute un défilement si le contenu est trop long */
   height: 100%;
-  width: 100%;
 }
 
 /* Footer */
@@ -38,30 +31,32 @@ footer {
   padding: 0 28px;
   font-size: 12px;
   width: 100%;
-  margin-top: auto; /* Force le footer à rester en bas */
+  margin-top: auto;
 }
 
 footer ul {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  gap: 12px; /* Espace entre les éléments */
+  gap: 12px;
 }
 
 footer li {
   display: inline-block;
 }
 
-footer li:hover{
-  text-decoration: underline;
-}
-
 footer a {
   display: flex;
   color: white !important;
+  text-decoration: none;
   align-items: center;
   vertical-align: middle;
 }
 
+footer a:hover{
+  text-decoration: underline;
+}
 
 footer .right-section {
   display: flex;
