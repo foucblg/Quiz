@@ -9,23 +9,19 @@
     @if (quiz_segment.true_answers.includes($index)) {
       <label class="answer-choice correct">
         <i class="pi pi-check-circle"></i>
-        <p class="choice-text">
-          {{ choice }}
-        </p>
+        <p class="choice-text">{{ choice }}</p>
       </label>
-    } @else if (progressService.currentAnswer().includes($index)) {
+    }
+    @else if (progressService.currentAnswer().includes($index)) {
       <label class="answer-choice wrong">
         <i class="pi pi-times-circle"></i>
-        <p class="choice-text">
-          {{ choice }}
-        </p>
+        <p class="choice-text">{{ choice }}</p>
       </label>
-    } @else {
+    }
+    @else {
       <label class="answer-choice neutral">
         <i class="pi pi-circle"></i>
-        <p class="choice-text">
-          {{ choice }}
-        </p>
+        <p class="choice-text">{{ choice }}</p>
       </label>
     }
   }

@@ -15,19 +15,31 @@ import { Answer } from '../../../../shared/types/enums';
   styleUrl: './choice-box.component.css'
 })
 export class ChoiceBoxComponent {
+  /* 
+    Input : answered (bool | undefined) - Permet de savoir si la question de la carte du Quiz a été répondu ou pas
+  */
   @Input() answered: boolean | undefined;
   answerForm = new FormGroup({});
-  progressService = inject(ProgressService);
-  dataService = inject(DataService);
-  quiz_segment = this.dataService.currentSegment;
-  answerIsEmpty = computed(() => this.progressService.currentAnswerValidity() === Answer.Empty);
-  dialogVisible = false;
+  dataService = inject(DataService); //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quiz_segment = this.dataService.currentSegment; //Permet d'avoir accès à la carte affichée
+  answerIsEmpty = computed(() => this.progressService.currentAnswerValidity() === Answer.Empty); //Vérifie s'il y a bien eu une réponse lors de la validation de la carte
+  dialogVisible = false; //Contrôle de l'apparition d'une boîte de dialogue
+  
   ngOnInit() {
+    // Initialisation du ControlForm
     this.answerForm!.addControl(this.quiz_segment()!.question_type, new FormControl(''))
     this.answerForm!.reset();
   }
 
   tryToAnswer() {
+    /* 
+    Cette fonction fait la gestion des réponses envoyées
+
+    Dans le cas d'un QCM, elle vérifie qu'il y a bien eu une réponse non nulle
+    Dans le cas d'un QCU, elle vérifie qu'il y a bien eu une réponse de type number
+    Dans le cas contraire, il y a l'affichage d'une boîte de dialogue demandant à bien répondre à la carte du Quiz
+    */
     if (this.quiz_segment()?.question_type === "QCM") {
       const key  = this.answerForm.get('QCM')!.value;
       if (key != null) {
@@ -45,6 +57,6 @@ export class ChoiceBoxComponent {
       }
     }
     this.progressService.answer();
-    this.dialogVisible = this.answerIsEmpty();
+    this.dialogVisible = this.answerIsEmpty(); //Permet d'affiche la boîte de dialogue dans le cas d'une validation sans avoir répondu
   }
 }

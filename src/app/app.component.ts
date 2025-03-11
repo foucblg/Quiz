@@ -12,7 +12,7 @@ import { HeaderComponent } from './views/header/header.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  quizData = quizData;
+  quizData = quizData; // Prise des données des cartes du Quiz
 }
 
 export const quizData: QuizData = data;

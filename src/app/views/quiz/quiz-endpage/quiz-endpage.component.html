@@ -12,6 +12,14 @@
       {{ progressService.questionNumber() }}
     </h2>
   }
+
+  <!-- Mise en place du grade an fonction du score obtenu :
+    - score < 1 - Grade E
+    - 1 <= score <2 - Grade D
+    - 2 <= score <3 - Grade C
+    - 3 <= score <4 - Grade B
+    - score == 4 - Grade A
+  -->
   <div class = "grade">
     <p>Votre grade est </p>
     @if (progressService.score()/rapport < 1){
@@ -70,6 +78,7 @@
   Vous pouvez désormais passer à « Inclusif, le jeu », ou lancer une autre série de questions.
 </span>
 
+<!-- Mise en place des boutons de fin de jeu -->
 <div class="lower-section">
   <p-divider/>
   <div class="start-div">

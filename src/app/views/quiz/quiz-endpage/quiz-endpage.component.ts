@@ -11,7 +11,7 @@ import { ImageModule } from 'primeng/image';
   styleUrl: './quiz-endpage.component.css'
 })
 export class QuizEndpageComponent {
-  progressService = inject(ProgressService);
-  number_questions = this.progressService.questionNumber();
-  rapport = this.number_questions/4;
+  progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  number_questions = this.progressService.questionNumber(); // Permet d'avoir le nombre total de questions de la session de Quiz
+  rapport = this.number_questions/4; // Sert à déterminer les grades en normalisant les résultats
 }

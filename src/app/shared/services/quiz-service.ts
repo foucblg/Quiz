@@ -7,8 +7,8 @@ class RandomizedQuestionIndexQueue {
   * https://gist.github.com/4skinSkywalker/f10939e0b070fe1815933730670177df
   */
   private remainingIndices;
-  private intialSize;
-  private currentSize;
+  private intialSize; // Permet de garder en mémoire la taille de la liste
+  private currentSize; // Permet d'avoir la taille restante de la liste
   constructor(size: number) {
     this.intialSize = size;
     this.currentSize = size;
@@ -16,11 +16,21 @@ class RandomizedQuestionIndexQueue {
   }
 
   private randomId() {
-    // conversion en entier avec la comparaison BitWise OR
+    /*
+      Output (int) : Renvoit un nombre aléatoire entre la taille actuelle de la liste moins 1 et 0
+      
+      Conversion en entier avec la comparaison BitWise OR
+    */
+
     return Math.random() * (this.currentSize - 1) | 0
   }
 
   isEmpty() {
+    /* 
+      Output (bool) : 
+        - True : Il n'y a plus de questions dans la liste
+        - False : Il y a encore des questions dans la liste
+    */
     return (this.currentSize < 1)
   }
 
@@ -31,7 +41,12 @@ class RandomizedQuestionIndexQueue {
   }
 
   dequeueIndex() {
-    // Tire un index aléatoire et le retire de la liste des indices restants
+    /*
+      Output (int) : Renvoit un index aléatoire parmi les index restants
+      
+      Tire un index aléatoire et le retire de la liste des indices restants
+    */
+
     if (this.isEmpty()) {
       this.replenish()
     }
@@ -66,6 +81,7 @@ class TopicsQueue {
   }
 
   isEmpty() {
+    // Vérification qu'il reste bien des topic
     return this.topics.length < 1;
   }
 
@@ -86,9 +102,10 @@ class TopicsQueue {
   providedIn: 'root'
 })
 export class DataService {
-  /* Service qui fournit les données relatives à la question en cours de la session de quiz
-  * Les questions sont tirées aléatoirement sans remise
-  * Lorsqu'il n'y a plus de questions non faites, la liste de questions est régénèrée
+  /* 
+    Service qui fournit les données relatives à la question en cours de la session de quiz
+    Les questions sont tirées aléatoirement sans remise
+    Lorsqu'il n'y a plus de questions non faites, la liste de questions est régénèrée
   */
   quizSegmentTopicsQueue;
   quizSegments = quizData["questions"]; // tous les segments de quiz possibles, groupés par thème

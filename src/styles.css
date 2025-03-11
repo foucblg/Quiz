@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import "app/views/views-style.css";
-@import "app/shared/global-styles.css";
-@import "primeicons/primeicons.css";
+@import "app/views/views-style.css"; /* Permet d'obternir tous le CSS provenant des components dans views */
+@import "app/shared/shared-styles.css"; /* Permet d'obternir tous le CSS provenant des components dans shared */
+@import "primeicons/primeicons.css"; /* Permet d'avoir accès primeicons */
 
 html{
    font-family: 'Lato', sans-serif;
