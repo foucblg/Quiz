@@ -12,10 +12,9 @@ import { AnswerBoxComponent } from "./answer-box/answer-box.component";
   styleUrl: './quiz-card.component.css'
 })
 export class QuizCardComponent {
-  dataService = inject(DataService);
-  progressService = inject(ProgressService);
-  answerType = Answer;
-  quiz_segment = this.dataService.currentSegment;
-  choiceBox = viewChild(ChoiceBoxComponent);
+  dataService = inject(DataService); //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quiz_segment = this.dataService.currentSegment; //Permet d'avoir accès à la carte affichée
+  choiceBox = viewChild(ChoiceBoxComponent); //Permet de mettre à jour les cartes
 }
 

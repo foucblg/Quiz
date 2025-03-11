@@ -48,14 +48,18 @@
   bottom:0px;
 }
 
-.divider{
-  padding-bottom: 20px;
+p-divider{
+  margin: 0;
+  padding-bottom: 40px;
 }
 
 .button-page{
-  --p-button-padding-x: 39px;
   --p-button-primary-active-background: #ff5d5c;
   --p-button-primary-hover-background: #cd2524;
   --p-button-primary-active-border-color: #ff5d5c;
   --p-button-primary-hover-border-color: #cd2524;
+}
+
+::ng-deep .button-page button {
+  width: 150px; /* Force the width */
 }

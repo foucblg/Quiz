@@ -18,9 +18,11 @@ import { QuizHomepageComponent } from './quiz-homepage/quiz-homepage.component';
 })
 
 export class QuizComponent {
-  /* Gère les cartes quiz par rapport à l'avancement dans le quiz et affiche une barre de progression le cas échéant*/
-  progressService = inject(ProgressService);
-  dataService = inject(DataService);
-  quizCard = viewChild(QuizCardComponent);
+  // Gère les cartes quiz par rapport à l'avancement dans le quiz et affiche une barre de progression
+
+  dataService = inject(DataService); //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quizCard = viewChild(QuizCardComponent); //Permet de mettre à jour l'avancée des pages du Quiz
+
   progressPercentage = computed(() => this.progressService.questionNumber() / this.dataService.numberOfQuestions() * 100)
 }

@@ -1,16 +1,17 @@
 <div class="app-container">
+  <!-- Mise en place du header -->
   <header>
     <div class="header-div">
       <app-header></app-header>
     </div>
   </header>
 
+  <!-- Mise en place de la zone centrale du projet -->
   <main>
-    <div class="quiz-div">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </main>
 
+  <!-- Mise en place du footer -->
   <footer>
     <ul>
       <li><a href="https://resin.grandlyon.com/mentions-legales" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
@@ -25,7 +26,8 @@
           <a href="https://www.grandlyon.com/" target="_blank" rel="noopener noreferrer">
             <img src="https://inclusivite-resin.grandlyon.com/app/themes/ausy-modular-theme/public/images/picto-plus.0a1d2b.png" alt="Logo">
             <p>Un site de la Métropole de Lyon</p>
-          </a></li>
+          </a>
+        </li>
       </ul>
     </div>
   </footer>

@@ -12,8 +12,8 @@ import { ReactiveFormsModule } from "@angular/forms";
   styleUrl: './answer-box.component.css'
 })
 export class AnswerBoxComponent {
-  dataService = inject(DataService);
-  progressService = inject(ProgressService);
-  quiz_segment = this.dataService.currentSegment()!;
+  dataService = inject(DataService); //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quiz_segment = this.dataService.currentSegment()!; //Permet d'avoir accès à la carte affichée
 }
 

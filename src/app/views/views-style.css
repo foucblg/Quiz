@@ -1,2 +1,3 @@
-@import "header/header.component.css";
-@import "quiz/quiz.component.css";
+/* Fait office de hub de tous les fichiers CSS globaux des sous-dossiers*/
+@import "header/header.component.css"; /* Permet d'avoir accès au CSS du header */
+@import "quiz/quiz.component.css"; /* Permet d'avoir accès au CSS du body */

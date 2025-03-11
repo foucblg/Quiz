@@ -8,12 +8,15 @@
     width="80%"
     class = "image-intro"
   />
-  <p>Bienvenue sur le quiz de « Inclusif, le jeu ».<br>
+  <p>
+    Bienvenue sur le quiz de « Inclusif, le jeu ».
+    <br>
     Ce quiz vous permet d'aborder de manière ludique les problèmes liés à
     l'inclusivité.
   </p>
 </div>
 
+<!-- Mise en place des boutons pour le choix du nombre de question et le démarrage du jeu -->
 <div class="lower-section">
   <p-divider/>
   <div class="start-div">
@@ -28,10 +31,7 @@
           icon="pi pi-minus"
         />
         <span class="n-questions-text">
-          {{
-            possibleNumberOfQuestionsPerTopic[iNumberOfQuestions] *
-              numberOfTopics
-          }}
+          {{ possibleNumberOfQuestionsPerTopic[iNumberOfQuestions] * dataService.getNumberOfTopics() }}
         </span>
         <p-button
           severity="contrast"
@@ -41,6 +41,8 @@
           icon="pi pi-plus"/>
       </div>
     </div>
+
+    <!-- Bouton pour démarrer le Quiz -->
     <div class = "start-game-button">
       <p-button
         class = "game"

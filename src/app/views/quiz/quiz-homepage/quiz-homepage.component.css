@@ -28,7 +28,7 @@
 .presentation-section p {
   font-size: 16px;
   font-weight: normal;
-  margin-top: 50px;
+  margin-top: 25px;
 }
 
 .lower-section{
@@ -60,11 +60,10 @@
 }
 
 p-divider{
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin: 0;
+  padding-bottom: 40px;
   width:80%;
 }
-
 
 .selector-buttons {
   flex-grow: 1;
