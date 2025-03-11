@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Adapter selon la version de ton projet
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -30,7 +30,7 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: Build Angular app
-        run: ng build --configuration production --base-href "/Quiz/"  # Remplace par le nom de ton dépôt
+        run: ng build --configuration production --base-href "/Quiz/"
 
       - name: Add 404.html for GitHub Pages
         run: |
@@ -46,5 +46,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # Branche de déploiement
-          folder: dist/quiz/browser  # Remplace par le nom du dossier de build
+          branch: gh-pages
+          folder: dist/quiz/browser
