@@ -12,7 +12,7 @@
       <p class="question-text">
         {{ "Question " + progressService.questionNumber() }} / {{ dataService.numberOfQuestions() }}
       </p>
-      <p></p>
+      <p></p> <!-- Doit être garder sinon la progressbar ne s'affichera pas -->
       <p-progressbar class="progress-bar" [value]="progressPercentage()" />
     </div>
 

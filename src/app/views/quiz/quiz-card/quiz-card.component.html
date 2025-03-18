@@ -3,7 +3,7 @@
 </div>
 <h1 class="question">{{ quiz_segment()?.question }}</h1>
 
-<!-- Mise en place de la carte question ou réponse suivant s'il y a eu une réponse validée-->
+<!-- Mise en place de la carte question ou réponse suivant s'il y a eu une réponse validée -->
 @if (!progressService.answered()) {
   <app-choice-box></app-choice-box>
 } @else {

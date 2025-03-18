@@ -84,16 +84,16 @@
   
   <div class="start-div">
     <p-button
+      class = "start-again"
+      (click)="progressService.goToBegining()">
+      Relancer une série
+    </p-button>
+    <p-button
       class = "game"
       (click)="progressService.goToBegining()"
       severity="secondary"
       variant="outlined">
       Voir Inclusif, le jeu
-    </p-button>
-    <p-button
-      class = "start-again"
-      (click)="progressService.goToBegining()">
-      Relancer une série
     </p-button>
   </div>
 </div>
