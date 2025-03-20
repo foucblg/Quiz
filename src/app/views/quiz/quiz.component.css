@@ -63,3 +63,20 @@ p-divider{
 ::ng-deep .button-page button {
   width: 150px; /* Force the width */
 }
+
+/* Désactivation du style du bouton lorsque désactivé */
+::ng-deep p-button button:disabled {
+  background-color: #cd2524 !important;
+  border-color: #cd2524 !important;
+}
+
+::ng-deep  p-button button:disabled:hover {
+  background-color: #cd2524 !important;
+  border-color: #cd2524 !important;
+
+}
+
+::ng-deep  p-button button:disabled:active {
+  background-color: #cd2524 !important;
+  border-color: #cd2524 !important;
+}

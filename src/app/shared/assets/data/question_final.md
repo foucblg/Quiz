@@ -48,6 +48,9 @@ Cette clé (list) sert à définir l'indice (en commançant à 0) de la bonne r�
 
 La liste doit-être composée d'un élément (int) unique si le question_type est QCU et est composée d'un ou plusieurs éléments (int) si le question_type est QCM.
 
+### sentences
+Seulement pour les QCM, cela permet d'afficher les bonnes réponses à l'utilisateur.
+
 ### explanation
 
 Cette clé (str) contient l'explication de la bonne réponse de la carte quiz.

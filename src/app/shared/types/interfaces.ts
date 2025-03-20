@@ -5,6 +5,7 @@ export interface QuizData {
 }
 
 export interface QuizSegment {
+  QCM_answers: any;
   question_type: string,
   question: string,
   possible_answers: string[] | never[],

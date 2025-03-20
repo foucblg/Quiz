@@ -24,7 +24,7 @@
       <p-divider/>
 
       @if (!progressService.answered()) {
-        <p-button class="button-page" (click)="quizCard()!.choiceBox()!.tryToAnswer()">
+        <p-button class="button-page" (click)="quizCard()!.choiceBox()!.tryToAnswer()" [disabled]="!disabled()" >
           Répondre
         </p-button>
       }
