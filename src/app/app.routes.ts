@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { QuizHomepageComponent } from './views/quiz/quiz-homepage/quiz-homepage.component';
 import { QuizTimePageComponent } from './views/quiz/quiz-time/quiz-time.component';
 import { QuizEndpageComponent } from './views/quiz/quiz-endpage/quiz-endpage.component';
+import { QuizComponent } from './views/quiz/quiz.component';
 
 export const routes: Routes = [
   {
@@ -12,7 +13,7 @@ export const routes: Routes = [
       { path: 'accueil', component: QuizHomepageComponent },
       { path: 'temps', component: QuizTimePageComponent },
       { path: 'fin', component: QuizEndpageComponent },
-      { path: '**',  redirectTo: 'accueil' },
+      { path: '**',  component: QuizComponent  },
     ],
   },
   { path: '', redirectTo: 'quiz/accueil', pathMatch: 'full' },
