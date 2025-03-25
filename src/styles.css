@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import "app/views/views-style.css"; /* Permet d'obternir tous le CSS provenant des components dans views */
-@import "app/shared/shared-styles.css"; /* Permet d'obternir tous le CSS provenant des components dans shared */
 @import "primeicons/primeicons.css"; /* Permet d'avoir accès primeicons */
 
 html{
@@ -14,4 +13,22 @@ body {
    height: 100%;
    display: flex;
    flex-direction: column;
+ }
+
+ :root {
+   width: 100%;
+ }
+ 
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: Lato, sans-serif;
+ }
+ 
+ html,
+ body,
+ my-app {
+   height: 100%;
+   height: 100vh;
  }

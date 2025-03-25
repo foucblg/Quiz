@@ -92,28 +92,3 @@
   text-align: middle;
   font-size: 16px;
 }
-
-.div-error{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  vertical-align: middle;
-  color:#333333;
-  margin-top: 5px;
-}
-
-.bouton-error{
-  --p-button-primary-active-background: #ff5d5c;
-  --p-button-primary-hover-background: #cd2524;
-  --p-button-primary-active-border-color: #ff5d5c;
-  --p-button-primary-hover-border-color: #cd2524;
-}
-
-::ng-deep .bouton-error button {
-  width: 150px; /* Force the width */
-}
-
-.p-error{
-  --p-dialog-colo:#333333;
-}

@@ -9,6 +9,7 @@ import { DataService } from '../../shared/services/quiz-service';
 import { QuizCardComponent } from './quiz-card/quiz-card.component';
 import { QuizEndpageComponent } from "./quiz-endpage/quiz-endpage.component";
 import { QuizHomepageComponent } from './quiz-homepage/quiz-homepage.component';
+import { Answer } from '../../shared/types/enums';
 
 @Component({
   selector: 'app-quiz',
@@ -24,5 +25,7 @@ export class QuizComponent {
   progressService = inject(ProgressService); // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
   quizCard = viewChild(QuizCardComponent); //Permet de mettre à jour l'avancée des pages du Quiz
 
-  progressPercentage = computed(() => this.progressService.questionNumber() / this.dataService.numberOfQuestions() * 100)
+  progressPercentage = computed(() => this.progressService.questionNumber() / this.dataService.numberOfQuestions() * 100);
+  answerIsEmpty = computed(() => this.progressService.currentAnswerValidity() === Answer.Empty);
+  disabled = computed(() => this.progressService.checked());
 }

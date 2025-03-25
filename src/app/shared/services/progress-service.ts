@@ -18,6 +18,7 @@ export class ProgressService {
   currentAnswerValidity = computed(() => this.verifyAnswer())
   hasEnded = signal(false);
   answered = signal(false);
+  checked = signal(false);
 
   goToBegining() {
     /* Revient à la page du début, sans oublienpmr les questions déjà posées */
@@ -102,4 +103,10 @@ export class ProgressService {
     }
   }
 
+  GetChecked() {
+    this.checked.set(true);
+  }
+  GetUnchecked() {
+    this.checked.set(false);
+  }
 }

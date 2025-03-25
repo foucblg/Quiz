@@ -1,9 +1,4 @@
-@if (progressService.currentAnswerValidity()){
-  <p class="nb-choice">Mauvaise réponse</p>
-}
-@else {
-  <p class="nb-choice">Bonne réponse</p>
-}
+<div class="space"></div>
 <div class="answer-box">
   @for (choice of quiz_segment.possible_answers; track $index) {
     @if (quiz_segment.true_answers.includes($index)) {
@@ -25,5 +20,16 @@
       </label>
     }
   }
+  @if (progressService.currentAnswerValidity()){
+    <p class="bold-text">Raté !</p>
+  }
+  @else {
+    <p class="bold-text">Bravo !</p>
+  }
+
+  @if (quiz_segment.question_type === "QCM") {
+    <span class="answers">{{ quiz_segment.QCM_answers }}</span>
+  }
+  <p class = "bold-text">L'explication :</p>
   <span class="explanation">{{ quiz_segment.explanation }}</span>
 </div>

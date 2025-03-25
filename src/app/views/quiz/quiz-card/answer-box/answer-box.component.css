@@ -17,6 +17,16 @@
   gap: 16px;
 }
 
+.space{
+  margin-top: 43px;
+}
+
+.bold-text{
+  font-weight: bold;
+  font-size: 22px;
+  margin-top: 10px;
+}
+
 .answer-choice {
   display: flex;
   align-content: center;
@@ -32,6 +42,12 @@
 
 .explanation {
   font-size: 16px;
+  white-space : pre-line;
+  color: #333333;
+}
+
+.answers {
+  font-size: 18px;
   white-space : pre-line;
   color: #333333;
 }

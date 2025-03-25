@@ -140,6 +140,8 @@ export class DataService {
     this.currentTopic.set(questionTopic!);
     this.currentQuestionId.set(questionId);
     this.currentSegment.set(this.quizSegments[questionTopic!][questionId]);
+    console.log(this.quizSegments[questionTopic!][questionId]);
+    console.log(this.currentSegment()!);
   }
 
   isFinished() {

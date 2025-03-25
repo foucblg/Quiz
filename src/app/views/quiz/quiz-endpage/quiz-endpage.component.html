@@ -1,16 +1,17 @@
 <div class="header">
-  <h1>Le quiz est fini !</h1>
-  @if (2*progressService.score()>=progressService.questionNumber()){
-    <h2>
-      Bravo à vous ! Votre score est de {{ progressService.score() }} /
-      {{ progressService.questionNumber() }}
-    </h2>
+  <h1>Merci d'avoir réalisé ce quiz !</h1>
+  <h2>
+    Vous avez répondu correctement à {{ progressService.score() }} questions sur 
+    {{ progressService.questionNumber() }}.
+  </h2>
+  @if (rapport < 0.3){
+    <p class="result">Encore un petit effort !</p>
+  }
+  @else if (rapport < 0.7) {
+    <p class="result">continuez comme ça !</p>
   }
   @else {
-    <h2>
-      Votre score est de {{ progressService.score() }} /
-      {{ progressService.questionNumber() }}
-    </h2>
+    <p class="result">Vous êtes un as !</p>
   }
 
   <!-- Mise en place du grade an fonction du score obtenu :
@@ -19,7 +20,6 @@
     - 2 <= score <3 - Grade C
     - 3 <= score <4 - Grade B
     - score == 4 - Grade A
-  -->
   <div class = "grade">
     <p>Votre grade est </p>
     @if (progressService.score()/rapport < 1){
@@ -63,6 +63,8 @@
       />
     }
   </div>
+  -->
+
   
   <p-image
     src="images/quiz_endpage_image.png"
@@ -84,16 +86,16 @@
   
   <div class="start-div">
     <p-button
+      class = "start-again"
+      (click)="progressService.goToBegining()">
+      Relancer une série
+    </p-button>
+    <p-button
       class = "game"
       (click)="progressService.goToBegining()"
       severity="secondary"
       variant="outlined">
       Voir Inclusif, le jeu
-    </p-button>
-    <p-button
-      class = "start-again"
-      (click)="progressService.goToBegining()">
-      Relancer une série
     </p-button>
   </div>
 </div>
