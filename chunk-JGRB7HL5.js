@@ -12,7 +12,7 @@ import {
   style,
   ɵPRE_STYLE,
   ɵɵdefineInjectable
-} from "./chunk-EHJ3O7LD.js";
+} from "./chunk-JLE45WY6.js";
 
 // node_modules/@angular/animations/fesm2022/browser.mjs
 var LINE_START = "\n - ";

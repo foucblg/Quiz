@@ -83,31 +83,20 @@ p-divider {
 ::ng-deep .button-page button {
   width: 150px;
 }
+::ng-deep p-button button:disabled {
+  background-color: #cd2524 !important;
+  border-color: #cd2524 !important;
+}
+::ng-deep p-button button:disabled:hover {
+  background-color: #cd2524 !important;
+  border-color: #cd2524 !important;
+}
+::ng-deep p-button button:disabled:active {
+  background-color: #cd2524 !important;
+  border-color: #cd2524 !important;
+}
 
 /* src/app/views/views-style.css */
-
-/* src/app/shared/shared-styles.css */
-:root {
-  width: 100%;
-}
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family:
-    Lato,
-    Helvetica,
-    sans-serif;
-}
-html,
-body,
-my-app {
-  height: 100%;
-  height: 100vh;
-}
-.subtext {
-  color: var(--text-secondary-color);
-}
 
 /* node_modules/primeicons/primeicons.css */
 @font-face {
@@ -1135,6 +1124,21 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+:root {
+  width: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Lato, sans-serif;
+}
+html,
+body,
+my-app {
+  height: 100%;
+  height: 100vh;
 }
 
 /* angular:styles/global:styles */
