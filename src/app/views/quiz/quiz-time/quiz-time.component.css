@@ -28,25 +28,68 @@
   margin-top: 25px;
 }
 
-.lower-section{
-  text-align: center;
+.button-div {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  bottom:0em;
 }
+
 p-divider{
   margin: 0;
   padding-bottom: 40px;
   width:80%;
 }
 
-::ng-deep .start-game-button button {
-  width: 200px; /* Force the width */
-  height: 40px; /* Force the height */
-  margin-left: 16px;
+.n-questions-selector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid #333333;
+  width: 300px;
+  height: 40px;
 }
 
+.n-questions-selector p {
+  margin: 0;
+  padding: 0 8px;
+}
+
+.selector-buttons {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  margin-left: 50px;
+}
+
+.n-questions-text {
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  align-content: center;
+  height: 24px;
+  width: 24px;
+  border: 1px solid gray;
+  background-color: var(--p-gray-200);
+}
+
+::ng-deep .game button {
+  width: 200px; /* Force the width */
+  height: 40px; /* Force the height */
+}
+
+::ng-deep .selector-buttons button {
+  width: 24px; /* Force the width */
+  height: 24px; /* Force the height */
+  background-color: #333333;
+  border-color: #333333;
+}
 
 .game{
   --p-button-primary-active-background: #ff5d5c;

@@ -8,14 +8,12 @@ import { ProgressService } from '../../shared/services/progress-service';
 import { DataService } from '../../shared/services/quiz-service';
 import { QuizCardComponent } from './quiz-card/quiz-card.component';
 import { QuizEndpageComponent } from "./quiz-endpage/quiz-endpage.component";
-import { QuizHomepageComponent } from './quiz-homepage/quiz-homepage.component';
 import { Answer } from '../../shared/types/enums';
-
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css',
-  imports: [CommonModule, ButtonModule, ToastModule, ProgressBarModule, QuizHomepageComponent, QuizCardComponent, DividerModule, QuizEndpageComponent]
+  imports: [CommonModule, ButtonModule, ToastModule, ProgressBarModule, QuizCardComponent, DividerModule, QuizEndpageComponent]
 })
 
 export class QuizComponent {

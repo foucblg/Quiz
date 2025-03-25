@@ -1,15 +1,19 @@
 import { Routes } from '@angular/router';
-import { QuizComponent } from './views/quiz/quiz.component';
-import { AppComponent } from './app.component';
 import { QuizHomepageComponent } from './views/quiz/quiz-homepage/quiz-homepage.component';
+import { QuizTimePageComponent } from './views/quiz/quiz-time/quiz-time.component';
 import { QuizEndpageComponent } from './views/quiz/quiz-endpage/quiz-endpage.component';
+import { QuizComponent } from './views/quiz/quiz.component';
 
 export const routes: Routes = [
   {
-    path: 'quiz', title: "Quiz Inclusif, le jeu", children: [
-      { path: '**', component: QuizComponent },
+    path: 'quiz',
+    title: "Quiz Inclusif, le jeu",
+    children: [
+      { path: '', redirectTo: 'accueil', pathMatch: 'full' },
       { path: 'accueil', component: QuizHomepageComponent },
+      { path: 'temps', component: QuizTimePageComponent },
       { path: 'fin', component: QuizEndpageComponent },
+      { path: '**',  component: QuizComponent  },
     ],
   },
   { path: '', redirectTo: 'quiz/accueil', pathMatch: 'full' },

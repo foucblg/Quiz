@@ -1,0 +1,48 @@
+<div class="main-enter">
+  <div class="presentation-section">
+    <h1>Inclusivité numérique : Testez vos connaissances !</h1>
+    <p-image
+      src="images/banner.png"
+      alt="Image de présentation du quiz"
+      [imageStyle]="{ objectFit: 'contain' }"
+      width="80%"
+    />
+    <p>
+      Combien de temps ce quiz doit-il durer ?
+    </p>
+  </div>
+</div>
+
+  <!-- Mise en place des boutons pour le choix du nombre de question et le démarrage du jeu -->
+  <div class="button-div">
+    <div class="n-questions-selector">
+      <p>Durée du quiz (min)</p>
+      <div class="selector-buttons">
+        <p-button
+          severity="contrast"
+          (click)="adjustNumberOfQuestions(-1)"
+          [disabled]="iNumberOfQuestions == 0"
+          aria-label="Enlever des questions"
+          icon="pi pi-minus"
+        />
+        <span class="n-questions-text">
+          {{ possibleNumberOfQuestionsPerTopic[iNumberOfQuestions] * dataService.getNumberOfTopics() }}
+        </span>
+        <p-button
+          severity="contrast"
+          (click)="adjustNumberOfQuestions(1)"
+          [disabled]="iNumberOfQuestions == possibleNumberOfQuestionsPerTopic.length - 1"
+          aria-label="Ajouter des questions"
+          icon="pi pi-plus"/>
+      </div>
+    </div>
+
+    <!-- Bouton pour démarrer le Quiz -->
+      <p-divider/>
+      <p-button
+        class = "game"
+        (click)="progressService.start(possibleNumberOfQuestionsPerTopic[iNumberOfQuestions])"
+        aria-label="Commencer le quiz"
+        label = "Passer à l'action">
+      </p-button>
+</div>

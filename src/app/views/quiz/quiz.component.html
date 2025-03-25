@@ -1,18 +1,15 @@
 <!-- Mise en place soit de la page de garde, soit de la page de fin ou alors des cartes questions -->
-@if (progressService.questionNumber() === 0) {
-  <app-quiz-homepage></app-quiz-homepage>
-}
-@else if (progressService.hasEnded()) {
+@if (progressService.hasEnded()) {
   <app-quiz-endpage></app-quiz-endpage>
 }
-@else {
+@else if (progressService.questionNumber() !== 0) {
   <div class="quiz">
     <!-- Mise en place de la barre de progression-->
     <div class="progress">
       <p class="question-text">
         {{ "Question " + progressService.questionNumber() }} / {{ dataService.numberOfQuestions() }}
       </p>
-      <p></p> <!-- Doit être garder sinon la progressbar ne s'affichera pas -->
+      <p></p> <!-- Doit être gardé sinon la progressbar ne s'affichera pas -->
       <p-progressbar class="progress-bar" [value]="progressPercentage()" />
     </div>
 
