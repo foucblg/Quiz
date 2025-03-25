@@ -18,6 +18,7 @@ main {
   flex-direction: column;
   overflow: auto; /* Ajoute un défilement si le contenu est trop long */
   height: 100%;
+  padding: 16px;
 }
 
 /* Footer */

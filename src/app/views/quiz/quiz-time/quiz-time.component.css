@@ -1,0 +1,108 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+.presentation-section {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  height: 100%;
+}
+
+.presentation-section h1 {
+  font-size: 28px;
+  font-weight: normal;
+  margin-bottom: 35px;
+  margin-top: 15px;
+}
+
+.presentation-section p {
+  font-size: 16px;
+  font-weight: normal;
+  margin-top: 25px;
+}
+
+.lower-section{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.n-questions-selector {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  border: 1px solid #333333;
+  align-items: center;
+  width: 200px;
+  margin-right: 16px;
+  height: 40px;
+}
+
+.start-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+p-divider{
+  margin: 0;
+  padding-bottom: 40px;
+  width:80%;
+}
+
+.selector-buttons {
+  flex-grow: 1;
+  display: grid;
+  gap: 4px;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  padding: 8px;
+  align-items: center;
+}
+
+.n-questions-text {
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  justify-content: center;
+  align-content: center;
+  height: 24px;
+  width: 24px;
+  border: 1px solid gray;
+  background-color: var(--p-gray-200);
+}
+
+::ng-deep .start-game-button button {
+  width: 200px; /* Force the width */
+  height: 40px; /* Force the height */
+  margin-left: 16px;
+}
+
+::ng-deep .selector-buttons button {
+  width: 24px; /* Force the width */
+  height: 24px; /* Force the height */
+  background-color: #333333;
+  border-color: #333333;
+}
+.game{
+  --p-button-primary-active-background: #ff5d5c;
+  --p-button-primary-hover-background: #cd2524;
+  --p-button-primary-active-border-color: #ff5d5c;
+  --p-button-primary-hover-border-color: #cd2524;
+}
+
+p, h1, h2{
+  color: #333333;
+}
