@@ -10647,6 +10647,369 @@ var BaseComponent = class _BaseComponent {
   });
 })();
 
+// node_modules/primeng/fesm2022/primeng-utils.mjs
+function ZIndexUtils() {
+  let zIndexes = [];
+  const generateZIndex = (key, baseZIndex) => {
+    let lastZIndex = zIndexes.length > 0 ? zIndexes[zIndexes.length - 1] : {
+      key,
+      value: baseZIndex
+    };
+    let newZIndex = lastZIndex.value + (lastZIndex.key === key ? 0 : baseZIndex) + 2;
+    zIndexes.push({
+      key,
+      value: newZIndex
+    });
+    return newZIndex;
+  };
+  const revertZIndex = (zIndex) => {
+    zIndexes = zIndexes.filter((obj) => obj.value !== zIndex);
+  };
+  const getCurrentZIndex = () => {
+    return zIndexes.length > 0 ? zIndexes[zIndexes.length - 1].value : 0;
+  };
+  const getZIndex = (el) => {
+    return el ? parseInt(el.style.zIndex, 10) || 0 : 0;
+  };
+  return {
+    get: getZIndex,
+    set: (key, el, baseZIndex) => {
+      if (el) {
+        el.style.zIndex = String(generateZIndex(key, baseZIndex));
+      }
+    },
+    clear: (el) => {
+      if (el) {
+        revertZIndex(getZIndex(el));
+        el.style.zIndex = "";
+      }
+    },
+    getCurrent: () => getCurrentZIndex(),
+    generateZIndex,
+    revertZIndex
+  };
+}
+var zindexutils = ZIndexUtils();
+
+// node_modules/primeng/fesm2022/primeng-blockui.mjs
+var _c02 = ["content"];
+var _c1 = ["mask"];
+var _c2 = ["*"];
+var _c3 = (a0) => ({
+  "p-blockui-mask-document": a0,
+  "p-blockui p-blockui-mask p-overlay-mask": true
+});
+var _c4 = () => ({
+  display: "none"
+});
+function BlockUI_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+var theme2 = ({
+  dt: dt2
+}) => `
+.p-blockui {
+    position: relative;
+}
+
+.p-blockui-mask {
+    border-radius: ${dt2("blockui.border.radius")};
+}
+
+.p-blockui-mask.p-overlay-mask {
+    position: absolute;
+}
+
+.p-blockui-mask-document.p-overlay-mask {
+    position: fixed;
+}
+`;
+var classes = {
+  root: "p-blockui"
+};
+var BlockUiStyle = class _BlockUiStyle extends BaseStyle {
+  name = "blockui";
+  theme = theme2;
+  classes = classes;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275BlockUiStyle_BaseFactory;
+    return function BlockUiStyle_Factory(__ngFactoryType__) {
+      return (\u0275BlockUiStyle_BaseFactory || (\u0275BlockUiStyle_BaseFactory = \u0275\u0275getInheritedFactory(_BlockUiStyle)))(__ngFactoryType__ || _BlockUiStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _BlockUiStyle,
+    factory: _BlockUiStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlockUiStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var BlockUIClasses;
+(function(BlockUIClasses2) {
+  BlockUIClasses2["root"] = "p-blockui";
+})(BlockUIClasses || (BlockUIClasses = {}));
+var BlockUI = class _BlockUI extends BaseComponent {
+  /**
+   * Name of the local ng-template variable referring to another component.
+   * @group Props
+   */
+  target;
+  /**
+   * Whether to automatically manage layering.
+   * @group Props
+   */
+  autoZIndex = true;
+  /**
+   * Base zIndex value to use in layering.
+   * @group Props
+   */
+  baseZIndex = 0;
+  /**
+   * Class of the element.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * Current blocked state as a boolean.
+   * @group Props
+   */
+  get blocked() {
+    return this._blocked;
+  }
+  set blocked(val) {
+    if (this.mask && this.mask.nativeElement) {
+      if (val) this.block();
+      else this.unblock();
+    } else {
+      this._blocked = val;
+    }
+  }
+  /**
+   * template of the content
+   * @group Templates
+   */
+  contentTemplate;
+  mask;
+  _blocked = false;
+  animationEndListener;
+  _componentStyle = inject(BlockUiStyle);
+  constructor() {
+    super();
+  }
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    if (this._blocked) this.block();
+    if (this.target && !this.target.getBlockableElement) {
+      throw "Target of BlockUI must implement BlockableUI interface";
+    }
+  }
+  _contentTemplate;
+  templates;
+  ngAfterContentInit() {
+    this.templates.forEach((item) => {
+      switch (item.getType()) {
+        case "content":
+          this.contentTemplate = item.template;
+          break;
+        default:
+          this.contentTemplate = item.template;
+          break;
+      }
+    });
+  }
+  block() {
+    if (isPlatformBrowser(this.platformId)) {
+      this._blocked = true;
+      this.mask.nativeElement.style.display = "flex";
+      if (this.target) {
+        this.target.getBlockableElement().appendChild(this.mask.nativeElement);
+        this.target.getBlockableElement().style.position = "relative";
+      } else {
+        this.renderer.appendChild(this.document.body, this.mask.nativeElement);
+        blockBodyScroll();
+      }
+      if (this.autoZIndex) {
+        zindexutils.set("modal", this.mask.nativeElement, this.baseZIndex + this.config.zIndex.modal);
+      }
+    }
+  }
+  unblock() {
+    if (isPlatformBrowser(this.platformId) && this.mask && !this.animationEndListener) {
+      this.destroyModal();
+    }
+  }
+  destroyModal() {
+    this._blocked = false;
+    if (this.mask && isPlatformBrowser(this.platformId)) {
+      zindexutils.clear(this.mask.nativeElement);
+      this.renderer.removeChild(this.el.nativeElement, this.mask.nativeElement);
+      unblockBodyScroll();
+    }
+    this.unbindAnimationEndListener();
+    this.cd.markForCheck();
+  }
+  unbindAnimationEndListener() {
+    if (this.animationEndListener && this.mask) {
+      this.animationEndListener();
+      this.animationEndListener = null;
+    }
+  }
+  ngOnDestroy() {
+    this.unblock();
+    this.destroyModal();
+    super.ngOnDestroy();
+  }
+  static \u0275fac = function BlockUI_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _BlockUI)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _BlockUI,
+    selectors: [["p-blockUI"], ["p-blockui"], ["p-block-ui"]],
+    contentQueries: function BlockUI_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, _c02, 4);
+        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
+      }
+    },
+    viewQuery: function BlockUI_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c1, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.mask = _t.first);
+      }
+    },
+    inputs: {
+      target: "target",
+      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
+      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
+      styleClass: "styleClass",
+      blocked: [2, "blocked", "blocked", booleanAttribute]
+    },
+    features: [\u0275\u0275ProvidersFeature([BlockUiStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
+    ngContentSelectors: _c2,
+    decls: 4,
+    vars: 11,
+    consts: [["mask", ""], [3, "ngClass", "ngStyle"], [4, "ngTemplateOutlet"]],
+    template: function BlockUI_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275elementStart(0, "div", 1, 0);
+        \u0275\u0275projection(2);
+        \u0275\u0275template(3, BlockUI_ng_container_3_Template, 1, 0, "ng-container", 2);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275classMap(ctx.styleClass);
+        \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(8, _c3, !ctx.target))("ngStyle", \u0275\u0275pureFunction0(10, _c4));
+        \u0275\u0275attribute("aria-busy", ctx.blocked)("data-pc-name", "blockui")("data-pc-section", "root");
+        \u0275\u0275advance(3);
+        \u0275\u0275property("ngTemplateOutlet", ctx.contentTemplate || ctx._contentTemplate);
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgTemplateOutlet, NgStyle, SharedModule],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlockUI, [{
+    type: Component,
+    args: [{
+      selector: "p-blockUI, p-blockui, p-block-ui",
+      standalone: true,
+      imports: [CommonModule, SharedModule],
+      template: `
+        <div
+            #mask
+            [class]="styleClass"
+            [attr.aria-busy]="blocked"
+            [ngClass]="{ 'p-blockui-mask-document': !target, 'p-blockui p-blockui-mask p-overlay-mask': true }"
+            [ngStyle]="{ display: 'none' }"
+            [attr.data-pc-name]="'blockui'"
+            [attr.data-pc-section]="'root'"
+        >
+            <ng-content></ng-content>
+            <ng-container *ngTemplateOutlet="contentTemplate || _contentTemplate"></ng-container>
+        </div>
+    `,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None,
+      providers: [BlockUiStyle]
+    }]
+  }], () => [], {
+    target: [{
+      type: Input
+    }],
+    autoZIndex: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    baseZIndex: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    blocked: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    contentTemplate: [{
+      type: ContentChild,
+      args: ["content", {
+        descendants: false
+      }]
+    }],
+    mask: [{
+      type: ViewChild,
+      args: ["mask"]
+    }],
+    templates: [{
+      type: ContentChildren,
+      args: [PrimeTemplate]
+    }]
+  });
+})();
+var BlockUIModule = class _BlockUIModule {
+  static \u0275fac = function BlockUIModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _BlockUIModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _BlockUIModule
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [BlockUI, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlockUIModule, [{
+    type: NgModule,
+    args: [{
+      imports: [BlockUI, SharedModule],
+      exports: [BlockUI, SharedModule]
+    }]
+  }], null, null);
+})();
+
 // node_modules/primeng/fesm2022/primeng-dom.mjs
 var DomHandler = class _DomHandler {
   static zindex = 1e3;
@@ -11407,7 +11770,7 @@ var AutoFocusModule = class _AutoFocusModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-badge.mjs
-var theme2 = ({
+var theme3 = ({
   dt: dt2
 }) => `
 .p-badge {
@@ -11503,7 +11866,7 @@ var theme2 = ({
     margin: 0;
 }
 `;
-var classes = {
+var classes2 = {
   root: ({
     props,
     instance
@@ -11523,8 +11886,8 @@ var classes = {
 };
 var BadgeStyle = class _BadgeStyle extends BaseStyle {
   name = "badge";
-  theme = theme2;
-  classes = classes;
+  theme = theme3;
+  classes = classes2;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275BadgeStyle_BaseFactory;
     return function BadgeStyle_Factory(__ngFactoryType__) {
@@ -11942,7 +12305,7 @@ var BadgeModule = class _BadgeModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-icons-baseicon.mjs
-var _c02 = ["*"];
+var _c03 = ["*"];
 var css2 = `
 .p-icon {
     display: inline-block;
@@ -12035,7 +12398,7 @@ var BaseIcon = class _BaseIcon extends BaseComponent {
       styleClass: "styleClass"
     },
     features: [\u0275\u0275ProvidersFeature([BaseIconStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c02,
+    ngContentSelectors: _c03,
     decls: 1,
     vars: 0,
     template: function BaseIcon_Template(rf, ctx) {
@@ -13118,7 +13481,7 @@ var WindowMinimizeIcon = class _WindowMinimizeIcon extends BaseIcon {
 })();
 
 // node_modules/primeng/fesm2022/primeng-ripple.mjs
-var theme3 = ({
+var theme4 = ({
   dt: dt2
 }) => `
 /* For PrimeNG */
@@ -13150,13 +13513,13 @@ var theme3 = ({
     }
 }
 `;
-var classes2 = {
+var classes3 = {
   root: "p-ink"
 };
 var RippleStyle = class _RippleStyle extends BaseStyle {
   name = "ripple";
-  theme = theme3;
-  classes = classes2;
+  theme = theme4;
+  classes = classes3;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275RippleStyle_BaseFactory;
     return function RippleStyle_Factory(__ngFactoryType__) {
@@ -13315,11 +13678,11 @@ var RippleModule = class _RippleModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-button.mjs
-var _c03 = ["content"];
-var _c1 = ["loading"];
-var _c2 = ["icon"];
-var _c3 = ["*"];
-var _c4 = (a0) => ({
+var _c04 = ["content"];
+var _c12 = ["loading"];
+var _c22 = ["icon"];
+var _c32 = ["*"];
+var _c42 = (a0) => ({
   class: a0
 });
 function Button_ng_container_2_Template(rf, ctx) {
@@ -13383,7 +13746,7 @@ function Button_ng_container_3_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", !ctx_r0.loadingIconTemplate && !ctx_r0._loadingIconTemplate);
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.loadingIconTemplate || ctx_r0._loadingIconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c4, ctx_r0.iconClass()));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.loadingIconTemplate || ctx_r0._loadingIconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c42, ctx_r0.iconClass()));
   }
 }
 function Button_ng_container_4_span_1_Template(rf, ctx) {
@@ -13419,7 +13782,7 @@ function Button_ng_container_4_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r0.icon && !ctx_r0.iconTemplate && !ctx_r0._iconTemplate);
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.iconTemplate || ctx_r0._iconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c4, ctx_r0.iconClass()));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.iconTemplate || ctx_r0._iconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c42, ctx_r0.iconClass()));
   }
 }
 function Button_span_5_Template(rf, ctx) {
@@ -13444,7 +13807,7 @@ function Button_p_badge_6_Template(rf, ctx) {
     \u0275\u0275property("value", ctx_r0.badge)("severity", ctx_r0.badgeSeverity);
   }
 }
-var theme4 = ({
+var theme5 = ({
   dt: dt2
 }) => `
 .p-button {
@@ -14089,7 +14452,7 @@ p-button[iconpos='right'] spinnericon {
     order: 1;
 }
 `;
-var classes3 = {
+var classes4 = {
   root: ({
     instance,
     props
@@ -14118,8 +14481,8 @@ var classes3 = {
 };
 var ButtonStyle = class _ButtonStyle extends BaseStyle {
   name = "button";
-  theme = theme4;
-  classes = classes3;
+  theme = theme5;
+  classes = classes4;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275ButtonStyle_BaseFactory;
     return function ButtonStyle_Factory(__ngFactoryType__) {
@@ -14878,9 +15241,9 @@ var Button = class _Button extends BaseComponent {
     selectors: [["p-button"]],
     contentQueries: function Button_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c03, 5);
-        \u0275\u0275contentQuery(dirIndex, _c1, 5);
-        \u0275\u0275contentQuery(dirIndex, _c2, 5);
+        \u0275\u0275contentQuery(dirIndex, _c04, 5);
+        \u0275\u0275contentQuery(dirIndex, _c12, 5);
+        \u0275\u0275contentQuery(dirIndex, _c22, 5);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -14925,7 +15288,7 @@ var Button = class _Button extends BaseComponent {
       onBlur: "onBlur"
     },
     features: [\u0275\u0275ProvidersFeature([ButtonStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
-    ngContentSelectors: _c3,
+    ngContentSelectors: _c32,
     decls: 7,
     vars: 14,
     consts: [["pRipple", "", 3, "click", "focus", "blur", "ngStyle", "disabled", "ngClass", "pAutoFocus"], [4, "ngTemplateOutlet"], [4, "ngIf"], ["class", "p-button-label", 4, "ngIf"], [3, "value", "severity", 4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass", 4, "ngIf"], [3, "styleClass", "spin", 4, "ngIf"], [3, "ngClass"], [3, "styleClass", "spin"], [3, "ngIf"], [3, "class", "ngClass", 4, "ngIf"], [1, "p-button-label"], [3, "value", "severity"]],
@@ -15169,8 +15532,8 @@ var ButtonModule = class _ButtonModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-divider.mjs
-var _c04 = ["*"];
-var theme5 = ({
+var _c05 = ["*"];
+var theme6 = ({
   dt: dt2
 }) => `
 .p-divider-horizontal {
@@ -15262,7 +15625,7 @@ var inlineStyles = {
     alignItems: props.layout === "vertical" ? props.align === "center" || props.align === null ? "center" : props.align === "top" ? "flex-start" : props.align === "bottom" ? "flex-end" : null : null
   })
 };
-var classes4 = {
+var classes5 = {
   root: ({
     props
   }) => ["p-divider p-component", "p-divider-" + props.layout, "p-divider-" + props.type, {
@@ -15282,8 +15645,8 @@ var classes4 = {
 };
 var DividerStyle = class _DividerStyle extends BaseStyle {
   name = "divider";
-  theme = theme5;
-  classes = classes4;
+  theme = theme6;
+  classes = classes5;
   inlineStyles = inlineStyles;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275DividerStyle_BaseFactory;
@@ -15362,7 +15725,7 @@ var Divider = class _Divider extends BaseComponent {
       align: "align"
     },
     features: [\u0275\u0275ProvidersFeature([DividerStyle]), \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c04,
+    ngContentSelectors: _c05,
     decls: 2,
     vars: 0,
     consts: [[1, "p-divider-content"]],
@@ -15456,2399 +15819,6 @@ var DividerModule = class _DividerModule {
     }]
   }], null, null);
 })();
-
-// node_modules/primeng/fesm2022/primeng-progressbar.mjs
-var _c05 = ["content"];
-var _c12 = (a0, a1) => ({
-  "p-progressbar p-component": true,
-  "p-progressbar-determinate": a0,
-  "p-progressbar-indeterminate": a1
-});
-var _c22 = (a0) => ({
-  $implicit: a0
-});
-function ProgressBar_div_1_div_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275styleProp("display", ctx_r0.value != null && ctx_r0.value !== 0 ? "flex" : "none");
-    \u0275\u0275attribute("data-pc-section", "label");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("", ctx_r0.value, "", ctx_r0.unit, "");
-  }
-}
-function ProgressBar_div_1_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function ProgressBar_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 3)(1, "div", 4);
-    \u0275\u0275template(2, ProgressBar_div_1_div_2_Template, 2, 5, "div", 5)(3, ProgressBar_div_1_ng_container_3_Template, 1, 0, "ng-container", 6);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r0.valueStyleClass);
-    \u0275\u0275styleProp("width", ctx_r0.value + "%")("background", ctx_r0.color);
-    \u0275\u0275property("ngClass", "p-progressbar-value p-progressbar-value-animate");
-    \u0275\u0275attribute("data-pc-section", "value");
-    \u0275\u0275advance(2);
-    \u0275\u0275property("ngIf", ctx_r0.showValue && !ctx_r0.contentTemplate && !ctx_r0._contentTemplate);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.contentTemplate || ctx_r0._contentTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(11, _c22, ctx_r0.value));
-  }
-}
-function ProgressBar_div_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 7);
-    \u0275\u0275element(1, "div", 8);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r0.valueStyleClass);
-    \u0275\u0275property("ngClass", "p-progressbar-indeterminate-container");
-    \u0275\u0275attribute("data-pc-section", "container");
-    \u0275\u0275advance();
-    \u0275\u0275styleProp("background", ctx_r0.color);
-    \u0275\u0275attribute("data-pc-section", "value");
-  }
-}
-var theme6 = ({
-  dt: dt2
-}) => `
-.p-progressbar {
-    position: relative;
-    overflow: hidden;
-    height: ${dt2("progressbar.height")};
-    background: ${dt2("progressbar.background")};
-    border-radius: ${dt2("progressbar.border.radius")};
-}
-
-.p-progressbar-value {
-    margin: 0;
-    background: ${dt2("progressbar.value.background")};
-}
-
-.p-progressbar-label {
-    color: ${dt2("progressbar.label.color")};
-    font-size: ${dt2("progressbar.label.font.size")};
-    font-weight: ${dt2("progressbar.label.font.weight")};
-}
-
-.p-progressbar-determinate .p-progressbar-value {
-    height: 100%;
-    width: 0%;
-    position: absolute;
-    display: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: width 1s ease-in-out;
-}
-
-.p-progressbar-determinate .p-progressbar-label {
-    display: inline-flex;
-}
-
-.p-progressbar-indeterminate .p-progressbar-value::before {
-    content: "";
-    position: absolute;
-    background: inherit;
-    top: 0;
-    inset-inline-start: 0;
-    bottom: 0;
-    will-change: inset-inline-start, inset-inline-end;
-    animation: p-progressbar-indeterminate-anim 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-}
-
-.p-progressbar-indeterminate .p-progressbar-value::after {
-    content: "";
-    position: absolute;
-    background: inherit;
-    top: 0;
-    inset-inline-start: 0;
-    bottom: 0;
-    will-change: inset-inline-start, inset-inline-end;
-    animation: p-progressbar-indeterminate-anim-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-    animation-delay: 1.15s;
-}
-
-@-webkit-keyframes p-progressbar-indeterminate-anim {
-    0% {
-        inset-inline-start: -35%;
-        inset-inline-end: 100%;
-    }
-    60% {
-        inset-inline-start: 100%;
-        inset-inline-end: -90%;
-    }
-    100% {
-        inset-inline-start: 100%;
-        inset-inline-end: -90%;
-    }
-}
-@keyframes p-progressbar-indeterminate-anim {
-    0% {
-        inset-inline-start: -35%;
-        inset-inline-end: 100%;
-    }
-    60% {
-        inset-inline-start: 100%;
-        inset-inline-end: -90%;
-    }
-    100% {
-        inset-inline-start: 100%;
-        inset-inline-end: -90%;
-    }
-}
-@-webkit-keyframes p-progressbar-indeterminate-anim-short {
-    0% {
-        inset-inline-start: -200%;
-        inset-inline-end: 100%;
-    }
-    60% {
-        inset-inline-start: 107%;
-        inset-inline-end: -8%;
-    }
-    100% {
-        inset-inline-start: 107%;
-        inset-inline-end: -8%;
-    }
-}
-@keyframes p-progressbar-indeterminate-anim-short {
-    0% {
-        inset-inline-start: -200%;
-        inset-inline-end: 100%;
-    }
-    60% {
-        inset-inline-start: 107%;
-        inset-inline-end: -8%;
-    }
-    100% {
-        inset-inline-start: 107%;
-        inset-inline-end: -8%;
-    }
-}
-`;
-var classes5 = {
-  root: ({
-    instance
-  }) => ["p-progressbar p-component", {
-    "p-progressbar-determinate": instance.determinate,
-    "p-progressbar-indeterminate": instance.indeterminate
-  }],
-  value: "p-progressbar-value",
-  label: "p-progressbar-label"
-};
-var ProgressBarStyle = class _ProgressBarStyle extends BaseStyle {
-  name = "progressbar";
-  theme = theme6;
-  classes = classes5;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275ProgressBarStyle_BaseFactory;
-    return function ProgressBarStyle_Factory(__ngFactoryType__) {
-      return (\u0275ProgressBarStyle_BaseFactory || (\u0275ProgressBarStyle_BaseFactory = \u0275\u0275getInheritedFactory(_ProgressBarStyle)))(__ngFactoryType__ || _ProgressBarStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _ProgressBarStyle,
-    factory: _ProgressBarStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProgressBarStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var ProgressBarClasses;
-(function(ProgressBarClasses2) {
-  ProgressBarClasses2["root"] = "p-progressbar";
-  ProgressBarClasses2["value"] = "p-progressbar-value";
-  ProgressBarClasses2["label"] = "p-progressbar-label";
-})(ProgressBarClasses || (ProgressBarClasses = {}));
-var ProgressBar = class _ProgressBar extends BaseComponent {
-  /**
-   * Current value of the progress.
-   * @group Props
-   */
-  value;
-  /**
-   * Whether to display the progress bar value.
-   * @group Props
-   */
-  showValue = true;
-  /**
-   * Style class of the element.
-   * @group Props
-   */
-  styleClass;
-  /**
-   * Style class of the value element.
-   * @group Props
-   */
-  valueStyleClass;
-  /**
-   * Inline style of the element.
-   * @group Props
-   */
-  style;
-  /**
-   * Unit sign appended to the value.
-   * @group Props
-   */
-  unit = "%";
-  /**
-   * Defines the mode of the progress
-   * @group Props
-   */
-  mode = "determinate";
-  /**
-   * Color for the background of the progress.
-   * @group Props
-   */
-  color;
-  /**
-   * Template of the content.
-   * @group templates
-   */
-  contentTemplate;
-  _componentStyle = inject(ProgressBarStyle);
-  templates;
-  _contentTemplate;
-  ngAfterContentInit() {
-    this.templates?.forEach((item) => {
-      switch (item.getType()) {
-        case "content":
-          this._contentTemplate = item.template;
-          break;
-        default:
-          this._contentTemplate = item.template;
-      }
-    });
-  }
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275ProgressBar_BaseFactory;
-    return function ProgressBar_Factory(__ngFactoryType__) {
-      return (\u0275ProgressBar_BaseFactory || (\u0275ProgressBar_BaseFactory = \u0275\u0275getInheritedFactory(_ProgressBar)))(__ngFactoryType__ || _ProgressBar);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _ProgressBar,
-    selectors: [["p-progressBar"], ["p-progressbar"], ["p-progress-bar"]],
-    contentQueries: function ProgressBar_ContentQueries(rf, ctx, dirIndex) {
-      if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c05, 4);
-        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
-      }
-    },
-    inputs: {
-      value: [2, "value", "value", numberAttribute],
-      showValue: [2, "showValue", "showValue", booleanAttribute],
-      styleClass: "styleClass",
-      valueStyleClass: "valueStyleClass",
-      style: "style",
-      unit: "unit",
-      mode: "mode",
-      color: "color"
-    },
-    features: [\u0275\u0275ProvidersFeature([ProgressBarStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    decls: 3,
-    vars: 15,
-    consts: [["role", "progressbar", 3, "ngStyle", "ngClass"], ["style", "display:flex", 3, "ngClass", "class", "width", "background", 4, "ngIf"], [3, "ngClass", "class", 4, "ngIf"], [2, "display", "flex", 3, "ngClass"], [1, "p-progressbar-label"], [3, "display", 4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [1, "p-progressbar-value", "p-progressbar-value-animate"]],
-    template: function ProgressBar_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275elementStart(0, "div", 0);
-        \u0275\u0275template(1, ProgressBar_div_1_Template, 4, 13, "div", 1)(2, ProgressBar_div_2_Template, 2, 7, "div", 2);
-        \u0275\u0275elementEnd();
-      }
-      if (rf & 2) {
-        \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngStyle", ctx.style)("ngClass", \u0275\u0275pureFunction2(12, _c12, ctx.mode === "determinate", ctx.mode === "indeterminate"));
-        \u0275\u0275attribute("aria-valuemin", 0)("aria-valuenow", ctx.value)("aria-valuemax", 100)("data-pc-name", "progressbar")("data-pc-section", "root")("aria-label", ctx.value + ctx.unit);
-        \u0275\u0275advance();
-        \u0275\u0275property("ngIf", ctx.mode === "determinate");
-        \u0275\u0275advance();
-        \u0275\u0275property("ngIf", ctx.mode === "indeterminate");
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, NgStyle, SharedModule],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProgressBar, [{
-    type: Component,
-    args: [{
-      selector: "p-progressBar, p-progressbar, p-progress-bar",
-      standalone: true,
-      imports: [CommonModule, SharedModule],
-      template: `
-        <div
-            role="progressbar"
-            [class]="styleClass"
-            [ngStyle]="style"
-            [attr.aria-valuemin]="0"
-            [attr.aria-valuenow]="value"
-            [attr.aria-valuemax]="100"
-            [attr.data-pc-name]="'progressbar'"
-            [attr.data-pc-section]="'root'"
-            [ngClass]="{
-                'p-progressbar p-component': true,
-                'p-progressbar-determinate': mode === 'determinate',
-                'p-progressbar-indeterminate': mode === 'indeterminate'
-            }"
-            [attr.aria-label]="value + unit"
-        >
-            <div *ngIf="mode === 'determinate'" [ngClass]="'p-progressbar-value p-progressbar-value-animate'" [class]="valueStyleClass" [style.width]="value + '%'" style="display:flex" [style.background]="color" [attr.data-pc-section]="'value'">
-                <div class="p-progressbar-label">
-                    <div *ngIf="showValue && !contentTemplate && !_contentTemplate" [style.display]="value != null && value !== 0 ? 'flex' : 'none'" [attr.data-pc-section]="'label'">{{ value }}{{ unit }}</div>
-                    <ng-container *ngTemplateOutlet="contentTemplate || _contentTemplate; context: { $implicit: value }"></ng-container>
-                </div>
-            </div>
-            <div *ngIf="mode === 'indeterminate'" [ngClass]="'p-progressbar-indeterminate-container'" [class]="valueStyleClass" [attr.data-pc-section]="'container'">
-                <div class="p-progressbar-value p-progressbar-value-animate" [style.background]="color" [attr.data-pc-section]="'value'"></div>
-            </div>
-        </div>
-    `,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      encapsulation: ViewEncapsulation.None,
-      providers: [ProgressBarStyle]
-    }]
-  }], null, {
-    value: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    showValue: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    styleClass: [{
-      type: Input
-    }],
-    valueStyleClass: [{
-      type: Input
-    }],
-    style: [{
-      type: Input
-    }],
-    unit: [{
-      type: Input
-    }],
-    mode: [{
-      type: Input
-    }],
-    color: [{
-      type: Input
-    }],
-    contentTemplate: [{
-      type: ContentChild,
-      args: ["content", {
-        descendants: false
-      }]
-    }],
-    templates: [{
-      type: ContentChildren,
-      args: [PrimeTemplate]
-    }]
-  });
-})();
-var ProgressBarModule = class _ProgressBarModule {
-  static \u0275fac = function ProgressBarModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ProgressBarModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _ProgressBarModule
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [ProgressBar, SharedModule, SharedModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProgressBarModule, [{
-    type: NgModule,
-    args: [{
-      imports: [ProgressBar, SharedModule],
-      exports: [ProgressBar, SharedModule]
-    }]
-  }], null, null);
-})();
-
-// node_modules/primeng/fesm2022/primeng-utils.mjs
-function ZIndexUtils() {
-  let zIndexes = [];
-  const generateZIndex = (key, baseZIndex) => {
-    let lastZIndex = zIndexes.length > 0 ? zIndexes[zIndexes.length - 1] : {
-      key,
-      value: baseZIndex
-    };
-    let newZIndex = lastZIndex.value + (lastZIndex.key === key ? 0 : baseZIndex) + 2;
-    zIndexes.push({
-      key,
-      value: newZIndex
-    });
-    return newZIndex;
-  };
-  const revertZIndex = (zIndex) => {
-    zIndexes = zIndexes.filter((obj) => obj.value !== zIndex);
-  };
-  const getCurrentZIndex = () => {
-    return zIndexes.length > 0 ? zIndexes[zIndexes.length - 1].value : 0;
-  };
-  const getZIndex = (el) => {
-    return el ? parseInt(el.style.zIndex, 10) || 0 : 0;
-  };
-  return {
-    get: getZIndex,
-    set: (key, el, baseZIndex) => {
-      if (el) {
-        el.style.zIndex = String(generateZIndex(key, baseZIndex));
-      }
-    },
-    clear: (el) => {
-      if (el) {
-        revertZIndex(getZIndex(el));
-        el.style.zIndex = "";
-      }
-    },
-    getCurrent: () => getCurrentZIndex(),
-    generateZIndex,
-    revertZIndex
-  };
-}
-var zindexutils = ZIndexUtils();
-
-// node_modules/primeng/fesm2022/primeng-toast.mjs
-var _c06 = ["container"];
-var _c13 = (a0, a1, a2, a3) => ({
-  showTransformParams: a0,
-  hideTransformParams: a1,
-  showTransitionParams: a2,
-  hideTransitionParams: a3
-});
-var _c23 = (a0) => ({
-  value: "visible",
-  params: a0
-});
-var _c32 = (a0, a1) => ({
-  $implicit: a0,
-  closeFn: a1
-});
-var _c42 = (a0) => ({
-  $implicit: a0
-});
-function ToastItem_Conditional_2_ng_container_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function ToastItem_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, ToastItem_Conditional_2_ng_container_0_Template, 1, 0, "ng-container", 3);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1.headlessTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c32, ctx_r1.message, ctx_r1.onCloseIconClick));
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 4);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "CheckIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "InfoCircleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "TimesCircleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "ExclamationTriangleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "InfoCircleIcon");
-  }
-  if (rf & 2) {
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 4);
-    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template, 1, 2, "CheckIcon")(2, ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template, 1, 2, "InfoCircleIcon")(3, ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template, 1, 2, "TimesCircleIcon")(4, ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template, 1, 2, "ExclamationTriangleIcon")(5, ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template, 1, 2, "InfoCircleIcon");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_7_0;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
-    \u0275\u0275advance();
-    \u0275\u0275conditional((tmp_7_0 = ctx_r1.message.severity) === "success" ? 1 : tmp_7_0 === "info" ? 2 : tmp_7_0 === "error" ? 3 : tmp_7_0 === "warn" ? 4 : 5);
-  }
-}
-function ToastItem_Conditional_3_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_1_Template, 1, 1, "span", 6)(2, ToastItem_Conditional_3_ng_container_1_span_2_Template, 6, 4, "span", 6);
-    \u0275\u0275elementStart(3, "div", 4)(4, "div", 4);
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 4);
-    \u0275\u0275text(7);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.message.icon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.message.icon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageText"));
-    \u0275\u0275attribute("data-pc-section", "text");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("summary"));
-    \u0275\u0275attribute("data-pc-section", "summary");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r1.message.summary, " ");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("detail"));
-    \u0275\u0275attribute("data-pc-section", "detail");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.message.detail);
-  }
-}
-function ToastItem_Conditional_3_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 4);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template, 1, 1, "span", 6);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngIf", ctx_r1.message.closeIcon);
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "TimesIcon", 4);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
-    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "closeicon");
-  }
-}
-function ToastItem_Conditional_3_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "button", 7);
-    \u0275\u0275listener("click", function ToastItem_Conditional_3_Conditional_3_Template_button_click_1_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
-    })("keydown.enter", function ToastItem_Conditional_3_Conditional_3_Template_button_keydown_enter_1_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
-    });
-    \u0275\u0275template(2, ToastItem_Conditional_3_Conditional_3_Conditional_2_Template, 1, 1, "span", 4)(3, ToastItem_Conditional_3_Conditional_3_Conditional_3_Template, 1, 3, "TimesIcon", 4);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ariaLabel", ctx_r1.closeAriaLabel);
-    \u0275\u0275attribute("class", ctx_r1.cx("closeButton"))("data-pc-section", "closebutton");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.message.closeIcon ? 2 : 3);
-  }
-}
-function ToastItem_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 4);
-    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_Template, 8, 10, "ng-container", 5)(2, ToastItem_Conditional_3_ng_container_2_Template, 1, 0, "ng-container", 3)(3, ToastItem_Conditional_3_Conditional_3_Template, 4, 4, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r1.message == null ? null : ctx_r1.message.contentStyleClass);
-    \u0275\u0275property("ngClass", ctx_r1.cx("messageContent"));
-    \u0275\u0275attribute("data-pc-section", "content");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.template);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1.template)("ngTemplateOutletContext", \u0275\u0275pureFunction1(8, _c42, ctx_r1.message));
-    \u0275\u0275advance();
-    \u0275\u0275conditional((ctx_r1.message == null ? null : ctx_r1.message.closable) !== false ? 3 : -1);
-  }
-}
-var _c5 = ["message"];
-var _c6 = ["headless"];
-function Toast_p_toastItem_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p-toastItem", 3);
-    \u0275\u0275listener("onClose", function Toast_p_toastItem_2_Template_p_toastItem_onClose_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.onMessageClose($event));
-    })("@toastAnimation.start", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_start_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
-    })("@toastAnimation.done", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_done_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const msg_r3 = ctx.$implicit;
-    const i_r4 = ctx.index;
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("message", msg_r3)("index", i_r4)("life", ctx_r1.life)("template", ctx_r1.template || ctx_r1._template)("headlessTemplate", ctx_r1.headlessTemplate || ctx_r1._headlessTemplate)("@toastAnimation", void 0)("showTransformOptions", ctx_r1.showTransformOptions)("hideTransformOptions", ctx_r1.hideTransformOptions)("showTransitionOptions", ctx_r1.showTransitionOptions)("hideTransitionOptions", ctx_r1.hideTransitionOptions);
-  }
-}
-var theme7 = ({
-  dt: dt2
-}) => `
-.p-toast {
-    width: ${dt2("toast.width")};
-    white-space: pre-line;
-    word-break: break-word;
-}
-
-.p-toast-message {
-    margin: 0 0 1rem 0;
-}
-
-.p-toast-message-icon {
-    flex-shrink: 0;
-    font-size: ${dt2("toast.icon.size")};
-    width: ${dt2("toast.icon.size")};
-    height: ${dt2("toast.icon.size")};
-}
-
-.p-toast-message-content {
-    display: flex;
-    align-items: flex-start;
-    padding: ${dt2("toast.content.padding")};
-    gap: ${dt2("toast.content.gap")};
-}
-
-.p-toast-message-text {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    gap: ${dt2("toast.text.gap")};
-}
-
-.p-toast-summary {
-    font-weight: ${dt2("toast.summary.font.weight")};
-    font-size: ${dt2("toast.summary.font.size")};
-}
-
-.p-toast-detail {
-    font-weight: ${dt2("toast.detail.font.weight")};
-    font-size: ${dt2("toast.detail.font.size")};
-}
-
-.p-toast-close-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    background: transparent;
-    transition: background ${dt2("toast.transition.duration")}, color ${dt2("toast.transition.duration")}, outline-color ${dt2("toast.transition.duration")}, box-shadow ${dt2("toast.transition.duration")};
-    outline-color: transparent;
-    color: inherit;
-    width: ${dt2("toast.close.button.width")};
-    height: ${dt2("toast.close.button.height")};
-    border-radius: ${dt2("toast.close.button.border.radius")};
-    margin: -25% 0 0 0;
-    right: -25%;
-    padding: 0;
-    border: none;
-    user-select: none;
-}
-
-.p-toast-close-button:dir(rtl) {
-    margin: -25% 0 0 auto;
-    left: -25%;
-    right: auto;
-}
-
-.p-toast-message-info,
-.p-toast-message-success,
-.p-toast-message-warn,
-.p-toast-message-error,
-.p-toast-message-secondary,
-.p-toast-message-contrast {
-    border-width: ${dt2("toast.border.width")};
-    border-style: solid;
-    backdrop-filter: blur(${dt2("toast.blur")});
-    border-radius: ${dt2("toast.border.radius")};
-}
-
-.p-toast-close-icon {
-    font-size: ${dt2("toast.close.icon.size")};
-    width: ${dt2("toast.close.icon.size")};
-    height: ${dt2("toast.close.icon.size")};
-}
-
-.p-toast-close-button:focus-visible {
-    outline-width: ${dt2("focus.ring.width")};
-    outline-style: ${dt2("focus.ring.style")};
-    outline-offset: ${dt2("focus.ring.offset")};
-}
-
-.p-toast-message-info {
-    background: ${dt2("toast.info.background")};
-    border-color: ${dt2("toast.info.border.color")};
-    color: ${dt2("toast.info.color")};
-    box-shadow: ${dt2("toast.info.shadow")};
-}
-
-.p-toast-message-info .p-toast-detail {
-    color: ${dt2("toast.info.detail.color")};
-}
-
-.p-toast-message-info .p-toast-close-button:focus-visible {
-    outline-color: ${dt2("toast.info.close.button.focus.ring.color")};
-    box-shadow: ${dt2("toast.info.close.button.focus.ring.shadow")};
-}
-
-.p-toast-message-info .p-toast-close-button:hover {
-    background: ${dt2("toast.info.close.button.hover.background")};
-}
-
-.p-toast-message-success {
-    background: ${dt2("toast.success.background")};
-    border-color: ${dt2("toast.success.border.color")};
-    color: ${dt2("toast.success.color")};
-    box-shadow: ${dt2("toast.success.shadow")};
-}
-
-.p-toast-message-success .p-toast-detail {
-    color: ${dt2("toast.success.detail.color")};
-}
-
-.p-toast-message-success .p-toast-close-button:focus-visible {
-    outline-color: ${dt2("toast.success.close.button.focus.ring.color")};
-    box-shadow: ${dt2("toast.success.close.button.focus.ring.shadow")};
-}
-
-.p-toast-message-success .p-toast-close-button:hover {
-    background: ${dt2("toast.success.close.button.hover.background")};
-}
-
-.p-toast-message-warn {
-    background: ${dt2("toast.warn.background")};
-    border-color: ${dt2("toast.warn.border.color")};
-    color: ${dt2("toast.warn.color")};
-    box-shadow: ${dt2("toast.warn.shadow")};
-}
-
-.p-toast-message-warn .p-toast-detail {
-    color: ${dt2("toast.warn.detail.color")};
-}
-
-.p-toast-message-warn .p-toast-close-button:focus-visible {
-    outline-color: ${dt2("toast.warn.close.button.focus.ring.color")};
-    box-shadow: ${dt2("toast.warn.close.button.focus.ring.shadow")};
-}
-
-.p-toast-message-warn .p-toast-close-button:hover {
-    background: ${dt2("toast.warn.close.button.hover.background")};
-}
-
-.p-toast-message-error {
-    background: ${dt2("toast.error.background")};
-    border-color: ${dt2("toast.error.border.color")};
-    color: ${dt2("toast.error.color")};
-    box-shadow: ${dt2("toast.error.shadow")};
-}
-
-.p-toast-message-error .p-toast-detail {
-    color: ${dt2("toast.error.detail.color")};
-}
-
-.p-toast-message-error .p-toast-close-button:focus-visible {
-    outline-color: ${dt2("toast.error.close.button.focus.ring.color")};
-    box-shadow: ${dt2("toast.error.close.button.focus.ring.shadow")};
-}
-
-.p-toast-message-error .p-toast-close-button:hover {
-    background: ${dt2("toast.error.close.button.hover.background")};
-}
-
-.p-toast-message-secondary {
-    background: ${dt2("toast.secondary.background")};
-    border-color: ${dt2("toast.secondary.border.color")};
-    color: ${dt2("toast.secondary.color")};
-    box-shadow: ${dt2("toast.secondary.shadow")};
-}
-
-.p-toast-message-secondary .p-toast-detail {
-    color: ${dt2("toast.secondary.detail.color")};
-}
-
-.p-toast-message-secondary .p-toast-close-button:focus-visible {
-    outline-color: ${dt2("toast.secondary.close.button.focus.ring.color")};
-    box-shadow: ${dt2("toast.secondary.close.button.focus.ring.shadow")};
-}
-
-.p-toast-message-secondary .p-toast-close-button:hover {
-    background: ${dt2("toast.secondary.close.button.hover.background")};
-}
-
-.p-toast-message-contrast {
-    background: ${dt2("toast.contrast.background")};
-    border-color: ${dt2("toast.contrast.border.color")};
-    color: ${dt2("toast.contrast.color")};
-    box-shadow: ${dt2("toast.contrast.shadow")};
-}
-
-.p-toast-message-contrast .p-toast-detail {
-    color: ${dt2("toast.contrast.detail.color")};
-}
-
-.p-toast-message-contrast .p-toast-close-button:focus-visible {
-    outline-color: ${dt2("toast.contrast.close.button.focus.ring.color")};
-    box-shadow: ${dt2("toast.contrast.close.button.focus.ring.shadow")};
-}
-
-.p-toast-message-contrast .p-toast-close-button:hover {
-    background: ${dt2("toast.contrast.close.button.hover.background")};
-}
-
-.p-toast-top-center {
-    transform: translateX(-50%);
-}
-
-.p-toast-bottom-center {
-    transform: translateX(-50%);
-}
-
-.p-toast-center {
-    min-width: 20vw;
-    transform: translate(-50%, -50%);
-}
-
-.p-toast-message-enter-from {
-    opacity: 0;
-    transform: translateY(50%);
-}
-
-.p-toast-message-leave-from {
-    max-height: 1000px;
-}
-
-.p-toast .p-toast-message.p-toast-message-leave-to {
-    max-height: 0;
-    opacity: 0;
-    margin-bottom: 0;
-    overflow: hidden;
-}
-
-.p-toast-message-enter-active {
-    transition: transform 0.3s, opacity 0.3s;
-}
-
-.p-toast-message-leave-active {
-    transition: max-height 0.45s cubic-bezier(0, 1, 0, 1), opacity 0.3s, margin-bottom 0.3s;
-}
-`;
-var inlineStyles2 = {
-  root: ({
-    instance
-  }) => {
-    const {
-      _position
-    } = instance;
-    return {
-      position: "fixed",
-      top: _position === "top-right" || _position === "top-left" || _position === "top-center" ? "20px" : _position === "center" ? "50%" : null,
-      right: (_position === "top-right" || _position === "bottom-right") && "20px",
-      bottom: (_position === "bottom-left" || _position === "bottom-right" || _position === "bottom-center") && "20px",
-      left: _position === "top-left" || _position === "bottom-left" ? "20px" : _position === "center" || _position === "top-center" || _position === "bottom-center" ? "50%" : null
-    };
-  }
-};
-var classes6 = {
-  root: ({
-    instance
-  }) => ({
-    "p-toast p-component": true,
-    [`p-toast-${instance._position}`]: !!instance._position
-  }),
-  message: ({
-    instance
-  }) => ({
-    "p-toast-message": true,
-    "p-toast-message-info": instance.message.severity === "info" || instance.message.severity === void 0,
-    "p-toast-message-warn": instance.message.severity === "warn",
-    "p-toast-message-error": instance.message.severity === "error",
-    "p-toast-message-success": instance.message.severity === "success",
-    "p-toast-message-secondary": instance.message.severity === "secondary",
-    "p-toast-message-contrast": instance.message.severity === "contrast"
-  }),
-  messageContent: "p-toast-message-content",
-  messageIcon: ({
-    instance
-  }) => ({
-    "p-toast-message-icon": true,
-    [`pi ${instance.message.icon}`]: !!instance.message.icon
-  }),
-  messageText: "p-toast-message-text",
-  summary: "p-toast-summary",
-  detail: "p-toast-detail",
-  closeButton: "p-toast-close-button",
-  closeIcon: ({
-    instance
-  }) => ({
-    "p-toast-close-icon": true,
-    [`pi ${instance.message.closeIcon}`]: !!instance.message.closeIcon
-  })
-};
-var ToastStyle = class _ToastStyle extends BaseStyle {
-  name = "toast";
-  theme = theme7;
-  classes = classes6;
-  inlineStyles = inlineStyles2;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275ToastStyle_BaseFactory;
-    return function ToastStyle_Factory(__ngFactoryType__) {
-      return (\u0275ToastStyle_BaseFactory || (\u0275ToastStyle_BaseFactory = \u0275\u0275getInheritedFactory(_ToastStyle)))(__ngFactoryType__ || _ToastStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _ToastStyle,
-    factory: _ToastStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToastStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var ToastClasses;
-(function(ToastClasses2) {
-  ToastClasses2["root"] = "p-toast";
-  ToastClasses2["message"] = "p-toast-message";
-  ToastClasses2["messageContent"] = "p-toast-message-content";
-  ToastClasses2["messageIcon"] = "p-toast-message-icon";
-  ToastClasses2["messageText"] = "p-toast-message-text";
-  ToastClasses2["summary"] = "p-toast-summary";
-  ToastClasses2["detail"] = "p-toast-detail";
-  ToastClasses2["closeButton"] = "p-toast-close-button";
-  ToastClasses2["closeIcon"] = "p-toast-close-icon";
-})(ToastClasses || (ToastClasses = {}));
-var ToastItem = class _ToastItem extends BaseComponent {
-  zone;
-  message;
-  index;
-  life;
-  template;
-  headlessTemplate;
-  showTransformOptions;
-  hideTransformOptions;
-  showTransitionOptions;
-  hideTransitionOptions;
-  onClose = new EventEmitter();
-  containerViewChild;
-  _componentStyle = inject(ToastStyle);
-  timeout;
-  constructor(zone) {
-    super();
-    this.zone = zone;
-  }
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-    this.initTimeout();
-  }
-  initTimeout() {
-    if (!this.message?.sticky) {
-      this.zone.runOutsideAngular(() => {
-        this.timeout = setTimeout(() => {
-          this.onClose.emit({
-            index: this.index,
-            message: this.message
-          });
-        }, this.message?.life || this.life || 3e3);
-      });
-    }
-  }
-  clearTimeout() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = null;
-    }
-  }
-  onMouseEnter() {
-    this.clearTimeout();
-  }
-  onMouseLeave() {
-    this.initTimeout();
-  }
-  onCloseIconClick = (event) => {
-    this.clearTimeout();
-    this.onClose.emit({
-      index: this.index,
-      message: this.message
-    });
-    event.preventDefault();
-  };
-  get closeAriaLabel() {
-    return this.config.translation.aria ? this.config.translation.aria.close : void 0;
-  }
-  ngOnDestroy() {
-    this.clearTimeout();
-    super.ngOnDestroy();
-  }
-  static \u0275fac = function ToastItem_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ToastItem)(\u0275\u0275directiveInject(NgZone));
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _ToastItem,
-    selectors: [["p-toastItem"]],
-    viewQuery: function ToastItem_Query(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275viewQuery(_c06, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.containerViewChild = _t.first);
-      }
-    },
-    inputs: {
-      message: "message",
-      index: [2, "index", "index", numberAttribute],
-      life: [2, "life", "life", numberAttribute],
-      template: "template",
-      headlessTemplate: "headlessTemplate",
-      showTransformOptions: "showTransformOptions",
-      hideTransformOptions: "hideTransformOptions",
-      showTransitionOptions: "showTransitionOptions",
-      hideTransitionOptions: "hideTransitionOptions"
-    },
-    outputs: {
-      onClose: "onClose"
-    },
-    features: [\u0275\u0275ProvidersFeature([ToastStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    decls: 4,
-    vars: 15,
-    consts: [["container", ""], ["role", "alert", "aria-live", "assertive", "aria-atomic", "true", 3, "mouseenter", "mouseleave", "ngClass"], [3, "ngClass", "class"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [4, "ngIf"], [3, "ngClass", 4, "ngIf"], ["type", "button", "autofocus", "", 3, "click", "keydown.enter", "ariaLabel"]],
-    template: function ToastItem_Template(rf, ctx) {
-      if (rf & 1) {
-        const _r1 = \u0275\u0275getCurrentView();
-        \u0275\u0275elementStart(0, "div", 1, 0);
-        \u0275\u0275listener("mouseenter", function ToastItem_Template_div_mouseenter_0_listener() {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onMouseEnter());
-        })("mouseleave", function ToastItem_Template_div_mouseleave_0_listener() {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onMouseLeave());
-        });
-        \u0275\u0275template(2, ToastItem_Conditional_2_Template, 1, 5, "ng-container")(3, ToastItem_Conditional_3_Template, 4, 10, "div", 2);
-        \u0275\u0275elementEnd();
-      }
-      if (rf & 2) {
-        \u0275\u0275classMap(ctx.message == null ? null : ctx.message.styleClass);
-        \u0275\u0275property("ngClass", ctx.cx("message"))("@messageState", \u0275\u0275pureFunction1(13, _c23, \u0275\u0275pureFunction4(8, _c13, ctx.showTransformOptions, ctx.hideTransformOptions, ctx.showTransitionOptions, ctx.hideTransitionOptions)));
-        \u0275\u0275attribute("id", ctx.message == null ? null : ctx.message.id)("data-pc-name", "toast")("data-pc-section", "root");
-        \u0275\u0275advance(2);
-        \u0275\u0275conditional(ctx.headlessTemplate ? 2 : 3);
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, CheckIcon, ExclamationTriangleIcon, InfoCircleIcon, TimesIcon, TimesCircleIcon, SharedModule],
-    encapsulation: 2,
-    data: {
-      animation: [trigger("messageState", [state("visible", style({
-        transform: "translateY(0)",
-        opacity: 1
-      })), transition("void => *", [style({
-        transform: "{{showTransformParams}}",
-        opacity: 0
-      }), animate("{{showTransitionParams}}")]), transition("* => void", [animate("{{hideTransitionParams}}", style({
-        height: 0,
-        opacity: 0,
-        transform: "{{hideTransformParams}}"
-      }))])])]
-    },
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToastItem, [{
-    type: Component,
-    args: [{
-      selector: "p-toastItem",
-      standalone: true,
-      imports: [CommonModule, CheckIcon, ExclamationTriangleIcon, InfoCircleIcon, TimesIcon, TimesCircleIcon, SharedModule],
-      template: `
-        <div
-            #container
-            [attr.id]="message?.id"
-            [class]="message?.styleClass"
-            [ngClass]="cx('message')"
-            [@messageState]="{
-                value: 'visible',
-                params: {
-                    showTransformParams: showTransformOptions,
-                    hideTransformParams: hideTransformOptions,
-                    showTransitionParams: showTransitionOptions,
-                    hideTransitionParams: hideTransitionOptions
-                }
-            }"
-            (mouseenter)="onMouseEnter()"
-            (mouseleave)="onMouseLeave()"
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-            [attr.data-pc-name]="'toast'"
-            [attr.data-pc-section]="'root'"
-        >
-            @if (headlessTemplate) {
-                <ng-container *ngTemplateOutlet="headlessTemplate; context: { $implicit: message, closeFn: onCloseIconClick }"></ng-container>
-            } @else {
-                <div [ngClass]="cx('messageContent')" [class]="message?.contentStyleClass" [attr.data-pc-section]="'content'">
-                    <ng-container *ngIf="!template">
-                        <span *ngIf="message.icon" [ngClass]="cx('messageIcon')"></span>
-                        <span [ngClass]="cx('messageIcon')" *ngIf="!message.icon" [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'">
-                            @switch (message.severity) {
-                                @case ('success') {
-                                    <CheckIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
-                                }
-                                @case ('info') {
-                                    <InfoCircleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
-                                }
-                                @case ('error') {
-                                    <TimesCircleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
-                                }
-                                @case ('warn') {
-                                    <ExclamationTriangleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
-                                }
-                                @default {
-                                    <InfoCircleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
-                                }
-                            }
-                        </span>
-                        <div [ngClass]="cx('messageText')" [attr.data-pc-section]="'text'">
-                            <div [ngClass]="cx('summary')" [attr.data-pc-section]="'summary'">
-                                {{ message.summary }}
-                            </div>
-                            <div [ngClass]="cx('detail')" [attr.data-pc-section]="'detail'">{{ message.detail }}</div>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngTemplateOutlet="template; context: { $implicit: message }"></ng-container>
-                    @if (message?.closable !== false) {
-                        <div>
-                            <button type="button" [attr.class]="cx('closeButton')" (click)="onCloseIconClick($event)" (keydown.enter)="onCloseIconClick($event)" [ariaLabel]="closeAriaLabel" [attr.data-pc-section]="'closebutton'" autofocus>
-                                @if (message.closeIcon) {
-                                    <span *ngIf="message.closeIcon" [ngClass]="cx('closeIcon')"></span>
-                                } @else {
-                                    <TimesIcon [ngClass]="cx('closeIcon')" [attr.aria-hidden]="true" [attr.data-pc-section]="'closeicon'" />
-                                }
-                            </button>
-                        </div>
-                    }
-                </div>
-            }
-        </div>
-    `,
-      animations: [trigger("messageState", [state("visible", style({
-        transform: "translateY(0)",
-        opacity: 1
-      })), transition("void => *", [style({
-        transform: "{{showTransformParams}}",
-        opacity: 0
-      }), animate("{{showTransitionParams}}")]), transition("* => void", [animate("{{hideTransitionParams}}", style({
-        height: 0,
-        opacity: 0,
-        transform: "{{hideTransformParams}}"
-      }))])])],
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      providers: [ToastStyle]
-    }]
-  }], () => [{
-    type: NgZone
-  }], {
-    message: [{
-      type: Input
-    }],
-    index: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    life: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    template: [{
-      type: Input
-    }],
-    headlessTemplate: [{
-      type: Input
-    }],
-    showTransformOptions: [{
-      type: Input
-    }],
-    hideTransformOptions: [{
-      type: Input
-    }],
-    showTransitionOptions: [{
-      type: Input
-    }],
-    hideTransitionOptions: [{
-      type: Input
-    }],
-    onClose: [{
-      type: Output
-    }],
-    containerViewChild: [{
-      type: ViewChild,
-      args: ["container"]
-    }]
-  });
-})();
-var Toast = class _Toast extends BaseComponent {
-  /**
-   * Key of the message in case message is targeted to a specific toast component.
-   * @group Props
-   */
-  key;
-  /**
-   * Whether to automatically manage layering.
-   * @group Props
-   */
-  autoZIndex = true;
-  /**
-   * Base zIndex value to use in layering.
-   * @group Props
-   */
-  baseZIndex = 0;
-  /**
-   * The default time to display messages for in milliseconds.
-   * @group Props
-   */
-  life = 3e3;
-  /**
-   * Inline style of the component.
-   * @group Props
-   */
-  style;
-  /**
-   * Inline class of the component.
-   * @group Props
-   */
-  styleClass;
-  /**
-   * Position of the toast in viewport.
-   * @group Props
-   */
-  get position() {
-    return this._position;
-  }
-  set position(value) {
-    this._position = value;
-    this.cd.markForCheck();
-  }
-  /**
-   * It does not add the new message if there is already a toast displayed with the same content
-   * @group Props
-   */
-  preventOpenDuplicates = false;
-  /**
-   * Displays only once a message with the same content.
-   * @group Props
-   */
-  preventDuplicates = false;
-  /**
-   * Transform options of the show animation.
-   * @group Props
-   */
-  showTransformOptions = "translateY(100%)";
-  /**
-   * Transform options of the hide animation.
-   * @group Props
-   */
-  hideTransformOptions = "translateY(-100%)";
-  /**
-   * Transition options of the show animation.
-   * @group Props
-   */
-  showTransitionOptions = "300ms ease-out";
-  /**
-   * Transition options of the hide animation.
-   * @group Props
-   */
-  hideTransitionOptions = "250ms ease-in";
-  /**
-   * Object literal to define styles per screen size.
-   * @group Props
-   */
-  breakpoints;
-  /**
-   * Callback to invoke when a message is closed.
-   * @param {ToastCloseEvent} event - custom close event.
-   * @group Emits
-   */
-  onClose = new EventEmitter();
-  /**
-   * Custom template of message.
-   * @group Templates
-   */
-  template;
-  /**
-   * Custom headless template.
-   * @group Templates
-   */
-  headlessTemplate;
-  containerViewChild;
-  messageSubscription;
-  clearSubscription;
-  messages;
-  messagesArchieve;
-  _position = "top-right";
-  messageService = inject(MessageService);
-  _componentStyle = inject(ToastStyle);
-  styleElement;
-  id = uuid("pn_id_");
-  templates;
-  ngOnInit() {
-    super.ngOnInit();
-    this.messageSubscription = this.messageService.messageObserver.subscribe((messages) => {
-      if (messages) {
-        if (Array.isArray(messages)) {
-          const filteredMessages = messages.filter((m) => this.canAdd(m));
-          this.add(filteredMessages);
-        } else if (this.canAdd(messages)) {
-          this.add([messages]);
-        }
-      }
-    });
-    this.clearSubscription = this.messageService.clearObserver.subscribe((key) => {
-      if (key) {
-        if (this.key === key) {
-          this.messages = null;
-        }
-      } else {
-        this.messages = null;
-      }
-      this.cd.markForCheck();
-    });
-  }
-  _template;
-  _headlessTemplate;
-  ngAfterContentInit() {
-    this.templates?.forEach((item) => {
-      switch (item.getType()) {
-        case "message":
-          this._template = item.template;
-          break;
-        case "headless":
-          this._headlessTemplate = item.template;
-          break;
-        default:
-          this._template = item.template;
-          break;
-      }
-    });
-  }
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-    if (this.breakpoints) {
-      this.createStyle();
-    }
-  }
-  add(messages) {
-    this.messages = this.messages ? [...this.messages, ...messages] : [...messages];
-    if (this.preventDuplicates) {
-      this.messagesArchieve = this.messagesArchieve ? [...this.messagesArchieve, ...messages] : [...messages];
-    }
-    this.cd.markForCheck();
-  }
-  canAdd(message) {
-    let allow = this.key === message.key;
-    if (allow && this.preventOpenDuplicates) {
-      allow = !this.containsMessage(this.messages, message);
-    }
-    if (allow && this.preventDuplicates) {
-      allow = !this.containsMessage(this.messagesArchieve, message);
-    }
-    return allow;
-  }
-  containsMessage(collection, message) {
-    if (!collection) {
-      return false;
-    }
-    return collection.find((m) => {
-      return m.summary === message.summary && m.detail == message.detail && m.severity === message.severity;
-    }) != null;
-  }
-  onMessageClose(event) {
-    this.messages?.splice(event.index, 1);
-    this.onClose.emit({
-      message: event.message
-    });
-    this.cd.detectChanges();
-  }
-  onAnimationStart(event) {
-    if (event.fromState === "void") {
-      this.renderer.setAttribute(this.containerViewChild?.nativeElement, this.id, "");
-      if (this.autoZIndex && this.containerViewChild?.nativeElement.style.zIndex === "") {
-        zindexutils.set("modal", this.containerViewChild?.nativeElement, this.baseZIndex || this.config.zIndex.modal);
-      }
-    }
-  }
-  onAnimationEnd(event) {
-    if (event.toState === "void") {
-      if (this.autoZIndex && isEmpty(this.messages)) {
-        zindexutils.clear(this.containerViewChild?.nativeElement);
-      }
-    }
-  }
-  createStyle() {
-    if (!this.styleElement) {
-      this.styleElement = this.renderer.createElement("style");
-      this.styleElement.type = "text/css";
-      this.renderer.appendChild(this.document.head, this.styleElement);
-      let innerHTML = "";
-      for (let breakpoint in this.breakpoints) {
-        let breakpointStyle = "";
-        for (let styleProp in this.breakpoints[breakpoint]) {
-          breakpointStyle += styleProp + ":" + this.breakpoints[breakpoint][styleProp] + " !important;";
-        }
-        innerHTML += `
-                    @media screen and (max-width: ${breakpoint}) {
-                        .p-toast[${this.id}] {
-                           ${breakpointStyle}
-                        }
-                    }
-                `;
-      }
-      this.renderer.setProperty(this.styleElement, "innerHTML", innerHTML);
-      setAttribute(this.styleElement, "nonce", this.config?.csp()?.nonce);
-    }
-  }
-  destroyStyle() {
-    if (this.styleElement) {
-      this.renderer.removeChild(this.document.head, this.styleElement);
-      this.styleElement = null;
-    }
-  }
-  ngOnDestroy() {
-    if (this.messageSubscription) {
-      this.messageSubscription.unsubscribe();
-    }
-    if (this.containerViewChild && this.autoZIndex) {
-      zindexutils.clear(this.containerViewChild.nativeElement);
-    }
-    if (this.clearSubscription) {
-      this.clearSubscription.unsubscribe();
-    }
-    this.destroyStyle();
-    super.ngOnDestroy();
-  }
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275Toast_BaseFactory;
-    return function Toast_Factory(__ngFactoryType__) {
-      return (\u0275Toast_BaseFactory || (\u0275Toast_BaseFactory = \u0275\u0275getInheritedFactory(_Toast)))(__ngFactoryType__ || _Toast);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _Toast,
-    selectors: [["p-toast"]],
-    contentQueries: function Toast_ContentQueries(rf, ctx, dirIndex) {
-      if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c5, 5);
-        \u0275\u0275contentQuery(dirIndex, _c6, 5);
-        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.template = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.headlessTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
-      }
-    },
-    viewQuery: function Toast_Query(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275viewQuery(_c06, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.containerViewChild = _t.first);
-      }
-    },
-    inputs: {
-      key: "key",
-      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
-      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
-      life: [2, "life", "life", numberAttribute],
-      style: "style",
-      styleClass: "styleClass",
-      position: "position",
-      preventOpenDuplicates: [2, "preventOpenDuplicates", "preventOpenDuplicates", booleanAttribute],
-      preventDuplicates: [2, "preventDuplicates", "preventDuplicates", booleanAttribute],
-      showTransformOptions: "showTransformOptions",
-      hideTransformOptions: "hideTransformOptions",
-      showTransitionOptions: "showTransitionOptions",
-      hideTransitionOptions: "hideTransitionOptions",
-      breakpoints: "breakpoints"
-    },
-    outputs: {
-      onClose: "onClose"
-    },
-    features: [\u0275\u0275ProvidersFeature([ToastStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    decls: 3,
-    vars: 7,
-    consts: [["container", ""], [3, "ngClass", "ngStyle"], [3, "message", "index", "life", "template", "headlessTemplate", "showTransformOptions", "hideTransformOptions", "showTransitionOptions", "hideTransitionOptions", "onClose", 4, "ngFor", "ngForOf"], [3, "onClose", "message", "index", "life", "template", "headlessTemplate", "showTransformOptions", "hideTransformOptions", "showTransitionOptions", "hideTransitionOptions"]],
-    template: function Toast_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275elementStart(0, "div", 1, 0);
-        \u0275\u0275template(2, Toast_p_toastItem_2_Template, 1, 10, "p-toastItem", 2);
-        \u0275\u0275elementEnd();
-      }
-      if (rf & 2) {
-        \u0275\u0275styleMap(ctx.style);
-        \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngClass", ctx.cx("root"))("ngStyle", ctx.sx("root"));
-        \u0275\u0275advance(2);
-        \u0275\u0275property("ngForOf", ctx.messages);
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgForOf, NgStyle, ToastItem, SharedModule],
-    encapsulation: 2,
-    data: {
-      animation: [trigger("toastAnimation", [transition(":enter, :leave", [query("@*", animateChild())])])]
-    },
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Toast, [{
-    type: Component,
-    args: [{
-      selector: "p-toast",
-      standalone: true,
-      imports: [CommonModule, ToastItem, SharedModule],
-      template: `
-        <div #container [ngClass]="cx('root')" [ngStyle]="sx('root')" [style]="style" [class]="styleClass">
-            <p-toastItem
-                *ngFor="let msg of messages; let i = index"
-                [message]="msg"
-                [index]="i"
-                [life]="life"
-                (onClose)="onMessageClose($event)"
-                [template]="template || _template"
-                [headlessTemplate]="headlessTemplate || _headlessTemplate"
-                @toastAnimation
-                (@toastAnimation.start)="onAnimationStart($event)"
-                (@toastAnimation.done)="onAnimationEnd($event)"
-                [showTransformOptions]="showTransformOptions"
-                [hideTransformOptions]="hideTransformOptions"
-                [showTransitionOptions]="showTransitionOptions"
-                [hideTransitionOptions]="hideTransitionOptions"
-            ></p-toastItem>
-        </div>
-    `,
-      animations: [trigger("toastAnimation", [transition(":enter, :leave", [query("@*", animateChild())])])],
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      encapsulation: ViewEncapsulation.None,
-      providers: [ToastStyle]
-    }]
-  }], null, {
-    key: [{
-      type: Input
-    }],
-    autoZIndex: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    baseZIndex: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    life: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    style: [{
-      type: Input
-    }],
-    styleClass: [{
-      type: Input
-    }],
-    position: [{
-      type: Input
-    }],
-    preventOpenDuplicates: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    preventDuplicates: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    showTransformOptions: [{
-      type: Input
-    }],
-    hideTransformOptions: [{
-      type: Input
-    }],
-    showTransitionOptions: [{
-      type: Input
-    }],
-    hideTransitionOptions: [{
-      type: Input
-    }],
-    breakpoints: [{
-      type: Input
-    }],
-    onClose: [{
-      type: Output
-    }],
-    template: [{
-      type: ContentChild,
-      args: ["message"]
-    }],
-    headlessTemplate: [{
-      type: ContentChild,
-      args: ["headless"]
-    }],
-    containerViewChild: [{
-      type: ViewChild,
-      args: ["container"]
-    }],
-    templates: [{
-      type: ContentChildren,
-      args: [PrimeTemplate]
-    }]
-  });
-})();
-var ToastModule = class _ToastModule {
-  static \u0275fac = function ToastModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ToastModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _ToastModule
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [Toast, SharedModule, SharedModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToastModule, [{
-    type: NgModule,
-    args: [{
-      imports: [Toast, SharedModule],
-      exports: [Toast, SharedModule]
-    }]
-  }], null, null);
-})();
-
-// src/app/shared/assets/data/questions_final.json
-var questions_final_exports = {};
-__export(questions_final_exports, {
-  default: () => questions_final_default,
-  question_cycle: () => question_cycle,
-  question_topics: () => question_topics,
-  questions: () => questions
-});
-var question_topics = [
-  "Handicap",
-  "Design",
-  "Accessibilit\xE9 num\xE9rique",
-  "Inclusion num\xE9rique"
-];
-var question_cycle = [
-  1,
-  1,
-  1,
-  1
-];
-var questions = {
-  "Accessibilit\xE9 num\xE9rique": [
-    {
-      question_type: "QCM",
-      question: "Pour compenser un handicap moteur, il est possible d'utiliser :",
-      possible_answers: [
-        "A : une commande vocale",
-        "B : une commande visuelle",
-        "C : un joystick",
-        "D : une souris ergonomique"
-      ],
-      true_answers: [
-        0,
-        1,
-        2,
-        3
-      ],
-      QCM_answers: "Les bonnes r\xE9ponses sont A, B, C et D.",
-      explanation: "Le handicap moteur recouvre l\u2019ensemble des troubles pouvant entra\xEEner une atteinte partielle ou totale de la motricit\xE9, notamment des membres sup\xE9rieurs et/ou inf\xE9rieurs. "
-    },
-    {
-      question_type: "QCU",
-      question: "L'accessibilit\xE9 num\xE9rique est un concept exclusivement fran\xE7ais ou francophone.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: `L'accessibilit\xE9 num\xE9rique a \xE9t\xE9 pens\xE9e d\xE8s la cr\xE9ation d'Internet.
- "Le pouvoir du Web est dans son universalit\xE9. L\u2019acc\xE8s pour tous, quel que soit le handicap, est un aspect essentiel." 
- Tim Berners-Lee, directeur du W3C et inventeur du World Wide Web`
-    },
-    {
-      question_type: "QCU",
-      question: "Quel est le montant de la sanction financi\xE8re appliqu\xE9e pour un service en ligne qui ne respecte pas les obligations d'accessibilit\xE9 num\xE9rique ?",
-      possible_answers: [
-        "Jusqu'\xE0 25 000 \u20AC",
-        "Jusqu'\xE0 50 000 \u20AC",
-        "Jusqu'\xE0 75 000 \u20AC"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "Pour un service en ligne et par semestre, la loi pr\xE9voit 25 000 \u20AC si le statut de conformit\xE9 RGAA\u202Fn\u2019est pas affich\xE9 sur la page d\u2019accueil et, pour le secteur public, 50 000 \u20AC pour d\xE9faut d'accessibilit\xE9."
-    },
-    {
-      question_type: "QCU",
-      question: "Quel est le nom de l'autorit\xE9 de contr\xF4le de l'accessibilit\xE9 num\xE9rique en France ?",
-      possible_answers: [
-        "La CNIL",
-        "La DINUM",
-        "L'ARCOM"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "Il s'agit de l'ARCOM (Autorit\xE9 de r\xE9gulation de la communication audiovisuelle et num\xE9rique) qui est une autorit\xE9 publique ind\xE9pendante."
-    },
-    {
-      question_type: "QCU",
-      question: "Le RGAA est le R\xE9f\xE9rentiel G\xE9n\xE9ral d'Am\xE9lioration de l'Accessibilit\xE9.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Il s'agit du R\xE9f\xE9rentiel G\xE9n\xE9ral d'Am\xE9lioration de l'Accessibilit\xE9, qui d\xE9finit les crit\xE8res pour qu'un service num\xE9rique soit accessible au personnes handicap\xE9es.\n Au niveau international, les WCAG (Web content Accessibility Guidelines) sont les recommandations techniques pour l'accessibilit\xE9 des contenus web."
-    },
-    {
-      question_type: "QCU",
-      question: "Les documents bureautiques sont soumis au RGAA ?",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Les documents sont analys\xE9s par les crit\xE8res 13.3 et 13.4 du RGAA, pour les structures \xE9tant soumises aux obligations d'accessibilit\xE9."
-    },
-    {
-      question_type: "QCM",
-      question: "Une vid\xE9o accessible est une vid\xE9o :",
-      possible_answers: [
-        "A : pour laquelle l'utilisateur peut stopper et relancer la lecture",
-        "B : avec des sous-titres",
-        "C : avec une traduction en LSF (langue des signes)",
-        "D : avec une audio-description"
-      ],
-      true_answers: [
-        0,
-        1,
-        2,
-        3
-      ],
-      QCM_answers: "Les bonnes r\xE9ponses sont A, B, C et D.",
-      explanation: "La traduction en LSF peut \xEAtre difficile \xE0 mettre en place, car l'image de l'interpr\xE8te doit \xEAtre incrust\xE9e dans la vid\xE9o."
-    },
-    {
-      question_type: "QCU",
-      question: `Un lecteur d'\xE9cran est un logiciel d\u2019assistance technique destin\xE9 aux personnes "emp\xEAch\xE9es de lire" (aveugles, malvoyantes, dyslexiques).`,
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Un lecteur d'\xE9cran retranscrit par synth\xE8se vocale et/ou sur un afficheur braille ce qui est affich\xE9 sur l'\xE9cran d'un ordinateur ou d'un t\xE9l\xE9phone, et permet d'interagir avec le syst\xE8me d\u2019exploitation et les applications."
-    },
-    {
-      question_type: "QCU",
-      question: "Dans les \xE9coles informatiques, les formations \xE0 l'accessibilit\xE9 num\xE9rique sont obligatoires.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Les formations \xE0 l'accessibilit\xE9 num\xE9rique sont propos\xE9es aux \xE9tudiants en informatique, mais restent optionnelles \xE0 ce jour."
-    }
-  ],
-  Design: [
-    {
-      question_type: "QCU",
-      question: "Il y a des couleurs \xE0 \xE9viter pour garantir l'accessibilit\xE9 num\xE9rique.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Le manque d'accessibilit\xE9 d'une couleur vient d'un probl\xE8me de contraste entre le texte et l'arri\xE8re-plan. Ainsi, un texte de couleur jaune sur un fond orange sera peu ou pas accessible. En revanche, un texte de couleur jaune sur fond noir sera suffisamment contrast\xE9."
-    },
-    {
-      question_type: "QCU",
-      question: "Un dark pattern est un mouvement esth\xE9tique incitant \xE0 concevoir les services num\xE9riques en mode sombre.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Un dark pattern est une technique de design trompeuse qui manipule les utilisateurs pour les pousser \xE0 faire des actions non d\xE9sir\xE9es, comme accepter des frais cach\xE9s ou s'abonner \xE0 des services"
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle est la principale raison d'utiliser des ic\xF4nes dans une interface utilisateur ?",
-      possible_answers: [
-        "Permettre la personnalisation des interfaces",
-        "D\xE9corer et cr\xE9er un effet visuel attrayant",
-        "Simplifier la navigation",
-        "Ajouter des informations suppl\xE9mentaires au texte"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "\n Les ic\xF4nes ne sont pas un \xE9l\xE9ment d\xE9coratif mais permettent de renforcer visuellement certaines actions et/ou informations."
-    },
-    {
-      question_type: "QCU",
-      question: "Quel principe de design assure que les \xE9l\xE9ments importants d'une interface sont faciles \xE0 trouver et \xE0 utiliser ?",
-      possible_answers: [
-        "Le contraste \xE9lev\xE9",
-        "La hi\xE9rarchie visuelle",
-        "La saturation des couleurs",
-        "L'utilisation de diff\xE9rentes polices"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "La hi\xE9rarchisation visuelle est un concept qui permet d'identifier les \xE9l\xE9ments pr\xE9sents par ordre de priorit\xE9 et/ou d'importance relative."
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle approche de design implique de cr\xE9er des maquettes interactives pour tester des id\xE9es avant de les finaliser ?",
-      possible_answers: [
-        "L'observation",
-        "Le prototypage",
-        "La charte graphique"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "La phase de prototypage permet de tester certaines id\xE9es par un exemple incomplet et non d\xE9finitif de ce que pourra \xEAtre le produit ou l'objet final."
-    },
-    {
-      question_type: "QCM",
-      question: 'Quel est le r\xF4le des "feedbacks" ?',
-      possible_answers: [
-        "A : Informer l\u2019utilisateur des r\xE9ussites et erreurs",
-        "B : Changer certains \xE9l\xE9ments pour dynamiser l'interface",
-        "C : Simplifier les interactions entre l'utilisateur et le service"
-      ],
-      true_answers: [
-        0,
-        2
-      ],
-      QCM_answers: "Les bonnes r\xE9ponses sont A et C.",
-      explanation: `Un "feedback" est un retour visuel et/ou textuel suite \xE0 une action r\xE9alis\xE9e par l'utilisateur permettant d'informer l'utilisateur sur la cons\xE9quence de ses actions.`
-    },
-    {
-      question_type: "QCU",
-      question: 'Quel est le but principal du "design responsive" ?',
-      possible_answers: [
-        "Cr\xE9er des designs qui r\xE9agissent aux actions de l'utilisateur",
-        "Assurer que l'interface s'adapte \xE0 diff\xE9rentes tailles d'\xE9cran et r\xE9solutions",
-        "Ajouter des effets visuels interactifs"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Un design responsive est un design pens\xE9 pour s'adapter aux diff\xE9rentes tailles d'\xE9crans et r\xE9solutions tels que les mobiles ou ordinateurs."
-    },
-    {
-      question_type: "QCU",
-      question: `Que signifie "le design centr\xE9 sur l'utilisateur" ?`,
-      possible_answers: [
-        "Concevoir principalement pour les tendances visuelles actuelles",
-        "Cr\xE9er des interfaces en fonction des besoins et des retours des utilisateurs finaux",
-        "Focaliser sur les aspects techniques du produit"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: `L'approche "centr\xE9e utilisateur" se focalise sur une conception bas\xE9e sur une \xE9tude des besoins et habitudes de l'utilisateur.`
-    },
-    {
-      question_type: "QCU",
-      question: "Quel type d'animation est g\xE9n\xE9ralement recommand\xE9 pour am\xE9liorer l'exp\xE9rience de l'utilisateur sans le distraire ?",
-      possible_answers: [
-        "Des animations lentes",
-        "Aucune animation",
-        "Des animations subtiles avec un retour sur les actions r\xE9alis\xE9es"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "Si des animations (\xE9l\xE9ments en mouvement, transitions) sont pr\xE9sentes au sein des interfaces, il est recommand\xE9 que celles-ci soient discr\xE8tes et utiles."
-    },
-    {
-      question_type: "QCU",
-      question: 'Quelle est la diff\xE9rence entre "design inclusif" et "design accessible" ?',
-      possible_answers: [
-        "Le design inclusif est destin\xE9 \xE0 tous, le design accessible se concentre sur les personnes handicap\xE9es",
-        "Il n'y a aucune diff\xE9rence, les deux termes sont synonymes"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Si un design accessible cherche \xE0 r\xE9pondre aux besoins de certains handicaps, un design inclusif cherche \xE0 proposer une experience optimale pour tous."
-    }
-  ],
-  "Inclusion num\xE9rique": [
-    {
-      question_type: "QCU",
-      question: "Se faire accompagner par un professionnel pour r\xE9soudre une difficult\xE9 avec le num\xE9rique est payant.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "C'est g\xE9n\xE9ralement gratuit. Vous trouverez la liste des structures d'accompagnement sur https://cartographie.societenumerique.gouv.fr/orientation."
-    },
-    {
-      question_type: "QCU",
-      question: "Apr\xE8s les maladies ordinaires, les troubles psychologiques sont la 2e cause d'arr\xEAt de travail en France.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Les troubles psychologiques sont la 2e cause d'arr\xEAt de travail en France : 20% des arr\xEAts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arr\xEAts longs : 28% en 2022 vs 14% en 2016. \nSource : Barom\xE8tre annuel Absent\xE9isme (Malakoff Humanis)"
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle est la proportion des personnes sans domicile fixe \xE9quip\xE9es d'un smartphone ?",
-      possible_answers: [
-        "31%",
-        "51%",
-        "71%"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "Source : Solinum, 2019"
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle proportion de fran\xE7ais souffrent de fatigue informationnelle et se sentent donc d\xE9bord\xE9s, \xE9puis\xE9s ou oppress\xE9s par un flux constant d'information ?",
-      possible_answers: [
-        "38%",
-        "54%",
-        "72%"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: '54% des Fran\xE7ais d\xE9clarent souffrir de fatigue informationnelle, et 38% d\xE9clarent en souffrir "beaucoup". \nSource : Fondation Jean Jaur\xE8s, 2022.'
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle est la tranche d'\xE2ge la plus concern\xE9e par l'illectronisme ?",
-      possible_answers: [
-        "Plus de 65 ans",
-        "Plus de 70 ans",
-        "Plus de 75 ans"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "L'illectronisme est l'\xE9quivalent de l'illettrisme dans le domaine du num\xE9rique : la \xAB situation d'une personne ne poss\xE9dant pas les comp\xE9tences num\xE9riques de base ou ne se servant pas d'Internet \xBB. Les plus de 75 ans sont les plus touch\xE9s, avec 61,9 % en situation d'illectronisme. \nSources : Insee, 2021, Observatoire des in\xE9galit\xE9s, 2024"
-    },
-    {
-      question_type: "QCU",
-      question: "Il existe un lien entre num\xE9rique inclusif et num\xE9rique \xE9co-responsable.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "De nombreuses bonnes pratiques d'inclusivit\xE9 num\xE9rique peuvent contribuer \xE0 produire un service num\xE9rique \xE9co-responsable. Par exemple, le fait d'all\xE9ger les contenus pour qu'ils soient lisibles par tous permet de r\xE9duire l'impact carbone d'une page web."
-    },
-    {
-      question_type: "QCU",
-      question: "Le droit \xE0 une alternative au num\xE9rique (ou droit au non num\xE9rique) existe pour tous les citoyens fran\xE7ais aujourd'hui.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Le droit au non num\xE9rique n'existe pas en tant que tel. N\xE9anmoins, le principe d'\xE9galit\xE9 d'acc\xE8s aux services publics induit la possibilit\xE9 d'y acc\xE9der quelque soit le canal d'interaction choisi. \nSource : vie-publique.fr, 2024"
-    },
-    {
-      question_type: "QCU",
-      question: "Combien de Fran\xE7ais pr\xE9sentent des difficult\xE9s avec le num\xE9rique ?",
-      possible_answers: [
-        "28%",
-        "48%",
-        "68%"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "En 2022, 48% des Fran\xE7ais ont d\xE9clar\xE9 rencontrer des difficult\xE9s avec le num\xE9rique, soit 13% de plus qu'en 2020. \nSource : Barom\xE8tre du num\xE9rique 2023"
-    },
-    {
-      question_type: "QCU",
-      question: "La notion d'inclusion est-elle diff\xE9rente de celle d'int\xE9gration ?",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Dans le cadre de la production d'un service, l'int\xE9gration consiste \xE0 pr\xE9voir une d\xE9clinaison de ce service adapt\xE9e au public \xE0 int\xE9grer, alors que l'inclusion consiste \xE0 imaginer un service utilisable par tous les publics."
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle est, en 2024, la proportion de sites web 100% conformes au RGAA ?",
-      possible_answers: [
-        "0,6%",
-        "16%",
-        "46%"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "25 sites web sur 4147 contr\xF4l\xE9s par l'Observatoire de l'Accessibilit\xE9 Num\xE9rique sont totalement conformes au RGAA en septembre 2024. 351 (8%) sont partiellement conformes."
-    },
-    {
-      question_type: "QCU",
-      question: "Qu'est ce qu'Aidants Connect ?",
-      possible_answers: [
-        "Une application pour les aidants de personnes d\xE9pendantes",
-        "Un outil d'authentification d'un aidant num\xE9rique",
-        "Une application d'assistance num\xE9rique \xE0 distance"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Aidants Connect est un outil d'authentification d'un aidant num\xE9rique dans le cadre d'un accompagnement. Il s\xE9curise l'action \xE9ventuelle de l'aidant sur les donn\xE9es de la personne aid\xE9e."
-    },
-    {
-      question_type: "QCU",
-      question: 'Un "dumb phone" est un t\xE9l\xE9phone destin\xE9 aux personnes ayant des troubles cognitifs.',
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: 'Un "dumb phone" est, par opposition \xE0 un smartphone, un t\xE9l\xE9phone dot\xE9 uniquement de fonctions de base (appels, SMS...), g\xE9n\xE9ralement simple \xE0 utiliser. Le march\xE9 des "dumb phones" ou "feature phones" est en relative croissance.'
-    },
-    {
-      question_type: "QCU",
-      question: "Combien de temps faut-il \xE0 un utilisateur pour se faire une premi\xE8re impression d'un service num\xE9rique ?",
-      possible_answers: [
-        "50 millisecondes",
-        "5 secondes",
-        "5 minutes"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Source : Taylor & Francis Online, 2006"
-    },
-    {
-      question_type: "QCU",
-      question: "Quel est le pourcentage d'utilisateurs qui ne r\xE9utiliseront pas un service num\xE9rique leur ayant fait vivre une mauvaise exp\xE9rience ?",
-      possible_answers: [
-        "28%",
-        "58%",
-        "88%"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: 'Source : "Why Web Performance Matters" Gomez, 2011'
-    }
-  ],
-  Handicap: [
-    {
-      question_type: "QCU",
-      question: "Une personne handicap\xE9e est forc\xE9ment en situation d'exclusion num\xE9rique.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Si les services num\xE9riques respectent les normes d'accessibilit\xE9 num\xE9rique, les personnes handicap\xE9es n'ont pas de difficult\xE9s \xE0 les consulter. De plus, certains types de handicap n'impliquent pas syst\xE9matiquement une situation d'exclusion num\xE9rique."
-    },
-    {
-      question_type: "QCU",
-      question: "Combien de personnes ont un handicap visuel en France ?",
-      possible_answers: [
-        "700 000",
-        "1,7 millions",
-        "2,7 millions"
-      ],
-      true_answers: [
-        1
-      ],
-      QCM_answers: "",
-      explanation: "Une personne aveugle ou malvoyante na\xEEt toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage \xE0 4 m\xE8tres et la lecture de pr\xE8s est impossible). \nSource : F\xE9d\xE9ration des Aveugles de France"
-    },
-    {
-      question_type: "QCU",
-      question: "Combien de personnes ont un handicap auditif en France ?",
-      possible_answers: [
-        "Environ 2 millions",
-        "Environ 4 millions",
-        "Environ 5 millions"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une d\xE9ficience auditive profonde ou totale. \nSource : Etude Le handicap auditif en France (DREES)"
-    },
-    {
-      question_type: "QCU",
-      question: "L'autisme est un handicap cognitif, au m\xEAme titre que l'hyperactivit\xE9.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Un trouble cognitif correspond \xE0 une alt\xE9ration d\u2019une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, m\xE9dicamenteuse ou g\xE9n\xE9tique. On peut citer par exemple :les TDA (troubles de d\xE9ficit de l\u2019attention), l'hyperactivit\xE9, les troubles DYS, l'autisme, les troubles de la m\xE9moire ou la trisomie 21. \nSource : Haute Autorit\xE9 de Sant\xE9."
-    },
-    {
-      question_type: "QCU",
-      question: "La schizophr\xE9nie est un handicap psychique.",
-      possible_answers: [
-        "Vrai",
-        "Faux"
-      ],
-      true_answers: [
-        0
-      ],
-      QCM_answers: "",
-      explanation: "Le handicap psychique est la cons\xE9quence d'une maladie psychique issue de changements qui affectent la pens\xE9e, l'humeur ou le comportement d'une personne, et qui lui causent de la d\xE9tresse ou de la souffrance. Il n'affecte pas directement les capacit\xE9s intellectuelles. On peut citer par exemple : les phobies, les addictions, la d\xE9pressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophr\xE9nie. \nSource : Agefiph."
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle est la proportion de personnes daltoniennes en France ?",
-      possible_answers: [
-        "2% chez les hommes et 1 % chez les femmes",
-        "5% chez les hommes et 2% chez les femmes",
-        "8% chez les hommes et 0,45% chez les femmes"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "8% chez les hommes et 0,45% chez les femmes"
-    },
-    {
-      question_type: "QCU",
-      question: "Combien de personnes sont en situation de handicap en France ?",
-      possible_answers: [
-        "2 millions",
-        "5 millions",
-        "12 millions",
-        "17 millions"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "On peut m\xEAme aller jusqu'\xE0 20 millions en comptant les seniors."
-    },
-    {
-      question_type: "QCU",
-      question: "Quelle est la proportion des handicaps invisibles dans la population fran\xE7aise en situation de handicap ?",
-      possible_answers: [
-        "40%",
-        "60%",
-        "80%"
-      ],
-      true_answers: [
-        2
-      ],
-      QCM_answers: "",
-      explanation: "Soit pr\xE8s de 10 millions de personnes. On peut notamment citer parmi les handicaps invisibles : les handicaps mentaux, les handicaps psychiques, les maladies invalidantes (asthme, allergies, diab\xE8te..), les troubles musculosquelettiques (lombalgies, tendinites..), ou les troubles DYS."
-    },
-    {
-      question_type: "QCM",
-      question: "Parmi les \xE9l\xE9ments suivants, lesquels sont des troubles sp\xE9cifiques du langage et des apprentissages (ou troubles DYS) ?",
-      possible_answers: [
-        "A : La dysacousie",
-        "B : La dyspraxie",
-        "C : La dyslexie"
-      ],
-      true_answers: [
-        1,
-        2
-      ],
-      QCM_answers: "Les bonnes r\xE9ponses sont B et C.",
-      explanation: "La dyspraxie est le trouble de la capacit\xE9 \xE0 ex\xE9cuter des mouvements d\xE9termin\xE9s. La dyslexie est le trouble de la lecture. On peut \xE9galement citer : la dyscalculie : trouble dans les apprentissages num\xE9riques; la dysgraphie : difficult\xE9 \xE0 accomplir les gestes de l'\xE9criture et du dessin; la dysorthographie : \xE9galement appel\xE9 trouble de l'acquisition de l'expression \xE9crite; la dysphasie : trouble li\xE9 au d\xE9veloppement du langage oral."
-    }
-  ]
-};
-var questions_final_default = {
-  question_topics,
-  question_cycle,
-  questions
-};
 
 // node_modules/primeng/fesm2022/primeng-focustrap.mjs
 var FocusTrap = class _FocusTrap extends BaseComponent {
@@ -17975,13 +15945,13 @@ var FocusTrapModule = class _FocusTrapModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-image.mjs
-var _c07 = ["indicator"];
-var _c14 = ["rotaterighticon"];
-var _c24 = ["rotatelefticon"];
+var _c06 = ["indicator"];
+var _c13 = ["rotaterighticon"];
+var _c23 = ["rotatelefticon"];
 var _c33 = ["zoomouticon"];
 var _c43 = ["zoominicon"];
-var _c52 = ["closeicon"];
-var _c62 = ["preview"];
+var _c5 = ["closeicon"];
+var _c6 = ["preview"];
 var _c7 = ["image"];
 var _c8 = ["mask"];
 var _c9 = ["previewButton"];
@@ -17997,7 +15967,7 @@ var _c132 = (a0) => ({
   "p-image-action p-image-zoom-out-button": true,
   "p-disabled": a0
 });
-var _c142 = (a0) => ({
+var _c14 = (a0) => ({
   "p-image-action p-image-zoom-in-button": true,
   "p-disabled": a0
 });
@@ -18281,7 +16251,7 @@ function Image_div_4_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("ngTemplateOutlet", ctx_r1.zoomOutIconTemplate || ctx_r1._zoomOutIconTemplate);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(23, _c142, ctx_r1.isZoomOutDisabled))("disabled", ctx_r1.isZoomInDisabled);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(23, _c14, ctx_r1.isZoomOutDisabled))("disabled", ctx_r1.isZoomInDisabled);
     \u0275\u0275attribute("aria-label", ctx_r1.zoomInAriaLabel());
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", !ctx_r1.zoomInIconTemplate && !ctx_r1._zoomInIconTemplate);
@@ -18297,7 +16267,7 @@ function Image_div_4_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r1.previewVisible);
   }
 }
-var theme8 = ({
+var theme7 = ({
   dt: dt2
 }) => `
 .p-image-mask {
@@ -18420,7 +16390,7 @@ var theme8 = ({
     transform: scale(0.7);
 }
 `;
-var classes7 = {
+var classes6 = {
   root: ({
     props
   }) => ["p-image p-component", {
@@ -18447,8 +16417,8 @@ var classes7 = {
 };
 var ImageStyle = class _ImageStyle extends BaseStyle {
   name = "image";
-  theme = theme8;
-  classes = classes7;
+  theme = theme7;
+  classes = classes6;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275ImageStyle_BaseFactory;
     return function ImageStyle_Factory(__ngFactoryType__) {
@@ -18833,13 +16803,13 @@ var Image = class _Image extends BaseComponent {
     selectors: [["p-image"]],
     contentQueries: function Image_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c07, 4);
-        \u0275\u0275contentQuery(dirIndex, _c14, 4);
-        \u0275\u0275contentQuery(dirIndex, _c24, 4);
+        \u0275\u0275contentQuery(dirIndex, _c06, 4);
+        \u0275\u0275contentQuery(dirIndex, _c13, 4);
+        \u0275\u0275contentQuery(dirIndex, _c23, 4);
         \u0275\u0275contentQuery(dirIndex, _c33, 4);
         \u0275\u0275contentQuery(dirIndex, _c43, 4);
-        \u0275\u0275contentQuery(dirIndex, _c52, 4);
-        \u0275\u0275contentQuery(dirIndex, _c62, 4);
+        \u0275\u0275contentQuery(dirIndex, _c5, 4);
+        \u0275\u0275contentQuery(dirIndex, _c6, 4);
         \u0275\u0275contentQuery(dirIndex, _c7, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
@@ -19179,290 +17149,6 @@ var ImageModule = class _ImageModule {
     }]
   }], null, null);
 })();
-
-// src/app/views/header/header.component.ts
-var HeaderComponent = class _HeaderComponent {
-  static \u0275fac = function HeaderComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _HeaderComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HeaderComponent, selectors: [["app-header"]], decls: 9, vars: 1, consts: [["href", "https://inclusivite-resin.grandlyon.com/", "target", "_blank", "rel", "noopener noreferrer", 1, "intlogo"], ["src", "images/resin.svg", "alt", "Image de pr\xE9sentation du quiz", 1, "logo", 3, "width"], [1, "header-divider"], ["layout", "vertical"], ["href", "quiz/accueil"], [1, "title"]], template: function HeaderComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "a", 0);
-      \u0275\u0275element(1, "p-image", 1);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(2, "div", 2);
-      \u0275\u0275element(3, "p-divider", 3);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(4, "a", 4)(5, "h1", 5);
-      \u0275\u0275text(6, "Inclusif, le jeu :");
-      \u0275\u0275element(7, "br");
-      \u0275\u0275text(8, " Quiz");
-      \u0275\u0275elementEnd()();
-    }
-    if (rf & 2) {
-      \u0275\u0275advance();
-      \u0275\u0275property("width", "116px");
-    }
-  }, dependencies: [ImageModule, Image, DividerModule, Divider], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: start;\n  height: 100%;\n  width: 100%;\n  box-shadow: rgba(99, 99, 99, 0.16) 0px 10px 20px;\n}\n.title[_ngcontent-%COMP%] {\n  font-weight: normal;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  padding: 2px;\n  font-size: 16px;\n  color: var(--p-gray-700);\n}\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.logo[_ngcontent-%COMP%] {\n  width: 105px;\n  padding: 1px 1px 0px 53px;\n  color: #696969;\n}"] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HeaderComponent, { className: "HeaderComponent", filePath: "src/app/views/header/header.component.ts", lineNumber: 11 });
-})();
-
-// src/app/app.component.ts
-var AppComponent = class _AppComponent {
-  quizData = quizData;
-  // Prise des données des cartes du Quiz
-  static \u0275fac = function AppComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _AppComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 28, vars: 0, consts: [[1, "app-container"], [1, "header-div"], ["href", "https://resin.grandlyon.com/mentions-legales", "target", "_blank", "rel", "noopener noreferrer"], ["href", "https://resin.grandlyon.com/page/qui-sommes-nous", "target", "_blank", "rel", "noopener noreferrer"], ["href", "/accessibilite", "target", "_blank", "rel", "noopener noreferrer"], [1, "right-section"], ["href", "https://www.grandlyon.com/", "target", "_blank", "rel", "noopener noreferrer"], ["src", "https://inclusivite-resin.grandlyon.com/app/themes/ausy-modular-theme/public/images/picto-plus.0a1d2b.png", "alt", "Logo"]], template: function AppComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header")(2, "div", 1);
-      \u0275\u0275element(3, "app-header");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(4, "main");
-      \u0275\u0275element(5, "router-outlet");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(6, "footer")(7, "ul")(8, "li")(9, "a", 2);
-      \u0275\u0275text(10, "Mentions l\xE9gales");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(11, "p");
-      \u0275\u0275text(12, "\u25CF");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(13, "li")(14, "a", 3);
-      \u0275\u0275text(15, "Qui sommes nous ?");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(16, "p");
-      \u0275\u0275text(17, "\u25CF");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(18, "li")(19, "a", 4);
-      \u0275\u0275text(20, "Accessibilit\xE9 : Non conforme");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(21, "div", 5)(22, "ul")(23, "li")(24, "a", 6);
-      \u0275\u0275element(25, "img", 7);
-      \u0275\u0275elementStart(26, "p");
-      \u0275\u0275text(27, "Un site de la M\xE9tropole de Lyon");
-      \u0275\u0275elementEnd()()()()()()();
-    }
-  }, dependencies: [CommonModule, RouterOutlet, HeaderComponent], styles: ["\n\n.app-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  height: 100%;\n}\n.header-div[_ngcontent-%COMP%] {\n  height: 66px;\n}\nmain[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: auto;\n  height: 100%;\n}\nfooter[_ngcontent-%COMP%] {\n  height: 40px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background-color: black;\n  color: white;\n  padding: 0 28px;\n  font-size: 12px;\n  width: 100%;\n  margin-top: auto;\n}\nfooter[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  gap: 12px;\n}\nfooter[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: inline-block;\n}\nfooter[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: flex;\n  color: white !important;\n  text-decoration: none;\n  align-items: center;\n  vertical-align: middle;\n}\nfooter[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  text-decoration: underline;\n}\nfooter[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n}\nfooter[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 20px;\n  margin-right: 5px;\n}"] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 14 });
-})();
-var quizData = questions_final_exports;
-
-// src/app/shared/services/quiz-service.ts
-var RandomizedQuestionIndexQueue = class {
-  /* Implémente un tirage aléatoire sans remise des numéros de questions dans un thème
-  * https://gist.github.com/4skinSkywalker/f10939e0b070fe1815933730670177df
-  */
-  remainingIndices;
-  intialSize;
-  // Permet de garder en mémoire la taille de la liste
-  currentSize;
-  // Permet d'avoir la taille restante de la liste
-  constructor(size) {
-    this.intialSize = size;
-    this.currentSize = size;
-    this.remainingIndices = [...Array(size).keys()];
-  }
-  randomId() {
-    return Math.random() * (this.currentSize - 1) | 0;
-  }
-  isEmpty() {
-    return this.currentSize < 1;
-  }
-  replenish() {
-    this.remainingIndices = [...Array(this.intialSize).keys()];
-    this.currentSize = this.intialSize;
-  }
-  dequeueIndex() {
-    if (this.isEmpty()) {
-      this.replenish();
-    }
-    const id = this.randomId();
-    const index = this.remainingIndices[id];
-    this.remainingIndices.splice(id, 1);
-    this.currentSize--;
-    return index;
-  }
-};
-var TopicsQueue = class {
-  /* Implémente la queue des thèmes à effectuer selon le nombre de questions et le cycle de thème à aborder */
-  possibleTopics;
-  topicsCycle;
-  numberOfQuestionsPerCycle = 1;
-  // valeur par défaut
-  topics = [];
-  // queue qui va permettre de tirer les topics
-  constructor(possibleTopics = [], topicsCycle = []) {
-    this.possibleTopics = possibleTopics;
-    this.topicsCycle = topicsCycle;
-  }
-  initialize(nQuestions) {
-    this.numberOfQuestionsPerCycle = nQuestions;
-    this.topics = [];
-    this.topicsCycle.forEach((n, i) => {
-      this.topics.push(...Array(n * this.numberOfQuestionsPerCycle).fill(this.possibleTopics[i]));
-    });
-  }
-  isEmpty() {
-    return this.topics.length < 1;
-  }
-  deqeue() {
-    return this.topics.shift();
-  }
-  getPossibleTopics() {
-    return this.possibleTopics;
-  }
-  getNumberOfQuestions() {
-    return this.topicsCycle.length * this.numberOfQuestionsPerCycle;
-  }
-};
-var DataService = class _DataService {
-  /*
-    Service qui fournit les données relatives à la question en cours de la session de quiz
-    Les questions sont tirées aléatoirement sans remise
-    Lorsqu'il n'y a plus de questions non faites, la liste de questions est régénèrée
-  */
-  quizSegmentTopicsQueue;
-  quizSegments = quizData["questions"];
-  // tous les segments de quiz possibles, groupés par thème
-  randomizedQuestionIndexQueuePool = {};
-  questionNumber = signal(0);
-  hasEnded = signal(false);
-  numberOfQuestions = signal(0);
-  currentSegment = signal(void 0);
-  currentTopic = signal("");
-  currentQuestionId = signal(-1);
-  constructor() {
-    this.quizSegmentTopicsQueue = new TopicsQueue(quizData["question_topics"], quizData["question_cycle"]);
-    for (const questionTopic of this.quizSegmentTopicsQueue.getPossibleTopics()) {
-      const rq = new RandomizedQuestionIndexQueue(this.quizSegments[questionTopic].length);
-      this.randomizedQuestionIndexQueuePool[questionTopic] = rq;
-    }
-  }
-  startQuiz(nQuestions) {
-    this.questionNumber.set(0);
-    this.hasEnded.set(false);
-    this.quizSegmentTopicsQueue.initialize(nQuestions);
-    this.numberOfQuestions.set(this.quizSegmentTopicsQueue.getNumberOfQuestions());
-  }
-  getNewQuestion() {
-    const questionTopic = this.quizSegmentTopicsQueue.deqeue();
-    const questionId = this.randomizedQuestionIndexQueuePool[questionTopic].dequeueIndex();
-    this.currentTopic.set(questionTopic);
-    this.currentQuestionId.set(questionId);
-    this.currentSegment.set(this.quizSegments[questionTopic][questionId]);
-    console.log(this.quizSegments[questionTopic][questionId]);
-    console.log(this.currentSegment());
-  }
-  isFinished() {
-    return this.quizSegmentTopicsQueue.isEmpty();
-  }
-  getNumberOfTopics() {
-    return this.quizSegmentTopicsQueue.getPossibleTopics().length;
-  }
-  static \u0275fac = function DataService_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _DataService)();
-  };
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _DataService, factory: _DataService.\u0275fac, providedIn: "root" });
-};
-
-// src/app/shared/services/progress-service.ts
-var ProgressService = class _ProgressService {
-  /* Service qui gère la navigation dans l'application */
-  router = inject(Router);
-  route = inject(ActivatedRoute);
-  dataService = inject(DataService);
-  score = signal(0);
-  questionNumber = signal(0);
-  currentAnswer = signal([]);
-  currentAnswerValidity = computed(() => this.verifyAnswer());
-  hasEnded = signal(false);
-  answered = signal(false);
-  checked = signal(false);
-  goToBegining() {
-    this.score.set(0);
-    this.questionNumber.set(0);
-    this.hasEnded.set(false);
-    this.router.navigate(["quiz", "accueil"], { onSameUrlNavigation: "ignore" });
-  }
-  start(nQuestions) {
-    this.score.set(0);
-    this.questionNumber.set(0);
-    this.hasEnded.set(false);
-    this.dataService.startQuiz(nQuestions);
-    this.goToNext();
-  }
-  goToEnd() {
-    this.hasEnded.set(true);
-    this.router.navigate(["quiz", "fin"], { replaceUrl: true });
-  }
-  goToNext() {
-    if (!this.dataService.isFinished()) {
-      this.dataService.getNewQuestion();
-      this.questionNumber.update((n) => n + 1);
-      this.answered.set(false);
-      this.router.navigate(["quiz", this.questionNumber().toString()], {
-        queryParams: { th\u00E8me: this.dataService.currentTopic(), th\u00E8me_id: this.dataService.currentQuestionId(), r\u00E9pondu: "faux" },
-        replaceUrl: this.questionNumber() > 0
-      });
-    } else {
-      this.goToEnd();
-    }
-  }
-  answer() {
-    if (this.currentAnswerValidity() === 2 /* Empty */) {
-      return;
-    }
-    if (this.currentAnswerValidity() === 0 /* True */) {
-      this.score.update((s) => s + 1);
-    }
-    this.answered.set(true);
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { r\u00E9pondu: "vrai" },
-      queryParamsHandling: "merge",
-      // remove to replace all query params by provided
-      replaceUrl: true
-    });
-  }
-  /**
-  * Vérifie la réponse actuelle par rapport aux réponses correctes.
-  *
-  * Cette méthode récupère les réponses correctes du segment de quiz actuel et les compare
-  * avec les réponses sélectionnées par l'utilisateur. Elle retourne une valeur de l'énumération `Answer`
-  * indiquant si la réponse est correcte, incorrecte ou vide.
-  *
-  * @returns {Answer} - Le résultat de la vérification de la réponse :
-  *   - `Answer.Empty` si aucune réponse n'a été sélectionnée.
-  *   - `Answer.True` si les réponses sélectionnées correspondent aux réponses correctes.
-  *   - `Answer.False` si les réponses sélectionnées ne correspondent pas aux réponses correctes.
-  */
-  verifyAnswer() {
-    const realAnswers = this.dataService.currentSegment()?.true_answers;
-    if (this.currentAnswer().length === 0) {
-      return 2 /* Empty */;
-    }
-    if (this.currentAnswer().sort().toString() == realAnswers.sort().toString()) {
-      return 0 /* True */;
-    } else {
-      return 1 /* False */;
-    }
-  }
-  GetChecked() {
-    this.checked.set(true);
-  }
-  GetUnchecked() {
-    this.checked.set(false);
-  }
-  static \u0275fac = function ProgressService_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ProgressService)();
-  };
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _ProgressService, factory: _ProgressService.\u0275fac, providedIn: "root" });
-};
 
 // node_modules/@angular/forms/fesm2022/forms.mjs
 var BaseControlValueAccessor = class _BaseControlValueAccessor {
@@ -25928,4152 +23614,8 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
   }], null, null);
 })();
 
-// node_modules/primeng/fesm2022/primeng-radiobutton.mjs
-var _c08 = ["input"];
-var _c18 = (a0, a1, a2, a3, a4) => ({
-  "p-radiobutton p-component": true,
-  "p-radiobutton-checked": a0,
-  "p-disabled": a1,
-  "p-variant-filled": a2,
-  "p-radiobutton-sm p-inputfield-sm": a3,
-  "p-radiobutton-lg p-inputfield-lg": a4
-});
-var theme9 = ({
-  dt: dt2
-}) => `
-.p-radiobutton {
-    position: relative;
-    display: inline-flex;
-    user-select: none;
-    vertical-align: bottom;
-    width: ${dt2("radiobutton.width")};
-    height: ${dt2("radiobutton.height")};
-}
-
-.p-radiobutton-input {
-    cursor: pointer;
-    appearance: none;
-    position: absolute;
-    top: 0;
-    inset-inline-start: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    opacity: 0;
-    z-index: 1;
-    outline: 0 none;
-    border: 1px solid transparent;
-    border-radius: 50%;
-}
-
-.p-radiobutton-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    border: 1px solid ${dt2("radiobutton.border.color")};
-    background: ${dt2("radiobutton.background")};
-    width: ${dt2("radiobutton.width")};
-    height: ${dt2("radiobutton.height")};
-    transition: background ${dt2("radiobutton.transition.duration")}, color ${dt2("radiobutton.transition.duration")}, border-color ${dt2("radiobutton.transition.duration")}, box-shadow ${dt2("radiobutton.transition.duration")}, outline-color ${dt2("radiobutton.transition.duration")};
-    outline-color: transparent;
-    box-shadow: ${dt2("radiobutton.shadow")};
-}
-
-.p-radiobutton-icon {
-    transition-duration: ${dt2("radiobutton.transition.duration")};
-    background: transparent;
-    font-size: ${dt2("radiobutton.icon.size")};
-    width: ${dt2("radiobutton.icon.size")};
-    height: ${dt2("radiobutton.icon.size")};
-    border-radius: 50%;
-    backface-visibility: hidden;
-    transform: translateZ(0) scale(0.1);
-}
-
-.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:hover) .p-radiobutton-box {
-    border-color: ${dt2("radiobutton.hover.border.color")};
-}
-
-.p-radiobutton-checked .p-radiobutton-box {
-    border-color: ${dt2("radiobutton.checked.border.color")};
-    background: ${dt2("radiobutton.checked.background")};
-}
-
-.p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon {
-    background: ${dt2("radiobutton.icon.checked.color")};
-    transform: translateZ(0) scale(1, 1);
-    visibility: visible;
-}
-
-.p-radiobutton-checked:not(.p-disabled):has(.p-radiobutton-input:hover) .p-radiobutton-box {
-    border-color: ${dt2("radiobutton.checked.hover.border.color")};
-    background: ${dt2("radiobutton.checked.hover.background")};
-}
-
-.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:hover).p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon {
-    background: ${dt2("radiobutton.icon.checked.hover.color")};
-}
-
-.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
-    border-color: ${dt2("radiobutton.focus.border.color")};
-    box-shadow: ${dt2("radiobutton.focus.ring.shadow")};
-    outline: ${dt2("radiobutton.focus.ring.width")} ${dt2("radiobutton.focus.ring.style")} ${dt2("radiobutton.focus.ring.color")};
-    outline-offset: ${dt2("radiobutton.focus.ring.offset")};
-}
-
-.p-radiobutton-checked:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
-    border-color: ${dt2("radiobutton.checked.focus.border.color")};
-}
-
-p-radiobutton.ng-invalid.ng-dirty .p-radiobutton-box {
-    border-color: ${dt2("radiobutton.invalid.border.color")};
-}
-
-.p-radiobutton.p-variant-filled .p-radiobutton-box {
-    background: ${dt2("radiobutton.filled.background")};
-}
-
-.p-radiobutton.p-variant-filled.p-radiobutton-checked .p-radiobutton-box {
-    background: ${dt2("radiobutton.checked.background")};
-}
-
-.p-radiobutton.p-variant-filled:not(.p-disabled):has(.p-radiobutton-input:hover).p-radiobutton-checked .p-radiobutton-box {
-    background: ${dt2("radiobutton.checked.hover.background")};
-}
-
-.p-radiobutton.p-disabled {
-    opacity: 1;
-}
-
-.p-radiobutton.p-disabled .p-radiobutton-box {
-    background: ${dt2("radiobutton.disabled.background")};
-    border-color: ${dt2("radiobutton.checked.disabled.border.color")};
-}
-
-.p-radiobutton-checked.p-disabled .p-radiobutton-box .p-radiobutton-icon {
-    background: ${dt2("radiobutton.icon.disabled.color")};
-}
-
-.p-radiobutton-sm,
-.p-radiobutton-sm .p-radiobutton-box {
-    width: ${dt2("radiobutton.sm.width")};
-    height: ${dt2("radiobutton.sm.height")};
-}
-
-.p-radiobutton-sm .p-radiobutton-icon {
-    font-size: ${dt2("radiobutton.icon.sm.size")};
-    width: ${dt2("radiobutton.icon.sm.size")};
-    height: ${dt2("radiobutton.icon.sm.size")};
-}
-
-.p-radiobutton-lg,
-.p-radiobutton-lg .p-radiobutton-box {
-    width: ${dt2("radiobutton.lg.width")};
-    height: ${dt2("radiobutton.lg.height")};
-}
-
-.p-radiobutton-lg .p-radiobutton-icon {
-    font-size: ${dt2("radiobutton.icon.lg.size")};
-    width: ${dt2("radiobutton.icon.lg.size")};
-    height: ${dt2("radiobutton.icon.lg.size")};
-}
-`;
-var classes8 = {
-  root: ({
-    instance,
-    props
-  }) => ["p-radiobutton p-component", {
-    "p-radiobutton-checked": instance.checked,
-    "p-disabled": props.disabled,
-    "p-invalid": props.invalid,
-    "p-variant-filled": props.variant ? props.variant === "filled" : instance.config.inputStyle === "filled" || instance.config.inputVariant === "filled"
-  }],
-  box: "p-radiobutton-box",
-  input: "p-radiobutton-input",
-  icon: "p-radiobutton-icon"
-};
-var RadioButtonStyle = class _RadioButtonStyle extends BaseStyle {
-  name = "radiobutton";
-  theme = theme9;
-  classes = classes8;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275RadioButtonStyle_BaseFactory;
-    return function RadioButtonStyle_Factory(__ngFactoryType__) {
-      return (\u0275RadioButtonStyle_BaseFactory || (\u0275RadioButtonStyle_BaseFactory = \u0275\u0275getInheritedFactory(_RadioButtonStyle)))(__ngFactoryType__ || _RadioButtonStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _RadioButtonStyle,
-    factory: _RadioButtonStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioButtonStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var RadioButtonClasses;
-(function(RadioButtonClasses2) {
-  RadioButtonClasses2["root"] = "p-radiobutton";
-  RadioButtonClasses2["box"] = "p-radiobutton-box";
-  RadioButtonClasses2["input"] = "p-radiobutton-input";
-  RadioButtonClasses2["icon"] = "p-radiobutton-icon";
-})(RadioButtonClasses || (RadioButtonClasses = {}));
-var RADIO_VALUE_ACCESSOR2 = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => RadioButton),
-  multi: true
-};
-var RadioControlRegistry2 = class _RadioControlRegistry {
-  accessors = [];
-  add(control, accessor) {
-    this.accessors.push([control, accessor]);
-  }
-  remove(accessor) {
-    this.accessors = this.accessors.filter((c) => {
-      return c[1] !== accessor;
-    });
-  }
-  select(accessor) {
-    this.accessors.forEach((c) => {
-      if (this.isSameGroup(c, accessor) && c[1] !== accessor) {
-        c[1].writeValue(accessor.value);
-      }
-    });
-  }
-  isSameGroup(controlPair, accessor) {
-    if (!controlPair[0].control) {
-      return false;
-    }
-    return controlPair[0].control.root === accessor.control.control.root && controlPair[1].name === accessor.name;
-  }
-  static \u0275fac = function RadioControlRegistry_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _RadioControlRegistry)();
-  };
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _RadioControlRegistry,
-    factory: _RadioControlRegistry.\u0275fac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioControlRegistry2, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var RadioButton = class _RadioButton extends BaseComponent {
-  /**
-   * Value of the radiobutton.
-   * @group Props
-   */
-  value;
-  /**
-   * The name of the form control.
-   * @group Props
-   */
-  formControlName;
-  /**
-   * Name of the radiobutton group.
-   * @group Props
-   */
-  name;
-  /**
-   * When present, it specifies that the element should be disabled.
-   * @group Props
-   */
-  disabled;
-  /**
-   * Specifies the input variant of the component.
-   * @group Props
-   */
-  variant;
-  /**
-   * Defines the size of the component.
-   * @group Props
-   */
-  size;
-  /**
-   * Index of the element in tabbing order.
-   * @group Props
-   */
-  tabindex;
-  /**
-   * Identifier of the focus input to match a label defined for the component.
-   * @group Props
-   */
-  inputId;
-  /**
-   * Establishes relationships between the component and label(s) where its value should be one or more element IDs.
-   * @group Props
-   */
-  ariaLabelledBy;
-  /**
-   * Used to define a string that labels the input element.
-   * @group Props
-   */
-  ariaLabel;
-  /**
-   * Inline style of the component.
-   * @group Props
-   */
-  style;
-  /**
-   * Style class of the component.
-   * @group Props
-   */
-  styleClass;
-  /**
-   * When present, it specifies that the component should automatically get focus on load.
-   * @group Props
-   */
-  autofocus;
-  /**
-   * Allows to select a boolean value.
-   * @group Props
-   */
-  binary;
-  /**
-   * Callback to invoke on radio button click.
-   * @param {RadioButtonClickEvent} event - Custom click event.
-   * @group Emits
-   */
-  onClick = new EventEmitter();
-  /**
-   * Callback to invoke when the receives focus.
-   * @param {Event} event - Browser event.
-   * @group Emits
-   */
-  onFocus = new EventEmitter();
-  /**
-   * Callback to invoke when the loses focus.
-   * @param {Event} event - Browser event.
-   * @group Emits
-   */
-  onBlur = new EventEmitter();
-  inputViewChild;
-  onModelChange = () => {
-  };
-  onModelTouched = () => {
-  };
-  checked;
-  focused;
-  control;
-  _componentStyle = inject(RadioButtonStyle);
-  injector = inject(Injector);
-  registry = inject(RadioControlRegistry2);
-  ngOnInit() {
-    super.ngOnInit();
-    this.control = this.injector.get(NgControl);
-    this.checkName();
-    this.registry.add(this.control, this);
-  }
-  onChange(event) {
-    if (!this.disabled) {
-      this.select(event);
-    }
-  }
-  select(event) {
-    if (!this.disabled) {
-      this.checked = true;
-      this.onModelChange(this.value);
-      this.registry.select(this);
-      this.onClick.emit({
-        originalEvent: event,
-        value: this.value
-      });
-    }
-  }
-  writeValue(value) {
-    if (!this.binary) {
-      this.checked = value == this.value;
-    } else {
-      this.checked = !!value;
-    }
-    if (this.inputViewChild && this.inputViewChild.nativeElement) {
-      this.inputViewChild.nativeElement.checked = this.checked;
-    }
-    this.cd.markForCheck();
-  }
-  registerOnChange(fn) {
-    this.onModelChange = fn;
-  }
-  registerOnTouched(fn) {
-    this.onModelTouched = fn;
-  }
-  setDisabledState(val) {
-    this.disabled = val;
-    this.cd.markForCheck();
-  }
-  onInputFocus(event) {
-    this.focused = true;
-    this.onFocus.emit(event);
-  }
-  onInputBlur(event) {
-    this.focused = false;
-    this.onModelTouched();
-    this.onBlur.emit(event);
-  }
-  /**
-   * Applies focus to input field.
-   * @group Method
-   */
-  focus() {
-    this.inputViewChild.nativeElement.focus();
-  }
-  ngOnDestroy() {
-    this.registry.remove(this);
-    super.ngOnDestroy();
-  }
-  checkName() {
-    if (this.name && this.formControlName && this.name !== this.formControlName) {
-      this.throwNameError();
-    }
-    if (!this.name && this.formControlName) {
-      this.name = this.formControlName;
-    }
-  }
-  throwNameError() {
-    throw new Error(`
-          If you define both a name and a formControlName attribute on your radio button, their values
-          must match. Ex: <p-radioButton formControlName="food" name="food"></p-radioButton>
-        `);
-  }
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275RadioButton_BaseFactory;
-    return function RadioButton_Factory(__ngFactoryType__) {
-      return (\u0275RadioButton_BaseFactory || (\u0275RadioButton_BaseFactory = \u0275\u0275getInheritedFactory(_RadioButton)))(__ngFactoryType__ || _RadioButton);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _RadioButton,
-    selectors: [["p-radioButton"], ["p-radiobutton"], ["p-radio-button"]],
-    viewQuery: function RadioButton_Query(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275viewQuery(_c08, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.inputViewChild = _t.first);
-      }
-    },
-    inputs: {
-      value: "value",
-      formControlName: "formControlName",
-      name: "name",
-      disabled: [2, "disabled", "disabled", booleanAttribute],
-      variant: "variant",
-      size: "size",
-      tabindex: [2, "tabindex", "tabindex", numberAttribute],
-      inputId: "inputId",
-      ariaLabelledBy: "ariaLabelledBy",
-      ariaLabel: "ariaLabel",
-      style: "style",
-      styleClass: "styleClass",
-      autofocus: [2, "autofocus", "autofocus", booleanAttribute],
-      binary: [2, "binary", "binary", booleanAttribute]
-    },
-    outputs: {
-      onClick: "onClick",
-      onFocus: "onFocus",
-      onBlur: "onBlur"
-    },
-    features: [\u0275\u0275ProvidersFeature([RADIO_VALUE_ACCESSOR2, RadioButtonStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    decls: 5,
-    vars: 24,
-    consts: [["input", ""], [3, "ngStyle", "ngClass"], ["type", "radio", 1, "p-radiobutton-input", 3, "focus", "blur", "change", "checked", "disabled", "value", "pAutoFocus"], [1, "p-radiobutton-box"], [1, "p-radiobutton-icon"]],
-    template: function RadioButton_Template(rf, ctx) {
-      if (rf & 1) {
-        const _r1 = \u0275\u0275getCurrentView();
-        \u0275\u0275elementStart(0, "div", 1)(1, "input", 2, 0);
-        \u0275\u0275listener("focus", function RadioButton_Template_input_focus_1_listener($event) {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onInputFocus($event));
-        })("blur", function RadioButton_Template_input_blur_1_listener($event) {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onInputBlur($event));
-        })("change", function RadioButton_Template_input_change_1_listener($event) {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onChange($event));
-        });
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(3, "div", 3);
-        \u0275\u0275element(4, "div", 4);
-        \u0275\u0275elementEnd()();
-      }
-      if (rf & 2) {
-        \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngStyle", ctx.style)("ngClass", \u0275\u0275pureFunction5(18, _c18, ctx.checked, ctx.disabled, ctx.variant === "filled" || ctx.config.inputStyle() === "filled" || ctx.config.inputVariant() === "filled", ctx.size === "small", ctx.size === "large"));
-        \u0275\u0275attribute("data-pc-name", "radiobutton")("data-pc-section", "root");
-        \u0275\u0275advance();
-        \u0275\u0275property("checked", ctx.checked)("disabled", ctx.disabled)("value", ctx.value)("pAutoFocus", ctx.autofocus);
-        \u0275\u0275attribute("id", ctx.inputId)("name", ctx.name)("aria-labelledby", ctx.ariaLabelledBy)("aria-label", ctx.ariaLabel)("tabindex", ctx.tabindex)("aria-checked", ctx.checked);
-        \u0275\u0275advance(2);
-        \u0275\u0275attribute("data-pc-section", "input");
-        \u0275\u0275advance();
-        \u0275\u0275attribute("data-pc-section", "icon");
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgStyle, AutoFocus, SharedModule],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioButton, [{
-    type: Component,
-    args: [{
-      selector: "p-radioButton, p-radiobutton, p-radio-button",
-      standalone: true,
-      imports: [CommonModule, AutoFocus, SharedModule],
-      template: `
-        <div
-            [ngStyle]="style"
-            [ngClass]="{
-                'p-radiobutton p-component': true,
-                'p-radiobutton-checked': checked,
-                'p-disabled': disabled,
-                'p-variant-filled': variant === 'filled' || config.inputStyle() === 'filled' || config.inputVariant() === 'filled',
-                'p-radiobutton-sm p-inputfield-sm': size === 'small',
-                'p-radiobutton-lg p-inputfield-lg': size === 'large'
-            }"
-            [class]="styleClass"
-            [attr.data-pc-name]="'radiobutton'"
-            [attr.data-pc-section]="'root'"
-        >
-            <input
-                #input
-                [attr.id]="inputId"
-                type="radio"
-                class="p-radiobutton-input"
-                [attr.name]="name"
-                [checked]="checked"
-                [disabled]="disabled"
-                [value]="value"
-                [attr.aria-labelledby]="ariaLabelledBy"
-                [attr.aria-label]="ariaLabel"
-                [attr.tabindex]="tabindex"
-                [attr.aria-checked]="checked"
-                (focus)="onInputFocus($event)"
-                (blur)="onInputBlur($event)"
-                (change)="onChange($event)"
-                [pAutoFocus]="autofocus"
-            />
-            <div class="p-radiobutton-box" [attr.data-pc-section]="'input'">
-                <div class="p-radiobutton-icon" [attr.data-pc-section]="'icon'"></div>
-            </div>
-        </div>
-    `,
-      providers: [RADIO_VALUE_ACCESSOR2, RadioButtonStyle],
-      changeDetection: ChangeDetectionStrategy.OnPush
-    }]
-  }], null, {
-    value: [{
-      type: Input
-    }],
-    formControlName: [{
-      type: Input
-    }],
-    name: [{
-      type: Input
-    }],
-    disabled: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    variant: [{
-      type: Input
-    }],
-    size: [{
-      type: Input
-    }],
-    tabindex: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    inputId: [{
-      type: Input
-    }],
-    ariaLabelledBy: [{
-      type: Input
-    }],
-    ariaLabel: [{
-      type: Input
-    }],
-    style: [{
-      type: Input
-    }],
-    styleClass: [{
-      type: Input
-    }],
-    autofocus: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    binary: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    onClick: [{
-      type: Output
-    }],
-    onFocus: [{
-      type: Output
-    }],
-    onBlur: [{
-      type: Output
-    }],
-    inputViewChild: [{
-      type: ViewChild,
-      args: ["input"]
-    }]
-  });
-})();
-var RadioButtonModule = class _RadioButtonModule {
-  static \u0275fac = function RadioButtonModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _RadioButtonModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _RadioButtonModule
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [RadioButton, SharedModule, SharedModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioButtonModule, [{
-    type: NgModule,
-    args: [{
-      imports: [RadioButton, SharedModule],
-      exports: [RadioButton, SharedModule]
-    }]
-  }], null, null);
-})();
-
-// node_modules/primeng/fesm2022/primeng-checkbox.mjs
-var _c09 = ["checkboxicon"];
-var _c19 = ["input"];
-var _c25 = () => ({
-  "p-checkbox-input": true
-});
-var _c34 = (a0) => ({
-  checked: a0,
-  class: "p-checkbox-icon"
-});
-function Checkbox_ng_container_4_ng_container_1_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 8);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", ctx_r1.checkboxIcon);
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "CheckIcon", 9);
-  }
-  if (rf & 2) {
-    \u0275\u0275property("styleClass", "p-checkbox-icon");
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Checkbox_ng_container_4_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_span_1_Template, 1, 2, "span", 7)(2, Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template, 1, 2, "CheckIcon", 6);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.checkboxIcon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.checkboxIcon);
-  }
-}
-function Checkbox_ng_container_4_MinusIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "MinusIcon", 9);
-  }
-  if (rf & 2) {
-    \u0275\u0275property("styleClass", "p-checkbox-icon");
-    \u0275\u0275attribute("data-pc-section", "icon");
-  }
-}
-function Checkbox_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_Template, 3, 2, "ng-container", 4)(2, Checkbox_ng_container_4_MinusIcon_2_Template, 1, 2, "MinusIcon", 6);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.checked);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1._indeterminate());
-  }
-}
-function Checkbox_5_ng_template_0_Template(rf, ctx) {
-}
-function Checkbox_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Checkbox_5_ng_template_0_Template, 0, 0, "ng-template");
-  }
-}
-var theme10 = ({
-  dt: dt2
-}) => `
-.p-checkbox {
-    position: relative;
-    display: inline-flex;
-    user-select: none;
-    vertical-align: bottom;
-    width: ${dt2("checkbox.width")};
-    height: ${dt2("checkbox.height")};
-}
-
-.p-checkbox-input {
-    cursor: pointer;
-    appearance: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    opacity: 0;
-    z-index: 1;
-    outline: 0 none;
-    border: 1px solid transparent;
-    border-radius: ${dt2("checkbox.border.radius")};
-}
-
-.p-checkbox-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: ${dt2("checkbox.border.radius")};
-    border: 1px solid ${dt2("checkbox.border.color")};
-    background: ${dt2("checkbox.background")};
-    width: ${dt2("checkbox.width")};
-    height: ${dt2("checkbox.height")};
-    transition: background ${dt2("checkbox.transition.duration")}, color ${dt2("checkbox.transition.duration")}, border-color ${dt2("checkbox.transition.duration")}, box-shadow ${dt2("checkbox.transition.duration")}, outline-color ${dt2("checkbox.transition.duration")};
-    outline-color: transparent;
-    box-shadow: ${dt2("checkbox.shadow")};
-}
-
-.p-checkbox-icon {
-    transition-duration: ${dt2("checkbox.transition.duration")};
-    color: ${dt2("checkbox.icon.color")};
-    font-size: ${dt2("checkbox.icon.size")};
-    width: ${dt2("checkbox.icon.size")};
-    height: ${dt2("checkbox.icon.size")};
-}
-
-.p-checkbox:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
-    border-color: ${dt2("checkbox.hover.border.color")};
-}
-
-.p-checkbox-checked .p-checkbox-box {
-    border-color: ${dt2("checkbox.checked.border.color")};
-    background: ${dt2("checkbox.checked.background")};
-}
-
-.p-checkbox-checked .p-checkbox-icon {
-    color: ${dt2("checkbox.icon.checked.color")};
-}
-
-.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
-    background: ${dt2("checkbox.checked.hover.background")};
-    border-color: ${dt2("checkbox.checked.hover.border.color")};
-}
-
-.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-icon {
-    color: ${dt2("checkbox.icon.checked.hover.color")};
-}
-
-.p-checkbox:not(.p-disabled):has(.p-checkbox-input:focus-visible) .p-checkbox-box {
-    border-color: ${dt2("checkbox.focus.border.color")};
-    box-shadow: ${dt2("checkbox.focus.ring.shadow")};
-    outline: ${dt2("checkbox.focus.ring.width")} ${dt2("checkbox.focus.ring.style")} ${dt2("checkbox.focus.ring.color")};
-    outline-offset: ${dt2("checkbox.focus.ring.offset")};
-}
-
-.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:focus-visible) .p-checkbox-box {
-    border-color: ${dt2("checkbox.checked.focus.border.color")};
-}
-
-p-checkbox.ng-invalid.ng-dirty .p-checkbox-box {
-    border-color: ${dt2("checkbox.invalid.border.color")};
-}
-
-.p-checkbox.p-variant-filled .p-checkbox-box {
-    background: ${dt2("checkbox.filled.background")};
-}
-
-.p-checkbox-checked.p-variant-filled .p-checkbox-box {
-    background: ${dt2("checkbox.checked.background")};
-}
-
-.p-checkbox-checked.p-variant-filled:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
-    background: ${dt2("checkbox.checked.hover.background")};
-}
-
-.p-checkbox.p-disabled {
-    opacity: 1;
-}
-
-.p-checkbox.p-disabled .p-checkbox-box {
-    background: ${dt2("checkbox.disabled.background")};
-    border-color: ${dt2("checkbox.checked.disabled.border.color")};
-}
-
-.p-checkbox.p-disabled .p-checkbox-box .p-checkbox-icon {
-    color: ${dt2("checkbox.icon.disabled.color")};
-}
-
-.p-checkbox-sm,
-.p-checkbox-sm .p-checkbox-box {
-    width: ${dt2("checkbox.sm.width")};
-    height: ${dt2("checkbox.sm.height")};
-}
-
-.p-checkbox-sm .p-checkbox-icon {
-    font-size: ${dt2("checkbox.icon.sm.size")};
-    width: ${dt2("checkbox.icon.sm.size")};
-    height: ${dt2("checkbox.icon.sm.size")};
-}
-
-.p-checkbox-lg,
-.p-checkbox-lg .p-checkbox-box {
-    width: ${dt2("checkbox.lg.width")};
-    height: ${dt2("checkbox.lg.height")};
-}
-
-.p-checkbox-lg .p-checkbox-icon {
-    font-size: ${dt2("checkbox.icon.lg.size")};
-    width: ${dt2("checkbox.icon.lg.size")};
-    height: ${dt2("checkbox.icon.lg.size")};
-}
-`;
-var classes9 = {
-  root: ({
-    instance,
-    props
-  }) => ["p-checkbox p-component", {
-    "p-checkbox-checked": instance.checked,
-    "p-disabled": props.disabled,
-    "p-invalid": props.invalid,
-    "p-variant-filled": props.variant ? props.variant === "filled" : instance.config.inputStyle === "filled" || instance.config.inputVariant === "filled"
-  }],
-  box: "p-checkbox-box",
-  input: "p-checkbox-input",
-  icon: "p-checkbox-icon"
-};
-var CheckboxStyle = class _CheckboxStyle extends BaseStyle {
-  name = "checkbox";
-  theme = theme10;
-  classes = classes9;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275CheckboxStyle_BaseFactory;
-    return function CheckboxStyle_Factory(__ngFactoryType__) {
-      return (\u0275CheckboxStyle_BaseFactory || (\u0275CheckboxStyle_BaseFactory = \u0275\u0275getInheritedFactory(_CheckboxStyle)))(__ngFactoryType__ || _CheckboxStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _CheckboxStyle,
-    factory: _CheckboxStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CheckboxStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var CheckboxClasses;
-(function(CheckboxClasses2) {
-  CheckboxClasses2["root"] = "p-checkbox";
-  CheckboxClasses2["box"] = "p-checkbox-box";
-  CheckboxClasses2["input"] = "p-checkbox-input";
-  CheckboxClasses2["icon"] = "p-checkbox-icon";
-})(CheckboxClasses || (CheckboxClasses = {}));
-var CHECKBOX_VALUE_ACCESSOR2 = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => Checkbox),
-  multi: true
-};
-var Checkbox = class _Checkbox extends BaseComponent {
-  /**
-   * Value of the checkbox.
-   * @group Props
-   */
-  value;
-  /**
-   * Name of the checkbox group.
-   * @group Props
-   */
-  name;
-  /**
-   * When present, it specifies that the element should be disabled.
-   * @group Props
-   */
-  disabled;
-  /**
-   * Allows to select a boolean value instead of multiple values.
-   * @group Props
-   */
-  binary;
-  /**
-   * Establishes relationships between the component and label(s) where its value should be one or more element IDs.
-   * @group Props
-   */
-  ariaLabelledBy;
-  /**
-   * Used to define a string that labels the input element.
-   * @group Props
-   */
-  ariaLabel;
-  /**
-   * Index of the element in tabbing order.
-   * @group Props
-   */
-  tabindex;
-  /**
-   * Identifier of the focus input to match a label defined for the component.
-   * @group Props
-   */
-  inputId;
-  /**
-   * Inline style of the component.
-   * @group Props
-   */
-  style;
-  /**
-   * Inline style of the input element.
-   * @group Props
-   */
-  inputStyle;
-  /**
-   * Style class of the component.
-   * @group Props
-   */
-  styleClass;
-  /**
-   * Style class of the input element.
-   * @group Props
-   */
-  inputClass;
-  /**
-   * When present, it specifies input state as indeterminate.
-   * @group Props
-   */
-  indeterminate = false;
-  /**
-   * Defines the size of the component.
-   * @group Props
-   */
-  size;
-  /**
-   * Form control value.
-   * @group Props
-   */
-  formControl;
-  /**
-   * Icon class of the checkbox icon.
-   * @group Props
-   */
-  checkboxIcon;
-  /**
-   * When present, it specifies that the component cannot be edited.
-   * @group Props
-   */
-  readonly;
-  /**
-   * When present, it specifies that checkbox must be checked before submitting the form.
-   * @group Props
-   */
-  required;
-  /**
-   * When present, it specifies that the component should automatically get focus on load.
-   * @group Props
-   */
-  autofocus;
-  /**
-   * Value in checked state.
-   * @group Props
-   */
-  trueValue = true;
-  /**
-   * Value in unchecked state.
-   * @group Props
-   */
-  falseValue = false;
-  /**
-   * Specifies the input variant of the component.
-   * @group Props
-   */
-  variant;
-  /**
-   * Callback to invoke on value change.
-   * @param {CheckboxChangeEvent} event - Custom value change event.
-   * @group Emits
-   */
-  onChange = new EventEmitter();
-  /**
-   * Callback to invoke when the receives focus.
-   * @param {Event} event - Browser event.
-   * @group Emits
-   */
-  onFocus = new EventEmitter();
-  /**
-   * Callback to invoke when the loses focus.
-   * @param {Event} event - Browser event.
-   * @group Emits
-   */
-  onBlur = new EventEmitter();
-  inputViewChild;
-  get checked() {
-    return this._indeterminate() ? false : this.binary ? this.model === this.trueValue : contains(this.value, this.model);
-  }
-  get containerClass() {
-    return {
-      "p-checkbox p-component": true,
-      "p-checkbox-checked p-highlight": this.checked,
-      "p-disabled": this.disabled,
-      "p-variant-filled": this.variant === "filled" || this.config.inputStyle() === "filled" || this.config.inputVariant() === "filled",
-      "p-checkbox-sm p-inputfield-sm": this.size === "small",
-      "p-checkbox-lg p-inputfield-lg": this.size === "large"
-    };
-  }
-  _indeterminate = signal(void 0);
-  /**
-   * The template of the checkbox icon.
-   * @group Templates
-   */
-  checkboxIconTemplate;
-  templates;
-  _checkboxIconTemplate;
-  model;
-  onModelChange = () => {
-  };
-  onModelTouched = () => {
-  };
-  focused = false;
-  _componentStyle = inject(CheckboxStyle);
-  ngAfterContentInit() {
-    this.templates.forEach((item) => {
-      switch (item.getType()) {
-        case "icon":
-          this._checkboxIconTemplate = item.template;
-          break;
-        case "checkboxicon":
-          this._checkboxIconTemplate = item.template;
-          break;
-      }
-    });
-  }
-  ngOnChanges(changes) {
-    super.ngOnChanges(changes);
-    if (changes.indeterminate) {
-      this._indeterminate.set(changes.indeterminate.currentValue);
-    }
-  }
-  updateModel(event) {
-    let newModelValue;
-    const selfControl = this.injector.get(NgControl, null, {
-      optional: true,
-      self: true
-    });
-    const currentModelValue = selfControl && !this.formControl ? selfControl.value : this.model;
-    if (!this.binary) {
-      if (this.checked || this._indeterminate()) newModelValue = currentModelValue.filter((val) => !equals(val, this.value));
-      else newModelValue = currentModelValue ? [...currentModelValue, this.value] : [this.value];
-      this.onModelChange(newModelValue);
-      this.model = newModelValue;
-      if (this.formControl) {
-        this.formControl.setValue(newModelValue);
-      }
-    } else {
-      newModelValue = this._indeterminate() ? this.trueValue : this.checked ? this.falseValue : this.trueValue;
-      this.model = newModelValue;
-      this.onModelChange(newModelValue);
-    }
-    if (this._indeterminate()) {
-      this._indeterminate.set(false);
-    }
-    this.onChange.emit({
-      checked: newModelValue,
-      originalEvent: event
-    });
-  }
-  handleChange(event) {
-    if (!this.readonly) {
-      this.updateModel(event);
-    }
-  }
-  onInputFocus(event) {
-    this.focused = true;
-    this.onFocus.emit(event);
-  }
-  onInputBlur(event) {
-    this.focused = false;
-    this.onBlur.emit(event);
-    this.onModelTouched();
-  }
-  focus() {
-    this.inputViewChild.nativeElement.focus();
-  }
-  writeValue(model) {
-    this.model = model;
-    this.cd.markForCheck();
-  }
-  registerOnChange(fn) {
-    this.onModelChange = fn;
-  }
-  registerOnTouched(fn) {
-    this.onModelTouched = fn;
-  }
-  setDisabledState(val) {
-    setTimeout(() => {
-      this.disabled = val;
-      this.cd.markForCheck();
-    });
-  }
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275Checkbox_BaseFactory;
-    return function Checkbox_Factory(__ngFactoryType__) {
-      return (\u0275Checkbox_BaseFactory || (\u0275Checkbox_BaseFactory = \u0275\u0275getInheritedFactory(_Checkbox)))(__ngFactoryType__ || _Checkbox);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _Checkbox,
-    selectors: [["p-checkbox"], ["p-checkBox"], ["p-check-box"]],
-    contentQueries: function Checkbox_ContentQueries(rf, ctx, dirIndex) {
-      if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c09, 4);
-        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.checkboxIconTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
-      }
-    },
-    viewQuery: function Checkbox_Query(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275viewQuery(_c19, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.inputViewChild = _t.first);
-      }
-    },
-    inputs: {
-      value: "value",
-      name: "name",
-      disabled: [2, "disabled", "disabled", booleanAttribute],
-      binary: [2, "binary", "binary", booleanAttribute],
-      ariaLabelledBy: "ariaLabelledBy",
-      ariaLabel: "ariaLabel",
-      tabindex: [2, "tabindex", "tabindex", numberAttribute],
-      inputId: "inputId",
-      style: "style",
-      inputStyle: "inputStyle",
-      styleClass: "styleClass",
-      inputClass: "inputClass",
-      indeterminate: [2, "indeterminate", "indeterminate", booleanAttribute],
-      size: "size",
-      formControl: "formControl",
-      checkboxIcon: "checkboxIcon",
-      readonly: [2, "readonly", "readonly", booleanAttribute],
-      required: [2, "required", "required", booleanAttribute],
-      autofocus: [2, "autofocus", "autofocus", booleanAttribute],
-      trueValue: "trueValue",
-      falseValue: "falseValue",
-      variant: "variant"
-    },
-    outputs: {
-      onChange: "onChange",
-      onFocus: "onFocus",
-      onBlur: "onBlur"
-    },
-    features: [\u0275\u0275ProvidersFeature([CHECKBOX_VALUE_ACCESSOR2, CheckboxStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
-    decls: 6,
-    vars: 29,
-    consts: [["input", ""], [3, "ngClass"], ["type", "checkbox", 3, "focus", "blur", "change", "value", "checked", "disabled", "readonly", "ngClass"], [1, "p-checkbox-box"], [4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "styleClass", 4, "ngIf"], ["class", "p-checkbox-icon", 3, "ngClass", 4, "ngIf"], [1, "p-checkbox-icon", 3, "ngClass"], [3, "styleClass"]],
-    template: function Checkbox_Template(rf, ctx) {
-      if (rf & 1) {
-        const _r1 = \u0275\u0275getCurrentView();
-        \u0275\u0275elementStart(0, "div", 1)(1, "input", 2, 0);
-        \u0275\u0275listener("focus", function Checkbox_Template_input_focus_1_listener($event) {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onInputFocus($event));
-        })("blur", function Checkbox_Template_input_blur_1_listener($event) {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.onInputBlur($event));
-        })("change", function Checkbox_Template_input_change_1_listener($event) {
-          \u0275\u0275restoreView(_r1);
-          return \u0275\u0275resetView(ctx.handleChange($event));
-        });
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(3, "div", 3);
-        \u0275\u0275template(4, Checkbox_ng_container_4_Template, 3, 2, "ng-container", 4)(5, Checkbox_5_Template, 1, 0, null, 5);
-        \u0275\u0275elementEnd()();
-      }
-      if (rf & 2) {
-        \u0275\u0275styleMap(ctx.style);
-        \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngClass", ctx.containerClass);
-        \u0275\u0275attribute("data-p-highlight", ctx.checked)("data-p-checked", ctx.checked)("data-p-disabled", ctx.disabled);
-        \u0275\u0275advance();
-        \u0275\u0275styleMap(ctx.inputStyle);
-        \u0275\u0275classMap(ctx.inputClass);
-        \u0275\u0275property("value", ctx.value)("checked", ctx.checked)("disabled", ctx.disabled)("readonly", ctx.readonly)("ngClass", \u0275\u0275pureFunction0(26, _c25));
-        \u0275\u0275attribute("id", ctx.inputId)("name", ctx.name)("tabindex", ctx.tabindex)("required", ctx.required ? true : null)("aria-labelledby", ctx.ariaLabelledBy)("aria-label", ctx.ariaLabel);
-        \u0275\u0275advance(3);
-        \u0275\u0275property("ngIf", !ctx.checkboxIconTemplate && !ctx._checkboxIconTemplate);
-        \u0275\u0275advance();
-        \u0275\u0275property("ngTemplateOutlet", ctx.checkboxIconTemplate || ctx._checkboxIconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(27, _c34, ctx.checked));
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, CheckIcon, MinusIcon, SharedModule],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Checkbox, [{
-    type: Component,
-    args: [{
-      selector: "p-checkbox, p-checkBox, p-check-box",
-      standalone: true,
-      imports: [CommonModule, CheckIcon, MinusIcon, SharedModule],
-      template: `
-        <div [style]="style" [class]="styleClass" [ngClass]="containerClass" [attr.data-p-highlight]="checked" [attr.data-p-checked]="checked" [attr.data-p-disabled]="disabled">
-            <input
-                #input
-                [attr.id]="inputId"
-                type="checkbox"
-                [value]="value"
-                [attr.name]="name"
-                [checked]="checked"
-                [attr.tabindex]="tabindex"
-                [disabled]="disabled"
-                [readonly]="readonly"
-                [attr.required]="required ? true : null"
-                [attr.aria-labelledby]="ariaLabelledBy"
-                [attr.aria-label]="ariaLabel"
-                [style]="inputStyle"
-                [class]="inputClass"
-                [ngClass]="{ 'p-checkbox-input': true }"
-                (focus)="onInputFocus($event)"
-                (blur)="onInputBlur($event)"
-                (change)="handleChange($event)"
-            />
-            <div class="p-checkbox-box">
-                <ng-container *ngIf="!checkboxIconTemplate && !_checkboxIconTemplate">
-                    <ng-container *ngIf="checked">
-                        <span *ngIf="checkboxIcon" class="p-checkbox-icon" [ngClass]="checkboxIcon" [attr.data-pc-section]="'icon'"></span>
-                        <CheckIcon *ngIf="!checkboxIcon" [styleClass]="'p-checkbox-icon'" [attr.data-pc-section]="'icon'" />
-                    </ng-container>
-                    <MinusIcon *ngIf="_indeterminate()" [styleClass]="'p-checkbox-icon'" [attr.data-pc-section]="'icon'" />
-                </ng-container>
-                <ng-template *ngTemplateOutlet="checkboxIconTemplate || _checkboxIconTemplate; context: { checked: checked, class: 'p-checkbox-icon' }"></ng-template>
-            </div>
-        </div>
-    `,
-      providers: [CHECKBOX_VALUE_ACCESSOR2, CheckboxStyle],
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      encapsulation: ViewEncapsulation.None
-    }]
-  }], null, {
-    value: [{
-      type: Input
-    }],
-    name: [{
-      type: Input
-    }],
-    disabled: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    binary: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    ariaLabelledBy: [{
-      type: Input
-    }],
-    ariaLabel: [{
-      type: Input
-    }],
-    tabindex: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    inputId: [{
-      type: Input
-    }],
-    style: [{
-      type: Input
-    }],
-    inputStyle: [{
-      type: Input
-    }],
-    styleClass: [{
-      type: Input
-    }],
-    inputClass: [{
-      type: Input
-    }],
-    indeterminate: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    size: [{
-      type: Input
-    }],
-    formControl: [{
-      type: Input
-    }],
-    checkboxIcon: [{
-      type: Input
-    }],
-    readonly: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    required: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    autofocus: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    trueValue: [{
-      type: Input
-    }],
-    falseValue: [{
-      type: Input
-    }],
-    variant: [{
-      type: Input
-    }],
-    onChange: [{
-      type: Output
-    }],
-    onFocus: [{
-      type: Output
-    }],
-    onBlur: [{
-      type: Output
-    }],
-    inputViewChild: [{
-      type: ViewChild,
-      args: ["input"]
-    }],
-    checkboxIconTemplate: [{
-      type: ContentChild,
-      args: ["checkboxicon", {
-        descendants: false
-      }]
-    }],
-    templates: [{
-      type: ContentChildren,
-      args: [PrimeTemplate]
-    }]
-  });
-})();
-var CheckboxModule = class _CheckboxModule {
-  static \u0275fac = function CheckboxModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _CheckboxModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _CheckboxModule
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [Checkbox, SharedModule, SharedModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CheckboxModule, [{
-    type: NgModule,
-    args: [{
-      imports: [Checkbox, SharedModule],
-      exports: [Checkbox, SharedModule]
-    }]
-  }], null, null);
-})();
-
-// node_modules/primeng/fesm2022/primeng-dialog.mjs
-var _c010 = ["header"];
-var _c110 = ["content"];
-var _c26 = ["footer"];
-var _c35 = ["closeicon"];
-var _c44 = ["maximizeicon"];
-var _c53 = ["minimizeicon"];
-var _c63 = ["headless"];
-var _c72 = ["titlebar"];
-var _c82 = ["*", [["p-footer"]]];
-var _c92 = ["*", "p-footer"];
-var _c102 = (a0, a1, a2) => ({
-  position: "fixed",
-  height: "100%",
-  width: "100%",
-  left: 0,
-  top: 0,
-  display: "flex",
-  "justify-content": a0,
-  "align-items": a1,
-  "pointer-events": a2
-});
-var _c112 = (a0) => ({
-  "p-dialog p-component": true,
-  "p-dialog-maximized": a0
-});
-var _c123 = () => ({
-  display: "flex",
-  "flex-direction": "column",
-  "pointer-events": "auto"
-});
-var _c133 = (a0, a1) => ({
-  transform: a0,
-  transition: a1
-});
-var _c143 = (a0) => ({
-  value: "visible",
-  params: a0
-});
-function Dialog_div_0_div_1_ng_container_2_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function Dialog_div_0_div_1_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_container_2_ng_container_1_Template, 1, 0, "ng-container", 11);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._headlessTemplate || ctx_r1.headlessTemplate || ctx_r1.headlessT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_0_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 15);
-    \u0275\u0275listener("mousedown", function Dialog_div_0_div_1_ng_template_3_div_0_Template_div_mousedown_0_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.initResize($event));
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.cx("resizeHandle"));
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 21);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(5);
-    \u0275\u0275property("id", ctx_r1.ariaLabelledBy)("ngClass", ctx_r1.cx("title"));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.header);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 18);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(6);
-    \u0275\u0275property("ngClass", ctx_r1.maximized ? ctx_r1.minimizeIcon : ctx_r1.maximizeIcon);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMaximizeIcon_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "WindowMaximizeIcon");
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMinimizeIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "WindowMinimizeIcon");
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMaximizeIcon_1_Template, 1, 0, "WindowMaximizeIcon", 23)(2, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMinimizeIcon_2_Template, 1, 0, "WindowMinimizeIcon", 23);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(6);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.maximized && !ctx_r1._maximizeiconTemplate && !ctx_r1.maximizeIconTemplate && !ctx_r1.maximizeIconT);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.maximized && !ctx_r1._minimizeiconTemplate && !ctx_r1.minimizeIconTemplate && !ctx_r1.minimizeIconT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_ng_template_0_Template(rf, ctx) {
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_ng_template_0_Template, 0, 0, "ng-template");
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_Template, 1, 0, null, 11);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(6);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._maximizeiconTemplate || ctx_r1.maximizeIconTemplate || ctx_r1.maximizeIconT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_ng_template_0_Template(rf, ctx) {
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_ng_template_0_Template, 0, 0, "ng-template");
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_Template, 1, 0, null, 11);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(6);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._minimizeiconTemplate || ctx_r1.minimizeIconTemplate || ctx_r1.minimizeIconT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p-button", 22);
-    \u0275\u0275listener("onClick", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template_p_button_onClick_0_listener() {
-      \u0275\u0275restoreView(_r5);
-      const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.maximize());
-    })("keydown.enter", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template_p_button_keydown_enter_0_listener() {
-      \u0275\u0275restoreView(_r5);
-      const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.maximize());
-    });
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_span_1_Template, 1, 1, "span", 14)(2, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_Template, 3, 2, "ng-container", 23)(3, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_Template, 2, 1, "ng-container", 23)(4, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_Template, 2, 1, "ng-container", 23);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(5);
-    \u0275\u0275property("styleClass", ctx_r1.cx("pcMaximizeButton"))("tabindex", ctx_r1.maximizable ? "0" : "-1")("ariaLabel", ctx_r1.maximizeLabel)("buttonProps", ctx_r1.maximizeButtonProps);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.maximizeIcon && !ctx_r1._maximizeiconTemplate && !ctx_r1._minimizeiconTemplate);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.maximizeIcon && !(ctx_r1.maximizeButtonProps == null ? null : ctx_r1.maximizeButtonProps.icon));
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.maximized);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.maximized);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "span", 18);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(8);
-    \u0275\u0275property("ngClass", ctx_r1.closeIcon);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_TimesIcon_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "TimesIcon");
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_span_1_Template, 1, 1, "span", 14)(2, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_TimesIcon_2_Template, 1, 0, "TimesIcon", 23);
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(7);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.closeIcon);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !ctx_r1.closeIcon);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_ng_template_0_Template(rf, ctx) {
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_ng_template_0_Template, 0, 0, "ng-template");
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_Template, 1, 0, null, 11);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(7);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._closeiconTemplate || ctx_r1.closeIconTemplate || ctx_r1.closeIconT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_Template, 3, 2, "ng-container", 23)(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_Template, 2, 1, "span", 23);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(6);
-    \u0275\u0275property("ngIf", !ctx_r1._closeiconTemplate && !ctx_r1.closeIconTemplate && !ctx_r1.closeIconT && !(ctx_r1.closeButtonProps == null ? null : ctx_r1.closeButtonProps.icon));
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1._closeiconTemplate || ctx_r1.closeIconTemplate || ctx_r1.closeIconT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p-button", 24);
-    \u0275\u0275listener("onClick", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template_p_button_onClick_0_listener($event) {
-      \u0275\u0275restoreView(_r6);
-      const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.close($event));
-    })("keydown.enter", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template_p_button_keydown_enter_0_listener($event) {
-      \u0275\u0275restoreView(_r6);
-      const ctx_r1 = \u0275\u0275nextContext(5);
-      return \u0275\u0275resetView(ctx_r1.close($event));
-    });
-    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_Template, 2, 2, "ng-template", null, 4, \u0275\u0275templateRefExtractor);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(5);
-    \u0275\u0275property("styleClass", ctx_r1.cx("pcCloseButton"))("ariaLabel", ctx_r1.closeAriaLabel)("tabindex", ctx_r1.closeTabindex)("buttonProps", ctx_r1.closeButtonProps);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 16, 3);
-    \u0275\u0275listener("mousedown", function Dialog_div_0_div_1_ng_template_3_div_1_Template_div_mousedown_0_listener($event) {
-      \u0275\u0275restoreView(_r4);
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.initDrag($event));
-    });
-    \u0275\u0275template(2, Dialog_div_0_div_1_ng_template_3_div_1_span_2_Template, 2, 3, "span", 17)(3, Dialog_div_0_div_1_ng_template_3_div_1_ng_container_3_Template, 1, 0, "ng-container", 11);
-    \u0275\u0275elementStart(4, "div", 18);
-    \u0275\u0275template(5, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template, 5, 8, "p-button", 19)(6, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template, 3, 4, "p-button", 20);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.cx("header"));
-    \u0275\u0275advance(2);
-    \u0275\u0275property("ngIf", !ctx_r1._headerTemplate && !ctx_r1.headerTemplate && !ctx_r1.headerT);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._headerTemplate || ctx_r1.headerTemplate || ctx_r1.headerT);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", ctx_r1.cx("headerActions"));
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.maximizable);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.closable);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_ng_container_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_6_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_div_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 18, 5);
-    \u0275\u0275projection(2, 1);
-    \u0275\u0275template(3, Dialog_div_0_div_1_ng_template_3_div_6_ng_container_3_Template, 1, 0, "ng-container", 11);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.cx("footer"));
-    \u0275\u0275advance(3);
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._footerTemplate || ctx_r1.footerTemplate || ctx_r1.footerT);
-  }
-}
-function Dialog_div_0_div_1_ng_template_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_0_Template, 1, 1, "div", 12)(1, Dialog_div_0_div_1_ng_template_3_div_1_Template, 7, 6, "div", 13);
-    \u0275\u0275elementStart(2, "div", 7, 2);
-    \u0275\u0275projection(4);
-    \u0275\u0275template(5, Dialog_div_0_div_1_ng_template_3_ng_container_5_Template, 1, 0, "ng-container", 11);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(6, Dialog_div_0_div_1_ng_template_3_div_6_Template, 4, 2, "div", 14);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngIf", ctx_r1.resizable);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.showHeader);
-    \u0275\u0275advance();
-    \u0275\u0275classMap(ctx_r1.contentStyleClass);
-    \u0275\u0275property("ngClass", ctx_r1.cx("content"))("ngStyle", ctx_r1.contentStyle);
-    \u0275\u0275attribute("data-pc-section", "content");
-    \u0275\u0275advance(3);
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1._contentTemplate || ctx_r1.contentTemplate || ctx_r1.contentT);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1._footerTemplate || ctx_r1.footerTemplate || ctx_r1.footerT);
-  }
-}
-function Dialog_div_0_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 9, 0);
-    \u0275\u0275listener("@animation.start", function Dialog_div_0_div_1_Template_div_animation_animation_start_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
-    })("@animation.done", function Dialog_div_0_div_1_Template_div_animation_animation_done_0_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
-    });
-    \u0275\u0275template(2, Dialog_div_0_div_1_ng_container_2_Template, 2, 1, "ng-container", 10)(3, Dialog_div_0_div_1_ng_template_3_Template, 7, 9, "ng-template", null, 1, \u0275\u0275templateRefExtractor);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const notHeadless_r7 = \u0275\u0275reference(4);
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275styleMap(ctx_r1.style);
-    \u0275\u0275classMap(ctx_r1.styleClass);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(13, _c112, ctx_r1.maximizable && ctx_r1.maximized))("ngStyle", \u0275\u0275pureFunction0(15, _c123))("pFocusTrapDisabled", ctx_r1.focusTrap === false)("@animation", \u0275\u0275pureFunction1(19, _c143, \u0275\u0275pureFunction2(16, _c133, ctx_r1.transformOptions, ctx_r1.transitionOptions)));
-    \u0275\u0275attribute("role", ctx_r1.role)("aria-labelledby", ctx_r1.ariaLabelledBy)("aria-modal", true);
-    \u0275\u0275advance(2);
-    \u0275\u0275property("ngIf", ctx_r1._headlessTemplate || ctx_r1.headlessTemplate || ctx_r1.headlessT)("ngIfElse", notHeadless_r7);
-  }
-}
-function Dialog_div_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 7);
-    \u0275\u0275template(1, Dialog_div_0_div_1_Template, 5, 21, "div", 8);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275styleMap(ctx_r1.maskStyle);
-    \u0275\u0275classMap(ctx_r1.maskStyleClass);
-    \u0275\u0275property("ngClass", ctx_r1.maskClass)("ngStyle", \u0275\u0275pureFunction3(7, _c102, ctx_r1.position === "left" || ctx_r1.position === "topleft" || ctx_r1.position === "bottomleft" ? "flex-start" : ctx_r1.position === "right" || ctx_r1.position === "topright" || ctx_r1.position === "bottomright" ? "flex-end" : "center", ctx_r1.position === "top" || ctx_r1.position === "topleft" || ctx_r1.position === "topright" ? "flex-start" : ctx_r1.position === "bottom" || ctx_r1.position === "bottomleft" || ctx_r1.position === "bottomright" ? "flex-end" : "center", ctx_r1.modal ? "auto" : "none"));
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.visible);
-  }
-}
-var theme11 = ({
-  dt: dt2
-}) => `
-.p-dialog {
-    max-height: 90%;
-    transform: scale(1);
-    border-radius: ${dt2("dialog.border.radius")};
-    box-shadow: ${dt2("dialog.shadow")};
-    background: ${dt2("dialog.background")};
-    border: 1px solid ${dt2("dialog.border.color")};
-    color: ${dt2("dialog.color")};
-    display: flex;
-    flex-direction: column;
-    pointer-events: auto
-}
-
-.p-dialog-content {
-    overflow-y: auto;
-    padding: ${dt2("dialog.content.padding")};
-    flex-grow: 1;
-}
-
-.p-dialog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    padding: ${dt2("dialog.header.padding")};
-}
-
-.p-dialog-title {
-    font-weight: ${dt2("dialog.title.font.weight")};
-    font-size: ${dt2("dialog.title.font.size")};
-}
-
-.p-dialog-footer {
-    flex-shrink: 0;
-    padding: ${dt2("dialog.footer.padding")};
-    display: flex;
-    justify-content: flex-end;
-    gap: ${dt2("dialog.footer.gap")};
-}
-
-.p-dialog-header-actions {
-    display: flex;
-    align-items: center;
-    gap: ${dt2("dialog.header.gap")};
-}
-
-.p-dialog-enter-active {
-    transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.p-dialog-leave-active {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.p-dialog-enter-from,
-.p-dialog-leave-to {
-    opacity: 0;
-    transform: scale(0.7);
-}
-
-.p-dialog-top .p-dialog,
-.p-dialog-bottom .p-dialog,
-.p-dialog-left .p-dialog,
-.p-dialog-right .p-dialog,
-.p-dialog-topleft .p-dialog,
-.p-dialog-topright .p-dialog,
-.p-dialog-bottomleft .p-dialog,
-.p-dialog-bottomright .p-dialog {
-    margin: 0.75rem;
-    transform: translate3d(0px, 0px, 0px);
-}
-
-.p-dialog-top .p-dialog-enter-active,
-.p-dialog-top .p-dialog-leave-active,
-.p-dialog-bottom .p-dialog-enter-active,
-.p-dialog-bottom .p-dialog-leave-active,
-.p-dialog-left .p-dialog-enter-active,
-.p-dialog-left .p-dialog-leave-active,
-.p-dialog-right .p-dialog-enter-active,
-.p-dialog-right .p-dialog-leave-active,
-.p-dialog-topleft .p-dialog-enter-active,
-.p-dialog-topleft .p-dialog-leave-active,
-.p-dialog-topright .p-dialog-enter-active,
-.p-dialog-topright .p-dialog-leave-active,
-.p-dialog-bottomleft .p-dialog-enter-active,
-.p-dialog-bottomleft .p-dialog-leave-active,
-.p-dialog-bottomright .p-dialog-enter-active,
-.p-dialog-bottomright .p-dialog-leave-active {
-    transition: all 0.3s ease-out;
-}
-
-.p-dialog-top .p-dialog-enter-from,
-.p-dialog-top .p-dialog-leave-to {
-    transform: translate3d(0px, -100%, 0px);
-}
-
-.p-dialog-bottom .p-dialog-enter-from,
-.p-dialog-bottom .p-dialog-leave-to {
-    transform: translate3d(0px, 100%, 0px);
-}
-
-.p-dialog-left .p-dialog-enter-from,
-.p-dialog-left .p-dialog-leave-to,
-.p-dialog-topleft .p-dialog-enter-from,
-.p-dialog-topleft .p-dialog-leave-to,
-.p-dialog-bottomleft .p-dialog-enter-from,
-.p-dialog-bottomleft .p-dialog-leave-to {
-    transform: translate3d(-100%, 0px, 0px);
-}
-
-.p-dialog-right .p-dialog-enter-from,
-.p-dialog-right .p-dialog-leave-to,
-.p-dialog-topright .p-dialog-enter-from,
-.p-dialog-topright .p-dialog-leave-to,
-.p-dialog-bottomright .p-dialog-enter-from,
-.p-dialog-bottomright .p-dialog-leave-to {
-    transform: translate3d(100%, 0px, 0px);
-}
-
-.p-dialog-left:dir(rtl) .p-dialog-enter-from,
-.p-dialog-left:dir(rtl) .p-dialog-leave-to,
-.p-dialog-topleft:dir(rtl) .p-dialog-enter-from,
-.p-dialog-topleft:dir(rtl) .p-dialog-leave-to,
-.p-dialog-bottomleft:dir(rtl) .p-dialog-enter-from,
-.p-dialog-bottomleft:dir(rtl) .p-dialog-leave-to {
-    transform: translate3d(100%, 0px, 0px);
-}
-
-.p-dialog-right:dir(rtl) .p-dialog-enter-from,
-.p-dialog-right:dir(rtl) .p-dialog-leave-to,
-.p-dialog-topright:dir(rtl) .p-dialog-enter-from,
-.p-dialog-topright:dir(rtl) .p-dialog-leave-to,
-.p-dialog-bottomright:dir(rtl) .p-dialog-enter-from,
-.p-dialog-bottomright:dir(rtl) .p-dialog-leave-to {
-    transform: translate3d(-100%, 0px, 0px);
-}
-
-.p-dialog-maximized {
-    width: 100vw !important;
-    height: 100vh !important;
-    top: 0px !important;
-    left: 0px !important;
-    max-height: 100%;
-    height: 100%;
-    border-radius: 0;
-}
-
-.p-dialog-maximized .p-dialog-content {
-    flex-grow: 1;
-}
-
-.p-overlay-mask:dir(rtl) {
-    flex-direction: row-reverse;
-}
-
-/* For PrimeNG */
-
-.p-dialog .p-resizable-handle {
-    position: absolute;
-    font-size: 0.1px;
-    display: block;
-    cursor: se-resize;
-    width: 12px;
-    height: 12px;
-    right: 1px;
-    bottom: 1px;
-}
-
-.p-confirm-dialog .p-dialog-content {
-    display: flex;
-    align-items: center;
-}
-`;
-var inlineStyles3 = {
-  mask: ({
-    instance
-  }) => ({
-    position: "fixed",
-    height: "100%",
-    width: "100%",
-    left: 0,
-    top: 0,
-    display: "flex",
-    justifyContent: instance.position === "left" || instance.position === "topleft" || instance.position === "bottomleft" ? "flex-start" : instance.position === "right" || instance.position === "topright" || instance.position === "bottomright" ? "flex-end" : "center",
-    alignItems: instance.position === "top" || instance.position === "topleft" || instance.position === "topright" ? "flex-start" : instance.position === "bottom" || instance.position === "bottomleft" || instance.position === "bottomright" ? "flex-end" : "center",
-    pointerEvents: instance.modal ? "auto" : "none"
-  }),
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    pointerEvents: "auto"
-  }
-};
-var classes10 = {
-  mask: ({
-    instance
-  }) => {
-    const positions = ["left", "right", "top", "topleft", "topright", "bottom", "bottomleft", "bottomright"];
-    const pos = positions.find((item) => item === instance.position);
-    return {
-      "p-dialog-mask": true,
-      "p-overlay-mask p-overlay-mask-enter": instance.modal,
-      [`p-dialog-${pos}`]: pos
-    };
-  },
-  root: ({
-    instance
-  }) => ({
-    "p-dialog p-component": true,
-    "p-dialog-maximized": instance.maximizable && instance.maximized
-  }),
-  header: "p-dialog-header",
-  title: "p-dialog-title",
-  resizeHandle: "p-resizable-handle",
-  headerActions: "p-dialog-header-actions",
-  pcMaximizeButton: "p-dialog-maximize-button",
-  pcCloseButton: "p-dialog-close-button",
-  content: "p-dialog-content",
-  footer: "p-dialog-footer"
-};
-var DialogStyle = class _DialogStyle extends BaseStyle {
-  name = "dialog";
-  theme = theme11;
-  classes = classes10;
-  inlineStyles = inlineStyles3;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275DialogStyle_BaseFactory;
-    return function DialogStyle_Factory(__ngFactoryType__) {
-      return (\u0275DialogStyle_BaseFactory || (\u0275DialogStyle_BaseFactory = \u0275\u0275getInheritedFactory(_DialogStyle)))(__ngFactoryType__ || _DialogStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _DialogStyle,
-    factory: _DialogStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DialogStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var DialogClasses;
-(function(DialogClasses2) {
-  DialogClasses2["mask"] = "p-dialog-mask";
-  DialogClasses2["root"] = "p-dialog";
-  DialogClasses2["header"] = "p-dialog-header";
-  DialogClasses2["title"] = "p-dialog-title";
-  DialogClasses2["headerActions"] = "p-dialog-header-actions";
-  DialogClasses2["pcMaximizeButton"] = "p-dialog-maximize-button";
-  DialogClasses2["pcCloseButton"] = "p-dialog-close-button";
-  DialogClasses2["content"] = "p-dialog-content";
-  DialogClasses2["footer"] = "p-dialog-footer";
-})(DialogClasses || (DialogClasses = {}));
-var showAnimation = animation([style({
-  transform: "{{transform}}",
-  opacity: 0
-}), animate("{{transition}}")]);
-var hideAnimation = animation([animate("{{transition}}", style({
-  transform: "{{transform}}",
-  opacity: 0
-}))]);
-var Dialog = class _Dialog extends BaseComponent {
-  /**
-   * Title text of the dialog.
-   * @group Props
-   */
-  header;
-  /**
-   * Enables dragging to change the position using header.
-   * @group Props
-   */
-  draggable = true;
-  /**
-   * Enables resizing of the content.
-   * @group Props
-   */
-  resizable = true;
-  /**
-   * Defines the left offset of dialog.
-   * @group Props
-   * @deprecated positionLeft property is deprecated.
-   */
-  get positionLeft() {
-    return 0;
-  }
-  set positionLeft(_positionLeft) {
-    console.log("positionLeft property is deprecated.");
-  }
-  /**
-   * Defines the top offset of dialog.
-   * @group Props
-   * @deprecated positionTop property is deprecated.
-   */
-  get positionTop() {
-    return 0;
-  }
-  set positionTop(_positionTop) {
-    console.log("positionTop property is deprecated.");
-  }
-  /**
-   * Style of the content section.
-   * @group Props
-   */
-  contentStyle;
-  /**
-   * Style class of the content.
-   * @group Props
-   */
-  contentStyleClass;
-  /**
-   * Defines if background should be blocked when dialog is displayed.
-   * @group Props
-   */
-  modal = false;
-  /**
-   * Specifies if pressing escape key should hide the dialog.
-   * @group Props
-   */
-  closeOnEscape = true;
-  /**
-   * Specifies if clicking the modal background should hide the dialog.
-   * @group Props
-   */
-  dismissableMask = false;
-  /**
-   * When enabled dialog is displayed in RTL direction.
-   * @group Props
-   */
-  rtl = false;
-  /**
-   * Adds a close icon to the header to hide the dialog.
-   * @group Props
-   */
-  closable = true;
-  /**
-   * Defines if the component is responsive.
-   * @group Props
-   * @deprecated Responsive property is deprecated.
-   */
-  get responsive() {
-    return false;
-  }
-  set responsive(_responsive) {
-    console.log("Responsive property is deprecated.");
-  }
-  /**
-   * Target element to attach the dialog, valid values are "body" or a local ng-template variable of another element (note: use binding with brackets for template variables, e.g. [appendTo]="mydiv" for a div element having #mydiv as variable name).
-   * @group Props
-   */
-  appendTo;
-  /**
-   * Object literal to define widths per screen size.
-   * @group Props
-   */
-  breakpoints;
-  /**
-   * Style class of the component.
-   * @group Props
-   */
-  styleClass;
-  /**
-   * Style class of the mask.
-   * @group Props
-   */
-  maskStyleClass;
-  /**
-   * Style of the mask.
-   * @group Props
-   */
-  maskStyle;
-  /**
-   * Whether to show the header or not.
-   * @group Props
-   */
-  showHeader = true;
-  /**
-   * Defines the breakpoint of the component responsive.
-   * @group Props
-   * @deprecated Breakpoint property is not utilized and deprecated. Use breakpoints or CSS media queries instead.
-   */
-  get breakpoint() {
-    return 649;
-  }
-  set breakpoint(_breakpoint) {
-    console.log("Breakpoint property is not utilized and deprecated, use breakpoints or CSS media queries instead.");
-  }
-  /**
-   * Whether background scroll should be blocked when dialog is visible.
-   * @group Props
-   */
-  blockScroll = false;
-  /**
-   * Whether to automatically manage layering.
-   * @group Props
-   */
-  autoZIndex = true;
-  /**
-   * Base zIndex value to use in layering.
-   * @group Props
-   */
-  baseZIndex = 0;
-  /**
-   * Minimum value for the left coordinate of dialog in dragging.
-   * @group Props
-   */
-  minX = 0;
-  /**
-   * Minimum value for the top coordinate of dialog in dragging.
-   * @group Props
-   */
-  minY = 0;
-  /**
-   * When enabled, first focusable element receives focus on show.
-   * @group Props
-   */
-  focusOnShow = true;
-  /**
-   * Whether the dialog can be displayed full screen.
-   * @group Props
-   */
-  maximizable = false;
-  /**
-   * Keeps dialog in the viewport.
-   * @group Props
-   */
-  keepInViewport = true;
-  /**
-   * When enabled, can only focus on elements inside the dialog.
-   * @group Props
-   */
-  focusTrap = true;
-  /**
-   * Transition options of the animation.
-   * @group Props
-   */
-  transitionOptions = "150ms cubic-bezier(0, 0, 0.2, 1)";
-  /**
-   * Name of the close icon.
-   * @group Props
-   */
-  closeIcon;
-  /**
-   * Defines a string that labels the close button for accessibility.
-   * @group Props
-   */
-  closeAriaLabel;
-  /**
-   * Index of the close button in tabbing order.
-   * @group Props
-   */
-  closeTabindex = "0";
-  /**
-   * Name of the minimize icon.
-   * @group Props
-   */
-  minimizeIcon;
-  /**
-   * Name of the maximize icon.
-   * @group Props
-   */
-  maximizeIcon;
-  /**
-   * Used to pass all properties of the ButtonProps to the Button component.
-   * @group Props
-   */
-  closeButtonProps = {
-    severity: "secondary",
-    text: true,
-    rounded: true
-  };
-  /**
-   * Used to pass all properties of the ButtonProps to the Button component.
-   * @group Props
-   */
-  maximizeButtonProps = {
-    severity: "secondary",
-    text: true,
-    rounded: true
-  };
-  /**
-   * Specifies the visibility of the dialog.
-   * @group Props
-   */
-  get visible() {
-    return this._visible;
-  }
-  set visible(value) {
-    this._visible = value;
-    if (this._visible && !this.maskVisible) {
-      this.maskVisible = true;
-    }
-  }
-  /**
-   * Inline style of the component.
-   * @group Props
-   */
-  get style() {
-    return this._style;
-  }
-  set style(value) {
-    if (value) {
-      this._style = __spreadValues({}, value);
-      this.originalStyle = value;
-    }
-  }
-  /**
-   * Position of the dialog.
-   * @group Props
-   */
-  get position() {
-    return this._position;
-  }
-  set position(value) {
-    this._position = value;
-    switch (value) {
-      case "topleft":
-      case "bottomleft":
-      case "left":
-        this.transformOptions = "translate3d(-100%, 0px, 0px)";
-        break;
-      case "topright":
-      case "bottomright":
-      case "right":
-        this.transformOptions = "translate3d(100%, 0px, 0px)";
-        break;
-      case "bottom":
-        this.transformOptions = "translate3d(0px, 100%, 0px)";
-        break;
-      case "top":
-        this.transformOptions = "translate3d(0px, -100%, 0px)";
-        break;
-      default:
-        this.transformOptions = "scale(0.7)";
-        break;
-    }
-  }
-  /**
-   * Role attribute of html element.
-   * @group Emits
-   */
-  role = "dialog";
-  /**
-   * Callback to invoke when dialog is shown.
-   * @group Emits
-   */
-  onShow = new EventEmitter();
-  /**
-   * Callback to invoke when dialog is hidden.
-   * @group Emits
-   */
-  onHide = new EventEmitter();
-  /**
-   * This EventEmitter is used to notify changes in the visibility state of a component.
-   * @param {boolean} value - New value.
-   * @group Emits
-   */
-  visibleChange = new EventEmitter();
-  /**
-   * Callback to invoke when dialog resizing is initiated.
-   * @param {MouseEvent} event - Mouse event.
-   * @group Emits
-   */
-  onResizeInit = new EventEmitter();
-  /**
-   * Callback to invoke when dialog resizing is completed.
-   * @param {MouseEvent} event - Mouse event.
-   * @group Emits
-   */
-  onResizeEnd = new EventEmitter();
-  /**
-   * Callback to invoke when dialog dragging is completed.
-   * @param {DragEvent} event - Drag event.
-   * @group Emits
-   */
-  onDragEnd = new EventEmitter();
-  /**
-   * Callback to invoke when dialog maximized or unmaximized.
-   * @group Emits
-   */
-  onMaximize = new EventEmitter();
-  headerViewChild;
-  contentViewChild;
-  footerViewChild;
-  /**
-   * Header template.
-   * @group Props
-   */
-  headerTemplate;
-  /**
-   * Content template.
-   * @group Props
-   */
-  contentTemplate;
-  /**
-   * Footer template.
-   * @group Props
-   */
-  footerTemplate;
-  /**
-   * Close icon template.
-   * @group Props
-   */
-  closeIconTemplate;
-  /**
-   * Maximize icon template.
-   * @group Props
-   */
-  maximizeIconTemplate;
-  /**
-   * Minimize icon template.
-   * @group Props
-   */
-  minimizeIconTemplate;
-  /**
-   * Headless template.
-   * @group Props
-   */
-  headlessTemplate;
-  _headerTemplate;
-  _contentTemplate;
-  _footerTemplate;
-  _closeiconTemplate;
-  _maximizeiconTemplate;
-  _minimizeiconTemplate;
-  _headlessTemplate;
-  _visible = false;
-  maskVisible;
-  container;
-  wrapper;
-  dragging;
-  ariaLabelledBy = this.getAriaLabelledBy();
-  documentDragListener;
-  documentDragEndListener;
-  resizing;
-  documentResizeListener;
-  documentResizeEndListener;
-  documentEscapeListener;
-  maskClickListener;
-  lastPageX;
-  lastPageY;
-  preventVisibleChangePropagation;
-  maximized;
-  preMaximizeContentHeight;
-  preMaximizeContainerWidth;
-  preMaximizeContainerHeight;
-  preMaximizePageX;
-  preMaximizePageY;
-  id = uuid("pn_id_");
-  _style = {};
-  _position = "center";
-  originalStyle;
-  transformOptions = "scale(0.7)";
-  styleElement;
-  window;
-  _componentStyle = inject(DialogStyle);
-  headerT;
-  contentT;
-  footerT;
-  closeIconT;
-  maximizeIconT;
-  minimizeIconT;
-  headlessT;
-  get maximizeLabel() {
-    return this.config.getTranslation(TranslationKeys.ARIA)["maximizeLabel"];
-  }
-  zone = inject(NgZone);
-  get maskClass() {
-    const positions = ["left", "right", "top", "topleft", "topright", "bottom", "bottomleft", "bottomright"];
-    const pos = positions.find((item) => item === this.position);
-    return {
-      "p-dialog-mask": true,
-      "p-overlay-mask p-overlay-mask-enter": this.modal || this.dismissableMask,
-      [`p-dialog-${pos}`]: pos
-    };
-  }
-  ngOnInit() {
-    super.ngOnInit();
-    if (this.breakpoints) {
-      this.createStyle();
-    }
-  }
-  templates;
-  ngAfterContentInit() {
-    this.templates?.forEach((item) => {
-      switch (item.getType()) {
-        case "header":
-          this.headerT = item.template;
-          break;
-        case "content":
-          this.contentT = item.template;
-          break;
-        case "footer":
-          this.footerT = item.template;
-          break;
-        case "closeicon":
-          this.closeIconT = item.template;
-          break;
-        case "maximizeicon":
-          this.maximizeIconT = item.template;
-          break;
-        case "minimizeicon":
-          this.minimizeIconT = item.template;
-          break;
-        case "headless":
-          this.headlessT = item.template;
-          break;
-        default:
-          this.contentT = item.template;
-          break;
-      }
-    });
-  }
-  getAriaLabelledBy() {
-    return this.header !== null ? uuid("pn_id_") + "_header" : null;
-  }
-  parseDurationToMilliseconds(durationString) {
-    const transitionTimeRegex = /([\d\.]+)(ms|s)\b/g;
-    let totalMilliseconds = 0;
-    let match2;
-    while ((match2 = transitionTimeRegex.exec(durationString)) !== null) {
-      const value = parseFloat(match2[1]);
-      const unit = match2[2];
-      if (unit === "ms") {
-        totalMilliseconds += value;
-      } else if (unit === "s") {
-        totalMilliseconds += value * 1e3;
-      }
-    }
-    if (totalMilliseconds === 0) {
-      return void 0;
-    }
-    return totalMilliseconds;
-  }
-  _focus(focusParentElement) {
-    if (focusParentElement) {
-      const timeoutDuration = this.parseDurationToMilliseconds(this.transitionOptions);
-      let _focusableElements = DomHandler.getFocusableElements(focusParentElement);
-      if (_focusableElements && _focusableElements.length > 0) {
-        this.zone.runOutsideAngular(() => {
-          setTimeout(() => _focusableElements[0].focus(), timeoutDuration || 5);
-        });
-        return true;
-      }
-    }
-    return false;
-  }
-  focus(focusParentElement) {
-    let focused = this._focus(focusParentElement);
-    if (!focused) {
-      focused = this._focus(this.footerViewChild?.nativeElement);
-      if (!focused) {
-        focused = this._focus(this.headerViewChild?.nativeElement);
-        if (!focused) {
-          this._focus(this.contentViewChild?.nativeElement);
-        }
-      }
-    }
-  }
-  close(event) {
-    this.visibleChange.emit(false);
-    event.preventDefault();
-  }
-  enableModality() {
-    if (this.closable && this.dismissableMask) {
-      this.maskClickListener = this.renderer.listen(this.wrapper, "mousedown", (event) => {
-        if (this.wrapper && this.wrapper.isSameNode(event.target)) {
-          this.close(event);
-        }
-      });
-    }
-    if (this.modal) {
-      blockBodyScroll();
-    }
-  }
-  disableModality() {
-    if (this.wrapper) {
-      if (this.dismissableMask) {
-        this.unbindMaskClickListener();
-      }
-      const scrollBlockers = document.querySelectorAll(".p-dialog-mask-scrollblocker");
-      if (this.modal && scrollBlockers && scrollBlockers.length == 1) {
-        unblockBodyScroll();
-      }
-      if (!this.cd.destroyed) {
-        this.cd.detectChanges();
-      }
-    }
-  }
-  maximize() {
-    this.maximized = !this.maximized;
-    if (!this.modal && !this.blockScroll) {
-      if (this.maximized) {
-        blockBodyScroll();
-      } else {
-        unblockBodyScroll();
-      }
-    }
-    this.onMaximize.emit({
-      maximized: this.maximized
-    });
-  }
-  unbindMaskClickListener() {
-    if (this.maskClickListener) {
-      this.maskClickListener();
-      this.maskClickListener = null;
-    }
-  }
-  moveOnTop() {
-    if (this.autoZIndex) {
-      zindexutils.set("modal", this.container, this.baseZIndex + this.config.zIndex.modal);
-      this.wrapper.style.zIndex = String(parseInt(this.container.style.zIndex, 10) - 1);
-    }
-  }
-  createStyle() {
-    if (isPlatformBrowser(this.platformId)) {
-      if (!this.styleElement) {
-        this.styleElement = this.renderer.createElement("style");
-        this.styleElement.type = "text/css";
-        this.renderer.appendChild(this.document.head, this.styleElement);
-        let innerHTML = "";
-        for (let breakpoint in this.breakpoints) {
-          innerHTML += `
-                        @media screen and (max-width: ${breakpoint}) {
-                            .p-dialog[${this.id}]:not(.p-dialog-maximized) {
-                                width: ${this.breakpoints[breakpoint]} !important;
-                            }
-                        }
-                    `;
-        }
-        this.renderer.setProperty(this.styleElement, "innerHTML", innerHTML);
-        setAttribute(this.styleElement, "nonce", this.config?.csp()?.nonce);
-      }
-    }
-  }
-  initDrag(event) {
-    if (hasClass(event.target, "p-dialog-maximize-icon") || hasClass(event.target, "p-dialog-header-close-icon") || hasClass(event.target.parentElement, "p-dialog-header-icon")) {
-      return;
-    }
-    if (this.draggable) {
-      this.dragging = true;
-      this.lastPageX = event.pageX;
-      this.lastPageY = event.pageY;
-      this.container.style.margin = "0";
-      addClass(this.document.body, "p-unselectable-text");
-    }
-  }
-  onDrag(event) {
-    if (this.dragging) {
-      const containerWidth = getOuterWidth(this.container);
-      const containerHeight = getOuterHeight(this.container);
-      const deltaX = event.pageX - this.lastPageX;
-      const deltaY = event.pageY - this.lastPageY;
-      const offset = this.container.getBoundingClientRect();
-      const containerComputedStyle = getComputedStyle(this.container);
-      const leftMargin = parseFloat(containerComputedStyle.marginLeft);
-      const topMargin = parseFloat(containerComputedStyle.marginTop);
-      const leftPos = offset.left + deltaX - leftMargin;
-      const topPos = offset.top + deltaY - topMargin;
-      const viewport = getViewport();
-      this.container.style.position = "fixed";
-      if (this.keepInViewport) {
-        if (leftPos >= this.minX && leftPos + containerWidth < viewport.width) {
-          this._style.left = `${leftPos}px`;
-          this.lastPageX = event.pageX;
-          this.container.style.left = `${leftPos}px`;
-        }
-        if (topPos >= this.minY && topPos + containerHeight < viewport.height) {
-          this._style.top = `${topPos}px`;
-          this.lastPageY = event.pageY;
-          this.container.style.top = `${topPos}px`;
-        }
-      } else {
-        this.lastPageX = event.pageX;
-        this.container.style.left = `${leftPos}px`;
-        this.lastPageY = event.pageY;
-        this.container.style.top = `${topPos}px`;
-      }
-    }
-  }
-  endDrag(event) {
-    if (this.dragging) {
-      this.dragging = false;
-      removeClass(this.document.body, "p-unselectable-text");
-      this.cd.detectChanges();
-      this.onDragEnd.emit(event);
-    }
-  }
-  resetPosition() {
-    this.container.style.position = "";
-    this.container.style.left = "";
-    this.container.style.top = "";
-    this.container.style.margin = "";
-  }
-  //backward compatibility
-  center() {
-    this.resetPosition();
-  }
-  initResize(event) {
-    if (this.resizable) {
-      this.resizing = true;
-      this.lastPageX = event.pageX;
-      this.lastPageY = event.pageY;
-      addClass(this.document.body, "p-unselectable-text");
-      this.onResizeInit.emit(event);
-    }
-  }
-  onResize(event) {
-    if (this.resizing) {
-      let deltaX = event.pageX - this.lastPageX;
-      let deltaY = event.pageY - this.lastPageY;
-      let containerWidth = getOuterWidth(this.container);
-      let containerHeight = getOuterHeight(this.container);
-      let contentHeight = getOuterHeight(this.contentViewChild?.nativeElement);
-      let newWidth = containerWidth + deltaX;
-      let newHeight = containerHeight + deltaY;
-      let minWidth = this.container.style.minWidth;
-      let minHeight = this.container.style.minHeight;
-      let offset = this.container.getBoundingClientRect();
-      let viewport = getViewport();
-      let hasBeenDragged = !parseInt(this.container.style.top) || !parseInt(this.container.style.left);
-      if (hasBeenDragged) {
-        newWidth += deltaX;
-        newHeight += deltaY;
-      }
-      if ((!minWidth || newWidth > parseInt(minWidth)) && offset.left + newWidth < viewport.width) {
-        this._style.width = newWidth + "px";
-        this.container.style.width = this._style.width;
-      }
-      if ((!minHeight || newHeight > parseInt(minHeight)) && offset.top + newHeight < viewport.height) {
-        this.contentViewChild.nativeElement.style.height = contentHeight + newHeight - containerHeight + "px";
-        if (this._style.height) {
-          this._style.height = newHeight + "px";
-          this.container.style.height = this._style.height;
-        }
-      }
-      this.lastPageX = event.pageX;
-      this.lastPageY = event.pageY;
-    }
-  }
-  resizeEnd(event) {
-    if (this.resizing) {
-      this.resizing = false;
-      removeClass(this.document.body, "p-unselectable-text");
-      this.onResizeEnd.emit(event);
-    }
-  }
-  bindGlobalListeners() {
-    if (this.draggable) {
-      this.bindDocumentDragListener();
-      this.bindDocumentDragEndListener();
-    }
-    if (this.resizable) {
-      this.bindDocumentResizeListeners();
-    }
-    if (this.closeOnEscape && this.closable) {
-      this.bindDocumentEscapeListener();
-    }
-  }
-  unbindGlobalListeners() {
-    this.unbindDocumentDragListener();
-    this.unbindDocumentDragEndListener();
-    this.unbindDocumentResizeListeners();
-    this.unbindDocumentEscapeListener();
-  }
-  bindDocumentDragListener() {
-    if (!this.documentDragListener) {
-      this.zone.runOutsideAngular(() => {
-        this.documentDragListener = this.renderer.listen(this.document.defaultView, "mousemove", this.onDrag.bind(this));
-      });
-    }
-  }
-  unbindDocumentDragListener() {
-    if (this.documentDragListener) {
-      this.documentDragListener();
-      this.documentDragListener = null;
-    }
-  }
-  bindDocumentDragEndListener() {
-    if (!this.documentDragEndListener) {
-      this.zone.runOutsideAngular(() => {
-        this.documentDragEndListener = this.renderer.listen(this.document.defaultView, "mouseup", this.endDrag.bind(this));
-      });
-    }
-  }
-  unbindDocumentDragEndListener() {
-    if (this.documentDragEndListener) {
-      this.documentDragEndListener();
-      this.documentDragEndListener = null;
-    }
-  }
-  bindDocumentResizeListeners() {
-    if (!this.documentResizeListener && !this.documentResizeEndListener) {
-      this.zone.runOutsideAngular(() => {
-        this.documentResizeListener = this.renderer.listen(this.document.defaultView, "mousemove", this.onResize.bind(this));
-        this.documentResizeEndListener = this.renderer.listen(this.document.defaultView, "mouseup", this.resizeEnd.bind(this));
-      });
-    }
-  }
-  unbindDocumentResizeListeners() {
-    if (this.documentResizeListener && this.documentResizeEndListener) {
-      this.documentResizeListener();
-      this.documentResizeEndListener();
-      this.documentResizeListener = null;
-      this.documentResizeEndListener = null;
-    }
-  }
-  bindDocumentEscapeListener() {
-    const documentTarget = this.el ? this.el.nativeElement.ownerDocument : "document";
-    this.documentEscapeListener = this.renderer.listen(documentTarget, "keydown", (event) => {
-      if (event.key == "Escape") {
-        this.close(event);
-      }
-    });
-  }
-  unbindDocumentEscapeListener() {
-    if (this.documentEscapeListener) {
-      this.documentEscapeListener();
-      this.documentEscapeListener = null;
-    }
-  }
-  appendContainer() {
-    if (this.appendTo) {
-      if (this.appendTo === "body") this.renderer.appendChild(this.document.body, this.wrapper);
-      else appendChild(this.appendTo, this.wrapper);
-    }
-  }
-  restoreAppend() {
-    if (this.container && this.appendTo) {
-      this.renderer.appendChild(this.el.nativeElement, this.wrapper);
-    }
-  }
-  onAnimationStart(event) {
-    switch (event.toState) {
-      case "visible":
-        this.container = event.element;
-        this.wrapper = this.container?.parentElement;
-        this.appendContainer();
-        this.moveOnTop();
-        this.bindGlobalListeners();
-        this.container?.setAttribute(this.id, "");
-        if (this.modal) {
-          this.enableModality();
-        }
-        if (this.focusOnShow) {
-          this.focus();
-        }
-        break;
-      case "void":
-        if (this.wrapper && this.modal) {
-          addClass(this.wrapper, "p-overlay-mask-leave");
-        }
-        break;
-    }
-  }
-  onAnimationEnd(event) {
-    switch (event.toState) {
-      case "void":
-        this.onContainerDestroy();
-        this.onHide.emit({});
-        this.cd.markForCheck();
-        if (this.maskVisible !== this.visible) {
-          this.maskVisible = this.visible;
-        }
-        break;
-      case "visible":
-        this.onShow.emit({});
-        break;
-    }
-  }
-  onContainerDestroy() {
-    this.unbindGlobalListeners();
-    this.dragging = false;
-    this.maskVisible = false;
-    if (this.maximized) {
-      this.document.body.style.removeProperty("--scrollbar;-width");
-      this.maximized = false;
-    }
-    if (this.modal) {
-      this.disableModality();
-    }
-    if (hasClass(this.document.body, "p-overflow-hidden")) {
-      removeClass(this.document.body, "p-overflow-hidden");
-    }
-    if (this.container && this.autoZIndex) {
-      zindexutils.clear(this.container);
-    }
-    this.container = null;
-    this.wrapper = null;
-    this._style = this.originalStyle ? __spreadValues({}, this.originalStyle) : {};
-  }
-  destroyStyle() {
-    if (this.styleElement) {
-      this.renderer.removeChild(this.document.head, this.styleElement);
-      this.styleElement = null;
-    }
-  }
-  ngOnDestroy() {
-    if (this.container) {
-      this.restoreAppend();
-      this.onContainerDestroy();
-    }
-    this.destroyStyle();
-    super.ngOnDestroy();
-  }
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275Dialog_BaseFactory;
-    return function Dialog_Factory(__ngFactoryType__) {
-      return (\u0275Dialog_BaseFactory || (\u0275Dialog_BaseFactory = \u0275\u0275getInheritedFactory(_Dialog)))(__ngFactoryType__ || _Dialog);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _Dialog,
-    selectors: [["p-dialog"]],
-    contentQueries: function Dialog_ContentQueries(rf, ctx, dirIndex) {
-      if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c010, 4);
-        \u0275\u0275contentQuery(dirIndex, _c110, 4);
-        \u0275\u0275contentQuery(dirIndex, _c26, 4);
-        \u0275\u0275contentQuery(dirIndex, _c35, 4);
-        \u0275\u0275contentQuery(dirIndex, _c44, 4);
-        \u0275\u0275contentQuery(dirIndex, _c53, 4);
-        \u0275\u0275contentQuery(dirIndex, _c63, 4);
-        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._headerTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._contentTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._footerTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._closeiconTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._maximizeiconTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._minimizeiconTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._headlessTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
-      }
-    },
-    viewQuery: function Dialog_Query(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275viewQuery(_c72, 5);
-        \u0275\u0275viewQuery(_c110, 5);
-        \u0275\u0275viewQuery(_c26, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.headerViewChild = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentViewChild = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.footerViewChild = _t.first);
-      }
-    },
-    inputs: {
-      header: "header",
-      draggable: [2, "draggable", "draggable", booleanAttribute],
-      resizable: [2, "resizable", "resizable", booleanAttribute],
-      positionLeft: "positionLeft",
-      positionTop: "positionTop",
-      contentStyle: "contentStyle",
-      contentStyleClass: "contentStyleClass",
-      modal: [2, "modal", "modal", booleanAttribute],
-      closeOnEscape: [2, "closeOnEscape", "closeOnEscape", booleanAttribute],
-      dismissableMask: [2, "dismissableMask", "dismissableMask", booleanAttribute],
-      rtl: [2, "rtl", "rtl", booleanAttribute],
-      closable: [2, "closable", "closable", booleanAttribute],
-      responsive: "responsive",
-      appendTo: "appendTo",
-      breakpoints: "breakpoints",
-      styleClass: "styleClass",
-      maskStyleClass: "maskStyleClass",
-      maskStyle: "maskStyle",
-      showHeader: [2, "showHeader", "showHeader", booleanAttribute],
-      breakpoint: "breakpoint",
-      blockScroll: [2, "blockScroll", "blockScroll", booleanAttribute],
-      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
-      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
-      minX: [2, "minX", "minX", numberAttribute],
-      minY: [2, "minY", "minY", numberAttribute],
-      focusOnShow: [2, "focusOnShow", "focusOnShow", booleanAttribute],
-      maximizable: [2, "maximizable", "maximizable", booleanAttribute],
-      keepInViewport: [2, "keepInViewport", "keepInViewport", booleanAttribute],
-      focusTrap: [2, "focusTrap", "focusTrap", booleanAttribute],
-      transitionOptions: "transitionOptions",
-      closeIcon: "closeIcon",
-      closeAriaLabel: "closeAriaLabel",
-      closeTabindex: "closeTabindex",
-      minimizeIcon: "minimizeIcon",
-      maximizeIcon: "maximizeIcon",
-      closeButtonProps: "closeButtonProps",
-      maximizeButtonProps: "maximizeButtonProps",
-      visible: "visible",
-      style: "style",
-      position: "position",
-      role: "role",
-      headerTemplate: [0, "content", "headerTemplate"],
-      contentTemplate: "contentTemplate",
-      footerTemplate: "footerTemplate",
-      closeIconTemplate: "closeIconTemplate",
-      maximizeIconTemplate: "maximizeIconTemplate",
-      minimizeIconTemplate: "minimizeIconTemplate",
-      headlessTemplate: "headlessTemplate"
-    },
-    outputs: {
-      onShow: "onShow",
-      onHide: "onHide",
-      visibleChange: "visibleChange",
-      onResizeInit: "onResizeInit",
-      onResizeEnd: "onResizeEnd",
-      onDragEnd: "onDragEnd",
-      onMaximize: "onMaximize"
-    },
-    features: [\u0275\u0275ProvidersFeature([DialogStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c92,
-    decls: 1,
-    vars: 1,
-    consts: [["container", ""], ["notHeadless", ""], ["content", ""], ["titlebar", ""], ["icon", ""], ["footer", ""], [3, "ngClass", "class", "ngStyle", "style", 4, "ngIf"], [3, "ngClass", "ngStyle"], ["pFocusTrap", "", 3, "class", "ngClass", "ngStyle", "style", "pFocusTrapDisabled", 4, "ngIf"], ["pFocusTrap", "", 3, "ngClass", "ngStyle", "pFocusTrapDisabled"], [4, "ngIf", "ngIfElse"], [4, "ngTemplateOutlet"], ["style", "z-index: 90;", 3, "ngClass", "mousedown", 4, "ngIf"], [3, "ngClass", "mousedown", 4, "ngIf"], [3, "ngClass", 4, "ngIf"], [2, "z-index", "90", 3, "mousedown", "ngClass"], [3, "mousedown", "ngClass"], [3, "id", "ngClass", 4, "ngIf"], [3, "ngClass"], [3, "styleClass", "tabindex", "ariaLabel", "buttonProps", "onClick", "keydown.enter", 4, "ngIf"], [3, "styleClass", "ariaLabel", "tabindex", "buttonProps", "onClick", "keydown.enter", 4, "ngIf"], [3, "id", "ngClass"], [3, "onClick", "keydown.enter", "styleClass", "tabindex", "ariaLabel", "buttonProps"], [4, "ngIf"], [3, "onClick", "keydown.enter", "styleClass", "ariaLabel", "tabindex", "buttonProps"]],
-    template: function Dialog_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c82);
-        \u0275\u0275template(0, Dialog_div_0_Template, 2, 11, "div", 6);
-      }
-      if (rf & 2) {
-        \u0275\u0275property("ngIf", ctx.maskVisible);
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, NgStyle, Button, FocusTrap, TimesIcon, WindowMaximizeIcon, WindowMinimizeIcon, SharedModule],
-    encapsulation: 2,
-    data: {
-      animation: [trigger("animation", [transition("void => visible", [useAnimation(showAnimation)]), transition("visible => void", [useAnimation(hideAnimation)])])]
-    },
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Dialog, [{
-    type: Component,
-    args: [{
-      selector: "p-dialog",
-      standalone: true,
-      imports: [CommonModule, Button, FocusTrap, TimesIcon, WindowMaximizeIcon, WindowMinimizeIcon, SharedModule],
-      template: `
-        <div
-            *ngIf="maskVisible"
-            [ngClass]="maskClass"
-            [class]="maskStyleClass"
-            [ngStyle]="{
-                position: 'fixed',
-                height: '100%',
-                width: '100%',
-                left: 0,
-                top: 0,
-                display: 'flex',
-                'justify-content': position === 'left' || position === 'topleft' || position === 'bottomleft' ? 'flex-start' : position === 'right' || position === 'topright' || position === 'bottomright' ? 'flex-end' : 'center',
-                'align-items': position === 'top' || position === 'topleft' || position === 'topright' ? 'flex-start' : position === 'bottom' || position === 'bottomleft' || position === 'bottomright' ? 'flex-end' : 'center',
-                'pointer-events': modal ? 'auto' : 'none'
-            }"
-            [style]="maskStyle"
-        >
-            <div
-                *ngIf="visible"
-                #container
-                [class]="styleClass"
-                [ngClass]="{ 'p-dialog p-component': true, 'p-dialog-maximized': maximizable && maximized }"
-                [ngStyle]="{ display: 'flex', 'flex-direction': 'column', 'pointer-events': 'auto' }"
-                [style]="style"
-                pFocusTrap
-                [pFocusTrapDisabled]="focusTrap === false"
-                [@animation]="{
-                    value: 'visible',
-                    params: { transform: transformOptions, transition: transitionOptions }
-                }"
-                (@animation.start)="onAnimationStart($event)"
-                (@animation.done)="onAnimationEnd($event)"
-                [attr.role]="role"
-                [attr.aria-labelledby]="ariaLabelledBy"
-                [attr.aria-modal]="true"
-            >
-                <ng-container *ngIf="_headlessTemplate || headlessTemplate || headlessT; else notHeadless">
-                    <ng-container *ngTemplateOutlet="_headlessTemplate || headlessTemplate || headlessT"></ng-container>
-                </ng-container>
-
-                <ng-template #notHeadless>
-                    <div *ngIf="resizable" [ngClass]="cx('resizeHandle')" style="z-index: 90;" (mousedown)="initResize($event)"></div>
-                    <div #titlebar [ngClass]="cx('header')" (mousedown)="initDrag($event)" *ngIf="showHeader">
-                        <span [id]="ariaLabelledBy" [ngClass]="cx('title')" *ngIf="!_headerTemplate && !headerTemplate && !headerT">{{ header }}</span>
-                        <ng-container *ngTemplateOutlet="_headerTemplate || headerTemplate || headerT"></ng-container>
-                        <div [ngClass]="cx('headerActions')">
-                            <p-button *ngIf="maximizable" [styleClass]="cx('pcMaximizeButton')" (onClick)="maximize()" (keydown.enter)="maximize()" [tabindex]="maximizable ? '0' : '-1'" [ariaLabel]="maximizeLabel" [buttonProps]="maximizeButtonProps">
-                                <span *ngIf="maximizeIcon && !_maximizeiconTemplate && !_minimizeiconTemplate" [ngClass]="maximized ? minimizeIcon : maximizeIcon"></span>
-                                <ng-container *ngIf="!maximizeIcon && !maximizeButtonProps?.icon">
-                                    <WindowMaximizeIcon *ngIf="!maximized && !_maximizeiconTemplate && !maximizeIconTemplate && !maximizeIconT" />
-                                    <WindowMinimizeIcon *ngIf="maximized && !_minimizeiconTemplate && !minimizeIconTemplate && !minimizeIconT" />
-                                </ng-container>
-                                <ng-container *ngIf="!maximized">
-                                    <ng-template *ngTemplateOutlet="_maximizeiconTemplate || maximizeIconTemplate || maximizeIconT"></ng-template>
-                                </ng-container>
-                                <ng-container *ngIf="maximized">
-                                    <ng-template *ngTemplateOutlet="_minimizeiconTemplate || minimizeIconTemplate || minimizeIconT"></ng-template>
-                                </ng-container>
-                            </p-button>
-                            <p-button *ngIf="closable" [styleClass]="cx('pcCloseButton')" [ariaLabel]="closeAriaLabel" (onClick)="close($event)" (keydown.enter)="close($event)" [tabindex]="closeTabindex" [buttonProps]="closeButtonProps">
-                                <ng-template #icon>
-                                    <ng-container *ngIf="!_closeiconTemplate && !closeIconTemplate && !closeIconT && !closeButtonProps?.icon">
-                                        <span *ngIf="closeIcon" [ngClass]="closeIcon"></span>
-                                        <TimesIcon *ngIf="!closeIcon" />
-                                    </ng-container>
-                                    <span *ngIf="_closeiconTemplate || closeIconTemplate || closeIconT">
-                                        <ng-template *ngTemplateOutlet="_closeiconTemplate || closeIconTemplate || closeIconT"></ng-template>
-                                    </span>
-                                </ng-template>
-                            </p-button>
-                        </div>
-                    </div>
-                    <div #content [ngClass]="cx('content')" [class]="contentStyleClass" [ngStyle]="contentStyle" [attr.data-pc-section]="'content'">
-                        <ng-content></ng-content>
-                        <ng-container *ngTemplateOutlet="_contentTemplate || contentTemplate || contentT"></ng-container>
-                    </div>
-                    <div #footer [ngClass]="cx('footer')" *ngIf="_footerTemplate || footerTemplate || footerT">
-                        <ng-content select="p-footer"></ng-content>
-                        <ng-container *ngTemplateOutlet="_footerTemplate || footerTemplate || footerT"></ng-container>
-                    </div>
-                </ng-template>
-            </div>
-        </div>
-    `,
-      animations: [trigger("animation", [transition("void => visible", [useAnimation(showAnimation)]), transition("visible => void", [useAnimation(hideAnimation)])])],
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      encapsulation: ViewEncapsulation.None,
-      providers: [DialogStyle]
-    }]
-  }], null, {
-    header: [{
-      type: Input
-    }],
-    draggable: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    resizable: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    positionLeft: [{
-      type: Input
-    }],
-    positionTop: [{
-      type: Input
-    }],
-    contentStyle: [{
-      type: Input
-    }],
-    contentStyleClass: [{
-      type: Input
-    }],
-    modal: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    closeOnEscape: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    dismissableMask: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    rtl: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    closable: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    responsive: [{
-      type: Input
-    }],
-    appendTo: [{
-      type: Input
-    }],
-    breakpoints: [{
-      type: Input
-    }],
-    styleClass: [{
-      type: Input
-    }],
-    maskStyleClass: [{
-      type: Input
-    }],
-    maskStyle: [{
-      type: Input
-    }],
-    showHeader: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    breakpoint: [{
-      type: Input
-    }],
-    blockScroll: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    autoZIndex: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    baseZIndex: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    minX: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    minY: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    focusOnShow: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    maximizable: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    keepInViewport: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    focusTrap: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    transitionOptions: [{
-      type: Input
-    }],
-    closeIcon: [{
-      type: Input
-    }],
-    closeAriaLabel: [{
-      type: Input
-    }],
-    closeTabindex: [{
-      type: Input
-    }],
-    minimizeIcon: [{
-      type: Input
-    }],
-    maximizeIcon: [{
-      type: Input
-    }],
-    closeButtonProps: [{
-      type: Input
-    }],
-    maximizeButtonProps: [{
-      type: Input
-    }],
-    visible: [{
-      type: Input
-    }],
-    style: [{
-      type: Input
-    }],
-    position: [{
-      type: Input
-    }],
-    role: [{
-      type: Input
-    }],
-    onShow: [{
-      type: Output
-    }],
-    onHide: [{
-      type: Output
-    }],
-    visibleChange: [{
-      type: Output
-    }],
-    onResizeInit: [{
-      type: Output
-    }],
-    onResizeEnd: [{
-      type: Output
-    }],
-    onDragEnd: [{
-      type: Output
-    }],
-    onMaximize: [{
-      type: Output
-    }],
-    headerViewChild: [{
-      type: ViewChild,
-      args: ["titlebar"]
-    }],
-    contentViewChild: [{
-      type: ViewChild,
-      args: ["content"]
-    }],
-    footerViewChild: [{
-      type: ViewChild,
-      args: ["footer"]
-    }],
-    headerTemplate: [{
-      type: Input,
-      args: ["content"]
-    }],
-    contentTemplate: [{
-      type: Input
-    }],
-    footerTemplate: [{
-      type: Input
-    }],
-    closeIconTemplate: [{
-      type: Input
-    }],
-    maximizeIconTemplate: [{
-      type: Input
-    }],
-    minimizeIconTemplate: [{
-      type: Input
-    }],
-    headlessTemplate: [{
-      type: Input
-    }],
-    _headerTemplate: [{
-      type: ContentChild,
-      args: ["header", {
-        descendants: false
-      }]
-    }],
-    _contentTemplate: [{
-      type: ContentChild,
-      args: ["content", {
-        descendants: false
-      }]
-    }],
-    _footerTemplate: [{
-      type: ContentChild,
-      args: ["footer", {
-        descendants: false
-      }]
-    }],
-    _closeiconTemplate: [{
-      type: ContentChild,
-      args: ["closeicon", {
-        descendants: false
-      }]
-    }],
-    _maximizeiconTemplate: [{
-      type: ContentChild,
-      args: ["maximizeicon", {
-        descendants: false
-      }]
-    }],
-    _minimizeiconTemplate: [{
-      type: ContentChild,
-      args: ["minimizeicon", {
-        descendants: false
-      }]
-    }],
-    _headlessTemplate: [{
-      type: ContentChild,
-      args: ["headless", {
-        descendants: false
-      }]
-    }],
-    templates: [{
-      type: ContentChildren,
-      args: [PrimeTemplate]
-    }]
-  });
-})();
-var DialogModule = class _DialogModule {
-  static \u0275fac = function DialogModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _DialogModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _DialogModule
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [Dialog, SharedModule, SharedModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DialogModule, [{
-    type: NgModule,
-    args: [{
-      imports: [Dialog, SharedModule],
-      exports: [Dialog, SharedModule]
-    }]
-  }], null, null);
-})();
-
-// src/app/views/quiz/quiz-card/choice-box/choice-box.component.ts
-function ChoiceBoxComponent_Conditional_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 0);
-    \u0275\u0275text(1, "Plusieurs r\xE9ponses possibles");
-    \u0275\u0275elementEnd();
-  }
-}
-function ChoiceBoxComponent_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 0);
-    \u0275\u0275text(1, "Une seule r\xE9ponse possible");
-    \u0275\u0275elementEnd();
-  }
-}
-function ChoiceBoxComponent_For_5_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p-checkbox", 7);
-    \u0275\u0275listener("change", function ChoiceBoxComponent_For_5_Conditional_1_Template_p_checkbox_change_0_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.checkAnswer());
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const $index_r3 = \u0275\u0275nextContext().$index;
-    \u0275\u0275property("value", $index_r3)("formControlName", "QCM");
-  }
-}
-function ChoiceBoxComponent_For_5_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p-radiobutton", 8);
-    \u0275\u0275listener("onClick", function ChoiceBoxComponent_For_5_Conditional_2_Template_p_radiobutton_onClick_0_listener() {
-      \u0275\u0275restoreView(_r4);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.checkAnswer());
-    });
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const $index_r3 = \u0275\u0275nextContext().$index;
-    \u0275\u0275property("value", $index_r3)("formControlName", "QCU");
-  }
-}
-function ChoiceBoxComponent_For_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "label", 3);
-    \u0275\u0275template(1, ChoiceBoxComponent_For_5_Conditional_1_Template, 1, 2, "p-checkbox", 4)(2, ChoiceBoxComponent_For_5_Conditional_2_Template, 1, 2, "p-radiobutton", 5);
-    \u0275\u0275elementStart(3, "p", 6);
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    let tmp_10_0;
-    const choice_r5 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275conditional(((tmp_10_0 = ctx_r1.quiz_segment()) == null ? null : tmp_10_0.question_type) === "QCM" ? 1 : ((tmp_10_0 = ctx_r1.quiz_segment()) == null ? null : tmp_10_0.question_type) === "QCU" ? 2 : -1);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(choice_r5);
-  }
-}
-var ChoiceBoxComponent = class _ChoiceBoxComponent {
-  /*
-    Input : answered (bool | undefined) - Permet de savoir si la question de la carte du Quiz a été répondu ou pas
-  */
-  answered;
-  answerForm = new FormGroup({});
-  dataService = inject(DataService);
-  //Permet d'avoir accès aux fonctions gérant les cartes
-  progressService = inject(ProgressService);
-  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
-  quiz_segment = this.dataService.currentSegment;
-  //Permet d'avoir accès à la carte affichée
-  answerIsEmpty = computed(() => this.progressService.currentAnswerValidity() === 2 /* Empty */);
-  //Vérifie s'il y a bien eu une réponse lors de la validation de la carte
-  ngOnInit() {
-    this.answerForm.addControl(this.quiz_segment().question_type, new FormControl(""));
-    this.answerForm.reset();
-    if (this.quiz_segment()?.question_type === "QCM") {
-      const key = this.answerForm.get("QCM").value;
-      console.log(key);
-    }
-  }
-  checkAnswer() {
-    if (this.quiz_segment()?.question_type === "QCM") {
-      const key = this.answerForm.get("QCM").value;
-      console.log(key);
-      if (key != null) {
-        if (Array.isArray(key) && key.length > 0) {
-          this.progressService.GetChecked();
-        } else {
-          this.progressService.GetUnchecked();
-        }
-      }
-    } else if (this.quiz_segment()?.question_type === "QCU") {
-      const key = this.answerForm.get("QCU").value;
-      if (typeof key === "number") {
-        this.progressService.GetChecked();
-      }
-    }
-  }
-  tryToAnswer() {
-    if (this.quiz_segment()?.question_type === "QCM") {
-      const key = this.answerForm.get("QCM").value;
-      if (key != null) {
-        this.progressService.currentAnswer.set([key]);
-        this.progressService.GetUnchecked();
-      } else {
-        this.progressService.currentAnswer.set([]);
-      }
-    } else if (this.quiz_segment()?.question_type === "QCU") {
-      const key = this.answerForm.get("QCU").value;
-      if (typeof key === "number") {
-        this.progressService.currentAnswer.set([key]);
-        this.progressService.GetUnchecked();
-      } else {
-        this.progressService.currentAnswer.set([]);
-      }
-    }
-    this.progressService.answer();
-    console.log(this.progressService.currentAnswer());
-  }
-  static \u0275fac = function ChoiceBoxComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ChoiceBoxComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ChoiceBoxComponent, selectors: [["app-choice-box"]], inputs: { answered: "answered" }, decls: 6, vars: 2, consts: [[1, "nb-choice"], [3, "formGroup"], [1, "answer-box"], [1, "answer-choice"], ["size", "large", 1, "check", 3, "value", "formControlName"], [1, "radio", 3, "value", "formControlName"], [1, "choice-text"], ["size", "large", 1, "check", 3, "change", "value", "formControlName"], [1, "radio", 3, "onClick", "value", "formControlName"]], template: function ChoiceBoxComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275template(0, ChoiceBoxComponent_Conditional_0_Template, 2, 0, "p", 0)(1, ChoiceBoxComponent_Conditional_1_Template, 2, 0, "p", 0);
-      \u0275\u0275elementStart(2, "form", 1)(3, "div", 2);
-      \u0275\u0275repeaterCreate(4, ChoiceBoxComponent_For_5_Template, 5, 2, "label", 3, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275elementEnd()();
-    }
-    if (rf & 2) {
-      let tmp_0_0;
-      let tmp_2_0;
-      \u0275\u0275conditional(((tmp_0_0 = ctx.quiz_segment()) == null ? null : tmp_0_0.question_type) === "QCM" ? 0 : ((tmp_0_0 = ctx.quiz_segment()) == null ? null : tmp_0_0.question_type) === "QCU" ? 1 : -1);
-      \u0275\u0275advance(2);
-      \u0275\u0275property("formGroup", ctx.answerForm);
-      \u0275\u0275advance(2);
-      \u0275\u0275repeater((tmp_2_0 = ctx.quiz_segment()) == null ? null : tmp_2_0.possible_answers);
-    }
-  }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RadioButtonModule, RadioButton, CheckboxModule, Checkbox, DialogModule, ButtonModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin-top: 5%;\n}\n.nb-choice[_ngcontent-%COMP%] {\n  color: #696969;\n  margin-bottom: 25px;\n}\n.answer-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.answer-choice[_ngcontent-%COMP%] {\n  display: flex;\n  align-content: center;\n  width: 100%;\n  border: 1px solid #929292;\n  border-radius: 8px;\n  padding: 4px;\n  margin: 0 auto;\n  align-items: center;\n  word-wrap: break-word;\n  color: #333333;\n}\n.radio[_ngcontent-%COMP%] {\n  padding-left: 15px;\n  padding-right: 15px;\n  --p-radiobutton-icon-vertical-align: middle;\n  --p-radiobutton-vertical-align: middle;\n  --p-radiobutton-box-vertical-align: middle;\n  --p-radiobutton-icon-align-items: center;\n  --p-radiobutton-box-align-items: center;\n  --p-radiobutton-align-items: center;\n  --p-radiobutton-display: inline-block;\n  --p-radiobutton-height: 24px;\n  --p-radiobutton-width: 24px;\n  --p-radiobutton-icon-size: 16px;\n  --p-radiobutton-icon-checked-color:#333333;\n  --p-radiobutton-icon-checked-hover-color:#333333;\n  --p-radiobutton-border-color:#333333;\n  --p-radiobutton-hover-border-color:#333333;\n  --p-radiobutton-focus-border-color:#333333;\n  --p-radiobutton-checked-border-color:#333333;\n  --p-radiobutton-checked-hover-border-color:#333333;\n}\n.check[_ngcontent-%COMP%] {\n  padding-left: 15px;\n  padding-right: 15px;\n  --p-checkbox-border-color:#333333;\n  --p-checkbox-checked-focus-border-color:#333333;\n  --p-checkbox-checked-hover-border-color:#333333;\n  --p-checkbox-checked-border-color:#333333;\n  --p-checkbox-hover-border-color:#333333;\n  --p-checkbox-border-color:#333333;\n  --p-checkbox-checked-background:#333333;\n  --p-checkbox-checked-hover-background:#333333;\n}\n.answer-choice[_ngcontent-%COMP%]:hover {\n  border: 1px solid #333333;\n  cursor: pointer;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.answer-choice[_ngcontent-%COMP%]:has(:checked) {\n  border: 1px solid #0073e9;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.answer-choice[_ngcontent-%COMP%]:has(:focus) {\n  border: 1px solid #0073e9;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.choice-text[_ngcontent-%COMP%] {\n  display: inline-block;\n  vertical-align: middle;\n  align-items: middle;\n  text-align: middle;\n  font-size: 16px;\n}"] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ChoiceBoxComponent, { className: "ChoiceBoxComponent", filePath: "src/app/views/quiz/quiz-card/choice-box/choice-box.component.ts", lineNumber: 18 });
-})();
-
-// src/app/views/quiz/quiz-card/answer-box/answer-box.component.ts
-function AnswerBoxComponent_For_3_Conditional_0_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "label", 5);
-    \u0275\u0275element(1, "i", 8);
-    \u0275\u0275elementStart(2, "p", 9);
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const choice_r1 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(choice_r1);
-  }
-}
-function AnswerBoxComponent_For_3_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "label", 6);
-    \u0275\u0275element(1, "i", 10);
-    \u0275\u0275elementStart(2, "p", 9);
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const choice_r1 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(choice_r1);
-  }
-}
-function AnswerBoxComponent_For_3_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "label", 7);
-    \u0275\u0275element(1, "i", 11);
-    \u0275\u0275elementStart(2, "p", 9);
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const choice_r1 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(choice_r1);
-  }
-}
-function AnswerBoxComponent_For_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275template(0, AnswerBoxComponent_For_3_Conditional_0_Template, 4, 1, "label", 5)(1, AnswerBoxComponent_For_3_Conditional_1_Template, 4, 1, "label", 6)(2, AnswerBoxComponent_For_3_Conditional_2_Template, 4, 1, "label", 7);
-  }
-  if (rf & 2) {
-    const $index_r2 = ctx.$index;
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275conditional(ctx_r2.quiz_segment.true_answers.includes($index_r2) ? 0 : ctx_r2.progressService.currentAnswer().includes($index_r2) ? 1 : 2);
-  }
-}
-function AnswerBoxComponent_Conditional_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 2);
-    \u0275\u0275text(1, "Rat\xE9 !");
-    \u0275\u0275elementEnd();
-  }
-}
-function AnswerBoxComponent_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 2);
-    \u0275\u0275text(1, "Bravo !");
-    \u0275\u0275elementEnd();
-  }
-}
-function AnswerBoxComponent_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 3);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r2.quiz_segment.QCM_answers);
-  }
-}
-var AnswerBoxComponent = class _AnswerBoxComponent {
-  dataService = inject(DataService);
-  //Permet d'avoir accès aux fonctions gérant les cartes
-  progressService = inject(ProgressService);
-  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
-  quiz_segment = this.dataService.currentSegment();
-  //Permet d'avoir accès à la carte affichée
-  static \u0275fac = function AnswerBoxComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _AnswerBoxComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AnswerBoxComponent, selectors: [["app-answer-box"]], decls: 11, vars: 3, consts: [[1, "space"], [1, "answer-box"], [1, "bold-text"], [1, "answers"], [1, "explanation"], [1, "answer-choice", "correct"], [1, "answer-choice", "wrong"], [1, "answer-choice", "neutral"], [1, "pi", "pi-check-circle"], [1, "choice-text"], [1, "pi", "pi-times-circle"], [1, "pi", "pi-circle"]], template: function AnswerBoxComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275element(0, "div", 0);
-      \u0275\u0275elementStart(1, "div", 1);
-      \u0275\u0275repeaterCreate(2, AnswerBoxComponent_For_3_Template, 3, 1, null, null, \u0275\u0275repeaterTrackByIndex);
-      \u0275\u0275template(4, AnswerBoxComponent_Conditional_4_Template, 2, 0, "p", 2)(5, AnswerBoxComponent_Conditional_5_Template, 2, 0, "p", 2)(6, AnswerBoxComponent_Conditional_6_Template, 2, 1, "span", 3);
-      \u0275\u0275elementStart(7, "p", 2);
-      \u0275\u0275text(8, "L'explication :");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(9, "span", 4);
-      \u0275\u0275text(10);
-      \u0275\u0275elementEnd()();
-    }
-    if (rf & 2) {
-      \u0275\u0275advance(2);
-      \u0275\u0275repeater(ctx.quiz_segment.possible_answers);
-      \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.progressService.currentAnswerValidity() ? 4 : 5);
-      \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.quiz_segment.question_type === "QCM" ? 6 : -1);
-      \u0275\u0275advance(4);
-      \u0275\u0275textInterpolate(ctx.quiz_segment.explanation);
-    }
-  }, dependencies: [ReactiveFormsModule, RadioButtonModule, CheckboxModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin-top: 5%;\n}\n.nb-choice[_ngcontent-%COMP%] {\n  color: #696969;\n  margin-bottom: 25px;\n}\n.answer-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.space[_ngcontent-%COMP%] {\n  margin-top: 43px;\n}\n.bold-text[_ngcontent-%COMP%] {\n  font-weight: bold;\n  font-size: 22px;\n  margin-top: 10px;\n}\n.answer-choice[_ngcontent-%COMP%] {\n  display: flex;\n  align-content: center;\n  width: 100%;\n  border: 1px solid black;\n  border-radius: 8px;\n  padding: 4px;\n  margin: 0 auto;\n  align-items: center;\n  word-wrap: break-word;\n  color: #333333;\n}\n.explanation[_ngcontent-%COMP%] {\n  font-size: 16px;\n  white-space: pre-line;\n  color: #333333;\n}\n.answers[_ngcontent-%COMP%] {\n  font-size: 18px;\n  white-space: pre-line;\n  color: #333333;\n}\n.choice-text[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\ni[_ngcontent-%COMP%] {\n  font-size: 24px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n.correct[_ngcontent-%COMP%] {\n  border-color: var(--p-green-500);\n}\n.correct[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-green-500);\n}\n.wrong[_ngcontent-%COMP%] {\n  border-color: var(--p-red-500);\n}\n.wrong[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-red-500);\n}\n.neutral[_ngcontent-%COMP%] {\n  border-color: var(--p-gray-500);\n}\n.neutral[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-gray-500);\n}"] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AnswerBoxComponent, { className: "AnswerBoxComponent", filePath: "src/app/views/quiz/quiz-card/answer-box/answer-box.component.ts", lineNumber: 14 });
-})();
-
-// src/app/views/quiz/quiz-card/quiz-card.component.ts
-function QuizCardComponent_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "app-choice-box");
-  }
-}
-function QuizCardComponent_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "app-answer-box");
-  }
-}
-var QuizCardComponent = class _QuizCardComponent {
-  dataService = inject(DataService);
-  //Permet d'avoir accès aux fonctions gérant les cartes
-  progressService = inject(ProgressService);
-  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
-  quiz_segment = this.dataService.currentSegment;
-  //Permet d'avoir accès à la carte affichée
-  choiceBox = viewChild(ChoiceBoxComponent);
-  //Permet de mettre à jour les cartes
-  static \u0275fac = function QuizCardComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _QuizCardComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizCardComponent, selectors: [["app-quiz-card"]], viewQuery: function QuizCardComponent_Query(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275viewQuerySignal(ctx.choiceBox, ChoiceBoxComponent, 5);
-    }
-    if (rf & 2) {
-      \u0275\u0275queryAdvance();
-    }
-  }, decls: 7, vars: 3, consts: [[1, "theme"], [1, "question"]], template: function QuizCardComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "span");
-      \u0275\u0275text(2);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(3, "h1", 1);
-      \u0275\u0275text(4);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(5, QuizCardComponent_Conditional_5_Template, 1, 0, "app-choice-box")(6, QuizCardComponent_Conditional_6_Template, 1, 0, "app-answer-box");
-    }
-    if (rf & 2) {
-      let tmp_1_0;
-      \u0275\u0275advance(2);
-      \u0275\u0275textInterpolate1(" ", ctx.dataService.currentTopic(), "");
-      \u0275\u0275advance(2);
-      \u0275\u0275textInterpolate((tmp_1_0 = ctx.quiz_segment()) == null ? null : tmp_1_0.question);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(!ctx.progressService.answered() ? 5 : 6);
-    }
-  }, dependencies: [ChoiceBoxComponent, AnswerBoxComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 600px;\n  margin: 0 auto;\n}\nh1[_ngcontent-%COMP%] {\n  color: #333333;\n}\n.theme[_ngcontent-%COMP%] {\n  justify-self: start;\n  background-color: var(--p-primary-100);\n  color: var(--p-primary-500);\n  width: fit-content;\n  padding: 4px;\n  border-radius: 4px;\n  margin-bottom: 8px;\n}\n.question[_ngcontent-%COMP%] {\n  text-align: left;\n  font-size: 24px;\n}"] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizCardComponent, { className: "QuizCardComponent", filePath: "src/app/views/quiz/quiz-card/quiz-card.component.ts", lineNumber: 14 });
-})();
-
-// src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts
-var _c011 = () => ({ objectFit: "contain" });
-function QuizEndpageComponent_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 1);
-    \u0275\u0275text(1, "Encore un petit effort !");
-    \u0275\u0275elementEnd();
-  }
-}
-function QuizEndpageComponent_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 1);
-    \u0275\u0275text(1, "continuez comme \xE7a !");
-    \u0275\u0275elementEnd();
-  }
-}
-function QuizEndpageComponent_Conditional_7_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 1);
-    \u0275\u0275text(1, "Vous \xEAtes un as !");
-    \u0275\u0275elementEnd();
-  }
-}
-var QuizEndpageComponent = class _QuizEndpageComponent {
-  progressService = inject(ProgressService);
-  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
-  number_questions = this.progressService.questionNumber();
-  // Permet d'avoir le nombre total de questions de la session de Quiz
-  rapport = this.number_questions / 4;
-  // Sert à déterminer les grades en normalisant les résultats
-  static \u0275fac = function QuizEndpageComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _QuizEndpageComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizEndpageComponent, selectors: [["app-quiz-endpage"]], decls: 18, vars: 5, consts: [[1, "header"], [1, "result"], ["src", "images/quiz_endpage_image.png", "alt", "Image de d\xE9coration de la page finale du quiz", "width", "100%", 1, "image-outro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], [1, "start-again", 3, "click"], ["severity", "secondary", "variant", "outlined", 1, "game", 3, "click"]], template: function QuizEndpageComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "h1");
-      \u0275\u0275text(2, "Merci d'avoir r\xE9alis\xE9 ce quiz !");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(3, "h2");
-      \u0275\u0275text(4);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(5, QuizEndpageComponent_Conditional_5_Template, 2, 0, "p", 1)(6, QuizEndpageComponent_Conditional_6_Template, 2, 0, "p", 1)(7, QuizEndpageComponent_Conditional_7_Template, 2, 0, "p", 1);
-      \u0275\u0275element(8, "p-image", 2);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(9, "span");
-      \u0275\u0275text(10, " Vous pouvez d\xE9sormais passer \xE0 \xAB Inclusif, le jeu \xBB, ou lancer une autre s\xE9rie de questions.\n");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(11, "div", 3);
-      \u0275\u0275element(12, "p-divider");
-      \u0275\u0275elementStart(13, "div", 4)(14, "p-button", 5);
-      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_14_listener() {
-        return ctx.progressService.goToBegining();
-      });
-      \u0275\u0275text(15, " Relancer une s\xE9rie ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(16, "p-button", 6);
-      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_16_listener() {
-        return ctx.progressService.goToBegining();
-      });
-      \u0275\u0275text(17, " Voir Inclusif, le jeu ");
-      \u0275\u0275elementEnd()()();
-    }
-    if (rf & 2) {
-      \u0275\u0275advance(4);
-      \u0275\u0275textInterpolate2(" Vous avez r\xE9pondu correctement \xE0 ", ctx.progressService.score(), " questions sur ", ctx.progressService.questionNumber(), ". ");
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.rapport < 0.3 ? 5 : ctx.rapport < 0.7 ? 6 : 7);
-      \u0275\u0275advance(3);
-      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(4, _c011));
-    }
-  }, dependencies: [ButtonModule, Button, Divider, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  width: fit-content;\n  padding-top: 15px;\n}\n.grade[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 30px;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  width: 300px;\n  height: 80px;\n}\n.result[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 10px;\n}\n.image-outro[_ngcontent-%COMP%] {\n  padding-top: 20px;\n  padding-bottom: 20px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n  width: 100%;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n  width: 80%;\n}\n.start-again[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\n.game[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #f4f4f4;\n  --p-button-primary-hover-background: #e9e9e9;\n}\n  .start-again button {\n  width: 200px;\n}\n  .game button {\n  width: 200px;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  text-align: left;\n}\nh1[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n}"] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizEndpageComponent, { className: "QuizEndpageComponent", filePath: "src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts", lineNumber: 13 });
-})();
-
-// node_modules/primeng/fesm2022/primeng-blockui.mjs
-var _c012 = ["content"];
-var _c111 = ["mask"];
-var _c27 = ["*"];
-var _c36 = (a0) => ({
-  "p-blockui-mask-document": a0,
-  "p-blockui p-blockui-mask p-overlay-mask": true
-});
-var _c45 = () => ({
-  display: "none"
-});
-function BlockUI_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-var theme12 = ({
-  dt: dt2
-}) => `
-.p-blockui {
-    position: relative;
-}
-
-.p-blockui-mask {
-    border-radius: ${dt2("blockui.border.radius")};
-}
-
-.p-blockui-mask.p-overlay-mask {
-    position: absolute;
-}
-
-.p-blockui-mask-document.p-overlay-mask {
-    position: fixed;
-}
-`;
-var classes11 = {
-  root: "p-blockui"
-};
-var BlockUiStyle = class _BlockUiStyle extends BaseStyle {
-  name = "blockui";
-  theme = theme12;
-  classes = classes11;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275BlockUiStyle_BaseFactory;
-    return function BlockUiStyle_Factory(__ngFactoryType__) {
-      return (\u0275BlockUiStyle_BaseFactory || (\u0275BlockUiStyle_BaseFactory = \u0275\u0275getInheritedFactory(_BlockUiStyle)))(__ngFactoryType__ || _BlockUiStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _BlockUiStyle,
-    factory: _BlockUiStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlockUiStyle, [{
-    type: Injectable
-  }], null, null);
-})();
-var BlockUIClasses;
-(function(BlockUIClasses2) {
-  BlockUIClasses2["root"] = "p-blockui";
-})(BlockUIClasses || (BlockUIClasses = {}));
-var BlockUI = class _BlockUI extends BaseComponent {
-  /**
-   * Name of the local ng-template variable referring to another component.
-   * @group Props
-   */
-  target;
-  /**
-   * Whether to automatically manage layering.
-   * @group Props
-   */
-  autoZIndex = true;
-  /**
-   * Base zIndex value to use in layering.
-   * @group Props
-   */
-  baseZIndex = 0;
-  /**
-   * Class of the element.
-   * @group Props
-   */
-  styleClass;
-  /**
-   * Current blocked state as a boolean.
-   * @group Props
-   */
-  get blocked() {
-    return this._blocked;
-  }
-  set blocked(val) {
-    if (this.mask && this.mask.nativeElement) {
-      if (val) this.block();
-      else this.unblock();
-    } else {
-      this._blocked = val;
-    }
-  }
-  /**
-   * template of the content
-   * @group Templates
-   */
-  contentTemplate;
-  mask;
-  _blocked = false;
-  animationEndListener;
-  _componentStyle = inject(BlockUiStyle);
-  constructor() {
-    super();
-  }
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-    if (this._blocked) this.block();
-    if (this.target && !this.target.getBlockableElement) {
-      throw "Target of BlockUI must implement BlockableUI interface";
-    }
-  }
-  _contentTemplate;
-  templates;
-  ngAfterContentInit() {
-    this.templates.forEach((item) => {
-      switch (item.getType()) {
-        case "content":
-          this.contentTemplate = item.template;
-          break;
-        default:
-          this.contentTemplate = item.template;
-          break;
-      }
-    });
-  }
-  block() {
-    if (isPlatformBrowser(this.platformId)) {
-      this._blocked = true;
-      this.mask.nativeElement.style.display = "flex";
-      if (this.target) {
-        this.target.getBlockableElement().appendChild(this.mask.nativeElement);
-        this.target.getBlockableElement().style.position = "relative";
-      } else {
-        this.renderer.appendChild(this.document.body, this.mask.nativeElement);
-        blockBodyScroll();
-      }
-      if (this.autoZIndex) {
-        zindexutils.set("modal", this.mask.nativeElement, this.baseZIndex + this.config.zIndex.modal);
-      }
-    }
-  }
-  unblock() {
-    if (isPlatformBrowser(this.platformId) && this.mask && !this.animationEndListener) {
-      this.destroyModal();
-    }
-  }
-  destroyModal() {
-    this._blocked = false;
-    if (this.mask && isPlatformBrowser(this.platformId)) {
-      zindexutils.clear(this.mask.nativeElement);
-      this.renderer.removeChild(this.el.nativeElement, this.mask.nativeElement);
-      unblockBodyScroll();
-    }
-    this.unbindAnimationEndListener();
-    this.cd.markForCheck();
-  }
-  unbindAnimationEndListener() {
-    if (this.animationEndListener && this.mask) {
-      this.animationEndListener();
-      this.animationEndListener = null;
-    }
-  }
-  ngOnDestroy() {
-    this.unblock();
-    this.destroyModal();
-    super.ngOnDestroy();
-  }
-  static \u0275fac = function BlockUI_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _BlockUI)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _BlockUI,
-    selectors: [["p-blockUI"], ["p-blockui"], ["p-block-ui"]],
-    contentQueries: function BlockUI_ContentQueries(rf, ctx, dirIndex) {
-      if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c012, 4);
-        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentTemplate = _t.first);
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
-      }
-    },
-    viewQuery: function BlockUI_Query(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275viewQuery(_c111, 5);
-      }
-      if (rf & 2) {
-        let _t;
-        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.mask = _t.first);
-      }
-    },
-    inputs: {
-      target: "target",
-      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
-      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
-      styleClass: "styleClass",
-      blocked: [2, "blocked", "blocked", booleanAttribute]
-    },
-    features: [\u0275\u0275ProvidersFeature([BlockUiStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c27,
-    decls: 4,
-    vars: 11,
-    consts: [["mask", ""], [3, "ngClass", "ngStyle"], [4, "ngTemplateOutlet"]],
-    template: function BlockUI_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef();
-        \u0275\u0275elementStart(0, "div", 1, 0);
-        \u0275\u0275projection(2);
-        \u0275\u0275template(3, BlockUI_ng_container_3_Template, 1, 0, "ng-container", 2);
-        \u0275\u0275elementEnd();
-      }
-      if (rf & 2) {
-        \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(8, _c36, !ctx.target))("ngStyle", \u0275\u0275pureFunction0(10, _c45));
-        \u0275\u0275attribute("aria-busy", ctx.blocked)("data-pc-name", "blockui")("data-pc-section", "root");
-        \u0275\u0275advance(3);
-        \u0275\u0275property("ngTemplateOutlet", ctx.contentTemplate || ctx._contentTemplate);
-      }
-    },
-    dependencies: [CommonModule, NgClass, NgTemplateOutlet, NgStyle, SharedModule],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlockUI, [{
-    type: Component,
-    args: [{
-      selector: "p-blockUI, p-blockui, p-block-ui",
-      standalone: true,
-      imports: [CommonModule, SharedModule],
-      template: `
-        <div
-            #mask
-            [class]="styleClass"
-            [attr.aria-busy]="blocked"
-            [ngClass]="{ 'p-blockui-mask-document': !target, 'p-blockui p-blockui-mask p-overlay-mask': true }"
-            [ngStyle]="{ display: 'none' }"
-            [attr.data-pc-name]="'blockui'"
-            [attr.data-pc-section]="'root'"
-        >
-            <ng-content></ng-content>
-            <ng-container *ngTemplateOutlet="contentTemplate || _contentTemplate"></ng-container>
-        </div>
-    `,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      encapsulation: ViewEncapsulation.None,
-      providers: [BlockUiStyle]
-    }]
-  }], () => [], {
-    target: [{
-      type: Input
-    }],
-    autoZIndex: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    baseZIndex: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    styleClass: [{
-      type: Input
-    }],
-    blocked: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    contentTemplate: [{
-      type: ContentChild,
-      args: ["content", {
-        descendants: false
-      }]
-    }],
-    mask: [{
-      type: ViewChild,
-      args: ["mask"]
-    }],
-    templates: [{
-      type: ContentChildren,
-      args: [PrimeTemplate]
-    }]
-  });
-})();
-var BlockUIModule = class _BlockUIModule {
-  static \u0275fac = function BlockUIModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _BlockUIModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _BlockUIModule
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [BlockUI, SharedModule, SharedModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BlockUIModule, [{
-    type: NgModule,
-    args: [{
-      imports: [BlockUI, SharedModule],
-      exports: [BlockUI, SharedModule]
-    }]
-  }], null, null);
-})();
-
 // node_modules/primeng/fesm2022/primeng-inputtext.mjs
-var theme13 = ({
+var theme8 = ({
   dt: dt2
 }) => `
 .p-inputtext {
@@ -30153,7 +23695,7 @@ var theme13 = ({
     width: 100%;
 }
 `;
-var classes12 = {
+var classes7 = {
   root: ({
     instance,
     props
@@ -30168,8 +23710,8 @@ var classes12 = {
 };
 var InputTextStyle = class _InputTextStyle extends BaseStyle {
   name = "inputtext";
-  theme = theme13;
-  classes = classes12;
+  theme = theme8;
+  classes = classes7;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275InputTextStyle_BaseFactory;
     return function InputTextStyle_Factory(__ngFactoryType__) {
@@ -30322,10 +23864,10 @@ var InputTextModule = class _InputTextModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-inputnumber.mjs
-var _c013 = ["clearicon"];
-var _c113 = ["incrementbuttonicon"];
-var _c28 = ["decrementbuttonicon"];
-var _c37 = ["input"];
+var _c07 = ["clearicon"];
+var _c18 = ["incrementbuttonicon"];
+var _c24 = ["decrementbuttonicon"];
+var _c34 = ["input"];
 function InputNumber_ng_container_2_TimesIcon_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
@@ -30689,7 +24231,7 @@ function InputNumber_button_5_Template(rf, ctx) {
     \u0275\u0275property("ngIf", !ctx_r2.decrementButtonIcon);
   }
 }
-var theme14 = ({
+var theme9 = ({
   dt: dt2
 }) => `
 .p-inputnumber {
@@ -30873,7 +24415,7 @@ p-inputnumber.ng-invalid.ng-dirty > .p-inputtext::placeholder {
     color: ${dt2("inputtext.invalid.placeholder.color")};
 }
 `;
-var classes13 = {
+var classes8 = {
   root: ({
     instance
   }) => ({
@@ -30902,8 +24444,8 @@ var classes13 = {
 };
 var InputNumberStyle = class _InputNumberStyle extends BaseStyle {
   name = "inputnumber";
-  theme = theme14;
-  classes = classes13;
+  theme = theme9;
+  classes = classes8;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275InputNumberStyle_BaseFactory;
     return function InputNumberStyle_Factory(__ngFactoryType__) {
@@ -32109,9 +25651,9 @@ var InputNumber = class _InputNumber extends BaseComponent {
     selectors: [["p-inputNumber"], ["p-inputnumber"], ["p-input-number"]],
     contentQueries: function InputNumber_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c013, 4);
-        \u0275\u0275contentQuery(dirIndex, _c113, 4);
-        \u0275\u0275contentQuery(dirIndex, _c28, 4);
+        \u0275\u0275contentQuery(dirIndex, _c07, 4);
+        \u0275\u0275contentQuery(dirIndex, _c18, 4);
+        \u0275\u0275contentQuery(dirIndex, _c24, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -32124,7 +25666,7 @@ var InputNumber = class _InputNumber extends BaseComponent {
     },
     viewQuery: function InputNumber_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c37, 5);
+        \u0275\u0275viewQuery(_c34, 5);
       }
       if (rf & 2) {
         let _t;
@@ -32643,43 +26185,43 @@ var InputNumberModule = class _InputNumberModule {
 })();
 
 // node_modules/primeng/fesm2022/primeng-panel.mjs
-var _c014 = ["header"];
-var _c114 = ["icons"];
-var _c29 = ["content"];
-var _c38 = ["footer"];
-var _c46 = ["headericons"];
-var _c54 = ["contentWrapper"];
-var _c64 = ["*", [["p-header"]], [["p-footer"]]];
-var _c73 = ["*", "p-header", "p-footer"];
-var _c83 = (a0, a1) => ({
+var _c08 = ["header"];
+var _c19 = ["icons"];
+var _c25 = ["content"];
+var _c35 = ["footer"];
+var _c44 = ["headericons"];
+var _c52 = ["contentWrapper"];
+var _c62 = ["*", [["p-header"]], [["p-footer"]]];
+var _c72 = ["*", "p-header", "p-footer"];
+var _c82 = (a0, a1) => ({
   "p-panel p-component": true,
   "p-panel-toggleable": a0,
   "p-panel-expanded": a1
 });
-var _c93 = (a0) => ({
+var _c92 = (a0) => ({
   transitionParams: a0,
   height: "0",
   opacity: "0"
 });
-var _c103 = (a0) => ({
+var _c102 = (a0) => ({
   value: "hidden",
   params: a0
 });
-var _c115 = (a0) => ({
+var _c112 = (a0) => ({
   transitionParams: a0,
   height: "*",
   opacity: "1"
 });
-var _c124 = (a0) => ({
+var _c123 = (a0) => ({
   value: "visible",
   params: a0
 });
-var _c134 = (a0, a1, a2) => ({
+var _c133 = (a0, a1, a2) => ({
   "p-panel-icons-start": a0,
   "p-panel-icons-end": a1,
   "p-panel-icons-center": a2
 });
-var _c144 = (a0) => ({
+var _c142 = (a0) => ({
   $implicit: a0
 });
 function Panel_div_1_span_1_Template(rf, ctx) {
@@ -32792,7 +26334,7 @@ function Panel_div_1_p_button_6_ng_template_1_Template(rf, ctx) {
     const ctx_r2 = \u0275\u0275nextContext(3);
     \u0275\u0275property("ngIf", !ctx_r2.headerIconsTemplate && !ctx_r2._headerIconsTemplate && !(ctx_r2.toggleButtonProps == null ? null : ctx_r2.toggleButtonProps.icon));
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r2.headerIconsTemplate || ctx_r2._headerIconsTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c144, ctx_r2.collapsed));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r2.headerIconsTemplate || ctx_r2._headerIconsTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c142, ctx_r2.collapsed));
   }
 }
 function Panel_div_1_p_button_6_Template(rf, ctx) {
@@ -32841,7 +26383,7 @@ function Panel_div_1_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275property("ngTemplateOutlet", ctx_r2.headerTemplate || ctx_r2._headerTemplate);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(6, _c134, ctx_r2.iconPos === "start", ctx_r2.iconPos === "end", ctx_r2.iconPos === "center"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(6, _c133, ctx_r2.iconPos === "start", ctx_r2.iconPos === "end", ctx_r2.iconPos === "center"));
     \u0275\u0275advance();
     \u0275\u0275property("ngTemplateOutlet", ctx_r2.iconTemplate || ctx_r2._iconTemplate);
     \u0275\u0275advance();
@@ -32871,7 +26413,7 @@ function Panel_div_7_Template(rf, ctx) {
     \u0275\u0275property("ngTemplateOutlet", ctx_r2.footerTemplate || ctx_r2._footerTemplate);
   }
 }
-var theme15 = ({
+var theme10 = ({
   dt: dt2
 }) => `
 .p-panel {
@@ -32920,7 +26462,7 @@ var theme15 = ({
     overflow: hidden;
 }
 `;
-var classes14 = {
+var classes9 = {
   root: ({
     props
   }) => ["p-panel p-component", {
@@ -32936,8 +26478,8 @@ var classes14 = {
 };
 var PanelStyle = class _PanelStyle extends BaseStyle {
   name = "panel";
-  theme = theme15;
-  classes = classes14;
+  theme = theme10;
+  classes = classes9;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275PanelStyle_BaseFactory;
     return function PanelStyle_Factory(__ngFactoryType__) {
@@ -33204,11 +26746,11 @@ var Panel = class _Panel extends BaseComponent {
     contentQueries: function Panel_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
         \u0275\u0275contentQuery(dirIndex, Footer, 5);
-        \u0275\u0275contentQuery(dirIndex, _c014, 4);
-        \u0275\u0275contentQuery(dirIndex, _c114, 4);
-        \u0275\u0275contentQuery(dirIndex, _c29, 4);
-        \u0275\u0275contentQuery(dirIndex, _c38, 4);
-        \u0275\u0275contentQuery(dirIndex, _c46, 4);
+        \u0275\u0275contentQuery(dirIndex, _c08, 4);
+        \u0275\u0275contentQuery(dirIndex, _c19, 4);
+        \u0275\u0275contentQuery(dirIndex, _c25, 4);
+        \u0275\u0275contentQuery(dirIndex, _c35, 4);
+        \u0275\u0275contentQuery(dirIndex, _c44, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -33224,7 +26766,7 @@ var Panel = class _Panel extends BaseComponent {
     },
     viewQuery: function Panel_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c54, 5);
+        \u0275\u0275viewQuery(_c52, 5);
       }
       if (rf & 2) {
         let _t;
@@ -33251,14 +26793,14 @@ var Panel = class _Panel extends BaseComponent {
       onAfterToggle: "onAfterToggle"
     },
     features: [\u0275\u0275ProvidersFeature([PanelStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c73,
+    ngContentSelectors: _c72,
     decls: 8,
     vars: 25,
     consts: [["contentWrapper", ""], ["icon", ""], [3, "ngClass", "ngStyle"], ["class", "p-panel-header", 3, "click", 4, "ngIf"], ["role", "region", 1, "p-panel-content-container", 3, "id"], [1, "p-panel-content"], [4, "ngTemplateOutlet"], ["class", "p-panel-footer", 4, "ngIf"], [1, "p-panel-header", 3, "click"], ["class", "p-panel-title", 4, "ngIf"], [1, "p-panel-icons", 3, "ngClass"], ["severity", "secondary", "type", "button", "role", "button", "styleClass", "p-panel-header-icon p-panel-toggler p-link", 3, "text", "rounded", "buttonProps", "click", "keydown", 4, "ngIf"], [1, "p-panel-title"], ["severity", "secondary", "type", "button", "role", "button", "styleClass", "p-panel-header-icon p-panel-toggler p-link", 3, "click", "keydown", "text", "rounded", "buttonProps"], [4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "class", 4, "ngIf"], [1, "p-panel-footer"]],
     template: function Panel_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
-        \u0275\u0275projectionDef(_c64);
+        \u0275\u0275projectionDef(_c62);
         \u0275\u0275elementStart(0, "div", 2);
         \u0275\u0275template(1, Panel_div_1_Template, 7, 10, "div", 3);
         \u0275\u0275elementStart(2, "div", 4);
@@ -33275,12 +26817,12 @@ var Panel = class _Panel extends BaseComponent {
       }
       if (rf & 2) {
         \u0275\u0275classMap(ctx.styleClass);
-        \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(14, _c83, ctx.toggleable, !ctx.collapsed && ctx.toggleable))("ngStyle", ctx.style);
+        \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(14, _c82, ctx.toggleable, !ctx.collapsed && ctx.toggleable))("ngStyle", ctx.style);
         \u0275\u0275attribute("id", ctx.id)("data-pc-name", "panel");
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.showHeader);
         \u0275\u0275advance();
-        \u0275\u0275property("id", ctx.id + "_content")("@panelContent", ctx.collapsed ? \u0275\u0275pureFunction1(19, _c103, \u0275\u0275pureFunction1(17, _c93, ctx.animating ? ctx.transitionOptions : "0ms")) : \u0275\u0275pureFunction1(23, _c124, \u0275\u0275pureFunction1(21, _c115, ctx.animating ? ctx.transitionOptions : "0ms")));
+        \u0275\u0275property("id", ctx.id + "_content")("@panelContent", ctx.collapsed ? \u0275\u0275pureFunction1(19, _c102, \u0275\u0275pureFunction1(17, _c92, ctx.animating ? ctx.transitionOptions : "0ms")) : \u0275\u0275pureFunction1(23, _c123, \u0275\u0275pureFunction1(21, _c112, ctx.animating ? ctx.transitionOptions : "0ms")));
         \u0275\u0275attribute("aria-labelledby", ctx.id + "_header")("aria-hidden", ctx.collapsed)("tabindex", ctx.collapsed ? "-1" : void 0);
         \u0275\u0275advance(4);
         \u0275\u0275property("ngTemplateOutlet", ctx.contentTemplate || ctx._contentTemplate);
@@ -33549,12 +27091,958 @@ var PanelModule = class _PanelModule {
 })();
 
 // src/app/views/quiz/quiz-homepage/quiz-homepage.component.ts
-var _c015 = () => ({ objectFit: "contain" });
+var _c09 = () => ({ objectFit: "contain" });
 var QuizHomepageComponent = class _QuizHomepageComponent {
   /*
   Page de présentation du quiz
   Permet la sélection du nombre de questions par multiples de la longueur du cycle de thèmes
   */
+  constructor(router) {
+    this.router = router;
+  }
+  commencer() {
+    this.router.navigate(["/quiz/temps"]);
+  }
+  static \u0275fac = function QuizHomepageComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _QuizHomepageComponent)(\u0275\u0275directiveInject(Router));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizHomepageComponent, selectors: [["app-quiz-homepage"]], decls: 12, vars: 2, consts: [[1, "presentation-section"], ["src", "images/banner.png", "width", "80%", 3, "imageStyle"], [1, "lower-section"], [1, "start-game-button"], ["aria-label", "Commencer le quiz", "label", "Passer \xE0 l'action", 1, "game", 3, "click"]], template: function QuizHomepageComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 0)(1, "h1");
+      \u0275\u0275text(2, "Inclusivit\xE9 num\xE9rique : Testez vos connaissances !");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(3, "p-image", 1);
+      \u0275\u0275elementStart(4, "p");
+      \u0275\u0275text(5, " Gr\xE2ce au quiz d\u2019Inclusif, le jeu, abordez de mani\xE8re ludique les enjeux de l\u2019inclusivit\xE9 et de l\u2019accessibilit\xE9 num\xE9riques. ");
+      \u0275\u0275element(6, "br");
+      \u0275\u0275text(7, " D\xE9cidez ci-dessous de la dur\xE9e de ce quiz. ");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(8, "div", 2);
+      \u0275\u0275element(9, "p-divider");
+      \u0275\u0275elementStart(10, "div", 3)(11, "p-button", 4);
+      \u0275\u0275listener("click", function QuizHomepageComponent_Template_p_button_click_11_listener() {
+        return ctx.commencer();
+      });
+      \u0275\u0275elementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(3);
+      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(1, _c09));
+    }
+  }, dependencies: [ButtonModule, Button, DividerModule, Divider, PanelModule, InputNumberModule, BlockUIModule, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.presentation-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  height: 100%;\n}\n.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: normal;\n  margin-bottom: 35px;\n  margin-top: 15px;\n}\n.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: normal;\n  margin-top: 25px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n  width: 80%;\n}\n  .start-game-button button {\n  width: 200px;\n  height: 40px;\n  margin-left: 16px;\n}\n.game[_ngcontent-%COMP%] {\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\np[_ngcontent-%COMP%], \nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  color: #333333;\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizHomepageComponent, { className: "QuizHomepageComponent", filePath: "src/app/views/quiz/quiz-homepage/quiz-homepage.component.ts", lineNumber: 17 });
+})();
+
+// src/app/shared/assets/data/questions_final.json
+var questions_final_exports = {};
+__export(questions_final_exports, {
+  default: () => questions_final_default,
+  question_cycle: () => question_cycle,
+  question_topics: () => question_topics,
+  questions: () => questions
+});
+var question_topics = [
+  "Handicap",
+  "Design",
+  "Accessibilit\xE9 num\xE9rique",
+  "Inclusion num\xE9rique"
+];
+var question_cycle = [
+  1,
+  1,
+  1,
+  1
+];
+var questions = {
+  "Accessibilit\xE9 num\xE9rique": [
+    {
+      question_type: "QCM",
+      question: "Pour compenser un handicap moteur, il est possible d'utiliser :",
+      possible_answers: [
+        "A : une commande vocale",
+        "B : une commande visuelle",
+        "C : un joystick",
+        "D : une souris ergonomique"
+      ],
+      true_answers: [
+        0,
+        1,
+        2,
+        3
+      ],
+      QCM_answers: "Les bonnes r\xE9ponses sont A, B, C et D.",
+      explanation: "Le handicap moteur recouvre l\u2019ensemble des troubles pouvant entra\xEEner une atteinte partielle ou totale de la motricit\xE9, notamment des membres sup\xE9rieurs et/ou inf\xE9rieurs. "
+    },
+    {
+      question_type: "QCU",
+      question: "L'accessibilit\xE9 num\xE9rique est un concept exclusivement fran\xE7ais ou francophone.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: `L'accessibilit\xE9 num\xE9rique a \xE9t\xE9 pens\xE9e d\xE8s la cr\xE9ation d'Internet.
+ "Le pouvoir du Web est dans son universalit\xE9. L\u2019acc\xE8s pour tous, quel que soit le handicap, est un aspect essentiel." 
+ Tim Berners-Lee, directeur du W3C et inventeur du World Wide Web`
+    },
+    {
+      question_type: "QCU",
+      question: "Quel est le montant de la sanction financi\xE8re appliqu\xE9e pour un service en ligne qui ne respecte pas les obligations d'accessibilit\xE9 num\xE9rique ?",
+      possible_answers: [
+        "Jusqu'\xE0 25 000 \u20AC",
+        "Jusqu'\xE0 50 000 \u20AC",
+        "Jusqu'\xE0 75 000 \u20AC"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "Pour un service en ligne et par semestre, la loi pr\xE9voit 25 000 \u20AC si le statut de conformit\xE9 RGAA\u202Fn\u2019est pas affich\xE9 sur la page d\u2019accueil et, pour le secteur public, 50 000 \u20AC pour d\xE9faut d'accessibilit\xE9."
+    },
+    {
+      question_type: "QCU",
+      question: "Quel est le nom de l'autorit\xE9 de contr\xF4le de l'accessibilit\xE9 num\xE9rique en France ?",
+      possible_answers: [
+        "La CNIL",
+        "La DINUM",
+        "L'ARCOM"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "Il s'agit de l'ARCOM (Autorit\xE9 de r\xE9gulation de la communication audiovisuelle et num\xE9rique) qui est une autorit\xE9 publique ind\xE9pendante."
+    },
+    {
+      question_type: "QCU",
+      question: "Le RGAA est le R\xE9f\xE9rentiel G\xE9n\xE9ral d'Am\xE9lioration de l'Accessibilit\xE9.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Il s'agit du R\xE9f\xE9rentiel G\xE9n\xE9ral d'Am\xE9lioration de l'Accessibilit\xE9, qui d\xE9finit les crit\xE8res pour qu'un service num\xE9rique soit accessible au personnes handicap\xE9es.\n Au niveau international, les WCAG (Web content Accessibility Guidelines) sont les recommandations techniques pour l'accessibilit\xE9 des contenus web."
+    },
+    {
+      question_type: "QCU",
+      question: "Les documents bureautiques sont soumis au RGAA ?",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Les documents sont analys\xE9s par les crit\xE8res 13.3 et 13.4 du RGAA, pour les structures \xE9tant soumises aux obligations d'accessibilit\xE9."
+    },
+    {
+      question_type: "QCM",
+      question: "Une vid\xE9o accessible est une vid\xE9o :",
+      possible_answers: [
+        "A : pour laquelle l'utilisateur peut stopper et relancer la lecture",
+        "B : avec des sous-titres",
+        "C : avec une traduction en LSF (langue des signes)",
+        "D : avec une audio-description"
+      ],
+      true_answers: [
+        0,
+        1,
+        2,
+        3
+      ],
+      QCM_answers: "Les bonnes r\xE9ponses sont A, B, C et D.",
+      explanation: "La traduction en LSF peut \xEAtre difficile \xE0 mettre en place, car l'image de l'interpr\xE8te doit \xEAtre incrust\xE9e dans la vid\xE9o."
+    },
+    {
+      question_type: "QCU",
+      question: `Un lecteur d'\xE9cran est un logiciel d\u2019assistance technique destin\xE9 aux personnes "emp\xEAch\xE9es de lire" (aveugles, malvoyantes, dyslexiques).`,
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Un lecteur d'\xE9cran retranscrit par synth\xE8se vocale et/ou sur un afficheur braille ce qui est affich\xE9 sur l'\xE9cran d'un ordinateur ou d'un t\xE9l\xE9phone, et permet d'interagir avec le syst\xE8me d\u2019exploitation et les applications."
+    },
+    {
+      question_type: "QCU",
+      question: "Dans les \xE9coles informatiques, les formations \xE0 l'accessibilit\xE9 num\xE9rique sont obligatoires.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Les formations \xE0 l'accessibilit\xE9 num\xE9rique sont propos\xE9es aux \xE9tudiants en informatique, mais restent optionnelles \xE0 ce jour."
+    }
+  ],
+  Design: [
+    {
+      question_type: "QCU",
+      question: "Il y a des couleurs \xE0 \xE9viter pour garantir l'accessibilit\xE9 num\xE9rique.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Le manque d'accessibilit\xE9 d'une couleur vient d'un probl\xE8me de contraste entre le texte et l'arri\xE8re-plan. Ainsi, un texte de couleur jaune sur un fond orange sera peu ou pas accessible. En revanche, un texte de couleur jaune sur fond noir sera suffisamment contrast\xE9."
+    },
+    {
+      question_type: "QCU",
+      question: "Un dark pattern est un mouvement esth\xE9tique incitant \xE0 concevoir les services num\xE9riques en mode sombre.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Un dark pattern est une technique de design trompeuse qui manipule les utilisateurs pour les pousser \xE0 faire des actions non d\xE9sir\xE9es, comme accepter des frais cach\xE9s ou s'abonner \xE0 des services"
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle est la principale raison d'utiliser des ic\xF4nes dans une interface utilisateur ?",
+      possible_answers: [
+        "Permettre la personnalisation des interfaces",
+        "D\xE9corer et cr\xE9er un effet visuel attrayant",
+        "Simplifier la navigation",
+        "Ajouter des informations suppl\xE9mentaires au texte"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "\n Les ic\xF4nes ne sont pas un \xE9l\xE9ment d\xE9coratif mais permettent de renforcer visuellement certaines actions et/ou informations."
+    },
+    {
+      question_type: "QCU",
+      question: "Quel principe de design assure que les \xE9l\xE9ments importants d'une interface sont faciles \xE0 trouver et \xE0 utiliser ?",
+      possible_answers: [
+        "Le contraste \xE9lev\xE9",
+        "La hi\xE9rarchie visuelle",
+        "La saturation des couleurs",
+        "L'utilisation de diff\xE9rentes polices"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "La hi\xE9rarchisation visuelle est un concept qui permet d'identifier les \xE9l\xE9ments pr\xE9sents par ordre de priorit\xE9 et/ou d'importance relative."
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle approche de design implique de cr\xE9er des maquettes interactives pour tester des id\xE9es avant de les finaliser ?",
+      possible_answers: [
+        "L'observation",
+        "Le prototypage",
+        "La charte graphique"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "La phase de prototypage permet de tester certaines id\xE9es par un exemple incomplet et non d\xE9finitif de ce que pourra \xEAtre le produit ou l'objet final."
+    },
+    {
+      question_type: "QCM",
+      question: 'Quel est le r\xF4le des "feedbacks" ?',
+      possible_answers: [
+        "A : Informer l\u2019utilisateur des r\xE9ussites et erreurs",
+        "B : Changer certains \xE9l\xE9ments pour dynamiser l'interface",
+        "C : Simplifier les interactions entre l'utilisateur et le service"
+      ],
+      true_answers: [
+        0,
+        2
+      ],
+      QCM_answers: "Les bonnes r\xE9ponses sont A et C.",
+      explanation: `Un "feedback" est un retour visuel et/ou textuel suite \xE0 une action r\xE9alis\xE9e par l'utilisateur permettant d'informer l'utilisateur sur la cons\xE9quence de ses actions.`
+    },
+    {
+      question_type: "QCU",
+      question: 'Quel est le but principal du "design responsive" ?',
+      possible_answers: [
+        "Cr\xE9er des designs qui r\xE9agissent aux actions de l'utilisateur",
+        "Assurer que l'interface s'adapte \xE0 diff\xE9rentes tailles d'\xE9cran et r\xE9solutions",
+        "Ajouter des effets visuels interactifs"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Un design responsive est un design pens\xE9 pour s'adapter aux diff\xE9rentes tailles d'\xE9crans et r\xE9solutions tels que les mobiles ou ordinateurs."
+    },
+    {
+      question_type: "QCU",
+      question: `Que signifie "le design centr\xE9 sur l'utilisateur" ?`,
+      possible_answers: [
+        "Concevoir principalement pour les tendances visuelles actuelles",
+        "Cr\xE9er des interfaces en fonction des besoins et des retours des utilisateurs finaux",
+        "Focaliser sur les aspects techniques du produit"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: `L'approche "centr\xE9e utilisateur" se focalise sur une conception bas\xE9e sur une \xE9tude des besoins et habitudes de l'utilisateur.`
+    },
+    {
+      question_type: "QCU",
+      question: "Quel type d'animation est g\xE9n\xE9ralement recommand\xE9 pour am\xE9liorer l'exp\xE9rience de l'utilisateur sans le distraire ?",
+      possible_answers: [
+        "Des animations lentes",
+        "Aucune animation",
+        "Des animations subtiles avec un retour sur les actions r\xE9alis\xE9es"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "Si des animations (\xE9l\xE9ments en mouvement, transitions) sont pr\xE9sentes au sein des interfaces, il est recommand\xE9 que celles-ci soient discr\xE8tes et utiles."
+    },
+    {
+      question_type: "QCU",
+      question: 'Quelle est la diff\xE9rence entre "design inclusif" et "design accessible" ?',
+      possible_answers: [
+        "Le design inclusif est destin\xE9 \xE0 tous, le design accessible se concentre sur les personnes handicap\xE9es",
+        "Il n'y a aucune diff\xE9rence, les deux termes sont synonymes"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Si un design accessible cherche \xE0 r\xE9pondre aux besoins de certains handicaps, un design inclusif cherche \xE0 proposer une experience optimale pour tous."
+    }
+  ],
+  "Inclusion num\xE9rique": [
+    {
+      question_type: "QCU",
+      question: "Se faire accompagner par un professionnel pour r\xE9soudre une difficult\xE9 avec le num\xE9rique est payant.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "C'est g\xE9n\xE9ralement gratuit. Vous trouverez la liste des structures d'accompagnement sur https://cartographie.societenumerique.gouv.fr/orientation."
+    },
+    {
+      question_type: "QCU",
+      question: "Apr\xE8s les maladies ordinaires, les troubles psychologiques sont la 2e cause d'arr\xEAt de travail en France.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Les troubles psychologiques sont la 2e cause d'arr\xEAt de travail en France : 20% des arr\xEAts maladie en 2022, contre 11% en 2016. Les troubles psychologiques constituent par ailleurs le principal motif des arr\xEAts longs : 28% en 2022 vs 14% en 2016. \nSource : Barom\xE8tre annuel Absent\xE9isme (Malakoff Humanis)"
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle est la proportion des personnes sans domicile fixe \xE9quip\xE9es d'un smartphone ?",
+      possible_answers: [
+        "31%",
+        "51%",
+        "71%"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "Source : Solinum, 2019"
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle proportion de fran\xE7ais souffrent de fatigue informationnelle et se sentent donc d\xE9bord\xE9s, \xE9puis\xE9s ou oppress\xE9s par un flux constant d'information ?",
+      possible_answers: [
+        "38%",
+        "54%",
+        "72%"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: '54% des Fran\xE7ais d\xE9clarent souffrir de fatigue informationnelle, et 38% d\xE9clarent en souffrir "beaucoup". \nSource : Fondation Jean Jaur\xE8s, 2022.'
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle est la tranche d'\xE2ge la plus concern\xE9e par l'illectronisme ?",
+      possible_answers: [
+        "Plus de 65 ans",
+        "Plus de 70 ans",
+        "Plus de 75 ans"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "L'illectronisme est l'\xE9quivalent de l'illettrisme dans le domaine du num\xE9rique : la \xAB situation d'une personne ne poss\xE9dant pas les comp\xE9tences num\xE9riques de base ou ne se servant pas d'Internet \xBB. Les plus de 75 ans sont les plus touch\xE9s, avec 61,9 % en situation d'illectronisme. \nSources : Insee, 2021, Observatoire des in\xE9galit\xE9s, 2024"
+    },
+    {
+      question_type: "QCU",
+      question: "Il existe un lien entre num\xE9rique inclusif et num\xE9rique \xE9co-responsable.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "De nombreuses bonnes pratiques d'inclusivit\xE9 num\xE9rique peuvent contribuer \xE0 produire un service num\xE9rique \xE9co-responsable. Par exemple, le fait d'all\xE9ger les contenus pour qu'ils soient lisibles par tous permet de r\xE9duire l'impact carbone d'une page web."
+    },
+    {
+      question_type: "QCU",
+      question: "Le droit \xE0 une alternative au num\xE9rique (ou droit au non num\xE9rique) existe pour tous les citoyens fran\xE7ais aujourd'hui.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Le droit au non num\xE9rique n'existe pas en tant que tel. N\xE9anmoins, le principe d'\xE9galit\xE9 d'acc\xE8s aux services publics induit la possibilit\xE9 d'y acc\xE9der quelque soit le canal d'interaction choisi. \nSource : vie-publique.fr, 2024"
+    },
+    {
+      question_type: "QCU",
+      question: "Combien de Fran\xE7ais pr\xE9sentent des difficult\xE9s avec le num\xE9rique ?",
+      possible_answers: [
+        "28%",
+        "48%",
+        "68%"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "En 2022, 48% des Fran\xE7ais ont d\xE9clar\xE9 rencontrer des difficult\xE9s avec le num\xE9rique, soit 13% de plus qu'en 2020. \nSource : Barom\xE8tre du num\xE9rique 2023"
+    },
+    {
+      question_type: "QCU",
+      question: "La notion d'inclusion est-elle diff\xE9rente de celle d'int\xE9gration ?",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Dans le cadre de la production d'un service, l'int\xE9gration consiste \xE0 pr\xE9voir une d\xE9clinaison de ce service adapt\xE9e au public \xE0 int\xE9grer, alors que l'inclusion consiste \xE0 imaginer un service utilisable par tous les publics."
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle est, en 2024, la proportion de sites web 100% conformes au RGAA ?",
+      possible_answers: [
+        "0,6%",
+        "16%",
+        "46%"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "25 sites web sur 4147 contr\xF4l\xE9s par l'Observatoire de l'Accessibilit\xE9 Num\xE9rique sont totalement conformes au RGAA en septembre 2024. 351 (8%) sont partiellement conformes."
+    },
+    {
+      question_type: "QCU",
+      question: "Qu'est ce qu'Aidants Connect ?",
+      possible_answers: [
+        "Une application pour les aidants de personnes d\xE9pendantes",
+        "Un outil d'authentification d'un aidant num\xE9rique",
+        "Une application d'assistance num\xE9rique \xE0 distance"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Aidants Connect est un outil d'authentification d'un aidant num\xE9rique dans le cadre d'un accompagnement. Il s\xE9curise l'action \xE9ventuelle de l'aidant sur les donn\xE9es de la personne aid\xE9e."
+    },
+    {
+      question_type: "QCU",
+      question: 'Un "dumb phone" est un t\xE9l\xE9phone destin\xE9 aux personnes ayant des troubles cognitifs.',
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: 'Un "dumb phone" est, par opposition \xE0 un smartphone, un t\xE9l\xE9phone dot\xE9 uniquement de fonctions de base (appels, SMS...), g\xE9n\xE9ralement simple \xE0 utiliser. Le march\xE9 des "dumb phones" ou "feature phones" est en relative croissance.'
+    },
+    {
+      question_type: "QCU",
+      question: "Combien de temps faut-il \xE0 un utilisateur pour se faire une premi\xE8re impression d'un service num\xE9rique ?",
+      possible_answers: [
+        "50 millisecondes",
+        "5 secondes",
+        "5 minutes"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Source : Taylor & Francis Online, 2006"
+    },
+    {
+      question_type: "QCU",
+      question: "Quel est le pourcentage d'utilisateurs qui ne r\xE9utiliseront pas un service num\xE9rique leur ayant fait vivre une mauvaise exp\xE9rience ?",
+      possible_answers: [
+        "28%",
+        "58%",
+        "88%"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: 'Source : "Why Web Performance Matters" Gomez, 2011'
+    }
+  ],
+  Handicap: [
+    {
+      question_type: "QCU",
+      question: "Une personne handicap\xE9e est forc\xE9ment en situation d'exclusion num\xE9rique.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Si les services num\xE9riques respectent les normes d'accessibilit\xE9 num\xE9rique, les personnes handicap\xE9es n'ont pas de difficult\xE9s \xE0 les consulter. De plus, certains types de handicap n'impliquent pas syst\xE9matiquement une situation d'exclusion num\xE9rique."
+    },
+    {
+      question_type: "QCU",
+      question: "Combien de personnes ont un handicap visuel en France ?",
+      possible_answers: [
+        "700 000",
+        "1,7 millions",
+        "2,7 millions"
+      ],
+      true_answers: [
+        1
+      ],
+      QCM_answers: "",
+      explanation: "Une personne aveugle ou malvoyante na\xEEt toutes les 15 heures. En France, il y a 207 000 aveugles et malvoyants profonds et 932 000 malvoyants moyens (ils ne peuvent distinguer un visage \xE0 4 m\xE8tres et la lecture de pr\xE8s est impossible). \nSource : F\xE9d\xE9ration des Aveugles de France"
+    },
+    {
+      question_type: "QCU",
+      question: "Combien de personnes ont un handicap auditif en France ?",
+      possible_answers: [
+        "Environ 2 millions",
+        "Environ 4 millions",
+        "Environ 5 millions"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "En France, 5 182 000 personnes ont un handicap auditif, dont 303 000 souffrent d'une d\xE9ficience auditive profonde ou totale. \nSource : Etude Le handicap auditif en France (DREES)"
+    },
+    {
+      question_type: "QCU",
+      question: "L'autisme est un handicap cognitif, au m\xEAme titre que l'hyperactivit\xE9.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Un trouble cognitif correspond \xE0 une alt\xE9ration d\u2019une ou plusieurs fonctions cognitives pour une raison neurologique, psychiatrique, m\xE9dicamenteuse ou g\xE9n\xE9tique. On peut citer par exemple :les TDA (troubles de d\xE9ficit de l\u2019attention), l'hyperactivit\xE9, les troubles DYS, l'autisme, les troubles de la m\xE9moire ou la trisomie 21. \nSource : Haute Autorit\xE9 de Sant\xE9."
+    },
+    {
+      question_type: "QCU",
+      question: "La schizophr\xE9nie est un handicap psychique.",
+      possible_answers: [
+        "Vrai",
+        "Faux"
+      ],
+      true_answers: [
+        0
+      ],
+      QCM_answers: "",
+      explanation: "Le handicap psychique est la cons\xE9quence d'une maladie psychique issue de changements qui affectent la pens\xE9e, l'humeur ou le comportement d'une personne, et qui lui causent de la d\xE9tresse ou de la souffrance. Il n'affecte pas directement les capacit\xE9s intellectuelles. On peut citer par exemple : les phobies, les addictions, la d\xE9pressions, les TOC (troubles obsessionnels compulsifs), les troubles bipolaires ou la schizophr\xE9nie. \nSource : Agefiph."
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle est la proportion de personnes daltoniennes en France ?",
+      possible_answers: [
+        "2% chez les hommes et 1 % chez les femmes",
+        "5% chez les hommes et 2% chez les femmes",
+        "8% chez les hommes et 0,45% chez les femmes"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "8% chez les hommes et 0,45% chez les femmes"
+    },
+    {
+      question_type: "QCU",
+      question: "Combien de personnes sont en situation de handicap en France ?",
+      possible_answers: [
+        "2 millions",
+        "5 millions",
+        "12 millions",
+        "17 millions"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "On peut m\xEAme aller jusqu'\xE0 20 millions en comptant les seniors."
+    },
+    {
+      question_type: "QCU",
+      question: "Quelle est la proportion des handicaps invisibles dans la population fran\xE7aise en situation de handicap ?",
+      possible_answers: [
+        "40%",
+        "60%",
+        "80%"
+      ],
+      true_answers: [
+        2
+      ],
+      QCM_answers: "",
+      explanation: "Soit pr\xE8s de 10 millions de personnes. On peut notamment citer parmi les handicaps invisibles : les handicaps mentaux, les handicaps psychiques, les maladies invalidantes (asthme, allergies, diab\xE8te..), les troubles musculosquelettiques (lombalgies, tendinites..), ou les troubles DYS."
+    },
+    {
+      question_type: "QCM",
+      question: "Parmi les \xE9l\xE9ments suivants, lesquels sont des troubles sp\xE9cifiques du langage et des apprentissages (ou troubles DYS) ?",
+      possible_answers: [
+        "A : La dysacousie",
+        "B : La dyspraxie",
+        "C : La dyslexie"
+      ],
+      true_answers: [
+        1,
+        2
+      ],
+      QCM_answers: "Les bonnes r\xE9ponses sont B et C.",
+      explanation: "La dyspraxie est le trouble de la capacit\xE9 \xE0 ex\xE9cuter des mouvements d\xE9termin\xE9s. La dyslexie est le trouble de la lecture. On peut \xE9galement citer : la dyscalculie : trouble dans les apprentissages num\xE9riques; la dysgraphie : difficult\xE9 \xE0 accomplir les gestes de l'\xE9criture et du dessin; la dysorthographie : \xE9galement appel\xE9 trouble de l'acquisition de l'expression \xE9crite; la dysphasie : trouble li\xE9 au d\xE9veloppement du langage oral."
+    }
+  ]
+};
+var questions_final_default = {
+  question_topics,
+  question_cycle,
+  questions
+};
+
+// src/app/views/header/header.component.ts
+var HeaderComponent = class _HeaderComponent {
+  static \u0275fac = function HeaderComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _HeaderComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HeaderComponent, selectors: [["app-header"]], decls: 9, vars: 1, consts: [["href", "https://inclusivite-resin.grandlyon.com/", "target", "_blank", "rel", "noopener noreferrer", 1, "intlogo"], ["src", "images/resin.svg", "alt", "Image de pr\xE9sentation du quiz", 1, "logo", 3, "width"], [1, "header-divider"], ["layout", "vertical"], ["href", "quiz/accueil"], [1, "title"]], template: function HeaderComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "a", 0);
+      \u0275\u0275element(1, "p-image", 1);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(2, "div", 2);
+      \u0275\u0275element(3, "p-divider", 3);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(4, "a", 4)(5, "h1", 5);
+      \u0275\u0275text(6, "Inclusif, le jeu :");
+      \u0275\u0275element(7, "br");
+      \u0275\u0275text(8, " Quiz");
+      \u0275\u0275elementEnd()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance();
+      \u0275\u0275property("width", "116px");
+    }
+  }, dependencies: [ImageModule, Image, DividerModule, Divider], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: start;\n  height: 100%;\n  width: 100%;\n  box-shadow: rgba(99, 99, 99, 0.16) 0px 10px 20px;\n}\n.title[_ngcontent-%COMP%] {\n  font-weight: normal;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  padding: 2px;\n  font-size: 16px;\n  color: var(--p-gray-700);\n}\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.logo[_ngcontent-%COMP%] {\n  width: 105px;\n  padding: 1px 1px 0px 53px;\n  color: #696969;\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HeaderComponent, { className: "HeaderComponent", filePath: "src/app/views/header/header.component.ts", lineNumber: 11 });
+})();
+
+// src/app/app.component.ts
+var AppComponent = class _AppComponent {
+  quizData = quizData;
+  // Prise des données des cartes du Quiz
+  static \u0275fac = function AppComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _AppComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 28, vars: 0, consts: [[1, "app-container"], [1, "header-div"], ["href", "https://resin.grandlyon.com/mentions-legales", "target", "_blank", "rel", "noopener noreferrer"], ["href", "https://resin.grandlyon.com/page/qui-sommes-nous", "target", "_blank", "rel", "noopener noreferrer"], ["href", "/accessibilite", "target", "_blank", "rel", "noopener noreferrer"], [1, "right-section"], ["href", "https://www.grandlyon.com/", "target", "_blank", "rel", "noopener noreferrer"], ["src", "https://inclusivite-resin.grandlyon.com/app/themes/ausy-modular-theme/public/images/picto-plus.0a1d2b.png", "alt", "Logo"]], template: function AppComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 0)(1, "header")(2, "div", 1);
+      \u0275\u0275element(3, "app-header");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(4, "main");
+      \u0275\u0275element(5, "router-outlet");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(6, "footer")(7, "ul")(8, "li")(9, "a", 2);
+      \u0275\u0275text(10, "Mentions l\xE9gales");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(11, "p");
+      \u0275\u0275text(12, "\u25CF");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(13, "li")(14, "a", 3);
+      \u0275\u0275text(15, "Qui sommes nous ?");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(16, "p");
+      \u0275\u0275text(17, "\u25CF");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(18, "li")(19, "a", 4);
+      \u0275\u0275text(20, "Accessibilit\xE9 : Non conforme");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(21, "div", 5)(22, "ul")(23, "li")(24, "a", 6);
+      \u0275\u0275element(25, "img", 7);
+      \u0275\u0275elementStart(26, "p");
+      \u0275\u0275text(27, "Un site de la M\xE9tropole de Lyon");
+      \u0275\u0275elementEnd()()()()()()();
+    }
+  }, dependencies: [CommonModule, RouterOutlet, HeaderComponent], styles: ["\n\n.app-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  height: 100%;\n}\n.header-div[_ngcontent-%COMP%] {\n  height: 66px;\n}\nmain[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: auto;\n  height: 100%;\n  padding: 16px;\n}\nfooter[_ngcontent-%COMP%] {\n  height: 40px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background-color: black;\n  color: white;\n  padding: 0 28px;\n  font-size: 12px;\n  width: 100%;\n  margin-top: auto;\n}\nfooter[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  gap: 12px;\n}\nfooter[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: inline-block;\n}\nfooter[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: flex;\n  color: white !important;\n  text-decoration: none;\n  align-items: center;\n  vertical-align: middle;\n}\nfooter[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  text-decoration: underline;\n}\nfooter[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n}\nfooter[_ngcontent-%COMP%]   .right-section[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 20px;\n  margin-right: 5px;\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 14 });
+})();
+var quizData = questions_final_exports;
+
+// src/app/shared/services/quiz-service.ts
+var RandomizedQuestionIndexQueue = class {
+  /* Implémente un tirage aléatoire sans remise des numéros de questions dans un thème
+  * https://gist.github.com/4skinSkywalker/f10939e0b070fe1815933730670177df
+  */
+  remainingIndices;
+  intialSize;
+  // Permet de garder en mémoire la taille de la liste
+  currentSize;
+  // Permet d'avoir la taille restante de la liste
+  constructor(size) {
+    this.intialSize = size;
+    this.currentSize = size;
+    this.remainingIndices = [...Array(size).keys()];
+  }
+  randomId() {
+    return Math.random() * (this.currentSize - 1) | 0;
+  }
+  isEmpty() {
+    return this.currentSize < 1;
+  }
+  replenish() {
+    this.remainingIndices = [...Array(this.intialSize).keys()];
+    this.currentSize = this.intialSize;
+  }
+  dequeueIndex() {
+    if (this.isEmpty()) {
+      this.replenish();
+    }
+    const id = this.randomId();
+    const index = this.remainingIndices[id];
+    this.remainingIndices.splice(id, 1);
+    this.currentSize--;
+    return index;
+  }
+};
+var TopicsQueue = class {
+  /* Implémente la queue des thèmes à effectuer selon le nombre de questions et le cycle de thème à aborder */
+  possibleTopics;
+  topicsCycle;
+  numberOfQuestionsPerCycle = 1;
+  // valeur par défaut
+  topics = [];
+  // queue qui va permettre de tirer les topics
+  constructor(possibleTopics = [], topicsCycle = []) {
+    this.possibleTopics = possibleTopics;
+    this.topicsCycle = topicsCycle;
+  }
+  initialize(nQuestions) {
+    this.numberOfQuestionsPerCycle = nQuestions;
+    this.topics = [];
+    this.topicsCycle.forEach((n, i) => {
+      this.topics.push(...Array(n * this.numberOfQuestionsPerCycle).fill(this.possibleTopics[i]));
+    });
+  }
+  isEmpty() {
+    return this.topics.length < 1;
+  }
+  deqeue() {
+    return this.topics.shift();
+  }
+  getPossibleTopics() {
+    return this.possibleTopics;
+  }
+  getNumberOfQuestions() {
+    return this.topicsCycle.length * this.numberOfQuestionsPerCycle;
+  }
+};
+var DataService = class _DataService {
+  /*
+    Service qui fournit les données relatives à la question en cours de la session de quiz
+    Les questions sont tirées aléatoirement sans remise
+    Lorsqu'il n'y a plus de questions non faites, la liste de questions est régénèrée
+  */
+  quizSegmentTopicsQueue;
+  quizSegments = quizData["questions"];
+  // tous les segments de quiz possibles, groupés par thème
+  randomizedQuestionIndexQueuePool = {};
+  questionNumber = signal(0);
+  hasEnded = signal(false);
+  numberOfQuestions = signal(0);
+  currentSegment = signal(void 0);
+  currentTopic = signal("");
+  currentQuestionId = signal(-1);
+  constructor() {
+    this.quizSegmentTopicsQueue = new TopicsQueue(quizData["question_topics"], quizData["question_cycle"]);
+    for (const questionTopic of this.quizSegmentTopicsQueue.getPossibleTopics()) {
+      const rq = new RandomizedQuestionIndexQueue(this.quizSegments[questionTopic].length);
+      this.randomizedQuestionIndexQueuePool[questionTopic] = rq;
+    }
+  }
+  startQuiz(nQuestions) {
+    this.questionNumber.set(0);
+    this.hasEnded.set(false);
+    this.quizSegmentTopicsQueue.initialize(nQuestions);
+    this.numberOfQuestions.set(this.quizSegmentTopicsQueue.getNumberOfQuestions());
+  }
+  getNewQuestion() {
+    const questionTopic = this.quizSegmentTopicsQueue.deqeue();
+    const questionId = this.randomizedQuestionIndexQueuePool[questionTopic].dequeueIndex();
+    this.currentTopic.set(questionTopic);
+    this.currentQuestionId.set(questionId);
+    this.currentSegment.set(this.quizSegments[questionTopic][questionId]);
+    console.log(this.quizSegments[questionTopic][questionId]);
+    console.log(this.currentSegment());
+  }
+  isFinished() {
+    return this.quizSegmentTopicsQueue.isEmpty();
+  }
+  getNumberOfTopics() {
+    return this.quizSegmentTopicsQueue.getPossibleTopics().length;
+  }
+  static \u0275fac = function DataService_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _DataService)();
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _DataService, factory: _DataService.\u0275fac, providedIn: "root" });
+};
+
+// src/app/shared/services/progress-service.ts
+var ProgressService = class _ProgressService {
+  /* Service qui gère la navigation dans l'application */
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  dataService = inject(DataService);
+  score = signal(0);
+  questionNumber = signal(0);
+  currentAnswer = signal([]);
+  currentAnswerValidity = computed(() => this.verifyAnswer());
+  hasEnded = signal(false);
+  answered = signal(false);
+  checked = signal(false);
+  goToBegining() {
+    this.score.set(0);
+    this.questionNumber.set(0);
+    this.hasEnded.set(false);
+  }
+  start(nQuestions) {
+    this.score.set(0);
+    this.questionNumber.set(0);
+    this.hasEnded.set(false);
+    this.dataService.startQuiz(nQuestions);
+    this.goToNext();
+  }
+  goToEnd() {
+    this.hasEnded.set(true);
+    this.router.navigate(["quiz", "fin"], { replaceUrl: true });
+  }
+  goToNext() {
+    if (!this.dataService.isFinished()) {
+      this.dataService.getNewQuestion();
+      this.questionNumber.update((n) => n + 1);
+      this.answered.set(false);
+      this.router.navigate(["quiz", this.questionNumber().toString()], {
+        queryParams: { theme: this.dataService.currentTopic(), theme_id: this.dataService.currentQuestionId(), repondu: "faux" },
+        replaceUrl: this.questionNumber() > 0
+      });
+    } else {
+      this.goToEnd();
+    }
+  }
+  answer() {
+    if (this.currentAnswerValidity() === 2 /* Empty */) {
+      return;
+    }
+    if (this.currentAnswerValidity() === 0 /* True */) {
+      this.score.update((s) => s + 1);
+    }
+    this.answered.set(true);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { r\u00E9pondu: "vrai" },
+      queryParamsHandling: "merge",
+      // remove to replace all query params by provided
+      replaceUrl: true
+    });
+  }
+  /**
+  * Vérifie la réponse actuelle par rapport aux réponses correctes.
+  *
+  * Cette méthode récupère les réponses correctes du segment de quiz actuel et les compare
+  * avec les réponses sélectionnées par l'utilisateur. Elle retourne une valeur de l'énumération `Answer`
+  * indiquant si la réponse est correcte, incorrecte ou vide.
+  *
+  * @returns {Answer} - Le résultat de la vérification de la réponse :
+  *   - `Answer.Empty` si aucune réponse n'a été sélectionnée.
+  *   - `Answer.True` si les réponses sélectionnées correspondent aux réponses correctes.
+  *   - `Answer.False` si les réponses sélectionnées ne correspondent pas aux réponses correctes.
+  */
+  verifyAnswer() {
+    const realAnswers = this.dataService.currentSegment()?.true_answers;
+    if (this.currentAnswer().length === 0) {
+      return 2 /* Empty */;
+    }
+    if (this.currentAnswer().sort().toString() == realAnswers.sort().toString()) {
+      return 0 /* True */;
+    } else {
+      return 1 /* False */;
+    }
+  }
+  GetChecked() {
+    this.checked.set(true);
+  }
+  GetUnchecked() {
+    this.checked.set(false);
+  }
+  static \u0275fac = function ProgressService_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ProgressService)();
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _ProgressService, factory: _ProgressService.\u0275fac, providedIn: "root" });
+};
+
+// src/app/views/quiz/quiz-time/quiz-time.component.ts
+var _c010 = () => ({ objectFit: "contain" });
+var QuizTimePageComponent = class _QuizTimePageComponent {
   dataService = inject(DataService);
   // Permet d'avoir accès aux fonctions gérant les cartes
   progressService = inject(ProgressService);
@@ -33572,76 +28060,5620 @@ var QuizHomepageComponent = class _QuizHomepageComponent {
   getNumberOfQuestions() {
     return this.iNumberOfQuestions;
   }
-  static \u0275fac = function QuizHomepageComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _QuizHomepageComponent)();
+  static \u0275fac = function QuizTimePageComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _QuizTimePageComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizHomepageComponent, selectors: [["app-quiz-homepage"]], decls: 21, vars: 5, consts: [[1, "presentation-section"], ["src", "images/banner.png", "alt", "Image de pr\xE9sentation du quiz", "width", "80%", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], [1, "n-questions-selector"], [1, "selector-buttons"], ["severity", "contrast", "aria-label", "Enlever des questions", "icon", "pi pi-minus", 3, "click", "disabled"], [1, "n-questions-text"], ["severity", "contrast", "aria-label", "Ajouter des questions", "icon", "pi pi-plus", 3, "click", "disabled"], [1, "start-game-button"], ["aria-label", "Commencer le quiz", "label", "Passer \xE0 l'action", 1, "game", 3, "click"]], template: function QuizHomepageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizTimePageComponent, selectors: [["app-quiz-time"]], decls: 18, vars: 5, consts: [[1, "main-enter"], [1, "presentation-section"], ["src", "images/banner.png", "alt", "Image de pr\xE9sentation du quiz", "width", "80%", 3, "imageStyle"], [1, "button-div"], [1, "n-questions-selector"], [1, "selector-buttons"], ["severity", "contrast", "aria-label", "Enlever des questions", "icon", "pi pi-minus", 3, "click", "disabled"], [1, "n-questions-text"], ["severity", "contrast", "aria-label", "Ajouter des questions", "icon", "pi pi-plus", 3, "click", "disabled"], ["aria-label", "Commencer le quiz", "label", "Passer \xE0 l'action", 1, "game", 3, "click"]], template: function QuizTimePageComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "h1");
-      \u0275\u0275text(2, "Inclusivit\xE9 num\xE9rique : Testez vos connaissances !");
+      \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "h1");
+      \u0275\u0275text(3, "Inclusivit\xE9 num\xE9rique : Testez vos connaissances !");
       \u0275\u0275elementEnd();
-      \u0275\u0275element(3, "p-image", 1);
-      \u0275\u0275elementStart(4, "p");
-      \u0275\u0275text(5, " Gr\xE2ce au quiz d\u2019Inclusif, le jeu, abordez de mani\xE8re ludique les enjeux de l\u2019inclusivit\xE9 et de l\u2019accessibilit\xE9 num\xE9riques. ");
-      \u0275\u0275element(6, "br");
-      \u0275\u0275text(7, " D\xE9cidez ci-dessous de la dur\xE9e de ce quiz. ");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(8, "div", 2);
-      \u0275\u0275element(9, "p-divider");
-      \u0275\u0275elementStart(10, "div", 3)(11, "div", 4)(12, "p");
-      \u0275\u0275text(13, "Dur\xE9e du quiz (min)");
+      \u0275\u0275element(4, "p-image", 2);
+      \u0275\u0275elementStart(5, "p");
+      \u0275\u0275text(6, " Combien de temps ce quiz doit-il durer ? ");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(7, "div", 3)(8, "div", 4)(9, "p");
+      \u0275\u0275text(10, "Dur\xE9e du quiz (min)");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(14, "div", 5)(15, "p-button", 6);
-      \u0275\u0275listener("click", function QuizHomepageComponent_Template_p_button_click_15_listener() {
+      \u0275\u0275elementStart(11, "div", 5)(12, "p-button", 6);
+      \u0275\u0275listener("click", function QuizTimePageComponent_Template_p_button_click_12_listener() {
         return ctx.adjustNumberOfQuestions(-1);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(16, "span", 7);
-      \u0275\u0275text(17);
+      \u0275\u0275elementStart(13, "span", 7);
+      \u0275\u0275text(14);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(18, "p-button", 8);
-      \u0275\u0275listener("click", function QuizHomepageComponent_Template_p_button_click_18_listener() {
+      \u0275\u0275elementStart(15, "p-button", 8);
+      \u0275\u0275listener("click", function QuizTimePageComponent_Template_p_button_click_15_listener() {
         return ctx.adjustNumberOfQuestions(1);
       });
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(19, "div", 9)(20, "p-button", 10);
-      \u0275\u0275listener("click", function QuizHomepageComponent_Template_p_button_click_20_listener() {
+      \u0275\u0275element(16, "p-divider");
+      \u0275\u0275elementStart(17, "p-button", 9);
+      \u0275\u0275listener("click", function QuizTimePageComponent_Template_p_button_click_17_listener() {
         return ctx.progressService.start(ctx.possibleNumberOfQuestionsPerTopic[ctx.iNumberOfQuestions]);
       });
-      \u0275\u0275elementEnd()()()();
+      \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
-      \u0275\u0275advance(3);
-      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(4, _c015));
-      \u0275\u0275advance(12);
+      \u0275\u0275advance(4);
+      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(4, _c010));
+      \u0275\u0275advance(8);
       \u0275\u0275property("disabled", ctx.iNumberOfQuestions == 0);
       \u0275\u0275advance(2);
       \u0275\u0275textInterpolate1(" ", ctx.possibleNumberOfQuestionsPerTopic[ctx.iNumberOfQuestions] * ctx.dataService.getNumberOfTopics(), " ");
       \u0275\u0275advance();
       \u0275\u0275property("disabled", ctx.iNumberOfQuestions == ctx.possibleNumberOfQuestionsPerTopic.length - 1);
     }
-  }, dependencies: [ButtonModule, Button, DividerModule, Divider, PanelModule, InputNumberModule, BlockUIModule, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.presentation-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  height: 100%;\n}\n.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: normal;\n  margin-bottom: 35px;\n  margin-top: 15px;\n}\n.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: normal;\n  margin-top: 25px;\n}\n.lower-section[_ngcontent-%COMP%] {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.n-questions-selector[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  align-items: center;\n  width: 200px;\n  margin-right: 16px;\n  height: 40px;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n  width: 80%;\n}\n.selector-buttons[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  display: grid;\n  gap: 4px;\n  grid-auto-flow: column;\n  grid-template-columns: 1fr 1.2fr 1fr;\n  padding: 8px;\n  align-items: center;\n}\n.n-questions-text[_ngcontent-%COMP%] {\n  height: 100%;\n  width: 100%;\n  border-radius: 4px;\n  justify-content: center;\n  align-content: center;\n  height: 24px;\n  width: 24px;\n  border: 1px solid gray;\n  background-color: var(--p-gray-200);\n}\n  .start-game-button button {\n  width: 200px;\n  height: 40px;\n  margin-left: 16px;\n}\n  .selector-buttons button {\n  width: 24px;\n  height: 24px;\n  background-color: #333333;\n  border-color: #333333;\n}\n.game[_ngcontent-%COMP%] {\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\np[_ngcontent-%COMP%], \nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  color: #333333;\n}"] });
+  }, dependencies: [ButtonModule, Button, Divider, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  text-align: center;\n  justify-content: space-between;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.presentation-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  height: 100%;\n}\n.presentation-section[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: normal;\n  margin-bottom: 35px;\n  margin-top: 15px;\n}\n.presentation-section[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: normal;\n  margin-top: 25px;\n}\n.button-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  bottom: 0em;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n  width: 80%;\n}\n.n-questions-selector[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  width: 300px;\n  height: 40px;\n}\n.n-questions-selector[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 0 8px;\n}\n.selector-buttons[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  padding: 8px;\n  margin-left: 50px;\n}\n.n-questions-text[_ngcontent-%COMP%] {\n  height: 100%;\n  width: 100%;\n  border-radius: 4px;\n  align-content: center;\n  height: 24px;\n  width: 24px;\n  border: 1px solid gray;\n  background-color: var(--p-gray-200);\n}\n  .game button {\n  width: 200px;\n  height: 40px;\n}\n  .selector-buttons button {\n  width: 24px;\n  height: 24px;\n  background-color: #333333;\n  border-color: #333333;\n}\n.game[_ngcontent-%COMP%] {\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\np[_ngcontent-%COMP%], \nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  color: #333333;\n}"] });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizHomepageComponent, { className: "QuizHomepageComponent", filePath: "src/app/views/quiz/quiz-homepage/quiz-homepage.component.ts", lineNumber: 18 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizTimePageComponent, { className: "QuizTimePageComponent", filePath: "src/app/views/quiz/quiz-time/quiz-time.component.ts", lineNumber: 14 });
+})();
+
+// src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts
+var _c011 = () => ({ objectFit: "contain" });
+function QuizEndpageComponent_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 1);
+    \u0275\u0275text(1, "Encore un petit effort !");
+    \u0275\u0275elementEnd();
+  }
+}
+function QuizEndpageComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 1);
+    \u0275\u0275text(1, "Continuez comme \xE7a !");
+    \u0275\u0275elementEnd();
+  }
+}
+function QuizEndpageComponent_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 1);
+    \u0275\u0275text(1, "Vous \xEAtes un as !");
+    \u0275\u0275elementEnd();
+  }
+}
+var QuizEndpageComponent = class _QuizEndpageComponent {
+  progressService = inject(ProgressService);
+  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  number_questions = this.progressService.questionNumber();
+  // Permet d'avoir le nombre total de questions de la session de Quiz
+  rapport = this.number_questions / 4;
+  // Sert à déterminer les grades en normalisant les résultats
+  static \u0275fac = function QuizEndpageComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _QuizEndpageComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizEndpageComponent, selectors: [["app-quiz-endpage"]], decls: 18, vars: 5, consts: [[1, "header"], [1, "result"], ["src", "images/quiz_endpage_image.png", "width", "100%", 1, "image-outro", 3, "imageStyle"], [1, "lower-section"], [1, "start-div"], [1, "start-again", 3, "click"], ["severity", "secondary", "variant", "outlined", 1, "game", 3, "click"]], template: function QuizEndpageComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 0)(1, "h1");
+      \u0275\u0275text(2, "Merci d'avoir r\xE9alis\xE9 ce quiz !");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(3, "h2");
+      \u0275\u0275text(4);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(5, QuizEndpageComponent_Conditional_5_Template, 2, 0, "p", 1)(6, QuizEndpageComponent_Conditional_6_Template, 2, 0, "p", 1)(7, QuizEndpageComponent_Conditional_7_Template, 2, 0, "p", 1);
+      \u0275\u0275element(8, "p-image", 2);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(9, "span");
+      \u0275\u0275text(10, " Vous pouvez d\xE9sormais passer \xE0 \xAB Inclusif, le jeu \xBB, ou lancer une autre s\xE9rie de questions.\n");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(11, "div", 3);
+      \u0275\u0275element(12, "p-divider");
+      \u0275\u0275elementStart(13, "div", 4)(14, "p-button", 5);
+      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_14_listener() {
+        return ctx.progressService.goToBegining();
+      });
+      \u0275\u0275text(15, " Relancer une s\xE9rie ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(16, "p-button", 6);
+      \u0275\u0275listener("click", function QuizEndpageComponent_Template_p_button_click_16_listener() {
+        return ctx.progressService.goToBegining();
+      });
+      \u0275\u0275text(17, " Voir Inclusif, le jeu ");
+      \u0275\u0275elementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(4);
+      \u0275\u0275textInterpolate2(" Vous avez r\xE9pondu correctement \xE0 ", ctx.progressService.score(), " questions sur ", ctx.progressService.questionNumber(), ". ");
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.rapport < 0.3 ? 5 : ctx.rapport < 0.7 ? 6 : 7);
+      \u0275\u0275advance(3);
+      \u0275\u0275property("imageStyle", \u0275\u0275pureFunction0(4, _c011));
+    }
+  }, dependencies: [ButtonModule, Button, Divider, ImageModule, Image], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  width: 100%;\n  margin: auto;\n}\n.header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  width: fit-content;\n  padding-top: 15px;\n}\n.grade[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 30px;\n  border-radius: 8px;\n  border: 1px solid #333333;\n  width: 300px;\n  height: 80px;\n}\n.result[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 10px;\n}\n.image-outro[_ngcontent-%COMP%] {\n  padding-top: 20px;\n  padding-bottom: 20px;\n}\nspan[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.lower-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-top: auto;\n  position: relative;\n  bottom: 0em;\n  width: 100%;\n}\n.start-div[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n  width: 80%;\n}\n.start-again[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\n.game[_ngcontent-%COMP%] {\n  margin-left: 16px;\n  margin-right: 16px;\n  --p-button-primary-active-background: #f4f4f4;\n  --p-button-primary-hover-background: #e9e9e9;\n}\n  .start-again button {\n  width: 200px;\n}\n  .game button {\n  width: 200px;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%], \nspan[_ngcontent-%COMP%], \np[_ngcontent-%COMP%] {\n  color: #333333;\n}\nh1[_ngcontent-%COMP%], \nh2[_ngcontent-%COMP%] {\n  text-align: left;\n}\nh1[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\np[_ngcontent-%COMP%] {\n  font-size: 24px;\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizEndpageComponent, { className: "QuizEndpageComponent", filePath: "src/app/views/quiz/quiz-endpage/quiz-endpage.component.ts", lineNumber: 13 });
+})();
+
+// node_modules/primeng/fesm2022/primeng-progressbar.mjs
+var _c012 = ["content"];
+var _c110 = (a0, a1) => ({
+  "p-progressbar p-component": true,
+  "p-progressbar-determinate": a0,
+  "p-progressbar-indeterminate": a1
+});
+var _c26 = (a0) => ({
+  $implicit: a0
+});
+function ProgressBar_div_1_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275styleProp("display", ctx_r0.value != null && ctx_r0.value !== 0 ? "flex" : "none");
+    \u0275\u0275attribute("data-pc-section", "label");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate2("", ctx_r0.value, "", ctx_r0.unit, "");
+  }
+}
+function ProgressBar_div_1_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function ProgressBar_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 3)(1, "div", 4);
+    \u0275\u0275template(2, ProgressBar_div_1_div_2_Template, 2, 5, "div", 5)(3, ProgressBar_div_1_ng_container_3_Template, 1, 0, "ng-container", 6);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r0.valueStyleClass);
+    \u0275\u0275styleProp("width", ctx_r0.value + "%")("background", ctx_r0.color);
+    \u0275\u0275property("ngClass", "p-progressbar-value p-progressbar-value-animate");
+    \u0275\u0275attribute("data-pc-section", "value");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", ctx_r0.showValue && !ctx_r0.contentTemplate && !ctx_r0._contentTemplate);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.contentTemplate || ctx_r0._contentTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(11, _c26, ctx_r0.value));
+  }
+}
+function ProgressBar_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 7);
+    \u0275\u0275element(1, "div", 8);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r0.valueStyleClass);
+    \u0275\u0275property("ngClass", "p-progressbar-indeterminate-container");
+    \u0275\u0275attribute("data-pc-section", "container");
+    \u0275\u0275advance();
+    \u0275\u0275styleProp("background", ctx_r0.color);
+    \u0275\u0275attribute("data-pc-section", "value");
+  }
+}
+var theme11 = ({
+  dt: dt2
+}) => `
+.p-progressbar {
+    position: relative;
+    overflow: hidden;
+    height: ${dt2("progressbar.height")};
+    background: ${dt2("progressbar.background")};
+    border-radius: ${dt2("progressbar.border.radius")};
+}
+
+.p-progressbar-value {
+    margin: 0;
+    background: ${dt2("progressbar.value.background")};
+}
+
+.p-progressbar-label {
+    color: ${dt2("progressbar.label.color")};
+    font-size: ${dt2("progressbar.label.font.size")};
+    font-weight: ${dt2("progressbar.label.font.weight")};
+}
+
+.p-progressbar-determinate .p-progressbar-value {
+    height: 100%;
+    width: 0%;
+    position: absolute;
+    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: width 1s ease-in-out;
+}
+
+.p-progressbar-determinate .p-progressbar-label {
+    display: inline-flex;
+}
+
+.p-progressbar-indeterminate .p-progressbar-value::before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    top: 0;
+    inset-inline-start: 0;
+    bottom: 0;
+    will-change: inset-inline-start, inset-inline-end;
+    animation: p-progressbar-indeterminate-anim 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+.p-progressbar-indeterminate .p-progressbar-value::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    top: 0;
+    inset-inline-start: 0;
+    bottom: 0;
+    will-change: inset-inline-start, inset-inline-end;
+    animation: p-progressbar-indeterminate-anim-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 1.15s;
+}
+
+@-webkit-keyframes p-progressbar-indeterminate-anim {
+    0% {
+        inset-inline-start: -35%;
+        inset-inline-end: 100%;
+    }
+    60% {
+        inset-inline-start: 100%;
+        inset-inline-end: -90%;
+    }
+    100% {
+        inset-inline-start: 100%;
+        inset-inline-end: -90%;
+    }
+}
+@keyframes p-progressbar-indeterminate-anim {
+    0% {
+        inset-inline-start: -35%;
+        inset-inline-end: 100%;
+    }
+    60% {
+        inset-inline-start: 100%;
+        inset-inline-end: -90%;
+    }
+    100% {
+        inset-inline-start: 100%;
+        inset-inline-end: -90%;
+    }
+}
+@-webkit-keyframes p-progressbar-indeterminate-anim-short {
+    0% {
+        inset-inline-start: -200%;
+        inset-inline-end: 100%;
+    }
+    60% {
+        inset-inline-start: 107%;
+        inset-inline-end: -8%;
+    }
+    100% {
+        inset-inline-start: 107%;
+        inset-inline-end: -8%;
+    }
+}
+@keyframes p-progressbar-indeterminate-anim-short {
+    0% {
+        inset-inline-start: -200%;
+        inset-inline-end: 100%;
+    }
+    60% {
+        inset-inline-start: 107%;
+        inset-inline-end: -8%;
+    }
+    100% {
+        inset-inline-start: 107%;
+        inset-inline-end: -8%;
+    }
+}
+`;
+var classes10 = {
+  root: ({
+    instance
+  }) => ["p-progressbar p-component", {
+    "p-progressbar-determinate": instance.determinate,
+    "p-progressbar-indeterminate": instance.indeterminate
+  }],
+  value: "p-progressbar-value",
+  label: "p-progressbar-label"
+};
+var ProgressBarStyle = class _ProgressBarStyle extends BaseStyle {
+  name = "progressbar";
+  theme = theme11;
+  classes = classes10;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275ProgressBarStyle_BaseFactory;
+    return function ProgressBarStyle_Factory(__ngFactoryType__) {
+      return (\u0275ProgressBarStyle_BaseFactory || (\u0275ProgressBarStyle_BaseFactory = \u0275\u0275getInheritedFactory(_ProgressBarStyle)))(__ngFactoryType__ || _ProgressBarStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _ProgressBarStyle,
+    factory: _ProgressBarStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProgressBarStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var ProgressBarClasses;
+(function(ProgressBarClasses2) {
+  ProgressBarClasses2["root"] = "p-progressbar";
+  ProgressBarClasses2["value"] = "p-progressbar-value";
+  ProgressBarClasses2["label"] = "p-progressbar-label";
+})(ProgressBarClasses || (ProgressBarClasses = {}));
+var ProgressBar = class _ProgressBar extends BaseComponent {
+  /**
+   * Current value of the progress.
+   * @group Props
+   */
+  value;
+  /**
+   * Whether to display the progress bar value.
+   * @group Props
+   */
+  showValue = true;
+  /**
+   * Style class of the element.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * Style class of the value element.
+   * @group Props
+   */
+  valueStyleClass;
+  /**
+   * Inline style of the element.
+   * @group Props
+   */
+  style;
+  /**
+   * Unit sign appended to the value.
+   * @group Props
+   */
+  unit = "%";
+  /**
+   * Defines the mode of the progress
+   * @group Props
+   */
+  mode = "determinate";
+  /**
+   * Color for the background of the progress.
+   * @group Props
+   */
+  color;
+  /**
+   * Template of the content.
+   * @group templates
+   */
+  contentTemplate;
+  _componentStyle = inject(ProgressBarStyle);
+  templates;
+  _contentTemplate;
+  ngAfterContentInit() {
+    this.templates?.forEach((item) => {
+      switch (item.getType()) {
+        case "content":
+          this._contentTemplate = item.template;
+          break;
+        default:
+          this._contentTemplate = item.template;
+      }
+    });
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275ProgressBar_BaseFactory;
+    return function ProgressBar_Factory(__ngFactoryType__) {
+      return (\u0275ProgressBar_BaseFactory || (\u0275ProgressBar_BaseFactory = \u0275\u0275getInheritedFactory(_ProgressBar)))(__ngFactoryType__ || _ProgressBar);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _ProgressBar,
+    selectors: [["p-progressBar"], ["p-progressbar"], ["p-progress-bar"]],
+    contentQueries: function ProgressBar_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, _c012, 4);
+        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
+      }
+    },
+    inputs: {
+      value: [2, "value", "value", numberAttribute],
+      showValue: [2, "showValue", "showValue", booleanAttribute],
+      styleClass: "styleClass",
+      valueStyleClass: "valueStyleClass",
+      style: "style",
+      unit: "unit",
+      mode: "mode",
+      color: "color"
+    },
+    features: [\u0275\u0275ProvidersFeature([ProgressBarStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
+    decls: 3,
+    vars: 15,
+    consts: [["role", "progressbar", 3, "ngStyle", "ngClass"], ["style", "display:flex", 3, "ngClass", "class", "width", "background", 4, "ngIf"], [3, "ngClass", "class", 4, "ngIf"], [2, "display", "flex", 3, "ngClass"], [1, "p-progressbar-label"], [3, "display", 4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [1, "p-progressbar-value", "p-progressbar-value-animate"]],
+    template: function ProgressBar_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "div", 0);
+        \u0275\u0275template(1, ProgressBar_div_1_Template, 4, 13, "div", 1)(2, ProgressBar_div_2_Template, 2, 7, "div", 2);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275classMap(ctx.styleClass);
+        \u0275\u0275property("ngStyle", ctx.style)("ngClass", \u0275\u0275pureFunction2(12, _c110, ctx.mode === "determinate", ctx.mode === "indeterminate"));
+        \u0275\u0275attribute("aria-valuemin", 0)("aria-valuenow", ctx.value)("aria-valuemax", 100)("data-pc-name", "progressbar")("data-pc-section", "root")("aria-label", ctx.value + ctx.unit);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.mode === "determinate");
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.mode === "indeterminate");
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, NgStyle, SharedModule],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProgressBar, [{
+    type: Component,
+    args: [{
+      selector: "p-progressBar, p-progressbar, p-progress-bar",
+      standalone: true,
+      imports: [CommonModule, SharedModule],
+      template: `
+        <div
+            role="progressbar"
+            [class]="styleClass"
+            [ngStyle]="style"
+            [attr.aria-valuemin]="0"
+            [attr.aria-valuenow]="value"
+            [attr.aria-valuemax]="100"
+            [attr.data-pc-name]="'progressbar'"
+            [attr.data-pc-section]="'root'"
+            [ngClass]="{
+                'p-progressbar p-component': true,
+                'p-progressbar-determinate': mode === 'determinate',
+                'p-progressbar-indeterminate': mode === 'indeterminate'
+            }"
+            [attr.aria-label]="value + unit"
+        >
+            <div *ngIf="mode === 'determinate'" [ngClass]="'p-progressbar-value p-progressbar-value-animate'" [class]="valueStyleClass" [style.width]="value + '%'" style="display:flex" [style.background]="color" [attr.data-pc-section]="'value'">
+                <div class="p-progressbar-label">
+                    <div *ngIf="showValue && !contentTemplate && !_contentTemplate" [style.display]="value != null && value !== 0 ? 'flex' : 'none'" [attr.data-pc-section]="'label'">{{ value }}{{ unit }}</div>
+                    <ng-container *ngTemplateOutlet="contentTemplate || _contentTemplate; context: { $implicit: value }"></ng-container>
+                </div>
+            </div>
+            <div *ngIf="mode === 'indeterminate'" [ngClass]="'p-progressbar-indeterminate-container'" [class]="valueStyleClass" [attr.data-pc-section]="'container'">
+                <div class="p-progressbar-value p-progressbar-value-animate" [style.background]="color" [attr.data-pc-section]="'value'"></div>
+            </div>
+        </div>
+    `,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None,
+      providers: [ProgressBarStyle]
+    }]
+  }], null, {
+    value: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    showValue: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    valueStyleClass: [{
+      type: Input
+    }],
+    style: [{
+      type: Input
+    }],
+    unit: [{
+      type: Input
+    }],
+    mode: [{
+      type: Input
+    }],
+    color: [{
+      type: Input
+    }],
+    contentTemplate: [{
+      type: ContentChild,
+      args: ["content", {
+        descendants: false
+      }]
+    }],
+    templates: [{
+      type: ContentChildren,
+      args: [PrimeTemplate]
+    }]
+  });
+})();
+var ProgressBarModule = class _ProgressBarModule {
+  static \u0275fac = function ProgressBarModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ProgressBarModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _ProgressBarModule
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [ProgressBar, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProgressBarModule, [{
+    type: NgModule,
+    args: [{
+      imports: [ProgressBar, SharedModule],
+      exports: [ProgressBar, SharedModule]
+    }]
+  }], null, null);
+})();
+
+// node_modules/primeng/fesm2022/primeng-toast.mjs
+var _c013 = ["container"];
+var _c111 = (a0, a1, a2, a3) => ({
+  showTransformParams: a0,
+  hideTransformParams: a1,
+  showTransitionParams: a2,
+  hideTransitionParams: a3
+});
+var _c27 = (a0) => ({
+  value: "visible",
+  params: a0
+});
+var _c36 = (a0, a1) => ({
+  $implicit: a0,
+  closeFn: a1
+});
+var _c45 = (a0) => ({
+  $implicit: a0
+});
+function ToastItem_Conditional_2_ng_container_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function ToastItem_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, ToastItem_Conditional_2_ng_container_0_Template, 1, 0, "ng-container", 3);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.headlessTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c36, ctx_r1.message, ctx_r1.onCloseIconClick));
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 4);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "CheckIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "InfoCircleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "TimesCircleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "ExclamationTriangleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "InfoCircleIcon");
+  }
+  if (rf & 2) {
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_span_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 4);
+    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_2_Case_1_Template, 1, 2, "CheckIcon")(2, ToastItem_Conditional_3_ng_container_1_span_2_Case_2_Template, 1, 2, "InfoCircleIcon")(3, ToastItem_Conditional_3_ng_container_1_span_2_Case_3_Template, 1, 2, "TimesCircleIcon")(4, ToastItem_Conditional_3_ng_container_1_span_2_Case_4_Template, 1, 2, "ExclamationTriangleIcon")(5, ToastItem_Conditional_3_ng_container_1_span_2_Case_5_Template, 1, 2, "InfoCircleIcon");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_7_0;
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageIcon"));
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "icon");
+    \u0275\u0275advance();
+    \u0275\u0275conditional((tmp_7_0 = ctx_r1.message.severity) === "success" ? 1 : tmp_7_0 === "info" ? 2 : tmp_7_0 === "error" ? 3 : tmp_7_0 === "warn" ? 4 : 5);
+  }
+}
+function ToastItem_Conditional_3_ng_container_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_span_1_Template, 1, 1, "span", 6)(2, ToastItem_Conditional_3_ng_container_1_span_2_Template, 6, 4, "span", 6);
+    \u0275\u0275elementStart(3, "div", 4)(4, "div", 4);
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "div", 4);
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.message.icon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.message.icon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageText"));
+    \u0275\u0275attribute("data-pc-section", "text");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("summary"));
+    \u0275\u0275attribute("data-pc-section", "summary");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r1.message.summary, " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("detail"));
+    \u0275\u0275attribute("data-pc-section", "detail");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.message.detail);
+  }
+}
+function ToastItem_Conditional_3_ng_container_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 4);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, ToastItem_Conditional_3_Conditional_3_Conditional_2_span_0_Template, 1, 1, "span", 6);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngIf", ctx_r1.message.closeIcon);
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "TimesIcon", 4);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.cx("closeIcon"));
+    \u0275\u0275attribute("aria-hidden", true)("data-pc-section", "closeicon");
+  }
+}
+function ToastItem_Conditional_3_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "button", 7);
+    \u0275\u0275listener("click", function ToastItem_Conditional_3_Conditional_3_Template_button_click_1_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
+    })("keydown.enter", function ToastItem_Conditional_3_Conditional_3_Template_button_keydown_enter_1_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onCloseIconClick($event));
+    });
+    \u0275\u0275template(2, ToastItem_Conditional_3_Conditional_3_Conditional_2_Template, 1, 1, "span", 4)(3, ToastItem_Conditional_3_Conditional_3_Conditional_3_Template, 1, 3, "TimesIcon", 4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ariaLabel", ctx_r1.closeAriaLabel);
+    \u0275\u0275attribute("class", ctx_r1.cx("closeButton"))("data-pc-section", "closebutton");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r1.message.closeIcon ? 2 : 3);
+  }
+}
+function ToastItem_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 4);
+    \u0275\u0275template(1, ToastItem_Conditional_3_ng_container_1_Template, 8, 10, "ng-container", 5)(2, ToastItem_Conditional_3_ng_container_2_Template, 1, 0, "ng-container", 3)(3, ToastItem_Conditional_3_Conditional_3_Template, 4, 4, "div");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r1.message == null ? null : ctx_r1.message.contentStyleClass);
+    \u0275\u0275property("ngClass", ctx_r1.cx("messageContent"));
+    \u0275\u0275attribute("data-pc-section", "content");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.template);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.template)("ngTemplateOutletContext", \u0275\u0275pureFunction1(8, _c45, ctx_r1.message));
+    \u0275\u0275advance();
+    \u0275\u0275conditional((ctx_r1.message == null ? null : ctx_r1.message.closable) !== false ? 3 : -1);
+  }
+}
+var _c53 = ["message"];
+var _c63 = ["headless"];
+function Toast_p_toastItem_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "p-toastItem", 3);
+    \u0275\u0275listener("onClose", function Toast_p_toastItem_2_Template_p_toastItem_onClose_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onMessageClose($event));
+    })("@toastAnimation.start", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_start_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
+    })("@toastAnimation.done", function Toast_p_toastItem_2_Template_p_toastItem_animation_toastAnimation_done_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const msg_r3 = ctx.$implicit;
+    const i_r4 = ctx.index;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("message", msg_r3)("index", i_r4)("life", ctx_r1.life)("template", ctx_r1.template || ctx_r1._template)("headlessTemplate", ctx_r1.headlessTemplate || ctx_r1._headlessTemplate)("@toastAnimation", void 0)("showTransformOptions", ctx_r1.showTransformOptions)("hideTransformOptions", ctx_r1.hideTransformOptions)("showTransitionOptions", ctx_r1.showTransitionOptions)("hideTransitionOptions", ctx_r1.hideTransitionOptions);
+  }
+}
+var theme12 = ({
+  dt: dt2
+}) => `
+.p-toast {
+    width: ${dt2("toast.width")};
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+.p-toast-message {
+    margin: 0 0 1rem 0;
+}
+
+.p-toast-message-icon {
+    flex-shrink: 0;
+    font-size: ${dt2("toast.icon.size")};
+    width: ${dt2("toast.icon.size")};
+    height: ${dt2("toast.icon.size")};
+}
+
+.p-toast-message-content {
+    display: flex;
+    align-items: flex-start;
+    padding: ${dt2("toast.content.padding")};
+    gap: ${dt2("toast.content.gap")};
+}
+
+.p-toast-message-text {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: ${dt2("toast.text.gap")};
+}
+
+.p-toast-summary {
+    font-weight: ${dt2("toast.summary.font.weight")};
+    font-size: ${dt2("toast.summary.font.size")};
+}
+
+.p-toast-detail {
+    font-weight: ${dt2("toast.detail.font.weight")};
+    font-size: ${dt2("toast.detail.font.size")};
+}
+
+.p-toast-close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+    transition: background ${dt2("toast.transition.duration")}, color ${dt2("toast.transition.duration")}, outline-color ${dt2("toast.transition.duration")}, box-shadow ${dt2("toast.transition.duration")};
+    outline-color: transparent;
+    color: inherit;
+    width: ${dt2("toast.close.button.width")};
+    height: ${dt2("toast.close.button.height")};
+    border-radius: ${dt2("toast.close.button.border.radius")};
+    margin: -25% 0 0 0;
+    right: -25%;
+    padding: 0;
+    border: none;
+    user-select: none;
+}
+
+.p-toast-close-button:dir(rtl) {
+    margin: -25% 0 0 auto;
+    left: -25%;
+    right: auto;
+}
+
+.p-toast-message-info,
+.p-toast-message-success,
+.p-toast-message-warn,
+.p-toast-message-error,
+.p-toast-message-secondary,
+.p-toast-message-contrast {
+    border-width: ${dt2("toast.border.width")};
+    border-style: solid;
+    backdrop-filter: blur(${dt2("toast.blur")});
+    border-radius: ${dt2("toast.border.radius")};
+}
+
+.p-toast-close-icon {
+    font-size: ${dt2("toast.close.icon.size")};
+    width: ${dt2("toast.close.icon.size")};
+    height: ${dt2("toast.close.icon.size")};
+}
+
+.p-toast-close-button:focus-visible {
+    outline-width: ${dt2("focus.ring.width")};
+    outline-style: ${dt2("focus.ring.style")};
+    outline-offset: ${dt2("focus.ring.offset")};
+}
+
+.p-toast-message-info {
+    background: ${dt2("toast.info.background")};
+    border-color: ${dt2("toast.info.border.color")};
+    color: ${dt2("toast.info.color")};
+    box-shadow: ${dt2("toast.info.shadow")};
+}
+
+.p-toast-message-info .p-toast-detail {
+    color: ${dt2("toast.info.detail.color")};
+}
+
+.p-toast-message-info .p-toast-close-button:focus-visible {
+    outline-color: ${dt2("toast.info.close.button.focus.ring.color")};
+    box-shadow: ${dt2("toast.info.close.button.focus.ring.shadow")};
+}
+
+.p-toast-message-info .p-toast-close-button:hover {
+    background: ${dt2("toast.info.close.button.hover.background")};
+}
+
+.p-toast-message-success {
+    background: ${dt2("toast.success.background")};
+    border-color: ${dt2("toast.success.border.color")};
+    color: ${dt2("toast.success.color")};
+    box-shadow: ${dt2("toast.success.shadow")};
+}
+
+.p-toast-message-success .p-toast-detail {
+    color: ${dt2("toast.success.detail.color")};
+}
+
+.p-toast-message-success .p-toast-close-button:focus-visible {
+    outline-color: ${dt2("toast.success.close.button.focus.ring.color")};
+    box-shadow: ${dt2("toast.success.close.button.focus.ring.shadow")};
+}
+
+.p-toast-message-success .p-toast-close-button:hover {
+    background: ${dt2("toast.success.close.button.hover.background")};
+}
+
+.p-toast-message-warn {
+    background: ${dt2("toast.warn.background")};
+    border-color: ${dt2("toast.warn.border.color")};
+    color: ${dt2("toast.warn.color")};
+    box-shadow: ${dt2("toast.warn.shadow")};
+}
+
+.p-toast-message-warn .p-toast-detail {
+    color: ${dt2("toast.warn.detail.color")};
+}
+
+.p-toast-message-warn .p-toast-close-button:focus-visible {
+    outline-color: ${dt2("toast.warn.close.button.focus.ring.color")};
+    box-shadow: ${dt2("toast.warn.close.button.focus.ring.shadow")};
+}
+
+.p-toast-message-warn .p-toast-close-button:hover {
+    background: ${dt2("toast.warn.close.button.hover.background")};
+}
+
+.p-toast-message-error {
+    background: ${dt2("toast.error.background")};
+    border-color: ${dt2("toast.error.border.color")};
+    color: ${dt2("toast.error.color")};
+    box-shadow: ${dt2("toast.error.shadow")};
+}
+
+.p-toast-message-error .p-toast-detail {
+    color: ${dt2("toast.error.detail.color")};
+}
+
+.p-toast-message-error .p-toast-close-button:focus-visible {
+    outline-color: ${dt2("toast.error.close.button.focus.ring.color")};
+    box-shadow: ${dt2("toast.error.close.button.focus.ring.shadow")};
+}
+
+.p-toast-message-error .p-toast-close-button:hover {
+    background: ${dt2("toast.error.close.button.hover.background")};
+}
+
+.p-toast-message-secondary {
+    background: ${dt2("toast.secondary.background")};
+    border-color: ${dt2("toast.secondary.border.color")};
+    color: ${dt2("toast.secondary.color")};
+    box-shadow: ${dt2("toast.secondary.shadow")};
+}
+
+.p-toast-message-secondary .p-toast-detail {
+    color: ${dt2("toast.secondary.detail.color")};
+}
+
+.p-toast-message-secondary .p-toast-close-button:focus-visible {
+    outline-color: ${dt2("toast.secondary.close.button.focus.ring.color")};
+    box-shadow: ${dt2("toast.secondary.close.button.focus.ring.shadow")};
+}
+
+.p-toast-message-secondary .p-toast-close-button:hover {
+    background: ${dt2("toast.secondary.close.button.hover.background")};
+}
+
+.p-toast-message-contrast {
+    background: ${dt2("toast.contrast.background")};
+    border-color: ${dt2("toast.contrast.border.color")};
+    color: ${dt2("toast.contrast.color")};
+    box-shadow: ${dt2("toast.contrast.shadow")};
+}
+
+.p-toast-message-contrast .p-toast-detail {
+    color: ${dt2("toast.contrast.detail.color")};
+}
+
+.p-toast-message-contrast .p-toast-close-button:focus-visible {
+    outline-color: ${dt2("toast.contrast.close.button.focus.ring.color")};
+    box-shadow: ${dt2("toast.contrast.close.button.focus.ring.shadow")};
+}
+
+.p-toast-message-contrast .p-toast-close-button:hover {
+    background: ${dt2("toast.contrast.close.button.hover.background")};
+}
+
+.p-toast-top-center {
+    transform: translateX(-50%);
+}
+
+.p-toast-bottom-center {
+    transform: translateX(-50%);
+}
+
+.p-toast-center {
+    min-width: 20vw;
+    transform: translate(-50%, -50%);
+}
+
+.p-toast-message-enter-from {
+    opacity: 0;
+    transform: translateY(50%);
+}
+
+.p-toast-message-leave-from {
+    max-height: 1000px;
+}
+
+.p-toast .p-toast-message.p-toast-message-leave-to {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.p-toast-message-enter-active {
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.p-toast-message-leave-active {
+    transition: max-height 0.45s cubic-bezier(0, 1, 0, 1), opacity 0.3s, margin-bottom 0.3s;
+}
+`;
+var inlineStyles2 = {
+  root: ({
+    instance
+  }) => {
+    const {
+      _position
+    } = instance;
+    return {
+      position: "fixed",
+      top: _position === "top-right" || _position === "top-left" || _position === "top-center" ? "20px" : _position === "center" ? "50%" : null,
+      right: (_position === "top-right" || _position === "bottom-right") && "20px",
+      bottom: (_position === "bottom-left" || _position === "bottom-right" || _position === "bottom-center") && "20px",
+      left: _position === "top-left" || _position === "bottom-left" ? "20px" : _position === "center" || _position === "top-center" || _position === "bottom-center" ? "50%" : null
+    };
+  }
+};
+var classes11 = {
+  root: ({
+    instance
+  }) => ({
+    "p-toast p-component": true,
+    [`p-toast-${instance._position}`]: !!instance._position
+  }),
+  message: ({
+    instance
+  }) => ({
+    "p-toast-message": true,
+    "p-toast-message-info": instance.message.severity === "info" || instance.message.severity === void 0,
+    "p-toast-message-warn": instance.message.severity === "warn",
+    "p-toast-message-error": instance.message.severity === "error",
+    "p-toast-message-success": instance.message.severity === "success",
+    "p-toast-message-secondary": instance.message.severity === "secondary",
+    "p-toast-message-contrast": instance.message.severity === "contrast"
+  }),
+  messageContent: "p-toast-message-content",
+  messageIcon: ({
+    instance
+  }) => ({
+    "p-toast-message-icon": true,
+    [`pi ${instance.message.icon}`]: !!instance.message.icon
+  }),
+  messageText: "p-toast-message-text",
+  summary: "p-toast-summary",
+  detail: "p-toast-detail",
+  closeButton: "p-toast-close-button",
+  closeIcon: ({
+    instance
+  }) => ({
+    "p-toast-close-icon": true,
+    [`pi ${instance.message.closeIcon}`]: !!instance.message.closeIcon
+  })
+};
+var ToastStyle = class _ToastStyle extends BaseStyle {
+  name = "toast";
+  theme = theme12;
+  classes = classes11;
+  inlineStyles = inlineStyles2;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275ToastStyle_BaseFactory;
+    return function ToastStyle_Factory(__ngFactoryType__) {
+      return (\u0275ToastStyle_BaseFactory || (\u0275ToastStyle_BaseFactory = \u0275\u0275getInheritedFactory(_ToastStyle)))(__ngFactoryType__ || _ToastStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _ToastStyle,
+    factory: _ToastStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToastStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var ToastClasses;
+(function(ToastClasses2) {
+  ToastClasses2["root"] = "p-toast";
+  ToastClasses2["message"] = "p-toast-message";
+  ToastClasses2["messageContent"] = "p-toast-message-content";
+  ToastClasses2["messageIcon"] = "p-toast-message-icon";
+  ToastClasses2["messageText"] = "p-toast-message-text";
+  ToastClasses2["summary"] = "p-toast-summary";
+  ToastClasses2["detail"] = "p-toast-detail";
+  ToastClasses2["closeButton"] = "p-toast-close-button";
+  ToastClasses2["closeIcon"] = "p-toast-close-icon";
+})(ToastClasses || (ToastClasses = {}));
+var ToastItem = class _ToastItem extends BaseComponent {
+  zone;
+  message;
+  index;
+  life;
+  template;
+  headlessTemplate;
+  showTransformOptions;
+  hideTransformOptions;
+  showTransitionOptions;
+  hideTransitionOptions;
+  onClose = new EventEmitter();
+  containerViewChild;
+  _componentStyle = inject(ToastStyle);
+  timeout;
+  constructor(zone) {
+    super();
+    this.zone = zone;
+  }
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    this.initTimeout();
+  }
+  initTimeout() {
+    if (!this.message?.sticky) {
+      this.zone.runOutsideAngular(() => {
+        this.timeout = setTimeout(() => {
+          this.onClose.emit({
+            index: this.index,
+            message: this.message
+          });
+        }, this.message?.life || this.life || 3e3);
+      });
+    }
+  }
+  clearTimeout() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
+  }
+  onMouseEnter() {
+    this.clearTimeout();
+  }
+  onMouseLeave() {
+    this.initTimeout();
+  }
+  onCloseIconClick = (event) => {
+    this.clearTimeout();
+    this.onClose.emit({
+      index: this.index,
+      message: this.message
+    });
+    event.preventDefault();
+  };
+  get closeAriaLabel() {
+    return this.config.translation.aria ? this.config.translation.aria.close : void 0;
+  }
+  ngOnDestroy() {
+    this.clearTimeout();
+    super.ngOnDestroy();
+  }
+  static \u0275fac = function ToastItem_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ToastItem)(\u0275\u0275directiveInject(NgZone));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _ToastItem,
+    selectors: [["p-toastItem"]],
+    viewQuery: function ToastItem_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c013, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.containerViewChild = _t.first);
+      }
+    },
+    inputs: {
+      message: "message",
+      index: [2, "index", "index", numberAttribute],
+      life: [2, "life", "life", numberAttribute],
+      template: "template",
+      headlessTemplate: "headlessTemplate",
+      showTransformOptions: "showTransformOptions",
+      hideTransformOptions: "hideTransformOptions",
+      showTransitionOptions: "showTransitionOptions",
+      hideTransitionOptions: "hideTransitionOptions"
+    },
+    outputs: {
+      onClose: "onClose"
+    },
+    features: [\u0275\u0275ProvidersFeature([ToastStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
+    decls: 4,
+    vars: 15,
+    consts: [["container", ""], ["role", "alert", "aria-live", "assertive", "aria-atomic", "true", 3, "mouseenter", "mouseleave", "ngClass"], [3, "ngClass", "class"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "ngClass"], [4, "ngIf"], [3, "ngClass", 4, "ngIf"], ["type", "button", "autofocus", "", 3, "click", "keydown.enter", "ariaLabel"]],
+    template: function ToastItem_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275elementStart(0, "div", 1, 0);
+        \u0275\u0275listener("mouseenter", function ToastItem_Template_div_mouseenter_0_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onMouseEnter());
+        })("mouseleave", function ToastItem_Template_div_mouseleave_0_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onMouseLeave());
+        });
+        \u0275\u0275template(2, ToastItem_Conditional_2_Template, 1, 5, "ng-container")(3, ToastItem_Conditional_3_Template, 4, 10, "div", 2);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275classMap(ctx.message == null ? null : ctx.message.styleClass);
+        \u0275\u0275property("ngClass", ctx.cx("message"))("@messageState", \u0275\u0275pureFunction1(13, _c27, \u0275\u0275pureFunction4(8, _c111, ctx.showTransformOptions, ctx.hideTransformOptions, ctx.showTransitionOptions, ctx.hideTransitionOptions)));
+        \u0275\u0275attribute("id", ctx.message == null ? null : ctx.message.id)("data-pc-name", "toast")("data-pc-section", "root");
+        \u0275\u0275advance(2);
+        \u0275\u0275conditional(ctx.headlessTemplate ? 2 : 3);
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, CheckIcon, ExclamationTriangleIcon, InfoCircleIcon, TimesIcon, TimesCircleIcon, SharedModule],
+    encapsulation: 2,
+    data: {
+      animation: [trigger("messageState", [state("visible", style({
+        transform: "translateY(0)",
+        opacity: 1
+      })), transition("void => *", [style({
+        transform: "{{showTransformParams}}",
+        opacity: 0
+      }), animate("{{showTransitionParams}}")]), transition("* => void", [animate("{{hideTransitionParams}}", style({
+        height: 0,
+        opacity: 0,
+        transform: "{{hideTransformParams}}"
+      }))])])]
+    },
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToastItem, [{
+    type: Component,
+    args: [{
+      selector: "p-toastItem",
+      standalone: true,
+      imports: [CommonModule, CheckIcon, ExclamationTriangleIcon, InfoCircleIcon, TimesIcon, TimesCircleIcon, SharedModule],
+      template: `
+        <div
+            #container
+            [attr.id]="message?.id"
+            [class]="message?.styleClass"
+            [ngClass]="cx('message')"
+            [@messageState]="{
+                value: 'visible',
+                params: {
+                    showTransformParams: showTransformOptions,
+                    hideTransformParams: hideTransformOptions,
+                    showTransitionParams: showTransitionOptions,
+                    hideTransitionParams: hideTransitionOptions
+                }
+            }"
+            (mouseenter)="onMouseEnter()"
+            (mouseleave)="onMouseLeave()"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            [attr.data-pc-name]="'toast'"
+            [attr.data-pc-section]="'root'"
+        >
+            @if (headlessTemplate) {
+                <ng-container *ngTemplateOutlet="headlessTemplate; context: { $implicit: message, closeFn: onCloseIconClick }"></ng-container>
+            } @else {
+                <div [ngClass]="cx('messageContent')" [class]="message?.contentStyleClass" [attr.data-pc-section]="'content'">
+                    <ng-container *ngIf="!template">
+                        <span *ngIf="message.icon" [ngClass]="cx('messageIcon')"></span>
+                        <span [ngClass]="cx('messageIcon')" *ngIf="!message.icon" [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'">
+                            @switch (message.severity) {
+                                @case ('success') {
+                                    <CheckIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
+                                }
+                                @case ('info') {
+                                    <InfoCircleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
+                                }
+                                @case ('error') {
+                                    <TimesCircleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
+                                }
+                                @case ('warn') {
+                                    <ExclamationTriangleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
+                                }
+                                @default {
+                                    <InfoCircleIcon [attr.aria-hidden]="true" [attr.data-pc-section]="'icon'" />
+                                }
+                            }
+                        </span>
+                        <div [ngClass]="cx('messageText')" [attr.data-pc-section]="'text'">
+                            <div [ngClass]="cx('summary')" [attr.data-pc-section]="'summary'">
+                                {{ message.summary }}
+                            </div>
+                            <div [ngClass]="cx('detail')" [attr.data-pc-section]="'detail'">{{ message.detail }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngTemplateOutlet="template; context: { $implicit: message }"></ng-container>
+                    @if (message?.closable !== false) {
+                        <div>
+                            <button type="button" [attr.class]="cx('closeButton')" (click)="onCloseIconClick($event)" (keydown.enter)="onCloseIconClick($event)" [ariaLabel]="closeAriaLabel" [attr.data-pc-section]="'closebutton'" autofocus>
+                                @if (message.closeIcon) {
+                                    <span *ngIf="message.closeIcon" [ngClass]="cx('closeIcon')"></span>
+                                } @else {
+                                    <TimesIcon [ngClass]="cx('closeIcon')" [attr.aria-hidden]="true" [attr.data-pc-section]="'closeicon'" />
+                                }
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    `,
+      animations: [trigger("messageState", [state("visible", style({
+        transform: "translateY(0)",
+        opacity: 1
+      })), transition("void => *", [style({
+        transform: "{{showTransformParams}}",
+        opacity: 0
+      }), animate("{{showTransitionParams}}")]), transition("* => void", [animate("{{hideTransitionParams}}", style({
+        height: 0,
+        opacity: 0,
+        transform: "{{hideTransformParams}}"
+      }))])])],
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      providers: [ToastStyle]
+    }]
+  }], () => [{
+    type: NgZone
+  }], {
+    message: [{
+      type: Input
+    }],
+    index: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    life: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    template: [{
+      type: Input
+    }],
+    headlessTemplate: [{
+      type: Input
+    }],
+    showTransformOptions: [{
+      type: Input
+    }],
+    hideTransformOptions: [{
+      type: Input
+    }],
+    showTransitionOptions: [{
+      type: Input
+    }],
+    hideTransitionOptions: [{
+      type: Input
+    }],
+    onClose: [{
+      type: Output
+    }],
+    containerViewChild: [{
+      type: ViewChild,
+      args: ["container"]
+    }]
+  });
+})();
+var Toast = class _Toast extends BaseComponent {
+  /**
+   * Key of the message in case message is targeted to a specific toast component.
+   * @group Props
+   */
+  key;
+  /**
+   * Whether to automatically manage layering.
+   * @group Props
+   */
+  autoZIndex = true;
+  /**
+   * Base zIndex value to use in layering.
+   * @group Props
+   */
+  baseZIndex = 0;
+  /**
+   * The default time to display messages for in milliseconds.
+   * @group Props
+   */
+  life = 3e3;
+  /**
+   * Inline style of the component.
+   * @group Props
+   */
+  style;
+  /**
+   * Inline class of the component.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * Position of the toast in viewport.
+   * @group Props
+   */
+  get position() {
+    return this._position;
+  }
+  set position(value) {
+    this._position = value;
+    this.cd.markForCheck();
+  }
+  /**
+   * It does not add the new message if there is already a toast displayed with the same content
+   * @group Props
+   */
+  preventOpenDuplicates = false;
+  /**
+   * Displays only once a message with the same content.
+   * @group Props
+   */
+  preventDuplicates = false;
+  /**
+   * Transform options of the show animation.
+   * @group Props
+   */
+  showTransformOptions = "translateY(100%)";
+  /**
+   * Transform options of the hide animation.
+   * @group Props
+   */
+  hideTransformOptions = "translateY(-100%)";
+  /**
+   * Transition options of the show animation.
+   * @group Props
+   */
+  showTransitionOptions = "300ms ease-out";
+  /**
+   * Transition options of the hide animation.
+   * @group Props
+   */
+  hideTransitionOptions = "250ms ease-in";
+  /**
+   * Object literal to define styles per screen size.
+   * @group Props
+   */
+  breakpoints;
+  /**
+   * Callback to invoke when a message is closed.
+   * @param {ToastCloseEvent} event - custom close event.
+   * @group Emits
+   */
+  onClose = new EventEmitter();
+  /**
+   * Custom template of message.
+   * @group Templates
+   */
+  template;
+  /**
+   * Custom headless template.
+   * @group Templates
+   */
+  headlessTemplate;
+  containerViewChild;
+  messageSubscription;
+  clearSubscription;
+  messages;
+  messagesArchieve;
+  _position = "top-right";
+  messageService = inject(MessageService);
+  _componentStyle = inject(ToastStyle);
+  styleElement;
+  id = uuid("pn_id_");
+  templates;
+  ngOnInit() {
+    super.ngOnInit();
+    this.messageSubscription = this.messageService.messageObserver.subscribe((messages) => {
+      if (messages) {
+        if (Array.isArray(messages)) {
+          const filteredMessages = messages.filter((m) => this.canAdd(m));
+          this.add(filteredMessages);
+        } else if (this.canAdd(messages)) {
+          this.add([messages]);
+        }
+      }
+    });
+    this.clearSubscription = this.messageService.clearObserver.subscribe((key) => {
+      if (key) {
+        if (this.key === key) {
+          this.messages = null;
+        }
+      } else {
+        this.messages = null;
+      }
+      this.cd.markForCheck();
+    });
+  }
+  _template;
+  _headlessTemplate;
+  ngAfterContentInit() {
+    this.templates?.forEach((item) => {
+      switch (item.getType()) {
+        case "message":
+          this._template = item.template;
+          break;
+        case "headless":
+          this._headlessTemplate = item.template;
+          break;
+        default:
+          this._template = item.template;
+          break;
+      }
+    });
+  }
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    if (this.breakpoints) {
+      this.createStyle();
+    }
+  }
+  add(messages) {
+    this.messages = this.messages ? [...this.messages, ...messages] : [...messages];
+    if (this.preventDuplicates) {
+      this.messagesArchieve = this.messagesArchieve ? [...this.messagesArchieve, ...messages] : [...messages];
+    }
+    this.cd.markForCheck();
+  }
+  canAdd(message) {
+    let allow = this.key === message.key;
+    if (allow && this.preventOpenDuplicates) {
+      allow = !this.containsMessage(this.messages, message);
+    }
+    if (allow && this.preventDuplicates) {
+      allow = !this.containsMessage(this.messagesArchieve, message);
+    }
+    return allow;
+  }
+  containsMessage(collection, message) {
+    if (!collection) {
+      return false;
+    }
+    return collection.find((m) => {
+      return m.summary === message.summary && m.detail == message.detail && m.severity === message.severity;
+    }) != null;
+  }
+  onMessageClose(event) {
+    this.messages?.splice(event.index, 1);
+    this.onClose.emit({
+      message: event.message
+    });
+    this.cd.detectChanges();
+  }
+  onAnimationStart(event) {
+    if (event.fromState === "void") {
+      this.renderer.setAttribute(this.containerViewChild?.nativeElement, this.id, "");
+      if (this.autoZIndex && this.containerViewChild?.nativeElement.style.zIndex === "") {
+        zindexutils.set("modal", this.containerViewChild?.nativeElement, this.baseZIndex || this.config.zIndex.modal);
+      }
+    }
+  }
+  onAnimationEnd(event) {
+    if (event.toState === "void") {
+      if (this.autoZIndex && isEmpty(this.messages)) {
+        zindexutils.clear(this.containerViewChild?.nativeElement);
+      }
+    }
+  }
+  createStyle() {
+    if (!this.styleElement) {
+      this.styleElement = this.renderer.createElement("style");
+      this.styleElement.type = "text/css";
+      this.renderer.appendChild(this.document.head, this.styleElement);
+      let innerHTML = "";
+      for (let breakpoint in this.breakpoints) {
+        let breakpointStyle = "";
+        for (let styleProp in this.breakpoints[breakpoint]) {
+          breakpointStyle += styleProp + ":" + this.breakpoints[breakpoint][styleProp] + " !important;";
+        }
+        innerHTML += `
+                    @media screen and (max-width: ${breakpoint}) {
+                        .p-toast[${this.id}] {
+                           ${breakpointStyle}
+                        }
+                    }
+                `;
+      }
+      this.renderer.setProperty(this.styleElement, "innerHTML", innerHTML);
+      setAttribute(this.styleElement, "nonce", this.config?.csp()?.nonce);
+    }
+  }
+  destroyStyle() {
+    if (this.styleElement) {
+      this.renderer.removeChild(this.document.head, this.styleElement);
+      this.styleElement = null;
+    }
+  }
+  ngOnDestroy() {
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+    if (this.containerViewChild && this.autoZIndex) {
+      zindexutils.clear(this.containerViewChild.nativeElement);
+    }
+    if (this.clearSubscription) {
+      this.clearSubscription.unsubscribe();
+    }
+    this.destroyStyle();
+    super.ngOnDestroy();
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275Toast_BaseFactory;
+    return function Toast_Factory(__ngFactoryType__) {
+      return (\u0275Toast_BaseFactory || (\u0275Toast_BaseFactory = \u0275\u0275getInheritedFactory(_Toast)))(__ngFactoryType__ || _Toast);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _Toast,
+    selectors: [["p-toast"]],
+    contentQueries: function Toast_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, _c53, 5);
+        \u0275\u0275contentQuery(dirIndex, _c63, 5);
+        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.template = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.headlessTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
+      }
+    },
+    viewQuery: function Toast_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c013, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.containerViewChild = _t.first);
+      }
+    },
+    inputs: {
+      key: "key",
+      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
+      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
+      life: [2, "life", "life", numberAttribute],
+      style: "style",
+      styleClass: "styleClass",
+      position: "position",
+      preventOpenDuplicates: [2, "preventOpenDuplicates", "preventOpenDuplicates", booleanAttribute],
+      preventDuplicates: [2, "preventDuplicates", "preventDuplicates", booleanAttribute],
+      showTransformOptions: "showTransformOptions",
+      hideTransformOptions: "hideTransformOptions",
+      showTransitionOptions: "showTransitionOptions",
+      hideTransitionOptions: "hideTransitionOptions",
+      breakpoints: "breakpoints"
+    },
+    outputs: {
+      onClose: "onClose"
+    },
+    features: [\u0275\u0275ProvidersFeature([ToastStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
+    decls: 3,
+    vars: 7,
+    consts: [["container", ""], [3, "ngClass", "ngStyle"], [3, "message", "index", "life", "template", "headlessTemplate", "showTransformOptions", "hideTransformOptions", "showTransitionOptions", "hideTransitionOptions", "onClose", 4, "ngFor", "ngForOf"], [3, "onClose", "message", "index", "life", "template", "headlessTemplate", "showTransformOptions", "hideTransformOptions", "showTransitionOptions", "hideTransitionOptions"]],
+    template: function Toast_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "div", 1, 0);
+        \u0275\u0275template(2, Toast_p_toastItem_2_Template, 1, 10, "p-toastItem", 2);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275styleMap(ctx.style);
+        \u0275\u0275classMap(ctx.styleClass);
+        \u0275\u0275property("ngClass", ctx.cx("root"))("ngStyle", ctx.sx("root"));
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngForOf", ctx.messages);
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgForOf, NgStyle, ToastItem, SharedModule],
+    encapsulation: 2,
+    data: {
+      animation: [trigger("toastAnimation", [transition(":enter, :leave", [query("@*", animateChild())])])]
+    },
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Toast, [{
+    type: Component,
+    args: [{
+      selector: "p-toast",
+      standalone: true,
+      imports: [CommonModule, ToastItem, SharedModule],
+      template: `
+        <div #container [ngClass]="cx('root')" [ngStyle]="sx('root')" [style]="style" [class]="styleClass">
+            <p-toastItem
+                *ngFor="let msg of messages; let i = index"
+                [message]="msg"
+                [index]="i"
+                [life]="life"
+                (onClose)="onMessageClose($event)"
+                [template]="template || _template"
+                [headlessTemplate]="headlessTemplate || _headlessTemplate"
+                @toastAnimation
+                (@toastAnimation.start)="onAnimationStart($event)"
+                (@toastAnimation.done)="onAnimationEnd($event)"
+                [showTransformOptions]="showTransformOptions"
+                [hideTransformOptions]="hideTransformOptions"
+                [showTransitionOptions]="showTransitionOptions"
+                [hideTransitionOptions]="hideTransitionOptions"
+            ></p-toastItem>
+        </div>
+    `,
+      animations: [trigger("toastAnimation", [transition(":enter, :leave", [query("@*", animateChild())])])],
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None,
+      providers: [ToastStyle]
+    }]
+  }], null, {
+    key: [{
+      type: Input
+    }],
+    autoZIndex: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    baseZIndex: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    life: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    style: [{
+      type: Input
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    position: [{
+      type: Input
+    }],
+    preventOpenDuplicates: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    preventDuplicates: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    showTransformOptions: [{
+      type: Input
+    }],
+    hideTransformOptions: [{
+      type: Input
+    }],
+    showTransitionOptions: [{
+      type: Input
+    }],
+    hideTransitionOptions: [{
+      type: Input
+    }],
+    breakpoints: [{
+      type: Input
+    }],
+    onClose: [{
+      type: Output
+    }],
+    template: [{
+      type: ContentChild,
+      args: ["message"]
+    }],
+    headlessTemplate: [{
+      type: ContentChild,
+      args: ["headless"]
+    }],
+    containerViewChild: [{
+      type: ViewChild,
+      args: ["container"]
+    }],
+    templates: [{
+      type: ContentChildren,
+      args: [PrimeTemplate]
+    }]
+  });
+})();
+var ToastModule = class _ToastModule {
+  static \u0275fac = function ToastModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ToastModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _ToastModule
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [Toast, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ToastModule, [{
+    type: NgModule,
+    args: [{
+      imports: [Toast, SharedModule],
+      exports: [Toast, SharedModule]
+    }]
+  }], null, null);
+})();
+
+// node_modules/primeng/fesm2022/primeng-radiobutton.mjs
+var _c014 = ["input"];
+var _c113 = (a0, a1, a2, a3, a4) => ({
+  "p-radiobutton p-component": true,
+  "p-radiobutton-checked": a0,
+  "p-disabled": a1,
+  "p-variant-filled": a2,
+  "p-radiobutton-sm p-inputfield-sm": a3,
+  "p-radiobutton-lg p-inputfield-lg": a4
+});
+var theme13 = ({
+  dt: dt2
+}) => `
+.p-radiobutton {
+    position: relative;
+    display: inline-flex;
+    user-select: none;
+    vertical-align: bottom;
+    width: ${dt2("radiobutton.width")};
+    height: ${dt2("radiobutton.height")};
+}
+
+.p-radiobutton-input {
+    cursor: pointer;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    z-index: 1;
+    outline: 0 none;
+    border: 1px solid transparent;
+    border-radius: 50%;
+}
+
+.p-radiobutton-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid ${dt2("radiobutton.border.color")};
+    background: ${dt2("radiobutton.background")};
+    width: ${dt2("radiobutton.width")};
+    height: ${dt2("radiobutton.height")};
+    transition: background ${dt2("radiobutton.transition.duration")}, color ${dt2("radiobutton.transition.duration")}, border-color ${dt2("radiobutton.transition.duration")}, box-shadow ${dt2("radiobutton.transition.duration")}, outline-color ${dt2("radiobutton.transition.duration")};
+    outline-color: transparent;
+    box-shadow: ${dt2("radiobutton.shadow")};
+}
+
+.p-radiobutton-icon {
+    transition-duration: ${dt2("radiobutton.transition.duration")};
+    background: transparent;
+    font-size: ${dt2("radiobutton.icon.size")};
+    width: ${dt2("radiobutton.icon.size")};
+    height: ${dt2("radiobutton.icon.size")};
+    border-radius: 50%;
+    backface-visibility: hidden;
+    transform: translateZ(0) scale(0.1);
+}
+
+.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:hover) .p-radiobutton-box {
+    border-color: ${dt2("radiobutton.hover.border.color")};
+}
+
+.p-radiobutton-checked .p-radiobutton-box {
+    border-color: ${dt2("radiobutton.checked.border.color")};
+    background: ${dt2("radiobutton.checked.background")};
+}
+
+.p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon {
+    background: ${dt2("radiobutton.icon.checked.color")};
+    transform: translateZ(0) scale(1, 1);
+    visibility: visible;
+}
+
+.p-radiobutton-checked:not(.p-disabled):has(.p-radiobutton-input:hover) .p-radiobutton-box {
+    border-color: ${dt2("radiobutton.checked.hover.border.color")};
+    background: ${dt2("radiobutton.checked.hover.background")};
+}
+
+.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:hover).p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon {
+    background: ${dt2("radiobutton.icon.checked.hover.color")};
+}
+
+.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
+    border-color: ${dt2("radiobutton.focus.border.color")};
+    box-shadow: ${dt2("radiobutton.focus.ring.shadow")};
+    outline: ${dt2("radiobutton.focus.ring.width")} ${dt2("radiobutton.focus.ring.style")} ${dt2("radiobutton.focus.ring.color")};
+    outline-offset: ${dt2("radiobutton.focus.ring.offset")};
+}
+
+.p-radiobutton-checked:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
+    border-color: ${dt2("radiobutton.checked.focus.border.color")};
+}
+
+p-radiobutton.ng-invalid.ng-dirty .p-radiobutton-box {
+    border-color: ${dt2("radiobutton.invalid.border.color")};
+}
+
+.p-radiobutton.p-variant-filled .p-radiobutton-box {
+    background: ${dt2("radiobutton.filled.background")};
+}
+
+.p-radiobutton.p-variant-filled.p-radiobutton-checked .p-radiobutton-box {
+    background: ${dt2("radiobutton.checked.background")};
+}
+
+.p-radiobutton.p-variant-filled:not(.p-disabled):has(.p-radiobutton-input:hover).p-radiobutton-checked .p-radiobutton-box {
+    background: ${dt2("radiobutton.checked.hover.background")};
+}
+
+.p-radiobutton.p-disabled {
+    opacity: 1;
+}
+
+.p-radiobutton.p-disabled .p-radiobutton-box {
+    background: ${dt2("radiobutton.disabled.background")};
+    border-color: ${dt2("radiobutton.checked.disabled.border.color")};
+}
+
+.p-radiobutton-checked.p-disabled .p-radiobutton-box .p-radiobutton-icon {
+    background: ${dt2("radiobutton.icon.disabled.color")};
+}
+
+.p-radiobutton-sm,
+.p-radiobutton-sm .p-radiobutton-box {
+    width: ${dt2("radiobutton.sm.width")};
+    height: ${dt2("radiobutton.sm.height")};
+}
+
+.p-radiobutton-sm .p-radiobutton-icon {
+    font-size: ${dt2("radiobutton.icon.sm.size")};
+    width: ${dt2("radiobutton.icon.sm.size")};
+    height: ${dt2("radiobutton.icon.sm.size")};
+}
+
+.p-radiobutton-lg,
+.p-radiobutton-lg .p-radiobutton-box {
+    width: ${dt2("radiobutton.lg.width")};
+    height: ${dt2("radiobutton.lg.height")};
+}
+
+.p-radiobutton-lg .p-radiobutton-icon {
+    font-size: ${dt2("radiobutton.icon.lg.size")};
+    width: ${dt2("radiobutton.icon.lg.size")};
+    height: ${dt2("radiobutton.icon.lg.size")};
+}
+`;
+var classes12 = {
+  root: ({
+    instance,
+    props
+  }) => ["p-radiobutton p-component", {
+    "p-radiobutton-checked": instance.checked,
+    "p-disabled": props.disabled,
+    "p-invalid": props.invalid,
+    "p-variant-filled": props.variant ? props.variant === "filled" : instance.config.inputStyle === "filled" || instance.config.inputVariant === "filled"
+  }],
+  box: "p-radiobutton-box",
+  input: "p-radiobutton-input",
+  icon: "p-radiobutton-icon"
+};
+var RadioButtonStyle = class _RadioButtonStyle extends BaseStyle {
+  name = "radiobutton";
+  theme = theme13;
+  classes = classes12;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275RadioButtonStyle_BaseFactory;
+    return function RadioButtonStyle_Factory(__ngFactoryType__) {
+      return (\u0275RadioButtonStyle_BaseFactory || (\u0275RadioButtonStyle_BaseFactory = \u0275\u0275getInheritedFactory(_RadioButtonStyle)))(__ngFactoryType__ || _RadioButtonStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _RadioButtonStyle,
+    factory: _RadioButtonStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioButtonStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var RadioButtonClasses;
+(function(RadioButtonClasses2) {
+  RadioButtonClasses2["root"] = "p-radiobutton";
+  RadioButtonClasses2["box"] = "p-radiobutton-box";
+  RadioButtonClasses2["input"] = "p-radiobutton-input";
+  RadioButtonClasses2["icon"] = "p-radiobutton-icon";
+})(RadioButtonClasses || (RadioButtonClasses = {}));
+var RADIO_VALUE_ACCESSOR2 = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => RadioButton),
+  multi: true
+};
+var RadioControlRegistry2 = class _RadioControlRegistry {
+  accessors = [];
+  add(control, accessor) {
+    this.accessors.push([control, accessor]);
+  }
+  remove(accessor) {
+    this.accessors = this.accessors.filter((c) => {
+      return c[1] !== accessor;
+    });
+  }
+  select(accessor) {
+    this.accessors.forEach((c) => {
+      if (this.isSameGroup(c, accessor) && c[1] !== accessor) {
+        c[1].writeValue(accessor.value);
+      }
+    });
+  }
+  isSameGroup(controlPair, accessor) {
+    if (!controlPair[0].control) {
+      return false;
+    }
+    return controlPair[0].control.root === accessor.control.control.root && controlPair[1].name === accessor.name;
+  }
+  static \u0275fac = function RadioControlRegistry_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _RadioControlRegistry)();
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _RadioControlRegistry,
+    factory: _RadioControlRegistry.\u0275fac,
+    providedIn: "root"
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioControlRegistry2, [{
+    type: Injectable,
+    args: [{
+      providedIn: "root"
+    }]
+  }], null, null);
+})();
+var RadioButton = class _RadioButton extends BaseComponent {
+  /**
+   * Value of the radiobutton.
+   * @group Props
+   */
+  value;
+  /**
+   * The name of the form control.
+   * @group Props
+   */
+  formControlName;
+  /**
+   * Name of the radiobutton group.
+   * @group Props
+   */
+  name;
+  /**
+   * When present, it specifies that the element should be disabled.
+   * @group Props
+   */
+  disabled;
+  /**
+   * Specifies the input variant of the component.
+   * @group Props
+   */
+  variant;
+  /**
+   * Defines the size of the component.
+   * @group Props
+   */
+  size;
+  /**
+   * Index of the element in tabbing order.
+   * @group Props
+   */
+  tabindex;
+  /**
+   * Identifier of the focus input to match a label defined for the component.
+   * @group Props
+   */
+  inputId;
+  /**
+   * Establishes relationships between the component and label(s) where its value should be one or more element IDs.
+   * @group Props
+   */
+  ariaLabelledBy;
+  /**
+   * Used to define a string that labels the input element.
+   * @group Props
+   */
+  ariaLabel;
+  /**
+   * Inline style of the component.
+   * @group Props
+   */
+  style;
+  /**
+   * Style class of the component.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * When present, it specifies that the component should automatically get focus on load.
+   * @group Props
+   */
+  autofocus;
+  /**
+   * Allows to select a boolean value.
+   * @group Props
+   */
+  binary;
+  /**
+   * Callback to invoke on radio button click.
+   * @param {RadioButtonClickEvent} event - Custom click event.
+   * @group Emits
+   */
+  onClick = new EventEmitter();
+  /**
+   * Callback to invoke when the receives focus.
+   * @param {Event} event - Browser event.
+   * @group Emits
+   */
+  onFocus = new EventEmitter();
+  /**
+   * Callback to invoke when the loses focus.
+   * @param {Event} event - Browser event.
+   * @group Emits
+   */
+  onBlur = new EventEmitter();
+  inputViewChild;
+  onModelChange = () => {
+  };
+  onModelTouched = () => {
+  };
+  checked;
+  focused;
+  control;
+  _componentStyle = inject(RadioButtonStyle);
+  injector = inject(Injector);
+  registry = inject(RadioControlRegistry2);
+  ngOnInit() {
+    super.ngOnInit();
+    this.control = this.injector.get(NgControl);
+    this.checkName();
+    this.registry.add(this.control, this);
+  }
+  onChange(event) {
+    if (!this.disabled) {
+      this.select(event);
+    }
+  }
+  select(event) {
+    if (!this.disabled) {
+      this.checked = true;
+      this.onModelChange(this.value);
+      this.registry.select(this);
+      this.onClick.emit({
+        originalEvent: event,
+        value: this.value
+      });
+    }
+  }
+  writeValue(value) {
+    if (!this.binary) {
+      this.checked = value == this.value;
+    } else {
+      this.checked = !!value;
+    }
+    if (this.inputViewChild && this.inputViewChild.nativeElement) {
+      this.inputViewChild.nativeElement.checked = this.checked;
+    }
+    this.cd.markForCheck();
+  }
+  registerOnChange(fn) {
+    this.onModelChange = fn;
+  }
+  registerOnTouched(fn) {
+    this.onModelTouched = fn;
+  }
+  setDisabledState(val) {
+    this.disabled = val;
+    this.cd.markForCheck();
+  }
+  onInputFocus(event) {
+    this.focused = true;
+    this.onFocus.emit(event);
+  }
+  onInputBlur(event) {
+    this.focused = false;
+    this.onModelTouched();
+    this.onBlur.emit(event);
+  }
+  /**
+   * Applies focus to input field.
+   * @group Method
+   */
+  focus() {
+    this.inputViewChild.nativeElement.focus();
+  }
+  ngOnDestroy() {
+    this.registry.remove(this);
+    super.ngOnDestroy();
+  }
+  checkName() {
+    if (this.name && this.formControlName && this.name !== this.formControlName) {
+      this.throwNameError();
+    }
+    if (!this.name && this.formControlName) {
+      this.name = this.formControlName;
+    }
+  }
+  throwNameError() {
+    throw new Error(`
+          If you define both a name and a formControlName attribute on your radio button, their values
+          must match. Ex: <p-radioButton formControlName="food" name="food"></p-radioButton>
+        `);
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275RadioButton_BaseFactory;
+    return function RadioButton_Factory(__ngFactoryType__) {
+      return (\u0275RadioButton_BaseFactory || (\u0275RadioButton_BaseFactory = \u0275\u0275getInheritedFactory(_RadioButton)))(__ngFactoryType__ || _RadioButton);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _RadioButton,
+    selectors: [["p-radioButton"], ["p-radiobutton"], ["p-radio-button"]],
+    viewQuery: function RadioButton_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c014, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.inputViewChild = _t.first);
+      }
+    },
+    inputs: {
+      value: "value",
+      formControlName: "formControlName",
+      name: "name",
+      disabled: [2, "disabled", "disabled", booleanAttribute],
+      variant: "variant",
+      size: "size",
+      tabindex: [2, "tabindex", "tabindex", numberAttribute],
+      inputId: "inputId",
+      ariaLabelledBy: "ariaLabelledBy",
+      ariaLabel: "ariaLabel",
+      style: "style",
+      styleClass: "styleClass",
+      autofocus: [2, "autofocus", "autofocus", booleanAttribute],
+      binary: [2, "binary", "binary", booleanAttribute]
+    },
+    outputs: {
+      onClick: "onClick",
+      onFocus: "onFocus",
+      onBlur: "onBlur"
+    },
+    features: [\u0275\u0275ProvidersFeature([RADIO_VALUE_ACCESSOR2, RadioButtonStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
+    decls: 5,
+    vars: 24,
+    consts: [["input", ""], [3, "ngStyle", "ngClass"], ["type", "radio", 1, "p-radiobutton-input", 3, "focus", "blur", "change", "checked", "disabled", "value", "pAutoFocus"], [1, "p-radiobutton-box"], [1, "p-radiobutton-icon"]],
+    template: function RadioButton_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275elementStart(0, "div", 1)(1, "input", 2, 0);
+        \u0275\u0275listener("focus", function RadioButton_Template_input_focus_1_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onInputFocus($event));
+        })("blur", function RadioButton_Template_input_blur_1_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onInputBlur($event));
+        })("change", function RadioButton_Template_input_change_1_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onChange($event));
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(3, "div", 3);
+        \u0275\u0275element(4, "div", 4);
+        \u0275\u0275elementEnd()();
+      }
+      if (rf & 2) {
+        \u0275\u0275classMap(ctx.styleClass);
+        \u0275\u0275property("ngStyle", ctx.style)("ngClass", \u0275\u0275pureFunction5(18, _c113, ctx.checked, ctx.disabled, ctx.variant === "filled" || ctx.config.inputStyle() === "filled" || ctx.config.inputVariant() === "filled", ctx.size === "small", ctx.size === "large"));
+        \u0275\u0275attribute("data-pc-name", "radiobutton")("data-pc-section", "root");
+        \u0275\u0275advance();
+        \u0275\u0275property("checked", ctx.checked)("disabled", ctx.disabled)("value", ctx.value)("pAutoFocus", ctx.autofocus);
+        \u0275\u0275attribute("id", ctx.inputId)("name", ctx.name)("aria-labelledby", ctx.ariaLabelledBy)("aria-label", ctx.ariaLabel)("tabindex", ctx.tabindex)("aria-checked", ctx.checked);
+        \u0275\u0275advance(2);
+        \u0275\u0275attribute("data-pc-section", "input");
+        \u0275\u0275advance();
+        \u0275\u0275attribute("data-pc-section", "icon");
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgStyle, AutoFocus, SharedModule],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioButton, [{
+    type: Component,
+    args: [{
+      selector: "p-radioButton, p-radiobutton, p-radio-button",
+      standalone: true,
+      imports: [CommonModule, AutoFocus, SharedModule],
+      template: `
+        <div
+            [ngStyle]="style"
+            [ngClass]="{
+                'p-radiobutton p-component': true,
+                'p-radiobutton-checked': checked,
+                'p-disabled': disabled,
+                'p-variant-filled': variant === 'filled' || config.inputStyle() === 'filled' || config.inputVariant() === 'filled',
+                'p-radiobutton-sm p-inputfield-sm': size === 'small',
+                'p-radiobutton-lg p-inputfield-lg': size === 'large'
+            }"
+            [class]="styleClass"
+            [attr.data-pc-name]="'radiobutton'"
+            [attr.data-pc-section]="'root'"
+        >
+            <input
+                #input
+                [attr.id]="inputId"
+                type="radio"
+                class="p-radiobutton-input"
+                [attr.name]="name"
+                [checked]="checked"
+                [disabled]="disabled"
+                [value]="value"
+                [attr.aria-labelledby]="ariaLabelledBy"
+                [attr.aria-label]="ariaLabel"
+                [attr.tabindex]="tabindex"
+                [attr.aria-checked]="checked"
+                (focus)="onInputFocus($event)"
+                (blur)="onInputBlur($event)"
+                (change)="onChange($event)"
+                [pAutoFocus]="autofocus"
+            />
+            <div class="p-radiobutton-box" [attr.data-pc-section]="'input'">
+                <div class="p-radiobutton-icon" [attr.data-pc-section]="'icon'"></div>
+            </div>
+        </div>
+    `,
+      providers: [RADIO_VALUE_ACCESSOR2, RadioButtonStyle],
+      changeDetection: ChangeDetectionStrategy.OnPush
+    }]
+  }], null, {
+    value: [{
+      type: Input
+    }],
+    formControlName: [{
+      type: Input
+    }],
+    name: [{
+      type: Input
+    }],
+    disabled: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    variant: [{
+      type: Input
+    }],
+    size: [{
+      type: Input
+    }],
+    tabindex: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    inputId: [{
+      type: Input
+    }],
+    ariaLabelledBy: [{
+      type: Input
+    }],
+    ariaLabel: [{
+      type: Input
+    }],
+    style: [{
+      type: Input
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    autofocus: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    binary: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    onClick: [{
+      type: Output
+    }],
+    onFocus: [{
+      type: Output
+    }],
+    onBlur: [{
+      type: Output
+    }],
+    inputViewChild: [{
+      type: ViewChild,
+      args: ["input"]
+    }]
+  });
+})();
+var RadioButtonModule = class _RadioButtonModule {
+  static \u0275fac = function RadioButtonModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _RadioButtonModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _RadioButtonModule
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [RadioButton, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RadioButtonModule, [{
+    type: NgModule,
+    args: [{
+      imports: [RadioButton, SharedModule],
+      exports: [RadioButton, SharedModule]
+    }]
+  }], null, null);
+})();
+
+// node_modules/primeng/fesm2022/primeng-checkbox.mjs
+var _c015 = ["checkboxicon"];
+var _c114 = ["input"];
+var _c28 = () => ({
+  "p-checkbox-input": true
+});
+var _c37 = (a0) => ({
+  checked: a0,
+  class: "p-checkbox-icon"
+});
+function Checkbox_ng_container_4_ng_container_1_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 8);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngClass", ctx_r1.checkboxIcon);
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "CheckIcon", 9);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("styleClass", "p-checkbox-icon");
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Checkbox_ng_container_4_ng_container_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_span_1_Template, 1, 2, "span", 7)(2, Checkbox_ng_container_4_ng_container_1_CheckIcon_2_Template, 1, 2, "CheckIcon", 6);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.checkboxIcon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.checkboxIcon);
+  }
+}
+function Checkbox_ng_container_4_MinusIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "MinusIcon", 9);
+  }
+  if (rf & 2) {
+    \u0275\u0275property("styleClass", "p-checkbox-icon");
+    \u0275\u0275attribute("data-pc-section", "icon");
+  }
+}
+function Checkbox_ng_container_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Checkbox_ng_container_4_ng_container_1_Template, 3, 2, "ng-container", 4)(2, Checkbox_ng_container_4_MinusIcon_2_Template, 1, 2, "MinusIcon", 6);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.checked);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1._indeterminate());
+  }
+}
+function Checkbox_5_ng_template_0_Template(rf, ctx) {
+}
+function Checkbox_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Checkbox_5_ng_template_0_Template, 0, 0, "ng-template");
+  }
+}
+var theme14 = ({
+  dt: dt2
+}) => `
+.p-checkbox {
+    position: relative;
+    display: inline-flex;
+    user-select: none;
+    vertical-align: bottom;
+    width: ${dt2("checkbox.width")};
+    height: ${dt2("checkbox.height")};
+}
+
+.p-checkbox-input {
+    cursor: pointer;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    z-index: 1;
+    outline: 0 none;
+    border: 1px solid transparent;
+    border-radius: ${dt2("checkbox.border.radius")};
+}
+
+.p-checkbox-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: ${dt2("checkbox.border.radius")};
+    border: 1px solid ${dt2("checkbox.border.color")};
+    background: ${dt2("checkbox.background")};
+    width: ${dt2("checkbox.width")};
+    height: ${dt2("checkbox.height")};
+    transition: background ${dt2("checkbox.transition.duration")}, color ${dt2("checkbox.transition.duration")}, border-color ${dt2("checkbox.transition.duration")}, box-shadow ${dt2("checkbox.transition.duration")}, outline-color ${dt2("checkbox.transition.duration")};
+    outline-color: transparent;
+    box-shadow: ${dt2("checkbox.shadow")};
+}
+
+.p-checkbox-icon {
+    transition-duration: ${dt2("checkbox.transition.duration")};
+    color: ${dt2("checkbox.icon.color")};
+    font-size: ${dt2("checkbox.icon.size")};
+    width: ${dt2("checkbox.icon.size")};
+    height: ${dt2("checkbox.icon.size")};
+}
+
+.p-checkbox:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
+    border-color: ${dt2("checkbox.hover.border.color")};
+}
+
+.p-checkbox-checked .p-checkbox-box {
+    border-color: ${dt2("checkbox.checked.border.color")};
+    background: ${dt2("checkbox.checked.background")};
+}
+
+.p-checkbox-checked .p-checkbox-icon {
+    color: ${dt2("checkbox.icon.checked.color")};
+}
+
+.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
+    background: ${dt2("checkbox.checked.hover.background")};
+    border-color: ${dt2("checkbox.checked.hover.border.color")};
+}
+
+.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-icon {
+    color: ${dt2("checkbox.icon.checked.hover.color")};
+}
+
+.p-checkbox:not(.p-disabled):has(.p-checkbox-input:focus-visible) .p-checkbox-box {
+    border-color: ${dt2("checkbox.focus.border.color")};
+    box-shadow: ${dt2("checkbox.focus.ring.shadow")};
+    outline: ${dt2("checkbox.focus.ring.width")} ${dt2("checkbox.focus.ring.style")} ${dt2("checkbox.focus.ring.color")};
+    outline-offset: ${dt2("checkbox.focus.ring.offset")};
+}
+
+.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:focus-visible) .p-checkbox-box {
+    border-color: ${dt2("checkbox.checked.focus.border.color")};
+}
+
+p-checkbox.ng-invalid.ng-dirty .p-checkbox-box {
+    border-color: ${dt2("checkbox.invalid.border.color")};
+}
+
+.p-checkbox.p-variant-filled .p-checkbox-box {
+    background: ${dt2("checkbox.filled.background")};
+}
+
+.p-checkbox-checked.p-variant-filled .p-checkbox-box {
+    background: ${dt2("checkbox.checked.background")};
+}
+
+.p-checkbox-checked.p-variant-filled:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
+    background: ${dt2("checkbox.checked.hover.background")};
+}
+
+.p-checkbox.p-disabled {
+    opacity: 1;
+}
+
+.p-checkbox.p-disabled .p-checkbox-box {
+    background: ${dt2("checkbox.disabled.background")};
+    border-color: ${dt2("checkbox.checked.disabled.border.color")};
+}
+
+.p-checkbox.p-disabled .p-checkbox-box .p-checkbox-icon {
+    color: ${dt2("checkbox.icon.disabled.color")};
+}
+
+.p-checkbox-sm,
+.p-checkbox-sm .p-checkbox-box {
+    width: ${dt2("checkbox.sm.width")};
+    height: ${dt2("checkbox.sm.height")};
+}
+
+.p-checkbox-sm .p-checkbox-icon {
+    font-size: ${dt2("checkbox.icon.sm.size")};
+    width: ${dt2("checkbox.icon.sm.size")};
+    height: ${dt2("checkbox.icon.sm.size")};
+}
+
+.p-checkbox-lg,
+.p-checkbox-lg .p-checkbox-box {
+    width: ${dt2("checkbox.lg.width")};
+    height: ${dt2("checkbox.lg.height")};
+}
+
+.p-checkbox-lg .p-checkbox-icon {
+    font-size: ${dt2("checkbox.icon.lg.size")};
+    width: ${dt2("checkbox.icon.lg.size")};
+    height: ${dt2("checkbox.icon.lg.size")};
+}
+`;
+var classes13 = {
+  root: ({
+    instance,
+    props
+  }) => ["p-checkbox p-component", {
+    "p-checkbox-checked": instance.checked,
+    "p-disabled": props.disabled,
+    "p-invalid": props.invalid,
+    "p-variant-filled": props.variant ? props.variant === "filled" : instance.config.inputStyle === "filled" || instance.config.inputVariant === "filled"
+  }],
+  box: "p-checkbox-box",
+  input: "p-checkbox-input",
+  icon: "p-checkbox-icon"
+};
+var CheckboxStyle = class _CheckboxStyle extends BaseStyle {
+  name = "checkbox";
+  theme = theme14;
+  classes = classes13;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275CheckboxStyle_BaseFactory;
+    return function CheckboxStyle_Factory(__ngFactoryType__) {
+      return (\u0275CheckboxStyle_BaseFactory || (\u0275CheckboxStyle_BaseFactory = \u0275\u0275getInheritedFactory(_CheckboxStyle)))(__ngFactoryType__ || _CheckboxStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _CheckboxStyle,
+    factory: _CheckboxStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CheckboxStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var CheckboxClasses;
+(function(CheckboxClasses2) {
+  CheckboxClasses2["root"] = "p-checkbox";
+  CheckboxClasses2["box"] = "p-checkbox-box";
+  CheckboxClasses2["input"] = "p-checkbox-input";
+  CheckboxClasses2["icon"] = "p-checkbox-icon";
+})(CheckboxClasses || (CheckboxClasses = {}));
+var CHECKBOX_VALUE_ACCESSOR2 = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => Checkbox),
+  multi: true
+};
+var Checkbox = class _Checkbox extends BaseComponent {
+  /**
+   * Value of the checkbox.
+   * @group Props
+   */
+  value;
+  /**
+   * Name of the checkbox group.
+   * @group Props
+   */
+  name;
+  /**
+   * When present, it specifies that the element should be disabled.
+   * @group Props
+   */
+  disabled;
+  /**
+   * Allows to select a boolean value instead of multiple values.
+   * @group Props
+   */
+  binary;
+  /**
+   * Establishes relationships between the component and label(s) where its value should be one or more element IDs.
+   * @group Props
+   */
+  ariaLabelledBy;
+  /**
+   * Used to define a string that labels the input element.
+   * @group Props
+   */
+  ariaLabel;
+  /**
+   * Index of the element in tabbing order.
+   * @group Props
+   */
+  tabindex;
+  /**
+   * Identifier of the focus input to match a label defined for the component.
+   * @group Props
+   */
+  inputId;
+  /**
+   * Inline style of the component.
+   * @group Props
+   */
+  style;
+  /**
+   * Inline style of the input element.
+   * @group Props
+   */
+  inputStyle;
+  /**
+   * Style class of the component.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * Style class of the input element.
+   * @group Props
+   */
+  inputClass;
+  /**
+   * When present, it specifies input state as indeterminate.
+   * @group Props
+   */
+  indeterminate = false;
+  /**
+   * Defines the size of the component.
+   * @group Props
+   */
+  size;
+  /**
+   * Form control value.
+   * @group Props
+   */
+  formControl;
+  /**
+   * Icon class of the checkbox icon.
+   * @group Props
+   */
+  checkboxIcon;
+  /**
+   * When present, it specifies that the component cannot be edited.
+   * @group Props
+   */
+  readonly;
+  /**
+   * When present, it specifies that checkbox must be checked before submitting the form.
+   * @group Props
+   */
+  required;
+  /**
+   * When present, it specifies that the component should automatically get focus on load.
+   * @group Props
+   */
+  autofocus;
+  /**
+   * Value in checked state.
+   * @group Props
+   */
+  trueValue = true;
+  /**
+   * Value in unchecked state.
+   * @group Props
+   */
+  falseValue = false;
+  /**
+   * Specifies the input variant of the component.
+   * @group Props
+   */
+  variant;
+  /**
+   * Callback to invoke on value change.
+   * @param {CheckboxChangeEvent} event - Custom value change event.
+   * @group Emits
+   */
+  onChange = new EventEmitter();
+  /**
+   * Callback to invoke when the receives focus.
+   * @param {Event} event - Browser event.
+   * @group Emits
+   */
+  onFocus = new EventEmitter();
+  /**
+   * Callback to invoke when the loses focus.
+   * @param {Event} event - Browser event.
+   * @group Emits
+   */
+  onBlur = new EventEmitter();
+  inputViewChild;
+  get checked() {
+    return this._indeterminate() ? false : this.binary ? this.model === this.trueValue : contains(this.value, this.model);
+  }
+  get containerClass() {
+    return {
+      "p-checkbox p-component": true,
+      "p-checkbox-checked p-highlight": this.checked,
+      "p-disabled": this.disabled,
+      "p-variant-filled": this.variant === "filled" || this.config.inputStyle() === "filled" || this.config.inputVariant() === "filled",
+      "p-checkbox-sm p-inputfield-sm": this.size === "small",
+      "p-checkbox-lg p-inputfield-lg": this.size === "large"
+    };
+  }
+  _indeterminate = signal(void 0);
+  /**
+   * The template of the checkbox icon.
+   * @group Templates
+   */
+  checkboxIconTemplate;
+  templates;
+  _checkboxIconTemplate;
+  model;
+  onModelChange = () => {
+  };
+  onModelTouched = () => {
+  };
+  focused = false;
+  _componentStyle = inject(CheckboxStyle);
+  ngAfterContentInit() {
+    this.templates.forEach((item) => {
+      switch (item.getType()) {
+        case "icon":
+          this._checkboxIconTemplate = item.template;
+          break;
+        case "checkboxicon":
+          this._checkboxIconTemplate = item.template;
+          break;
+      }
+    });
+  }
+  ngOnChanges(changes) {
+    super.ngOnChanges(changes);
+    if (changes.indeterminate) {
+      this._indeterminate.set(changes.indeterminate.currentValue);
+    }
+  }
+  updateModel(event) {
+    let newModelValue;
+    const selfControl = this.injector.get(NgControl, null, {
+      optional: true,
+      self: true
+    });
+    const currentModelValue = selfControl && !this.formControl ? selfControl.value : this.model;
+    if (!this.binary) {
+      if (this.checked || this._indeterminate()) newModelValue = currentModelValue.filter((val) => !equals(val, this.value));
+      else newModelValue = currentModelValue ? [...currentModelValue, this.value] : [this.value];
+      this.onModelChange(newModelValue);
+      this.model = newModelValue;
+      if (this.formControl) {
+        this.formControl.setValue(newModelValue);
+      }
+    } else {
+      newModelValue = this._indeterminate() ? this.trueValue : this.checked ? this.falseValue : this.trueValue;
+      this.model = newModelValue;
+      this.onModelChange(newModelValue);
+    }
+    if (this._indeterminate()) {
+      this._indeterminate.set(false);
+    }
+    this.onChange.emit({
+      checked: newModelValue,
+      originalEvent: event
+    });
+  }
+  handleChange(event) {
+    if (!this.readonly) {
+      this.updateModel(event);
+    }
+  }
+  onInputFocus(event) {
+    this.focused = true;
+    this.onFocus.emit(event);
+  }
+  onInputBlur(event) {
+    this.focused = false;
+    this.onBlur.emit(event);
+    this.onModelTouched();
+  }
+  focus() {
+    this.inputViewChild.nativeElement.focus();
+  }
+  writeValue(model) {
+    this.model = model;
+    this.cd.markForCheck();
+  }
+  registerOnChange(fn) {
+    this.onModelChange = fn;
+  }
+  registerOnTouched(fn) {
+    this.onModelTouched = fn;
+  }
+  setDisabledState(val) {
+    setTimeout(() => {
+      this.disabled = val;
+      this.cd.markForCheck();
+    });
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275Checkbox_BaseFactory;
+    return function Checkbox_Factory(__ngFactoryType__) {
+      return (\u0275Checkbox_BaseFactory || (\u0275Checkbox_BaseFactory = \u0275\u0275getInheritedFactory(_Checkbox)))(__ngFactoryType__ || _Checkbox);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _Checkbox,
+    selectors: [["p-checkbox"], ["p-checkBox"], ["p-check-box"]],
+    contentQueries: function Checkbox_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, _c015, 4);
+        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.checkboxIconTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
+      }
+    },
+    viewQuery: function Checkbox_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c114, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.inputViewChild = _t.first);
+      }
+    },
+    inputs: {
+      value: "value",
+      name: "name",
+      disabled: [2, "disabled", "disabled", booleanAttribute],
+      binary: [2, "binary", "binary", booleanAttribute],
+      ariaLabelledBy: "ariaLabelledBy",
+      ariaLabel: "ariaLabel",
+      tabindex: [2, "tabindex", "tabindex", numberAttribute],
+      inputId: "inputId",
+      style: "style",
+      inputStyle: "inputStyle",
+      styleClass: "styleClass",
+      inputClass: "inputClass",
+      indeterminate: [2, "indeterminate", "indeterminate", booleanAttribute],
+      size: "size",
+      formControl: "formControl",
+      checkboxIcon: "checkboxIcon",
+      readonly: [2, "readonly", "readonly", booleanAttribute],
+      required: [2, "required", "required", booleanAttribute],
+      autofocus: [2, "autofocus", "autofocus", booleanAttribute],
+      trueValue: "trueValue",
+      falseValue: "falseValue",
+      variant: "variant"
+    },
+    outputs: {
+      onChange: "onChange",
+      onFocus: "onFocus",
+      onBlur: "onBlur"
+    },
+    features: [\u0275\u0275ProvidersFeature([CHECKBOX_VALUE_ACCESSOR2, CheckboxStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature, \u0275\u0275NgOnChangesFeature],
+    decls: 6,
+    vars: 29,
+    consts: [["input", ""], [3, "ngClass"], ["type", "checkbox", 3, "focus", "blur", "change", "value", "checked", "disabled", "readonly", "ngClass"], [1, "p-checkbox-box"], [4, "ngIf"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], [3, "styleClass", 4, "ngIf"], ["class", "p-checkbox-icon", 3, "ngClass", 4, "ngIf"], [1, "p-checkbox-icon", 3, "ngClass"], [3, "styleClass"]],
+    template: function Checkbox_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275elementStart(0, "div", 1)(1, "input", 2, 0);
+        \u0275\u0275listener("focus", function Checkbox_Template_input_focus_1_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onInputFocus($event));
+        })("blur", function Checkbox_Template_input_blur_1_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onInputBlur($event));
+        })("change", function Checkbox_Template_input_change_1_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.handleChange($event));
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(3, "div", 3);
+        \u0275\u0275template(4, Checkbox_ng_container_4_Template, 3, 2, "ng-container", 4)(5, Checkbox_5_Template, 1, 0, null, 5);
+        \u0275\u0275elementEnd()();
+      }
+      if (rf & 2) {
+        \u0275\u0275styleMap(ctx.style);
+        \u0275\u0275classMap(ctx.styleClass);
+        \u0275\u0275property("ngClass", ctx.containerClass);
+        \u0275\u0275attribute("data-p-highlight", ctx.checked)("data-p-checked", ctx.checked)("data-p-disabled", ctx.disabled);
+        \u0275\u0275advance();
+        \u0275\u0275styleMap(ctx.inputStyle);
+        \u0275\u0275classMap(ctx.inputClass);
+        \u0275\u0275property("value", ctx.value)("checked", ctx.checked)("disabled", ctx.disabled)("readonly", ctx.readonly)("ngClass", \u0275\u0275pureFunction0(26, _c28));
+        \u0275\u0275attribute("id", ctx.inputId)("name", ctx.name)("tabindex", ctx.tabindex)("required", ctx.required ? true : null)("aria-labelledby", ctx.ariaLabelledBy)("aria-label", ctx.ariaLabel);
+        \u0275\u0275advance(3);
+        \u0275\u0275property("ngIf", !ctx.checkboxIconTemplate && !ctx._checkboxIconTemplate);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngTemplateOutlet", ctx.checkboxIconTemplate || ctx._checkboxIconTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(27, _c37, ctx.checked));
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, CheckIcon, MinusIcon, SharedModule],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Checkbox, [{
+    type: Component,
+    args: [{
+      selector: "p-checkbox, p-checkBox, p-check-box",
+      standalone: true,
+      imports: [CommonModule, CheckIcon, MinusIcon, SharedModule],
+      template: `
+        <div [style]="style" [class]="styleClass" [ngClass]="containerClass" [attr.data-p-highlight]="checked" [attr.data-p-checked]="checked" [attr.data-p-disabled]="disabled">
+            <input
+                #input
+                [attr.id]="inputId"
+                type="checkbox"
+                [value]="value"
+                [attr.name]="name"
+                [checked]="checked"
+                [attr.tabindex]="tabindex"
+                [disabled]="disabled"
+                [readonly]="readonly"
+                [attr.required]="required ? true : null"
+                [attr.aria-labelledby]="ariaLabelledBy"
+                [attr.aria-label]="ariaLabel"
+                [style]="inputStyle"
+                [class]="inputClass"
+                [ngClass]="{ 'p-checkbox-input': true }"
+                (focus)="onInputFocus($event)"
+                (blur)="onInputBlur($event)"
+                (change)="handleChange($event)"
+            />
+            <div class="p-checkbox-box">
+                <ng-container *ngIf="!checkboxIconTemplate && !_checkboxIconTemplate">
+                    <ng-container *ngIf="checked">
+                        <span *ngIf="checkboxIcon" class="p-checkbox-icon" [ngClass]="checkboxIcon" [attr.data-pc-section]="'icon'"></span>
+                        <CheckIcon *ngIf="!checkboxIcon" [styleClass]="'p-checkbox-icon'" [attr.data-pc-section]="'icon'" />
+                    </ng-container>
+                    <MinusIcon *ngIf="_indeterminate()" [styleClass]="'p-checkbox-icon'" [attr.data-pc-section]="'icon'" />
+                </ng-container>
+                <ng-template *ngTemplateOutlet="checkboxIconTemplate || _checkboxIconTemplate; context: { checked: checked, class: 'p-checkbox-icon' }"></ng-template>
+            </div>
+        </div>
+    `,
+      providers: [CHECKBOX_VALUE_ACCESSOR2, CheckboxStyle],
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None
+    }]
+  }], null, {
+    value: [{
+      type: Input
+    }],
+    name: [{
+      type: Input
+    }],
+    disabled: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    binary: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    ariaLabelledBy: [{
+      type: Input
+    }],
+    ariaLabel: [{
+      type: Input
+    }],
+    tabindex: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    inputId: [{
+      type: Input
+    }],
+    style: [{
+      type: Input
+    }],
+    inputStyle: [{
+      type: Input
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    inputClass: [{
+      type: Input
+    }],
+    indeterminate: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    size: [{
+      type: Input
+    }],
+    formControl: [{
+      type: Input
+    }],
+    checkboxIcon: [{
+      type: Input
+    }],
+    readonly: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    required: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    autofocus: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    trueValue: [{
+      type: Input
+    }],
+    falseValue: [{
+      type: Input
+    }],
+    variant: [{
+      type: Input
+    }],
+    onChange: [{
+      type: Output
+    }],
+    onFocus: [{
+      type: Output
+    }],
+    onBlur: [{
+      type: Output
+    }],
+    inputViewChild: [{
+      type: ViewChild,
+      args: ["input"]
+    }],
+    checkboxIconTemplate: [{
+      type: ContentChild,
+      args: ["checkboxicon", {
+        descendants: false
+      }]
+    }],
+    templates: [{
+      type: ContentChildren,
+      args: [PrimeTemplate]
+    }]
+  });
+})();
+var CheckboxModule = class _CheckboxModule {
+  static \u0275fac = function CheckboxModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _CheckboxModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _CheckboxModule
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [Checkbox, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CheckboxModule, [{
+    type: NgModule,
+    args: [{
+      imports: [Checkbox, SharedModule],
+      exports: [Checkbox, SharedModule]
+    }]
+  }], null, null);
+})();
+
+// node_modules/primeng/fesm2022/primeng-dialog.mjs
+var _c016 = ["header"];
+var _c115 = ["content"];
+var _c29 = ["footer"];
+var _c38 = ["closeicon"];
+var _c46 = ["maximizeicon"];
+var _c54 = ["minimizeicon"];
+var _c64 = ["headless"];
+var _c73 = ["titlebar"];
+var _c83 = ["*", [["p-footer"]]];
+var _c93 = ["*", "p-footer"];
+var _c103 = (a0, a1, a2) => ({
+  position: "fixed",
+  height: "100%",
+  width: "100%",
+  left: 0,
+  top: 0,
+  display: "flex",
+  "justify-content": a0,
+  "align-items": a1,
+  "pointer-events": a2
+});
+var _c116 = (a0) => ({
+  "p-dialog p-component": true,
+  "p-dialog-maximized": a0
+});
+var _c124 = () => ({
+  display: "flex",
+  "flex-direction": "column",
+  "pointer-events": "auto"
+});
+var _c134 = (a0, a1) => ({
+  transform: a0,
+  transition: a1
+});
+var _c143 = (a0) => ({
+  value: "visible",
+  params: a0
+});
+function Dialog_div_0_div_1_ng_container_2_ng_container_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function Dialog_div_0_div_1_ng_container_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_container_2_ng_container_1_Template, 1, 0, "ng-container", 11);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._headlessTemplate || ctx_r1.headlessTemplate || ctx_r1.headlessT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_0_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 15);
+    \u0275\u0275listener("mousedown", function Dialog_div_0_div_1_ng_template_3_div_0_Template_div_mousedown_0_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.initResize($event));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", ctx_r1.cx("resizeHandle"));
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_span_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 21);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(5);
+    \u0275\u0275property("id", ctx_r1.ariaLabelledBy)("ngClass", ctx_r1.cx("title"));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.header);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 18);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(6);
+    \u0275\u0275property("ngClass", ctx_r1.maximized ? ctx_r1.minimizeIcon : ctx_r1.maximizeIcon);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMaximizeIcon_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "WindowMaximizeIcon");
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMinimizeIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "WindowMinimizeIcon");
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMaximizeIcon_1_Template, 1, 0, "WindowMaximizeIcon", 23)(2, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_WindowMinimizeIcon_2_Template, 1, 0, "WindowMinimizeIcon", 23);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(6);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.maximized && !ctx_r1._maximizeiconTemplate && !ctx_r1.maximizeIconTemplate && !ctx_r1.maximizeIconT);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.maximized && !ctx_r1._minimizeiconTemplate && !ctx_r1.minimizeIconTemplate && !ctx_r1.minimizeIconT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_ng_template_0_Template(rf, ctx) {
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_ng_template_0_Template, 0, 0, "ng-template");
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_1_Template, 1, 0, null, 11);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(6);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._maximizeiconTemplate || ctx_r1.maximizeIconTemplate || ctx_r1.maximizeIconT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_ng_template_0_Template(rf, ctx) {
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_ng_template_0_Template, 0, 0, "ng-template");
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_1_Template, 1, 0, null, 11);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(6);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._minimizeiconTemplate || ctx_r1.minimizeIconTemplate || ctx_r1.minimizeIconT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r5 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "p-button", 22);
+    \u0275\u0275listener("onClick", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template_p_button_onClick_0_listener() {
+      \u0275\u0275restoreView(_r5);
+      const ctx_r1 = \u0275\u0275nextContext(5);
+      return \u0275\u0275resetView(ctx_r1.maximize());
+    })("keydown.enter", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template_p_button_keydown_enter_0_listener() {
+      \u0275\u0275restoreView(_r5);
+      const ctx_r1 = \u0275\u0275nextContext(5);
+      return \u0275\u0275resetView(ctx_r1.maximize());
+    });
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_span_1_Template, 1, 1, "span", 14)(2, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_2_Template, 3, 2, "ng-container", 23)(3, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_3_Template, 2, 1, "ng-container", 23)(4, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_ng_container_4_Template, 2, 1, "ng-container", 23);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(5);
+    \u0275\u0275property("styleClass", ctx_r1.cx("pcMaximizeButton"))("tabindex", ctx_r1.maximizable ? "0" : "-1")("ariaLabel", ctx_r1.maximizeLabel)("buttonProps", ctx_r1.maximizeButtonProps);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.maximizeIcon && !ctx_r1._maximizeiconTemplate && !ctx_r1._minimizeiconTemplate);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.maximizeIcon && !(ctx_r1.maximizeButtonProps == null ? null : ctx_r1.maximizeButtonProps.icon));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.maximized);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.maximized);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 18);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(8);
+    \u0275\u0275property("ngClass", ctx_r1.closeIcon);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_TimesIcon_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "TimesIcon");
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_span_1_Template, 1, 1, "span", 14)(2, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_TimesIcon_2_Template, 1, 0, "TimesIcon", 23);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(7);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.closeIcon);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.closeIcon);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_ng_template_0_Template(rf, ctx) {
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_ng_template_0_Template, 0, 0, "ng-template");
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_1_Template, 1, 0, null, 11);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(7);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._closeiconTemplate || ctx_r1.closeIconTemplate || ctx_r1.closeIconT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_ng_container_0_Template, 3, 2, "ng-container", 23)(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_span_1_Template, 2, 1, "span", 23);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(6);
+    \u0275\u0275property("ngIf", !ctx_r1._closeiconTemplate && !ctx_r1.closeIconTemplate && !ctx_r1.closeIconT && !(ctx_r1.closeButtonProps == null ? null : ctx_r1.closeButtonProps.icon));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1._closeiconTemplate || ctx_r1.closeIconTemplate || ctx_r1.closeIconT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r6 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "p-button", 24);
+    \u0275\u0275listener("onClick", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template_p_button_onClick_0_listener($event) {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext(5);
+      return \u0275\u0275resetView(ctx_r1.close($event));
+    })("keydown.enter", function Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template_p_button_keydown_enter_0_listener($event) {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext(5);
+      return \u0275\u0275resetView(ctx_r1.close($event));
+    });
+    \u0275\u0275template(1, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_ng_template_1_Template, 2, 2, "ng-template", null, 4, \u0275\u0275templateRefExtractor);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(5);
+    \u0275\u0275property("styleClass", ctx_r1.cx("pcCloseButton"))("ariaLabel", ctx_r1.closeAriaLabel)("tabindex", ctx_r1.closeTabindex)("buttonProps", ctx_r1.closeButtonProps);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 16, 3);
+    \u0275\u0275listener("mousedown", function Dialog_div_0_div_1_ng_template_3_div_1_Template_div_mousedown_0_listener($event) {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.initDrag($event));
+    });
+    \u0275\u0275template(2, Dialog_div_0_div_1_ng_template_3_div_1_span_2_Template, 2, 3, "span", 17)(3, Dialog_div_0_div_1_ng_template_3_div_1_ng_container_3_Template, 1, 0, "ng-container", 11);
+    \u0275\u0275elementStart(4, "div", 18);
+    \u0275\u0275template(5, Dialog_div_0_div_1_ng_template_3_div_1_p_button_5_Template, 5, 8, "p-button", 19)(6, Dialog_div_0_div_1_ng_template_3_div_1_p_button_6_Template, 3, 4, "p-button", 20);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", ctx_r1.cx("header"));
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", !ctx_r1._headerTemplate && !ctx_r1.headerTemplate && !ctx_r1.headerT);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._headerTemplate || ctx_r1.headerTemplate || ctx_r1.headerT);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", ctx_r1.cx("headerActions"));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.maximizable);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.closable);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_ng_container_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_6_ng_container_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainer(0);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_div_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 18, 5);
+    \u0275\u0275projection(2, 1);
+    \u0275\u0275template(3, Dialog_div_0_div_1_ng_template_3_div_6_ng_container_3_Template, 1, 0, "ng-container", 11);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", ctx_r1.cx("footer"));
+    \u0275\u0275advance(3);
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._footerTemplate || ctx_r1.footerTemplate || ctx_r1.footerT);
+  }
+}
+function Dialog_div_0_div_1_ng_template_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Dialog_div_0_div_1_ng_template_3_div_0_Template, 1, 1, "div", 12)(1, Dialog_div_0_div_1_ng_template_3_div_1_Template, 7, 6, "div", 13);
+    \u0275\u0275elementStart(2, "div", 7, 2);
+    \u0275\u0275projection(4);
+    \u0275\u0275template(5, Dialog_div_0_div_1_ng_template_3_ng_container_5_Template, 1, 0, "ng-container", 11);
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(6, Dialog_div_0_div_1_ng_template_3_div_6_Template, 4, 2, "div", 14);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("ngIf", ctx_r1.resizable);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.showHeader);
+    \u0275\u0275advance();
+    \u0275\u0275classMap(ctx_r1.contentStyleClass);
+    \u0275\u0275property("ngClass", ctx_r1.cx("content"))("ngStyle", ctx_r1.contentStyle);
+    \u0275\u0275attribute("data-pc-section", "content");
+    \u0275\u0275advance(3);
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1._contentTemplate || ctx_r1.contentTemplate || ctx_r1.contentT);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1._footerTemplate || ctx_r1.footerTemplate || ctx_r1.footerT);
+  }
+}
+function Dialog_div_0_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 9, 0);
+    \u0275\u0275listener("@animation.start", function Dialog_div_0_div_1_Template_div_animation_animation_start_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
+    })("@animation.done", function Dialog_div_0_div_1_Template_div_animation_animation_done_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
+    });
+    \u0275\u0275template(2, Dialog_div_0_div_1_ng_container_2_Template, 2, 1, "ng-container", 10)(3, Dialog_div_0_div_1_ng_template_3_Template, 7, 9, "ng-template", null, 1, \u0275\u0275templateRefExtractor);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const notHeadless_r7 = \u0275\u0275reference(4);
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275styleMap(ctx_r1.style);
+    \u0275\u0275classMap(ctx_r1.styleClass);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(13, _c116, ctx_r1.maximizable && ctx_r1.maximized))("ngStyle", \u0275\u0275pureFunction0(15, _c124))("pFocusTrapDisabled", ctx_r1.focusTrap === false)("@animation", \u0275\u0275pureFunction1(19, _c143, \u0275\u0275pureFunction2(16, _c134, ctx_r1.transformOptions, ctx_r1.transitionOptions)));
+    \u0275\u0275attribute("role", ctx_r1.role)("aria-labelledby", ctx_r1.ariaLabelledBy)("aria-modal", true);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", ctx_r1._headlessTemplate || ctx_r1.headlessTemplate || ctx_r1.headlessT)("ngIfElse", notHeadless_r7);
+  }
+}
+function Dialog_div_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 7);
+    \u0275\u0275template(1, Dialog_div_0_div_1_Template, 5, 21, "div", 8);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275styleMap(ctx_r1.maskStyle);
+    \u0275\u0275classMap(ctx_r1.maskStyleClass);
+    \u0275\u0275property("ngClass", ctx_r1.maskClass)("ngStyle", \u0275\u0275pureFunction3(7, _c103, ctx_r1.position === "left" || ctx_r1.position === "topleft" || ctx_r1.position === "bottomleft" ? "flex-start" : ctx_r1.position === "right" || ctx_r1.position === "topright" || ctx_r1.position === "bottomright" ? "flex-end" : "center", ctx_r1.position === "top" || ctx_r1.position === "topleft" || ctx_r1.position === "topright" ? "flex-start" : ctx_r1.position === "bottom" || ctx_r1.position === "bottomleft" || ctx_r1.position === "bottomright" ? "flex-end" : "center", ctx_r1.modal ? "auto" : "none"));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.visible);
+  }
+}
+var theme15 = ({
+  dt: dt2
+}) => `
+.p-dialog {
+    max-height: 90%;
+    transform: scale(1);
+    border-radius: ${dt2("dialog.border.radius")};
+    box-shadow: ${dt2("dialog.shadow")};
+    background: ${dt2("dialog.background")};
+    border: 1px solid ${dt2("dialog.border.color")};
+    color: ${dt2("dialog.color")};
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto
+}
+
+.p-dialog-content {
+    overflow-y: auto;
+    padding: ${dt2("dialog.content.padding")};
+    flex-grow: 1;
+}
+
+.p-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    padding: ${dt2("dialog.header.padding")};
+}
+
+.p-dialog-title {
+    font-weight: ${dt2("dialog.title.font.weight")};
+    font-size: ${dt2("dialog.title.font.size")};
+}
+
+.p-dialog-footer {
+    flex-shrink: 0;
+    padding: ${dt2("dialog.footer.padding")};
+    display: flex;
+    justify-content: flex-end;
+    gap: ${dt2("dialog.footer.gap")};
+}
+
+.p-dialog-header-actions {
+    display: flex;
+    align-items: center;
+    gap: ${dt2("dialog.header.gap")};
+}
+
+.p-dialog-enter-active {
+    transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.p-dialog-leave-active {
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.p-dialog-enter-from,
+.p-dialog-leave-to {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.p-dialog-top .p-dialog,
+.p-dialog-bottom .p-dialog,
+.p-dialog-left .p-dialog,
+.p-dialog-right .p-dialog,
+.p-dialog-topleft .p-dialog,
+.p-dialog-topright .p-dialog,
+.p-dialog-bottomleft .p-dialog,
+.p-dialog-bottomright .p-dialog {
+    margin: 0.75rem;
+    transform: translate3d(0px, 0px, 0px);
+}
+
+.p-dialog-top .p-dialog-enter-active,
+.p-dialog-top .p-dialog-leave-active,
+.p-dialog-bottom .p-dialog-enter-active,
+.p-dialog-bottom .p-dialog-leave-active,
+.p-dialog-left .p-dialog-enter-active,
+.p-dialog-left .p-dialog-leave-active,
+.p-dialog-right .p-dialog-enter-active,
+.p-dialog-right .p-dialog-leave-active,
+.p-dialog-topleft .p-dialog-enter-active,
+.p-dialog-topleft .p-dialog-leave-active,
+.p-dialog-topright .p-dialog-enter-active,
+.p-dialog-topright .p-dialog-leave-active,
+.p-dialog-bottomleft .p-dialog-enter-active,
+.p-dialog-bottomleft .p-dialog-leave-active,
+.p-dialog-bottomright .p-dialog-enter-active,
+.p-dialog-bottomright .p-dialog-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.p-dialog-top .p-dialog-enter-from,
+.p-dialog-top .p-dialog-leave-to {
+    transform: translate3d(0px, -100%, 0px);
+}
+
+.p-dialog-bottom .p-dialog-enter-from,
+.p-dialog-bottom .p-dialog-leave-to {
+    transform: translate3d(0px, 100%, 0px);
+}
+
+.p-dialog-left .p-dialog-enter-from,
+.p-dialog-left .p-dialog-leave-to,
+.p-dialog-topleft .p-dialog-enter-from,
+.p-dialog-topleft .p-dialog-leave-to,
+.p-dialog-bottomleft .p-dialog-enter-from,
+.p-dialog-bottomleft .p-dialog-leave-to {
+    transform: translate3d(-100%, 0px, 0px);
+}
+
+.p-dialog-right .p-dialog-enter-from,
+.p-dialog-right .p-dialog-leave-to,
+.p-dialog-topright .p-dialog-enter-from,
+.p-dialog-topright .p-dialog-leave-to,
+.p-dialog-bottomright .p-dialog-enter-from,
+.p-dialog-bottomright .p-dialog-leave-to {
+    transform: translate3d(100%, 0px, 0px);
+}
+
+.p-dialog-left:dir(rtl) .p-dialog-enter-from,
+.p-dialog-left:dir(rtl) .p-dialog-leave-to,
+.p-dialog-topleft:dir(rtl) .p-dialog-enter-from,
+.p-dialog-topleft:dir(rtl) .p-dialog-leave-to,
+.p-dialog-bottomleft:dir(rtl) .p-dialog-enter-from,
+.p-dialog-bottomleft:dir(rtl) .p-dialog-leave-to {
+    transform: translate3d(100%, 0px, 0px);
+}
+
+.p-dialog-right:dir(rtl) .p-dialog-enter-from,
+.p-dialog-right:dir(rtl) .p-dialog-leave-to,
+.p-dialog-topright:dir(rtl) .p-dialog-enter-from,
+.p-dialog-topright:dir(rtl) .p-dialog-leave-to,
+.p-dialog-bottomright:dir(rtl) .p-dialog-enter-from,
+.p-dialog-bottomright:dir(rtl) .p-dialog-leave-to {
+    transform: translate3d(-100%, 0px, 0px);
+}
+
+.p-dialog-maximized {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0px !important;
+    left: 0px !important;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+.p-dialog-maximized .p-dialog-content {
+    flex-grow: 1;
+}
+
+.p-overlay-mask:dir(rtl) {
+    flex-direction: row-reverse;
+}
+
+/* For PrimeNG */
+
+.p-dialog .p-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+}
+
+.p-confirm-dialog .p-dialog-content {
+    display: flex;
+    align-items: center;
+}
+`;
+var inlineStyles3 = {
+  mask: ({
+    instance
+  }) => ({
+    position: "fixed",
+    height: "100%",
+    width: "100%",
+    left: 0,
+    top: 0,
+    display: "flex",
+    justifyContent: instance.position === "left" || instance.position === "topleft" || instance.position === "bottomleft" ? "flex-start" : instance.position === "right" || instance.position === "topright" || instance.position === "bottomright" ? "flex-end" : "center",
+    alignItems: instance.position === "top" || instance.position === "topleft" || instance.position === "topright" ? "flex-start" : instance.position === "bottom" || instance.position === "bottomleft" || instance.position === "bottomright" ? "flex-end" : "center",
+    pointerEvents: instance.modal ? "auto" : "none"
+  }),
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    pointerEvents: "auto"
+  }
+};
+var classes14 = {
+  mask: ({
+    instance
+  }) => {
+    const positions = ["left", "right", "top", "topleft", "topright", "bottom", "bottomleft", "bottomright"];
+    const pos = positions.find((item) => item === instance.position);
+    return {
+      "p-dialog-mask": true,
+      "p-overlay-mask p-overlay-mask-enter": instance.modal,
+      [`p-dialog-${pos}`]: pos
+    };
+  },
+  root: ({
+    instance
+  }) => ({
+    "p-dialog p-component": true,
+    "p-dialog-maximized": instance.maximizable && instance.maximized
+  }),
+  header: "p-dialog-header",
+  title: "p-dialog-title",
+  resizeHandle: "p-resizable-handle",
+  headerActions: "p-dialog-header-actions",
+  pcMaximizeButton: "p-dialog-maximize-button",
+  pcCloseButton: "p-dialog-close-button",
+  content: "p-dialog-content",
+  footer: "p-dialog-footer"
+};
+var DialogStyle = class _DialogStyle extends BaseStyle {
+  name = "dialog";
+  theme = theme15;
+  classes = classes14;
+  inlineStyles = inlineStyles3;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275DialogStyle_BaseFactory;
+    return function DialogStyle_Factory(__ngFactoryType__) {
+      return (\u0275DialogStyle_BaseFactory || (\u0275DialogStyle_BaseFactory = \u0275\u0275getInheritedFactory(_DialogStyle)))(__ngFactoryType__ || _DialogStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _DialogStyle,
+    factory: _DialogStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DialogStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var DialogClasses;
+(function(DialogClasses2) {
+  DialogClasses2["mask"] = "p-dialog-mask";
+  DialogClasses2["root"] = "p-dialog";
+  DialogClasses2["header"] = "p-dialog-header";
+  DialogClasses2["title"] = "p-dialog-title";
+  DialogClasses2["headerActions"] = "p-dialog-header-actions";
+  DialogClasses2["pcMaximizeButton"] = "p-dialog-maximize-button";
+  DialogClasses2["pcCloseButton"] = "p-dialog-close-button";
+  DialogClasses2["content"] = "p-dialog-content";
+  DialogClasses2["footer"] = "p-dialog-footer";
+})(DialogClasses || (DialogClasses = {}));
+var showAnimation = animation([style({
+  transform: "{{transform}}",
+  opacity: 0
+}), animate("{{transition}}")]);
+var hideAnimation = animation([animate("{{transition}}", style({
+  transform: "{{transform}}",
+  opacity: 0
+}))]);
+var Dialog = class _Dialog extends BaseComponent {
+  /**
+   * Title text of the dialog.
+   * @group Props
+   */
+  header;
+  /**
+   * Enables dragging to change the position using header.
+   * @group Props
+   */
+  draggable = true;
+  /**
+   * Enables resizing of the content.
+   * @group Props
+   */
+  resizable = true;
+  /**
+   * Defines the left offset of dialog.
+   * @group Props
+   * @deprecated positionLeft property is deprecated.
+   */
+  get positionLeft() {
+    return 0;
+  }
+  set positionLeft(_positionLeft) {
+    console.log("positionLeft property is deprecated.");
+  }
+  /**
+   * Defines the top offset of dialog.
+   * @group Props
+   * @deprecated positionTop property is deprecated.
+   */
+  get positionTop() {
+    return 0;
+  }
+  set positionTop(_positionTop) {
+    console.log("positionTop property is deprecated.");
+  }
+  /**
+   * Style of the content section.
+   * @group Props
+   */
+  contentStyle;
+  /**
+   * Style class of the content.
+   * @group Props
+   */
+  contentStyleClass;
+  /**
+   * Defines if background should be blocked when dialog is displayed.
+   * @group Props
+   */
+  modal = false;
+  /**
+   * Specifies if pressing escape key should hide the dialog.
+   * @group Props
+   */
+  closeOnEscape = true;
+  /**
+   * Specifies if clicking the modal background should hide the dialog.
+   * @group Props
+   */
+  dismissableMask = false;
+  /**
+   * When enabled dialog is displayed in RTL direction.
+   * @group Props
+   */
+  rtl = false;
+  /**
+   * Adds a close icon to the header to hide the dialog.
+   * @group Props
+   */
+  closable = true;
+  /**
+   * Defines if the component is responsive.
+   * @group Props
+   * @deprecated Responsive property is deprecated.
+   */
+  get responsive() {
+    return false;
+  }
+  set responsive(_responsive) {
+    console.log("Responsive property is deprecated.");
+  }
+  /**
+   * Target element to attach the dialog, valid values are "body" or a local ng-template variable of another element (note: use binding with brackets for template variables, e.g. [appendTo]="mydiv" for a div element having #mydiv as variable name).
+   * @group Props
+   */
+  appendTo;
+  /**
+   * Object literal to define widths per screen size.
+   * @group Props
+   */
+  breakpoints;
+  /**
+   * Style class of the component.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * Style class of the mask.
+   * @group Props
+   */
+  maskStyleClass;
+  /**
+   * Style of the mask.
+   * @group Props
+   */
+  maskStyle;
+  /**
+   * Whether to show the header or not.
+   * @group Props
+   */
+  showHeader = true;
+  /**
+   * Defines the breakpoint of the component responsive.
+   * @group Props
+   * @deprecated Breakpoint property is not utilized and deprecated. Use breakpoints or CSS media queries instead.
+   */
+  get breakpoint() {
+    return 649;
+  }
+  set breakpoint(_breakpoint) {
+    console.log("Breakpoint property is not utilized and deprecated, use breakpoints or CSS media queries instead.");
+  }
+  /**
+   * Whether background scroll should be blocked when dialog is visible.
+   * @group Props
+   */
+  blockScroll = false;
+  /**
+   * Whether to automatically manage layering.
+   * @group Props
+   */
+  autoZIndex = true;
+  /**
+   * Base zIndex value to use in layering.
+   * @group Props
+   */
+  baseZIndex = 0;
+  /**
+   * Minimum value for the left coordinate of dialog in dragging.
+   * @group Props
+   */
+  minX = 0;
+  /**
+   * Minimum value for the top coordinate of dialog in dragging.
+   * @group Props
+   */
+  minY = 0;
+  /**
+   * When enabled, first focusable element receives focus on show.
+   * @group Props
+   */
+  focusOnShow = true;
+  /**
+   * Whether the dialog can be displayed full screen.
+   * @group Props
+   */
+  maximizable = false;
+  /**
+   * Keeps dialog in the viewport.
+   * @group Props
+   */
+  keepInViewport = true;
+  /**
+   * When enabled, can only focus on elements inside the dialog.
+   * @group Props
+   */
+  focusTrap = true;
+  /**
+   * Transition options of the animation.
+   * @group Props
+   */
+  transitionOptions = "150ms cubic-bezier(0, 0, 0.2, 1)";
+  /**
+   * Name of the close icon.
+   * @group Props
+   */
+  closeIcon;
+  /**
+   * Defines a string that labels the close button for accessibility.
+   * @group Props
+   */
+  closeAriaLabel;
+  /**
+   * Index of the close button in tabbing order.
+   * @group Props
+   */
+  closeTabindex = "0";
+  /**
+   * Name of the minimize icon.
+   * @group Props
+   */
+  minimizeIcon;
+  /**
+   * Name of the maximize icon.
+   * @group Props
+   */
+  maximizeIcon;
+  /**
+   * Used to pass all properties of the ButtonProps to the Button component.
+   * @group Props
+   */
+  closeButtonProps = {
+    severity: "secondary",
+    text: true,
+    rounded: true
+  };
+  /**
+   * Used to pass all properties of the ButtonProps to the Button component.
+   * @group Props
+   */
+  maximizeButtonProps = {
+    severity: "secondary",
+    text: true,
+    rounded: true
+  };
+  /**
+   * Specifies the visibility of the dialog.
+   * @group Props
+   */
+  get visible() {
+    return this._visible;
+  }
+  set visible(value) {
+    this._visible = value;
+    if (this._visible && !this.maskVisible) {
+      this.maskVisible = true;
+    }
+  }
+  /**
+   * Inline style of the component.
+   * @group Props
+   */
+  get style() {
+    return this._style;
+  }
+  set style(value) {
+    if (value) {
+      this._style = __spreadValues({}, value);
+      this.originalStyle = value;
+    }
+  }
+  /**
+   * Position of the dialog.
+   * @group Props
+   */
+  get position() {
+    return this._position;
+  }
+  set position(value) {
+    this._position = value;
+    switch (value) {
+      case "topleft":
+      case "bottomleft":
+      case "left":
+        this.transformOptions = "translate3d(-100%, 0px, 0px)";
+        break;
+      case "topright":
+      case "bottomright":
+      case "right":
+        this.transformOptions = "translate3d(100%, 0px, 0px)";
+        break;
+      case "bottom":
+        this.transformOptions = "translate3d(0px, 100%, 0px)";
+        break;
+      case "top":
+        this.transformOptions = "translate3d(0px, -100%, 0px)";
+        break;
+      default:
+        this.transformOptions = "scale(0.7)";
+        break;
+    }
+  }
+  /**
+   * Role attribute of html element.
+   * @group Emits
+   */
+  role = "dialog";
+  /**
+   * Callback to invoke when dialog is shown.
+   * @group Emits
+   */
+  onShow = new EventEmitter();
+  /**
+   * Callback to invoke when dialog is hidden.
+   * @group Emits
+   */
+  onHide = new EventEmitter();
+  /**
+   * This EventEmitter is used to notify changes in the visibility state of a component.
+   * @param {boolean} value - New value.
+   * @group Emits
+   */
+  visibleChange = new EventEmitter();
+  /**
+   * Callback to invoke when dialog resizing is initiated.
+   * @param {MouseEvent} event - Mouse event.
+   * @group Emits
+   */
+  onResizeInit = new EventEmitter();
+  /**
+   * Callback to invoke when dialog resizing is completed.
+   * @param {MouseEvent} event - Mouse event.
+   * @group Emits
+   */
+  onResizeEnd = new EventEmitter();
+  /**
+   * Callback to invoke when dialog dragging is completed.
+   * @param {DragEvent} event - Drag event.
+   * @group Emits
+   */
+  onDragEnd = new EventEmitter();
+  /**
+   * Callback to invoke when dialog maximized or unmaximized.
+   * @group Emits
+   */
+  onMaximize = new EventEmitter();
+  headerViewChild;
+  contentViewChild;
+  footerViewChild;
+  /**
+   * Header template.
+   * @group Props
+   */
+  headerTemplate;
+  /**
+   * Content template.
+   * @group Props
+   */
+  contentTemplate;
+  /**
+   * Footer template.
+   * @group Props
+   */
+  footerTemplate;
+  /**
+   * Close icon template.
+   * @group Props
+   */
+  closeIconTemplate;
+  /**
+   * Maximize icon template.
+   * @group Props
+   */
+  maximizeIconTemplate;
+  /**
+   * Minimize icon template.
+   * @group Props
+   */
+  minimizeIconTemplate;
+  /**
+   * Headless template.
+   * @group Props
+   */
+  headlessTemplate;
+  _headerTemplate;
+  _contentTemplate;
+  _footerTemplate;
+  _closeiconTemplate;
+  _maximizeiconTemplate;
+  _minimizeiconTemplate;
+  _headlessTemplate;
+  _visible = false;
+  maskVisible;
+  container;
+  wrapper;
+  dragging;
+  ariaLabelledBy = this.getAriaLabelledBy();
+  documentDragListener;
+  documentDragEndListener;
+  resizing;
+  documentResizeListener;
+  documentResizeEndListener;
+  documentEscapeListener;
+  maskClickListener;
+  lastPageX;
+  lastPageY;
+  preventVisibleChangePropagation;
+  maximized;
+  preMaximizeContentHeight;
+  preMaximizeContainerWidth;
+  preMaximizeContainerHeight;
+  preMaximizePageX;
+  preMaximizePageY;
+  id = uuid("pn_id_");
+  _style = {};
+  _position = "center";
+  originalStyle;
+  transformOptions = "scale(0.7)";
+  styleElement;
+  window;
+  _componentStyle = inject(DialogStyle);
+  headerT;
+  contentT;
+  footerT;
+  closeIconT;
+  maximizeIconT;
+  minimizeIconT;
+  headlessT;
+  get maximizeLabel() {
+    return this.config.getTranslation(TranslationKeys.ARIA)["maximizeLabel"];
+  }
+  zone = inject(NgZone);
+  get maskClass() {
+    const positions = ["left", "right", "top", "topleft", "topright", "bottom", "bottomleft", "bottomright"];
+    const pos = positions.find((item) => item === this.position);
+    return {
+      "p-dialog-mask": true,
+      "p-overlay-mask p-overlay-mask-enter": this.modal || this.dismissableMask,
+      [`p-dialog-${pos}`]: pos
+    };
+  }
+  ngOnInit() {
+    super.ngOnInit();
+    if (this.breakpoints) {
+      this.createStyle();
+    }
+  }
+  templates;
+  ngAfterContentInit() {
+    this.templates?.forEach((item) => {
+      switch (item.getType()) {
+        case "header":
+          this.headerT = item.template;
+          break;
+        case "content":
+          this.contentT = item.template;
+          break;
+        case "footer":
+          this.footerT = item.template;
+          break;
+        case "closeicon":
+          this.closeIconT = item.template;
+          break;
+        case "maximizeicon":
+          this.maximizeIconT = item.template;
+          break;
+        case "minimizeicon":
+          this.minimizeIconT = item.template;
+          break;
+        case "headless":
+          this.headlessT = item.template;
+          break;
+        default:
+          this.contentT = item.template;
+          break;
+      }
+    });
+  }
+  getAriaLabelledBy() {
+    return this.header !== null ? uuid("pn_id_") + "_header" : null;
+  }
+  parseDurationToMilliseconds(durationString) {
+    const transitionTimeRegex = /([\d\.]+)(ms|s)\b/g;
+    let totalMilliseconds = 0;
+    let match2;
+    while ((match2 = transitionTimeRegex.exec(durationString)) !== null) {
+      const value = parseFloat(match2[1]);
+      const unit = match2[2];
+      if (unit === "ms") {
+        totalMilliseconds += value;
+      } else if (unit === "s") {
+        totalMilliseconds += value * 1e3;
+      }
+    }
+    if (totalMilliseconds === 0) {
+      return void 0;
+    }
+    return totalMilliseconds;
+  }
+  _focus(focusParentElement) {
+    if (focusParentElement) {
+      const timeoutDuration = this.parseDurationToMilliseconds(this.transitionOptions);
+      let _focusableElements = DomHandler.getFocusableElements(focusParentElement);
+      if (_focusableElements && _focusableElements.length > 0) {
+        this.zone.runOutsideAngular(() => {
+          setTimeout(() => _focusableElements[0].focus(), timeoutDuration || 5);
+        });
+        return true;
+      }
+    }
+    return false;
+  }
+  focus(focusParentElement) {
+    let focused = this._focus(focusParentElement);
+    if (!focused) {
+      focused = this._focus(this.footerViewChild?.nativeElement);
+      if (!focused) {
+        focused = this._focus(this.headerViewChild?.nativeElement);
+        if (!focused) {
+          this._focus(this.contentViewChild?.nativeElement);
+        }
+      }
+    }
+  }
+  close(event) {
+    this.visibleChange.emit(false);
+    event.preventDefault();
+  }
+  enableModality() {
+    if (this.closable && this.dismissableMask) {
+      this.maskClickListener = this.renderer.listen(this.wrapper, "mousedown", (event) => {
+        if (this.wrapper && this.wrapper.isSameNode(event.target)) {
+          this.close(event);
+        }
+      });
+    }
+    if (this.modal) {
+      blockBodyScroll();
+    }
+  }
+  disableModality() {
+    if (this.wrapper) {
+      if (this.dismissableMask) {
+        this.unbindMaskClickListener();
+      }
+      const scrollBlockers = document.querySelectorAll(".p-dialog-mask-scrollblocker");
+      if (this.modal && scrollBlockers && scrollBlockers.length == 1) {
+        unblockBodyScroll();
+      }
+      if (!this.cd.destroyed) {
+        this.cd.detectChanges();
+      }
+    }
+  }
+  maximize() {
+    this.maximized = !this.maximized;
+    if (!this.modal && !this.blockScroll) {
+      if (this.maximized) {
+        blockBodyScroll();
+      } else {
+        unblockBodyScroll();
+      }
+    }
+    this.onMaximize.emit({
+      maximized: this.maximized
+    });
+  }
+  unbindMaskClickListener() {
+    if (this.maskClickListener) {
+      this.maskClickListener();
+      this.maskClickListener = null;
+    }
+  }
+  moveOnTop() {
+    if (this.autoZIndex) {
+      zindexutils.set("modal", this.container, this.baseZIndex + this.config.zIndex.modal);
+      this.wrapper.style.zIndex = String(parseInt(this.container.style.zIndex, 10) - 1);
+    }
+  }
+  createStyle() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!this.styleElement) {
+        this.styleElement = this.renderer.createElement("style");
+        this.styleElement.type = "text/css";
+        this.renderer.appendChild(this.document.head, this.styleElement);
+        let innerHTML = "";
+        for (let breakpoint in this.breakpoints) {
+          innerHTML += `
+                        @media screen and (max-width: ${breakpoint}) {
+                            .p-dialog[${this.id}]:not(.p-dialog-maximized) {
+                                width: ${this.breakpoints[breakpoint]} !important;
+                            }
+                        }
+                    `;
+        }
+        this.renderer.setProperty(this.styleElement, "innerHTML", innerHTML);
+        setAttribute(this.styleElement, "nonce", this.config?.csp()?.nonce);
+      }
+    }
+  }
+  initDrag(event) {
+    if (hasClass(event.target, "p-dialog-maximize-icon") || hasClass(event.target, "p-dialog-header-close-icon") || hasClass(event.target.parentElement, "p-dialog-header-icon")) {
+      return;
+    }
+    if (this.draggable) {
+      this.dragging = true;
+      this.lastPageX = event.pageX;
+      this.lastPageY = event.pageY;
+      this.container.style.margin = "0";
+      addClass(this.document.body, "p-unselectable-text");
+    }
+  }
+  onDrag(event) {
+    if (this.dragging) {
+      const containerWidth = getOuterWidth(this.container);
+      const containerHeight = getOuterHeight(this.container);
+      const deltaX = event.pageX - this.lastPageX;
+      const deltaY = event.pageY - this.lastPageY;
+      const offset = this.container.getBoundingClientRect();
+      const containerComputedStyle = getComputedStyle(this.container);
+      const leftMargin = parseFloat(containerComputedStyle.marginLeft);
+      const topMargin = parseFloat(containerComputedStyle.marginTop);
+      const leftPos = offset.left + deltaX - leftMargin;
+      const topPos = offset.top + deltaY - topMargin;
+      const viewport = getViewport();
+      this.container.style.position = "fixed";
+      if (this.keepInViewport) {
+        if (leftPos >= this.minX && leftPos + containerWidth < viewport.width) {
+          this._style.left = `${leftPos}px`;
+          this.lastPageX = event.pageX;
+          this.container.style.left = `${leftPos}px`;
+        }
+        if (topPos >= this.minY && topPos + containerHeight < viewport.height) {
+          this._style.top = `${topPos}px`;
+          this.lastPageY = event.pageY;
+          this.container.style.top = `${topPos}px`;
+        }
+      } else {
+        this.lastPageX = event.pageX;
+        this.container.style.left = `${leftPos}px`;
+        this.lastPageY = event.pageY;
+        this.container.style.top = `${topPos}px`;
+      }
+    }
+  }
+  endDrag(event) {
+    if (this.dragging) {
+      this.dragging = false;
+      removeClass(this.document.body, "p-unselectable-text");
+      this.cd.detectChanges();
+      this.onDragEnd.emit(event);
+    }
+  }
+  resetPosition() {
+    this.container.style.position = "";
+    this.container.style.left = "";
+    this.container.style.top = "";
+    this.container.style.margin = "";
+  }
+  //backward compatibility
+  center() {
+    this.resetPosition();
+  }
+  initResize(event) {
+    if (this.resizable) {
+      this.resizing = true;
+      this.lastPageX = event.pageX;
+      this.lastPageY = event.pageY;
+      addClass(this.document.body, "p-unselectable-text");
+      this.onResizeInit.emit(event);
+    }
+  }
+  onResize(event) {
+    if (this.resizing) {
+      let deltaX = event.pageX - this.lastPageX;
+      let deltaY = event.pageY - this.lastPageY;
+      let containerWidth = getOuterWidth(this.container);
+      let containerHeight = getOuterHeight(this.container);
+      let contentHeight = getOuterHeight(this.contentViewChild?.nativeElement);
+      let newWidth = containerWidth + deltaX;
+      let newHeight = containerHeight + deltaY;
+      let minWidth = this.container.style.minWidth;
+      let minHeight = this.container.style.minHeight;
+      let offset = this.container.getBoundingClientRect();
+      let viewport = getViewport();
+      let hasBeenDragged = !parseInt(this.container.style.top) || !parseInt(this.container.style.left);
+      if (hasBeenDragged) {
+        newWidth += deltaX;
+        newHeight += deltaY;
+      }
+      if ((!minWidth || newWidth > parseInt(minWidth)) && offset.left + newWidth < viewport.width) {
+        this._style.width = newWidth + "px";
+        this.container.style.width = this._style.width;
+      }
+      if ((!minHeight || newHeight > parseInt(minHeight)) && offset.top + newHeight < viewport.height) {
+        this.contentViewChild.nativeElement.style.height = contentHeight + newHeight - containerHeight + "px";
+        if (this._style.height) {
+          this._style.height = newHeight + "px";
+          this.container.style.height = this._style.height;
+        }
+      }
+      this.lastPageX = event.pageX;
+      this.lastPageY = event.pageY;
+    }
+  }
+  resizeEnd(event) {
+    if (this.resizing) {
+      this.resizing = false;
+      removeClass(this.document.body, "p-unselectable-text");
+      this.onResizeEnd.emit(event);
+    }
+  }
+  bindGlobalListeners() {
+    if (this.draggable) {
+      this.bindDocumentDragListener();
+      this.bindDocumentDragEndListener();
+    }
+    if (this.resizable) {
+      this.bindDocumentResizeListeners();
+    }
+    if (this.closeOnEscape && this.closable) {
+      this.bindDocumentEscapeListener();
+    }
+  }
+  unbindGlobalListeners() {
+    this.unbindDocumentDragListener();
+    this.unbindDocumentDragEndListener();
+    this.unbindDocumentResizeListeners();
+    this.unbindDocumentEscapeListener();
+  }
+  bindDocumentDragListener() {
+    if (!this.documentDragListener) {
+      this.zone.runOutsideAngular(() => {
+        this.documentDragListener = this.renderer.listen(this.document.defaultView, "mousemove", this.onDrag.bind(this));
+      });
+    }
+  }
+  unbindDocumentDragListener() {
+    if (this.documentDragListener) {
+      this.documentDragListener();
+      this.documentDragListener = null;
+    }
+  }
+  bindDocumentDragEndListener() {
+    if (!this.documentDragEndListener) {
+      this.zone.runOutsideAngular(() => {
+        this.documentDragEndListener = this.renderer.listen(this.document.defaultView, "mouseup", this.endDrag.bind(this));
+      });
+    }
+  }
+  unbindDocumentDragEndListener() {
+    if (this.documentDragEndListener) {
+      this.documentDragEndListener();
+      this.documentDragEndListener = null;
+    }
+  }
+  bindDocumentResizeListeners() {
+    if (!this.documentResizeListener && !this.documentResizeEndListener) {
+      this.zone.runOutsideAngular(() => {
+        this.documentResizeListener = this.renderer.listen(this.document.defaultView, "mousemove", this.onResize.bind(this));
+        this.documentResizeEndListener = this.renderer.listen(this.document.defaultView, "mouseup", this.resizeEnd.bind(this));
+      });
+    }
+  }
+  unbindDocumentResizeListeners() {
+    if (this.documentResizeListener && this.documentResizeEndListener) {
+      this.documentResizeListener();
+      this.documentResizeEndListener();
+      this.documentResizeListener = null;
+      this.documentResizeEndListener = null;
+    }
+  }
+  bindDocumentEscapeListener() {
+    const documentTarget = this.el ? this.el.nativeElement.ownerDocument : "document";
+    this.documentEscapeListener = this.renderer.listen(documentTarget, "keydown", (event) => {
+      if (event.key == "Escape") {
+        this.close(event);
+      }
+    });
+  }
+  unbindDocumentEscapeListener() {
+    if (this.documentEscapeListener) {
+      this.documentEscapeListener();
+      this.documentEscapeListener = null;
+    }
+  }
+  appendContainer() {
+    if (this.appendTo) {
+      if (this.appendTo === "body") this.renderer.appendChild(this.document.body, this.wrapper);
+      else appendChild(this.appendTo, this.wrapper);
+    }
+  }
+  restoreAppend() {
+    if (this.container && this.appendTo) {
+      this.renderer.appendChild(this.el.nativeElement, this.wrapper);
+    }
+  }
+  onAnimationStart(event) {
+    switch (event.toState) {
+      case "visible":
+        this.container = event.element;
+        this.wrapper = this.container?.parentElement;
+        this.appendContainer();
+        this.moveOnTop();
+        this.bindGlobalListeners();
+        this.container?.setAttribute(this.id, "");
+        if (this.modal) {
+          this.enableModality();
+        }
+        if (this.focusOnShow) {
+          this.focus();
+        }
+        break;
+      case "void":
+        if (this.wrapper && this.modal) {
+          addClass(this.wrapper, "p-overlay-mask-leave");
+        }
+        break;
+    }
+  }
+  onAnimationEnd(event) {
+    switch (event.toState) {
+      case "void":
+        this.onContainerDestroy();
+        this.onHide.emit({});
+        this.cd.markForCheck();
+        if (this.maskVisible !== this.visible) {
+          this.maskVisible = this.visible;
+        }
+        break;
+      case "visible":
+        this.onShow.emit({});
+        break;
+    }
+  }
+  onContainerDestroy() {
+    this.unbindGlobalListeners();
+    this.dragging = false;
+    this.maskVisible = false;
+    if (this.maximized) {
+      this.document.body.style.removeProperty("--scrollbar;-width");
+      this.maximized = false;
+    }
+    if (this.modal) {
+      this.disableModality();
+    }
+    if (hasClass(this.document.body, "p-overflow-hidden")) {
+      removeClass(this.document.body, "p-overflow-hidden");
+    }
+    if (this.container && this.autoZIndex) {
+      zindexutils.clear(this.container);
+    }
+    this.container = null;
+    this.wrapper = null;
+    this._style = this.originalStyle ? __spreadValues({}, this.originalStyle) : {};
+  }
+  destroyStyle() {
+    if (this.styleElement) {
+      this.renderer.removeChild(this.document.head, this.styleElement);
+      this.styleElement = null;
+    }
+  }
+  ngOnDestroy() {
+    if (this.container) {
+      this.restoreAppend();
+      this.onContainerDestroy();
+    }
+    this.destroyStyle();
+    super.ngOnDestroy();
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275Dialog_BaseFactory;
+    return function Dialog_Factory(__ngFactoryType__) {
+      return (\u0275Dialog_BaseFactory || (\u0275Dialog_BaseFactory = \u0275\u0275getInheritedFactory(_Dialog)))(__ngFactoryType__ || _Dialog);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _Dialog,
+    selectors: [["p-dialog"]],
+    contentQueries: function Dialog_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, _c016, 4);
+        \u0275\u0275contentQuery(dirIndex, _c115, 4);
+        \u0275\u0275contentQuery(dirIndex, _c29, 4);
+        \u0275\u0275contentQuery(dirIndex, _c38, 4);
+        \u0275\u0275contentQuery(dirIndex, _c46, 4);
+        \u0275\u0275contentQuery(dirIndex, _c54, 4);
+        \u0275\u0275contentQuery(dirIndex, _c64, 4);
+        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._headerTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._contentTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._footerTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._closeiconTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._maximizeiconTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._minimizeiconTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._headlessTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
+      }
+    },
+    viewQuery: function Dialog_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c73, 5);
+        \u0275\u0275viewQuery(_c115, 5);
+        \u0275\u0275viewQuery(_c29, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.headerViewChild = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentViewChild = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.footerViewChild = _t.first);
+      }
+    },
+    inputs: {
+      header: "header",
+      draggable: [2, "draggable", "draggable", booleanAttribute],
+      resizable: [2, "resizable", "resizable", booleanAttribute],
+      positionLeft: "positionLeft",
+      positionTop: "positionTop",
+      contentStyle: "contentStyle",
+      contentStyleClass: "contentStyleClass",
+      modal: [2, "modal", "modal", booleanAttribute],
+      closeOnEscape: [2, "closeOnEscape", "closeOnEscape", booleanAttribute],
+      dismissableMask: [2, "dismissableMask", "dismissableMask", booleanAttribute],
+      rtl: [2, "rtl", "rtl", booleanAttribute],
+      closable: [2, "closable", "closable", booleanAttribute],
+      responsive: "responsive",
+      appendTo: "appendTo",
+      breakpoints: "breakpoints",
+      styleClass: "styleClass",
+      maskStyleClass: "maskStyleClass",
+      maskStyle: "maskStyle",
+      showHeader: [2, "showHeader", "showHeader", booleanAttribute],
+      breakpoint: "breakpoint",
+      blockScroll: [2, "blockScroll", "blockScroll", booleanAttribute],
+      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
+      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
+      minX: [2, "minX", "minX", numberAttribute],
+      minY: [2, "minY", "minY", numberAttribute],
+      focusOnShow: [2, "focusOnShow", "focusOnShow", booleanAttribute],
+      maximizable: [2, "maximizable", "maximizable", booleanAttribute],
+      keepInViewport: [2, "keepInViewport", "keepInViewport", booleanAttribute],
+      focusTrap: [2, "focusTrap", "focusTrap", booleanAttribute],
+      transitionOptions: "transitionOptions",
+      closeIcon: "closeIcon",
+      closeAriaLabel: "closeAriaLabel",
+      closeTabindex: "closeTabindex",
+      minimizeIcon: "minimizeIcon",
+      maximizeIcon: "maximizeIcon",
+      closeButtonProps: "closeButtonProps",
+      maximizeButtonProps: "maximizeButtonProps",
+      visible: "visible",
+      style: "style",
+      position: "position",
+      role: "role",
+      headerTemplate: [0, "content", "headerTemplate"],
+      contentTemplate: "contentTemplate",
+      footerTemplate: "footerTemplate",
+      closeIconTemplate: "closeIconTemplate",
+      maximizeIconTemplate: "maximizeIconTemplate",
+      minimizeIconTemplate: "minimizeIconTemplate",
+      headlessTemplate: "headlessTemplate"
+    },
+    outputs: {
+      onShow: "onShow",
+      onHide: "onHide",
+      visibleChange: "visibleChange",
+      onResizeInit: "onResizeInit",
+      onResizeEnd: "onResizeEnd",
+      onDragEnd: "onDragEnd",
+      onMaximize: "onMaximize"
+    },
+    features: [\u0275\u0275ProvidersFeature([DialogStyle]), \u0275\u0275InputTransformsFeature, \u0275\u0275InheritDefinitionFeature],
+    ngContentSelectors: _c93,
+    decls: 1,
+    vars: 1,
+    consts: [["container", ""], ["notHeadless", ""], ["content", ""], ["titlebar", ""], ["icon", ""], ["footer", ""], [3, "ngClass", "class", "ngStyle", "style", 4, "ngIf"], [3, "ngClass", "ngStyle"], ["pFocusTrap", "", 3, "class", "ngClass", "ngStyle", "style", "pFocusTrapDisabled", 4, "ngIf"], ["pFocusTrap", "", 3, "ngClass", "ngStyle", "pFocusTrapDisabled"], [4, "ngIf", "ngIfElse"], [4, "ngTemplateOutlet"], ["style", "z-index: 90;", 3, "ngClass", "mousedown", 4, "ngIf"], [3, "ngClass", "mousedown", 4, "ngIf"], [3, "ngClass", 4, "ngIf"], [2, "z-index", "90", 3, "mousedown", "ngClass"], [3, "mousedown", "ngClass"], [3, "id", "ngClass", 4, "ngIf"], [3, "ngClass"], [3, "styleClass", "tabindex", "ariaLabel", "buttonProps", "onClick", "keydown.enter", 4, "ngIf"], [3, "styleClass", "ariaLabel", "tabindex", "buttonProps", "onClick", "keydown.enter", 4, "ngIf"], [3, "id", "ngClass"], [3, "onClick", "keydown.enter", "styleClass", "tabindex", "ariaLabel", "buttonProps"], [4, "ngIf"], [3, "onClick", "keydown.enter", "styleClass", "ariaLabel", "tabindex", "buttonProps"]],
+    template: function Dialog_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c83);
+        \u0275\u0275template(0, Dialog_div_0_Template, 2, 11, "div", 6);
+      }
+      if (rf & 2) {
+        \u0275\u0275property("ngIf", ctx.maskVisible);
+      }
+    },
+    dependencies: [CommonModule, NgClass, NgIf, NgTemplateOutlet, NgStyle, Button, FocusTrap, TimesIcon, WindowMaximizeIcon, WindowMinimizeIcon, SharedModule],
+    encapsulation: 2,
+    data: {
+      animation: [trigger("animation", [transition("void => visible", [useAnimation(showAnimation)]), transition("visible => void", [useAnimation(hideAnimation)])])]
+    },
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Dialog, [{
+    type: Component,
+    args: [{
+      selector: "p-dialog",
+      standalone: true,
+      imports: [CommonModule, Button, FocusTrap, TimesIcon, WindowMaximizeIcon, WindowMinimizeIcon, SharedModule],
+      template: `
+        <div
+            *ngIf="maskVisible"
+            [ngClass]="maskClass"
+            [class]="maskStyleClass"
+            [ngStyle]="{
+                position: 'fixed',
+                height: '100%',
+                width: '100%',
+                left: 0,
+                top: 0,
+                display: 'flex',
+                'justify-content': position === 'left' || position === 'topleft' || position === 'bottomleft' ? 'flex-start' : position === 'right' || position === 'topright' || position === 'bottomright' ? 'flex-end' : 'center',
+                'align-items': position === 'top' || position === 'topleft' || position === 'topright' ? 'flex-start' : position === 'bottom' || position === 'bottomleft' || position === 'bottomright' ? 'flex-end' : 'center',
+                'pointer-events': modal ? 'auto' : 'none'
+            }"
+            [style]="maskStyle"
+        >
+            <div
+                *ngIf="visible"
+                #container
+                [class]="styleClass"
+                [ngClass]="{ 'p-dialog p-component': true, 'p-dialog-maximized': maximizable && maximized }"
+                [ngStyle]="{ display: 'flex', 'flex-direction': 'column', 'pointer-events': 'auto' }"
+                [style]="style"
+                pFocusTrap
+                [pFocusTrapDisabled]="focusTrap === false"
+                [@animation]="{
+                    value: 'visible',
+                    params: { transform: transformOptions, transition: transitionOptions }
+                }"
+                (@animation.start)="onAnimationStart($event)"
+                (@animation.done)="onAnimationEnd($event)"
+                [attr.role]="role"
+                [attr.aria-labelledby]="ariaLabelledBy"
+                [attr.aria-modal]="true"
+            >
+                <ng-container *ngIf="_headlessTemplate || headlessTemplate || headlessT; else notHeadless">
+                    <ng-container *ngTemplateOutlet="_headlessTemplate || headlessTemplate || headlessT"></ng-container>
+                </ng-container>
+
+                <ng-template #notHeadless>
+                    <div *ngIf="resizable" [ngClass]="cx('resizeHandle')" style="z-index: 90;" (mousedown)="initResize($event)"></div>
+                    <div #titlebar [ngClass]="cx('header')" (mousedown)="initDrag($event)" *ngIf="showHeader">
+                        <span [id]="ariaLabelledBy" [ngClass]="cx('title')" *ngIf="!_headerTemplate && !headerTemplate && !headerT">{{ header }}</span>
+                        <ng-container *ngTemplateOutlet="_headerTemplate || headerTemplate || headerT"></ng-container>
+                        <div [ngClass]="cx('headerActions')">
+                            <p-button *ngIf="maximizable" [styleClass]="cx('pcMaximizeButton')" (onClick)="maximize()" (keydown.enter)="maximize()" [tabindex]="maximizable ? '0' : '-1'" [ariaLabel]="maximizeLabel" [buttonProps]="maximizeButtonProps">
+                                <span *ngIf="maximizeIcon && !_maximizeiconTemplate && !_minimizeiconTemplate" [ngClass]="maximized ? minimizeIcon : maximizeIcon"></span>
+                                <ng-container *ngIf="!maximizeIcon && !maximizeButtonProps?.icon">
+                                    <WindowMaximizeIcon *ngIf="!maximized && !_maximizeiconTemplate && !maximizeIconTemplate && !maximizeIconT" />
+                                    <WindowMinimizeIcon *ngIf="maximized && !_minimizeiconTemplate && !minimizeIconTemplate && !minimizeIconT" />
+                                </ng-container>
+                                <ng-container *ngIf="!maximized">
+                                    <ng-template *ngTemplateOutlet="_maximizeiconTemplate || maximizeIconTemplate || maximizeIconT"></ng-template>
+                                </ng-container>
+                                <ng-container *ngIf="maximized">
+                                    <ng-template *ngTemplateOutlet="_minimizeiconTemplate || minimizeIconTemplate || minimizeIconT"></ng-template>
+                                </ng-container>
+                            </p-button>
+                            <p-button *ngIf="closable" [styleClass]="cx('pcCloseButton')" [ariaLabel]="closeAriaLabel" (onClick)="close($event)" (keydown.enter)="close($event)" [tabindex]="closeTabindex" [buttonProps]="closeButtonProps">
+                                <ng-template #icon>
+                                    <ng-container *ngIf="!_closeiconTemplate && !closeIconTemplate && !closeIconT && !closeButtonProps?.icon">
+                                        <span *ngIf="closeIcon" [ngClass]="closeIcon"></span>
+                                        <TimesIcon *ngIf="!closeIcon" />
+                                    </ng-container>
+                                    <span *ngIf="_closeiconTemplate || closeIconTemplate || closeIconT">
+                                        <ng-template *ngTemplateOutlet="_closeiconTemplate || closeIconTemplate || closeIconT"></ng-template>
+                                    </span>
+                                </ng-template>
+                            </p-button>
+                        </div>
+                    </div>
+                    <div #content [ngClass]="cx('content')" [class]="contentStyleClass" [ngStyle]="contentStyle" [attr.data-pc-section]="'content'">
+                        <ng-content></ng-content>
+                        <ng-container *ngTemplateOutlet="_contentTemplate || contentTemplate || contentT"></ng-container>
+                    </div>
+                    <div #footer [ngClass]="cx('footer')" *ngIf="_footerTemplate || footerTemplate || footerT">
+                        <ng-content select="p-footer"></ng-content>
+                        <ng-container *ngTemplateOutlet="_footerTemplate || footerTemplate || footerT"></ng-container>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    `,
+      animations: [trigger("animation", [transition("void => visible", [useAnimation(showAnimation)]), transition("visible => void", [useAnimation(hideAnimation)])])],
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None,
+      providers: [DialogStyle]
+    }]
+  }], null, {
+    header: [{
+      type: Input
+    }],
+    draggable: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    resizable: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    positionLeft: [{
+      type: Input
+    }],
+    positionTop: [{
+      type: Input
+    }],
+    contentStyle: [{
+      type: Input
+    }],
+    contentStyleClass: [{
+      type: Input
+    }],
+    modal: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    closeOnEscape: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    dismissableMask: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    rtl: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    closable: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    responsive: [{
+      type: Input
+    }],
+    appendTo: [{
+      type: Input
+    }],
+    breakpoints: [{
+      type: Input
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    maskStyleClass: [{
+      type: Input
+    }],
+    maskStyle: [{
+      type: Input
+    }],
+    showHeader: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    breakpoint: [{
+      type: Input
+    }],
+    blockScroll: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    autoZIndex: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    baseZIndex: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    minX: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    minY: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    focusOnShow: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    maximizable: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    keepInViewport: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    focusTrap: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    transitionOptions: [{
+      type: Input
+    }],
+    closeIcon: [{
+      type: Input
+    }],
+    closeAriaLabel: [{
+      type: Input
+    }],
+    closeTabindex: [{
+      type: Input
+    }],
+    minimizeIcon: [{
+      type: Input
+    }],
+    maximizeIcon: [{
+      type: Input
+    }],
+    closeButtonProps: [{
+      type: Input
+    }],
+    maximizeButtonProps: [{
+      type: Input
+    }],
+    visible: [{
+      type: Input
+    }],
+    style: [{
+      type: Input
+    }],
+    position: [{
+      type: Input
+    }],
+    role: [{
+      type: Input
+    }],
+    onShow: [{
+      type: Output
+    }],
+    onHide: [{
+      type: Output
+    }],
+    visibleChange: [{
+      type: Output
+    }],
+    onResizeInit: [{
+      type: Output
+    }],
+    onResizeEnd: [{
+      type: Output
+    }],
+    onDragEnd: [{
+      type: Output
+    }],
+    onMaximize: [{
+      type: Output
+    }],
+    headerViewChild: [{
+      type: ViewChild,
+      args: ["titlebar"]
+    }],
+    contentViewChild: [{
+      type: ViewChild,
+      args: ["content"]
+    }],
+    footerViewChild: [{
+      type: ViewChild,
+      args: ["footer"]
+    }],
+    headerTemplate: [{
+      type: Input,
+      args: ["content"]
+    }],
+    contentTemplate: [{
+      type: Input
+    }],
+    footerTemplate: [{
+      type: Input
+    }],
+    closeIconTemplate: [{
+      type: Input
+    }],
+    maximizeIconTemplate: [{
+      type: Input
+    }],
+    minimizeIconTemplate: [{
+      type: Input
+    }],
+    headlessTemplate: [{
+      type: Input
+    }],
+    _headerTemplate: [{
+      type: ContentChild,
+      args: ["header", {
+        descendants: false
+      }]
+    }],
+    _contentTemplate: [{
+      type: ContentChild,
+      args: ["content", {
+        descendants: false
+      }]
+    }],
+    _footerTemplate: [{
+      type: ContentChild,
+      args: ["footer", {
+        descendants: false
+      }]
+    }],
+    _closeiconTemplate: [{
+      type: ContentChild,
+      args: ["closeicon", {
+        descendants: false
+      }]
+    }],
+    _maximizeiconTemplate: [{
+      type: ContentChild,
+      args: ["maximizeicon", {
+        descendants: false
+      }]
+    }],
+    _minimizeiconTemplate: [{
+      type: ContentChild,
+      args: ["minimizeicon", {
+        descendants: false
+      }]
+    }],
+    _headlessTemplate: [{
+      type: ContentChild,
+      args: ["headless", {
+        descendants: false
+      }]
+    }],
+    templates: [{
+      type: ContentChildren,
+      args: [PrimeTemplate]
+    }]
+  });
+})();
+var DialogModule = class _DialogModule {
+  static \u0275fac = function DialogModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _DialogModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _DialogModule
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [Dialog, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DialogModule, [{
+    type: NgModule,
+    args: [{
+      imports: [Dialog, SharedModule],
+      exports: [Dialog, SharedModule]
+    }]
+  }], null, null);
+})();
+
+// src/app/views/quiz/quiz-card/choice-box/choice-box.component.ts
+function ChoiceBoxComponent_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 0);
+    \u0275\u0275text(1, "Plusieurs r\xE9ponses possibles");
+    \u0275\u0275elementEnd();
+  }
+}
+function ChoiceBoxComponent_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 0);
+    \u0275\u0275text(1, "Une seule r\xE9ponse possible");
+    \u0275\u0275elementEnd();
+  }
+}
+function ChoiceBoxComponent_For_5_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "p-checkbox", 7);
+    \u0275\u0275listener("change", function ChoiceBoxComponent_For_5_Conditional_1_Template_p_checkbox_change_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.checkAnswer());
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const $index_r3 = \u0275\u0275nextContext().$index;
+    \u0275\u0275property("value", $index_r3)("formControlName", "QCM");
+  }
+}
+function ChoiceBoxComponent_For_5_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "p-radiobutton", 8);
+    \u0275\u0275listener("onClick", function ChoiceBoxComponent_For_5_Conditional_2_Template_p_radiobutton_onClick_0_listener() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.checkAnswer());
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const $index_r3 = \u0275\u0275nextContext().$index;
+    \u0275\u0275property("value", $index_r3)("formControlName", "QCU");
+  }
+}
+function ChoiceBoxComponent_For_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "label", 3);
+    \u0275\u0275template(1, ChoiceBoxComponent_For_5_Conditional_1_Template, 1, 2, "p-checkbox", 4)(2, ChoiceBoxComponent_For_5_Conditional_2_Template, 1, 2, "p-radiobutton", 5);
+    \u0275\u0275elementStart(3, "p", 6);
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    let tmp_10_0;
+    const choice_r5 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275conditional(((tmp_10_0 = ctx_r1.quiz_segment()) == null ? null : tmp_10_0.question_type) === "QCM" ? 1 : ((tmp_10_0 = ctx_r1.quiz_segment()) == null ? null : tmp_10_0.question_type) === "QCU" ? 2 : -1);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(choice_r5);
+  }
+}
+var ChoiceBoxComponent = class _ChoiceBoxComponent {
+  /*
+    Input : answered (bool | undefined) - Permet de savoir si la question de la carte du Quiz a été répondu ou pas
+  */
+  answered;
+  answerForm = new FormGroup({});
+  dataService = inject(DataService);
+  //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService);
+  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quiz_segment = this.dataService.currentSegment;
+  //Permet d'avoir accès à la carte affichée
+  answerIsEmpty = computed(() => this.progressService.currentAnswerValidity() === 2 /* Empty */);
+  //Vérifie s'il y a bien eu une réponse lors de la validation de la carte
+  ngOnInit() {
+    this.answerForm.addControl(this.quiz_segment().question_type, new FormControl(""));
+    this.answerForm.reset();
+    if (this.quiz_segment()?.question_type === "QCM") {
+      const key = this.answerForm.get("QCM").value;
+      console.log(key);
+    }
+  }
+  checkAnswer() {
+    if (this.quiz_segment()?.question_type === "QCM") {
+      const key = this.answerForm.get("QCM").value;
+      console.log(key);
+      if (key != null) {
+        if (Array.isArray(key) && key.length > 0) {
+          this.progressService.GetChecked();
+        } else {
+          this.progressService.GetUnchecked();
+        }
+      }
+    } else if (this.quiz_segment()?.question_type === "QCU") {
+      const key = this.answerForm.get("QCU").value;
+      if (typeof key === "number") {
+        this.progressService.GetChecked();
+      }
+    }
+  }
+  tryToAnswer() {
+    if (this.quiz_segment()?.question_type === "QCM") {
+      const key = this.answerForm.get("QCM").value;
+      if (key != null) {
+        this.progressService.currentAnswer.set([key]);
+        this.progressService.GetUnchecked();
+      } else {
+        this.progressService.currentAnswer.set([]);
+      }
+    } else if (this.quiz_segment()?.question_type === "QCU") {
+      const key = this.answerForm.get("QCU").value;
+      if (typeof key === "number") {
+        this.progressService.currentAnswer.set([key]);
+        this.progressService.GetUnchecked();
+      } else {
+        this.progressService.currentAnswer.set([]);
+      }
+    }
+    this.progressService.answer();
+    console.log(this.progressService.currentAnswer());
+  }
+  static \u0275fac = function ChoiceBoxComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ChoiceBoxComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ChoiceBoxComponent, selectors: [["app-choice-box"]], inputs: { answered: "answered" }, decls: 6, vars: 2, consts: [[1, "nb-choice"], [3, "formGroup"], [1, "answer-box"], [1, "answer-choice"], ["size", "large", 1, "check", 3, "value", "formControlName"], [1, "radio", 3, "value", "formControlName"], [1, "choice-text"], ["size", "large", 1, "check", 3, "change", "value", "formControlName"], [1, "radio", 3, "onClick", "value", "formControlName"]], template: function ChoiceBoxComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275template(0, ChoiceBoxComponent_Conditional_0_Template, 2, 0, "p", 0)(1, ChoiceBoxComponent_Conditional_1_Template, 2, 0, "p", 0);
+      \u0275\u0275elementStart(2, "form", 1)(3, "div", 2);
+      \u0275\u0275repeaterCreate(4, ChoiceBoxComponent_For_5_Template, 5, 2, "label", 3, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275elementEnd()();
+    }
+    if (rf & 2) {
+      let tmp_0_0;
+      let tmp_2_0;
+      \u0275\u0275conditional(((tmp_0_0 = ctx.quiz_segment()) == null ? null : tmp_0_0.question_type) === "QCM" ? 0 : ((tmp_0_0 = ctx.quiz_segment()) == null ? null : tmp_0_0.question_type) === "QCU" ? 1 : -1);
+      \u0275\u0275advance(2);
+      \u0275\u0275property("formGroup", ctx.answerForm);
+      \u0275\u0275advance(2);
+      \u0275\u0275repeater((tmp_2_0 = ctx.quiz_segment()) == null ? null : tmp_2_0.possible_answers);
+    }
+  }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RadioButtonModule, RadioButton, CheckboxModule, Checkbox, DialogModule, ButtonModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin-top: 5%;\n}\n.nb-choice[_ngcontent-%COMP%] {\n  color: #696969;\n  margin-bottom: 25px;\n}\n.answer-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.answer-choice[_ngcontent-%COMP%] {\n  display: flex;\n  align-content: center;\n  width: 100%;\n  border: 1px solid #929292;\n  border-radius: 8px;\n  padding: 4px;\n  margin: 0 auto;\n  align-items: center;\n  word-wrap: break-word;\n  color: #333333;\n}\n.radio[_ngcontent-%COMP%] {\n  padding-left: 15px;\n  padding-right: 15px;\n  --p-radiobutton-icon-vertical-align: middle;\n  --p-radiobutton-vertical-align: middle;\n  --p-radiobutton-box-vertical-align: middle;\n  --p-radiobutton-icon-align-items: center;\n  --p-radiobutton-box-align-items: center;\n  --p-radiobutton-align-items: center;\n  --p-radiobutton-display: inline-block;\n  --p-radiobutton-height: 24px;\n  --p-radiobutton-width: 24px;\n  --p-radiobutton-icon-size: 16px;\n  --p-radiobutton-icon-checked-color:#333333;\n  --p-radiobutton-icon-checked-hover-color:#333333;\n  --p-radiobutton-border-color:#333333;\n  --p-radiobutton-hover-border-color:#333333;\n  --p-radiobutton-focus-border-color:#333333;\n  --p-radiobutton-checked-border-color:#333333;\n  --p-radiobutton-checked-hover-border-color:#333333;\n}\n.check[_ngcontent-%COMP%] {\n  padding-left: 15px;\n  padding-right: 15px;\n  --p-checkbox-border-color:#333333;\n  --p-checkbox-checked-focus-border-color:#333333;\n  --p-checkbox-checked-hover-border-color:#333333;\n  --p-checkbox-checked-border-color:#333333;\n  --p-checkbox-hover-border-color:#333333;\n  --p-checkbox-border-color:#333333;\n  --p-checkbox-checked-background:#333333;\n  --p-checkbox-checked-hover-background:#333333;\n}\n.answer-choice[_ngcontent-%COMP%]:hover {\n  border: 1px solid #333333;\n  cursor: pointer;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.answer-choice[_ngcontent-%COMP%]:has(:checked) {\n  border: 1px solid #0073e9;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.answer-choice[_ngcontent-%COMP%]:has(:focus) {\n  border: 1px solid #0073e9;\n  box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 24px 0px;\n}\n.choice-text[_ngcontent-%COMP%] {\n  display: inline-block;\n  vertical-align: middle;\n  align-items: middle;\n  text-align: middle;\n  font-size: 16px;\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ChoiceBoxComponent, { className: "ChoiceBoxComponent", filePath: "src/app/views/quiz/quiz-card/choice-box/choice-box.component.ts", lineNumber: 18 });
+})();
+
+// src/app/views/quiz/quiz-card/answer-box/answer-box.component.ts
+function AnswerBoxComponent_For_3_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "label", 5);
+    \u0275\u0275element(1, "i", 8);
+    \u0275\u0275elementStart(2, "p", 9);
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const choice_r1 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(choice_r1);
+  }
+}
+function AnswerBoxComponent_For_3_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "label", 6);
+    \u0275\u0275element(1, "i", 10);
+    \u0275\u0275elementStart(2, "p", 9);
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const choice_r1 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(choice_r1);
+  }
+}
+function AnswerBoxComponent_For_3_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "label", 7);
+    \u0275\u0275element(1, "i", 11);
+    \u0275\u0275elementStart(2, "p", 9);
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const choice_r1 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(choice_r1);
+  }
+}
+function AnswerBoxComponent_For_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, AnswerBoxComponent_For_3_Conditional_0_Template, 4, 1, "label", 5)(1, AnswerBoxComponent_For_3_Conditional_1_Template, 4, 1, "label", 6)(2, AnswerBoxComponent_For_3_Conditional_2_Template, 4, 1, "label", 7);
+  }
+  if (rf & 2) {
+    const $index_r2 = ctx.$index;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275conditional(ctx_r2.quiz_segment.true_answers.includes($index_r2) ? 0 : ctx_r2.progressService.currentAnswer().includes($index_r2) ? 1 : 2);
+  }
+}
+function AnswerBoxComponent_Conditional_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 2);
+    \u0275\u0275text(1, "Rat\xE9 !");
+    \u0275\u0275elementEnd();
+  }
+}
+function AnswerBoxComponent_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 2);
+    \u0275\u0275text(1, "Bravo !");
+    \u0275\u0275elementEnd();
+  }
+}
+function AnswerBoxComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 3);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r2.quiz_segment.QCM_answers);
+  }
+}
+var AnswerBoxComponent = class _AnswerBoxComponent {
+  dataService = inject(DataService);
+  //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService);
+  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quiz_segment = this.dataService.currentSegment();
+  //Permet d'avoir accès à la carte affichée
+  static \u0275fac = function AnswerBoxComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _AnswerBoxComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AnswerBoxComponent, selectors: [["app-answer-box"]], decls: 11, vars: 3, consts: [[1, "space"], [1, "answer-box"], [1, "bold-text"], [1, "answers"], [1, "explanation"], [1, "answer-choice", "correct"], [1, "answer-choice", "wrong"], [1, "answer-choice", "neutral"], [1, "pi", "pi-check-circle"], [1, "choice-text"], [1, "pi", "pi-times-circle"], [1, "pi", "pi-circle"]], template: function AnswerBoxComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275element(0, "div", 0);
+      \u0275\u0275elementStart(1, "div", 1);
+      \u0275\u0275repeaterCreate(2, AnswerBoxComponent_For_3_Template, 3, 1, null, null, \u0275\u0275repeaterTrackByIndex);
+      \u0275\u0275template(4, AnswerBoxComponent_Conditional_4_Template, 2, 0, "p", 2)(5, AnswerBoxComponent_Conditional_5_Template, 2, 0, "p", 2)(6, AnswerBoxComponent_Conditional_6_Template, 2, 1, "span", 3);
+      \u0275\u0275elementStart(7, "p", 2);
+      \u0275\u0275text(8, "L'explication :");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(9, "span", 4);
+      \u0275\u0275text(10);
+      \u0275\u0275elementEnd()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(2);
+      \u0275\u0275repeater(ctx.quiz_segment.possible_answers);
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.progressService.currentAnswerValidity() ? 4 : 5);
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.quiz_segment.question_type === "QCM" ? 6 : -1);
+      \u0275\u0275advance(4);
+      \u0275\u0275textInterpolate(ctx.quiz_segment.explanation);
+    }
+  }, dependencies: [ReactiveFormsModule, RadioButtonModule, CheckboxModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  margin-top: 5%;\n}\n.nb-choice[_ngcontent-%COMP%] {\n  color: #696969;\n  margin-bottom: 25px;\n}\n.answer-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.space[_ngcontent-%COMP%] {\n  margin-top: 43px;\n}\n.bold-text[_ngcontent-%COMP%] {\n  font-weight: bold;\n  font-size: 22px;\n  margin-top: 10px;\n}\n.answer-choice[_ngcontent-%COMP%] {\n  display: flex;\n  align-content: center;\n  width: 100%;\n  border: 1px solid black;\n  border-radius: 8px;\n  padding: 4px;\n  margin: 0 auto;\n  align-items: center;\n  word-wrap: break-word;\n  color: #333333;\n}\n.explanation[_ngcontent-%COMP%] {\n  font-size: 16px;\n  white-space: pre-line;\n  color: #333333;\n}\n.answers[_ngcontent-%COMP%] {\n  font-size: 18px;\n  white-space: pre-line;\n  color: #333333;\n}\n.choice-text[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\ni[_ngcontent-%COMP%] {\n  font-size: 24px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n.correct[_ngcontent-%COMP%] {\n  border-color: var(--p-green-500);\n}\n.correct[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-green-500);\n}\n.wrong[_ngcontent-%COMP%] {\n  border-color: var(--p-red-500);\n}\n.wrong[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-red-500);\n}\n.neutral[_ngcontent-%COMP%] {\n  border-color: var(--p-gray-500);\n}\n.neutral[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: var(--p-gray-500);\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AnswerBoxComponent, { className: "AnswerBoxComponent", filePath: "src/app/views/quiz/quiz-card/answer-box/answer-box.component.ts", lineNumber: 14 });
+})();
+
+// src/app/views/quiz/quiz-card/quiz-card.component.ts
+function QuizCardComponent_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "app-choice-box");
+  }
+}
+function QuizCardComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "app-answer-box");
+  }
+}
+var QuizCardComponent = class _QuizCardComponent {
+  dataService = inject(DataService);
+  //Permet d'avoir accès aux fonctions gérant les cartes
+  progressService = inject(ProgressService);
+  // Permet d'avoir accès aux fonctions gérant la navigation au sein des cartes Quiz
+  quiz_segment = this.dataService.currentSegment;
+  //Permet d'avoir accès à la carte affichée
+  choiceBox = viewChild(ChoiceBoxComponent);
+  //Permet de mettre à jour les cartes
+  static \u0275fac = function QuizCardComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _QuizCardComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizCardComponent, selectors: [["app-quiz-card"]], viewQuery: function QuizCardComponent_Query(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275viewQuerySignal(ctx.choiceBox, ChoiceBoxComponent, 5);
+    }
+    if (rf & 2) {
+      \u0275\u0275queryAdvance();
+    }
+  }, decls: 7, vars: 3, consts: [[1, "theme"], [1, "question"]], template: function QuizCardComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 0)(1, "span");
+      \u0275\u0275text(2);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(3, "h1", 1);
+      \u0275\u0275text(4);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(5, QuizCardComponent_Conditional_5_Template, 1, 0, "app-choice-box")(6, QuizCardComponent_Conditional_6_Template, 1, 0, "app-answer-box");
+    }
+    if (rf & 2) {
+      let tmp_1_0;
+      \u0275\u0275advance(2);
+      \u0275\u0275textInterpolate1(" ", ctx.dataService.currentTopic(), "");
+      \u0275\u0275advance(2);
+      \u0275\u0275textInterpolate((tmp_1_0 = ctx.quiz_segment()) == null ? null : tmp_1_0.question);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(!ctx.progressService.answered() ? 5 : 6);
+    }
+  }, dependencies: [ChoiceBoxComponent, AnswerBoxComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 600px;\n  margin: 0 auto;\n}\nh1[_ngcontent-%COMP%] {\n  color: #333333;\n}\n.theme[_ngcontent-%COMP%] {\n  justify-self: start;\n  background-color: var(--p-primary-100);\n  color: var(--p-primary-500);\n  width: fit-content;\n  padding: 4px;\n  border-radius: 4px;\n  margin-bottom: 8px;\n}\n.question[_ngcontent-%COMP%] {\n  text-align: left;\n  font-size: 24px;\n}"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizCardComponent, { className: "QuizCardComponent", filePath: "src/app/views/quiz/quiz-card/quiz-card.component.ts", lineNumber: 14 });
 })();
 
 // src/app/views/quiz/quiz.component.ts
 function QuizComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "app-quiz-homepage");
-  }
-}
-function QuizComponent_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
     \u0275\u0275element(0, "app-quiz-endpage");
   }
 }
-function QuizComponent_Conditional_2_Conditional_9_Template(rf, ctx) {
+function QuizComponent_Conditional_1_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "p-button", 7);
-    \u0275\u0275listener("click", function QuizComponent_Conditional_2_Conditional_9_Template_p_button_click_0_listener() {
+    \u0275\u0275listener("click", function QuizComponent_Conditional_1_Conditional_9_Template_p_button_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.quizCard().choiceBox().tryToAnswer());
@@ -33654,11 +33686,11 @@ function QuizComponent_Conditional_2_Conditional_9_Template(rf, ctx) {
     \u0275\u0275property("disabled", !ctx_r1.disabled());
   }
 }
-function QuizComponent_Conditional_2_Conditional_10_Template(rf, ctx) {
+function QuizComponent_Conditional_1_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "p-button", 8);
-    \u0275\u0275listener("click", function QuizComponent_Conditional_2_Conditional_10_Template_p_button_click_0_listener() {
+    \u0275\u0275listener("click", function QuizComponent_Conditional_1_Conditional_10_Template_p_button_click_0_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.progressService.goToNext());
@@ -33668,7 +33700,7 @@ function QuizComponent_Conditional_2_Conditional_10_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function QuizComponent_Conditional_2_Template(rf, ctx) {
+function QuizComponent_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "p", 2);
     \u0275\u0275text(3);
@@ -33678,7 +33710,7 @@ function QuizComponent_Conditional_2_Template(rf, ctx) {
     \u0275\u0275element(6, "app-quiz-card");
     \u0275\u0275elementStart(7, "div", 4);
     \u0275\u0275element(8, "p-divider");
-    \u0275\u0275template(9, QuizComponent_Conditional_2_Conditional_9_Template, 2, 1, "p-button", 5)(10, QuizComponent_Conditional_2_Conditional_10_Template, 3, 0, "p-button", 6);
+    \u0275\u0275template(9, QuizComponent_Conditional_1_Conditional_9_Template, 2, 1, "p-button", 5)(10, QuizComponent_Conditional_1_Conditional_10_Template, 3, 0, "p-button", 6);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -33712,17 +33744,17 @@ var QuizComponent = class _QuizComponent {
     if (rf & 2) {
       \u0275\u0275queryAdvance();
     }
-  }, decls: 3, vars: 1, consts: [[1, "quiz"], [1, "progress"], [1, "question-text"], [1, "progress-bar", 3, "value"], [1, "next"], [1, "button-page", 3, "disabled"], [1, "button-page"], [1, "button-page", 3, "click", "disabled"], [1, "button-page", 3, "click"], [1, "pi", "pi-arrow-right"]], template: function QuizComponent_Template(rf, ctx) {
+  }, decls: 2, vars: 1, consts: [[1, "quiz"], [1, "progress"], [1, "question-text"], [1, "progress-bar", 3, "value"], [1, "next"], [1, "button-page", 3, "disabled"], [1, "button-page"], [1, "button-page", 3, "click", "disabled"], [1, "button-page", 3, "click"], [1, "pi", "pi-arrow-right"]], template: function QuizComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275template(0, QuizComponent_Conditional_0_Template, 1, 0, "app-quiz-homepage")(1, QuizComponent_Conditional_1_Template, 1, 0, "app-quiz-endpage")(2, QuizComponent_Conditional_2_Template, 11, 4, "div", 0);
+      \u0275\u0275template(0, QuizComponent_Conditional_0_Template, 1, 0, "app-quiz-endpage")(1, QuizComponent_Conditional_1_Template, 11, 4, "div", 0);
     }
     if (rf & 2) {
-      \u0275\u0275conditional(ctx.progressService.questionNumber() === 0 ? 0 : ctx.progressService.hasEnded() ? 1 : 2);
+      \u0275\u0275conditional(ctx.progressService.hasEnded() ? 0 : ctx.progressService.questionNumber() !== 0 ? 1 : -1);
     }
-  }, dependencies: [CommonModule, ButtonModule, Button, ToastModule, ProgressBarModule, ProgressBar, QuizHomepageComponent, QuizCardComponent, DividerModule, Divider, QuizEndpageComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  padding: 16px;\n}\n.quiz[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 80%;\n  margin: auto;\n  align-items: center;\n  justify-content: start;\n}\n.progress[_ngcontent-%COMP%] {\n  width: 100%;\n  margin: 2% auto;\n  display: grid;\n  grid-template-columns: fit-content(100%) auto;\n  column-gap: 2%;\n  row-gap: 0%;\n  align-items: center;\n  color: var(--p-primary-500);\n}\n.progress-bar[_ngcontent-%COMP%] {\n  --p-progressbar-label-font-size: 0;\n  --p-progressbar-height: 1vh;\n}\n.question-text[_ngcontent-%COMP%] {\n  grid-column-start: 2;\n  padding: 0 0 0 2%;\n  margin: 0;\n}\n.next[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: auto;\n  width: 100%;\n  position: relative;\n  bottom: 0px;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n}\n.button-page[_ngcontent-%COMP%] {\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\n  .button-page button {\n  width: 150px;\n}\n  p-button button:disabled {\n  background-color: #cd2524 !important;\n  border-color: #cd2524 !important;\n}\n  p-button button:disabled:hover {\n  background-color: #cd2524 !important;\n  border-color: #cd2524 !important;\n}\n  p-button button:disabled:active {\n  background-color: #cd2524 !important;\n  border-color: #cd2524 !important;\n}"] });
+  }, dependencies: [CommonModule, ButtonModule, Button, ToastModule, ProgressBarModule, ProgressBar, QuizCardComponent, DividerModule, Divider, QuizEndpageComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 100%;\n  padding: 16px;\n}\n.quiz[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  width: 80%;\n  margin: auto;\n  align-items: center;\n  justify-content: start;\n}\n.progress[_ngcontent-%COMP%] {\n  width: 100%;\n  margin: 2% auto;\n  display: grid;\n  grid-template-columns: fit-content(100%) auto;\n  column-gap: 2%;\n  row-gap: 0%;\n  align-items: center;\n  color: var(--p-primary-500);\n}\n.progress-bar[_ngcontent-%COMP%] {\n  --p-progressbar-label-font-size: 0;\n  --p-progressbar-height: 1vh;\n}\n.question-text[_ngcontent-%COMP%] {\n  grid-column-start: 2;\n  padding: 0 0 0 2%;\n  margin: 0;\n}\n.next[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: auto;\n  width: 100%;\n  position: relative;\n  bottom: 0px;\n}\np-divider[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-bottom: 40px;\n}\n.button-page[_ngcontent-%COMP%] {\n  --p-button-primary-active-background: #ff5d5c;\n  --p-button-primary-hover-background: #cd2524;\n  --p-button-primary-active-border-color: #ff5d5c;\n  --p-button-primary-hover-border-color: #cd2524;\n}\n  .button-page button {\n  width: 150px;\n}\n  p-button button:disabled {\n  background-color: #cd2524 !important;\n  border-color: #cd2524 !important;\n}\n  p-button button:disabled:hover {\n  background-color: #cd2524 !important;\n  border-color: #cd2524 !important;\n}\n  p-button button:disabled:active {\n  background-color: #cd2524 !important;\n  border-color: #cd2524 !important;\n}"] });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizComponent, { className: "QuizComponent", filePath: "src/app/views/quiz/quiz.component.ts", lineNumber: 21 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizComponent, { className: "QuizComponent", filePath: "src/app/views/quiz/quiz.component.ts", lineNumber: 19 });
 })();
 
 // src/app/app.routes.ts
@@ -33731,9 +33763,11 @@ var routes = [
     path: "quiz",
     title: "Quiz Inclusif, le jeu",
     children: [
-      { path: "**", component: QuizComponent },
+      { path: "", redirectTo: "accueil", pathMatch: "full" },
       { path: "accueil", component: QuizHomepageComponent },
-      { path: "fin", component: QuizEndpageComponent }
+      { path: "temps", component: QuizTimePageComponent },
+      { path: "fin", component: QuizEndpageComponent },
+      { path: "**", component: QuizComponent }
     ]
   },
   { path: "", redirectTo: "quiz/accueil", pathMatch: "full" }
