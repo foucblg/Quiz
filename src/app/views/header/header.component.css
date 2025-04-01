@@ -17,12 +17,16 @@
   color: var(--p-gray-700);
 }
 
-a {
+.intlogo {
+  text-decoration: none;
+  margin: 1px 1px 0px 53px;
+}
+
+.title {
   text-decoration: none;
 }
 
 .logo{
   width: 105px;
-  padding: 1px 1px 0px 53px;
   color: #696969;
 }

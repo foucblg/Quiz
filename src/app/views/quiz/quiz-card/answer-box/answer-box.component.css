@@ -82,3 +82,8 @@ i {
 .neutral i {
   color: var(--p-gray-500);
 }
+
+
+p, span {
+  line-height: 25px;
+}

@@ -1,13 +1,25 @@
 <div class="header">
   <h1>Merci d'avoir réalisé ce quiz !</h1>
-  <h2>
-    Vous avez répondu correctement à {{ progressService.score() }} questions sur 
-    {{ progressService.questionNumber() }}.
-  </h2>
-  @if (rapport < 0.3){
+  @if (progressService.score() <= 1){
+    <h2>
+      Vous avez répondu correctement à {{ progressService.score() }} question sur 
+      {{ progressService.questionNumber() }}.
+    </h2>
+  }
+  @else {
+    <h2>
+      Vous avez répondu correctement à {{ progressService.score() }} questions sur 
+      {{ progressService.questionNumber() }}.
+    </h2>
+  }
+  @if (get_score() === -1) {
+    <p class="result">Aucune question n'a été répondu !</p>
+  }
+
+  @else if (get_score() < 0.3){
     <p class="result">Encore un petit effort !</p>
   }
-  @else if (rapport < 0.7) {
+  @else if (get_score() < 0.7) {
     <p class="result">Continuez comme ça !</p>
   }
   @else {
@@ -86,15 +98,16 @@
   <div class="start-div">
     <p-button
       class = "start-again"
-      (click)="progressService.goToBegining()">
+      (click)="GotoQuiz()">
       Relancer une série
     </p-button>
-    <p-button
-      class = "game"
-      (click)="progressService.goToBegining()"
-      severity="secondary"
-      variant="outlined">
-      Voir Inclusif, le jeu
-    </p-button>
+    <a href="https://inclusivite-resin.grandlyon.com/jeu-en-ligne/accueil" target="_blank" rel="noopener noreferrer">
+      <p-button
+        class = "game"
+        severity="secondary"
+        variant="outlined">
+        Voir Inclusif, le jeu
+      </p-button>
+    </a>
   </div>
 </div>

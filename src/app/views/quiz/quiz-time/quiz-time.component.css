@@ -101,3 +101,7 @@ p-divider{
 p, h1, h2{
   color: #333333;
 }
+
+p, span {
+  line-height: 25px;
+}
