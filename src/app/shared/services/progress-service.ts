@@ -25,7 +25,6 @@ export class ProgressService {
     this.score.set(0);
     this.questionNumber.set(0);
     this.hasEnded.set(false);
-    this.router.navigate(["quiz", "accueil"], { onSameUrlNavigation: 'ignore' });
   }
 
   start(nQuestions: number) {
@@ -50,7 +49,7 @@ export class ProgressService {
       this.questionNumber.update(n => n + 1);
       this.answered.set(false);
       this.router.navigate(["quiz", this.questionNumber().toString()], {
-        queryParams: { thème: this.dataService.currentTopic(), thème_id: this.dataService.currentQuestionId(), répondu: "faux" },
+        queryParams: { theme: this.dataService.currentTopic(), theme_id: this.dataService.currentQuestionId(), repondu: "faux" },
         replaceUrl: this.questionNumber() > 0,
       });
     } else {
