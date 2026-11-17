@@ -1,27 +1,18 @@
-# Quiz
+# Quiz on inclusiveness
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+A quiz on digital inclusiveness. Questions (single or multiple choice) are grouped into categories,
+and each category appears at a configurable rate. Everything is driven by a JSON file.
 
-## Development server
+Part of [PAi13](https://github.com/foucblg/PAi13), a serious game on inclusive digital services built
+with the Lyon metropolitan area. Live demo: [foucblg.github.io/Quiz](https://foucblg.github.io/Quiz/).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Technical documentation: [documentation.md](documentation.md).
 
-## Code scaffolding
+## Run locally
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install
+npx ng serve   # http://localhost:4200/
+```
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Stack: Angular 18, TypeScript.
